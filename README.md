@@ -163,12 +163,6 @@ The notebook provides:
 - Comparison with AlphaEvolve baselines
 - Ablation study analysis
 
-## Getting Help
-
-- **Issues**: [GitHub Issues](https://github.com/inter-co/science-codeevolve/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/inter-co/science-codeevolve/discussions)
-- **Paper**: [arXiv:2510.14150](https://arxiv.org/abs/2510.14150)
-
 ## Citation
 
 If you use CodeEvolve or these benchmarks in your research, please cite:
