@@ -1,0 +1,253 @@
+# EVOLVE-BLOCK-START
+import numpy as np
+from scipy.optimize import minimize
+from scipy.spatial.distance import cdist
+import random
+from typing import Tuple, List
+import time
+
+# Global constants for the optimization
+N_CIRCLES = 26
+TIME_LIMIT = 175  # seconds
+
+def initialize_circles_hexagonal(n: int) -> np.ndarray:
+    """Initialize circles using a hexagonal packing approximation for better density"""
+    circles = np.zeros((n, 3))
+    
+    # Try to place circles in a hexagonal pattern
+    rows = int(np.ceil(np.sqrt(n)))
+    cols = int(np.ceil(n / rows))
+    
+    # Adjust for better packing
+    spacing_x = 1.0 / (cols + 1)
+    spacing_y = 1.0 / (rows + 1)
+    
+    idx = 0
+    for i in range(rows):
+        for j in range(cols):
+            if idx >= n:
+                break
+            # Offset every other row for hexagonal packing
+            offset = 0.5 if i % 2 == 1 else 0.0
+            x = (j + 1) * spacing_x + offset * spacing_x * 0.5
+            y = (i + 1) * spacing_y
+            
+            # Initial radius - start with reasonable value
+            r = min(spacing_x, spacing_y) * 0.4
+            
+            # Ensure within bounds
+            x = max(r, min(1-r, x))
+            y = max(r, min(1-r, y))
+            
+            circles[idx] = [x, y, r]
+            idx += 1
+        if idx >= n:
+            break
+    
+    # Fill remaining slots with random positions
+    for i in range(idx, n):
+        x = random.uniform(0.05, 0.95)
+        y = random.uniform(0.05, 0.95)
+        r = random.uniform(0.01, 0.1)
+        circles[i] = [x, y, r]
+    
+    # Refine initial placement to maximize radii while respecting constraints
+    refine_initial_placement(circles)
+    
+    return circles
+
+def refine_initial_placement(circles: np.ndarray) -> None:
+    """Improve initial placement by maximizing radii while respecting constraints"""
+    n = len(circles)
+    max_attempts = 1000
+    
+    for attempt in range(max_attempts):
+        improved = False
+        for i in range(n):
+            # Try to increase radius of circle i
+            current_radius = circles[i][2]
+            # Calculate maximum possible radius based on boundaries
+            max_radius = min(
+                circles[i][0], 1 - circles[i][0],
+                circles[i][1], 1 - circles[i][1]
+            )
+            
+            # Check overlap with other circles
+            for j in range(n):
+                if i != j:
+                    dist = np.sqrt((circles[i][0] - circles[j][0])**2 + 
+                                 (circles[i][1] - circles[j][1])**2)
+                    max_radius = min(max_radius, dist - circles[j][2])
+            
+            # Increase radius if possible
+            if max_radius > current_radius + 1e-6:
+                circles[i][2] = max_radius
+                improved = True
+                
+        if not improved:
+            break
+
+def check_constraints(circles: np.ndarray) -> bool:
+    """Check if all circles satisfy containment and non-overlap constraints"""
+    n = len(circles)
+    
+    # Check containment constraints
+    for i in range(n):
+        x, y, r = circles[i]
+        if x - r < 0 or x + r > 1 or y - r < 0 or y + r > 1:
+            return False
+    
+    # Check non-overlap constraints efficiently using distance matrix
+    if n > 1:
+        positions = circles[:, :2]
+        distances = cdist(positions, positions)
+        radii = circles[:, 2]
+        
+        # Check all pairs for overlap
+        for i in range(n):
+            for j in range(i+1, n):
+                if distances[i,j] < (radii[i] + radii[j]) - 1e-8:
+                    return False
+    
+    return True
+
+def calculate_radius_sum(circles: np.ndarray) -> float:
+    """Calculate the sum of all radii"""
+    return np.sum(circles[:, 2])
+
+def create_optimization_bounds(n: int) -> List[Tuple[float, float]]:
+    """Create bounds for scipy optimization"""
+    bounds = []
+    for i in range(n):
+        # Bounds: [x_min, x_max], [y_min, y_max], [r_min, r_max]
+        bounds.extend([(0.001, 0.999), (0.001, 0.999), (0.001, 0.499)])
+    return bounds
+
+def create_optimization_constraints(n: int) -> List[dict]:
+    """Create constraint functions for scipy optimization"""
+    constraints = []
+    
+    # Boundary constraints for each circle
+    for i in range(n):
+        def bound_constraint(i):
+            def constraint(x):
+                # x contains [x_i, y_i, r_i] for circle i
+                return [
+                    x[3*i] - x[3*i+2],  # x - r >= 0 (left boundary)
+                    1 - x[3*i] - x[3*i+2],  # 1 - x - r >= 0 (right boundary)
+                    x[3*i+1] - x[3*i+2],  # y - r >= 0 (bottom boundary)
+                    1 - x[3*i+1] - x[3*i+2]  # 1 - y - r >= 0 (top boundary)
+                ]
+            return constraint
+        
+        constraints.append({'type': 'ineq', 'fun': bound_constraint(i)})
+    
+    # Non-overlap constraints for all pairs
+    for i in range(n):
+        for j in range(i+1, n):
+            def overlap_constraint(i, j):
+                def constraint(x):
+                    # x contains [x_i, y_i, r_i, x_j, y_j, r_j]
+                    x_i, y_i, r_i, x_j, y_j, r_j = x[3*i], x[3*i+1], x[3*i+2], x[3*j], x[3*j+1], x[3*j+2]
+                    distance = np.sqrt((x_i - x_j)**2 + (y_i - y_j)**2)
+                    return [distance - (r_i + r_j)]  # distance >= r_i + r_j
+                return constraint
+            
+            constraints.append({'type': 'ineq', 'fun': overlap_constraint(i, j)})
+    
+    return constraints
+
+def optimize_with_scipy(initial_circles: np.ndarray, max_iter: int = 1000) -> np.ndarray:
+    """Optimize using scipy's minimize with constraints"""
+    n = len(initial_circles)
+    
+    # Flatten the initial circles array for optimization
+    initial_flat = []
+    for i in range(n):
+        initial_flat.extend([initial_circles[i][0], initial_circles[i][1], initial_circles[i][2]])
+    
+    # Define objective function (minimize negative sum of radii)
+    def objective(x_flat):
+        # Extract radii
+        radii = x_flat[2::3]  # Every third element starting from index 2
+        return -np.sum(radii)  # Negative because we want to maximize
+    
+    # Create constraints
+    constraints = create_optimization_constraints(n)
+    bounds = create_optimization_bounds(n)
+    
+    # Run optimization with multiple attempts for better results
+    best_result = None
+    best_value = -float('inf')
+    
+    try:
+        # Use different solvers for robustness
+        solver_options = [
+            {'method': 'SLSQP', 'options': {'maxiter': max_iter, 'ftol': 1e-6}},
+            {'method': 'trust-constr', 'options': {'maxiter': max_iter, 'ftol': 1e-6}}
+        ]
+        
+        for solver_config in solver_options:
+            result = minimize(
+                objective,
+                initial_flat,
+                **solver_config,
+                bounds=bounds,
+                constraints=constraints
+            )
+            
+            if result.success:
+                # Convert back to circle format
+                optimized_circles = np.zeros((n, 3))
+                for i in range(n):
+                    optimized_circles[i] = [
+                        result.x[3*i],     # x coordinate
+                        result.x[3*i+1],   # y coordinate
+                        result.x[3*i+2]    # radius
+                    ]
+                
+                # Check if this is better
+                current_value = calculate_radius_sum(optimized_circles)
+                if current_value > best_value:
+                    best_value = current_value
+                    best_result = optimized_circles.copy()
+                    
+    except Exception:
+        pass
+    
+    # Return best result or fallback to initial
+    if best_result is not None:
+        return best_result
+    else:
+        return initial_circles
+
+def circle_packing26() -> np.ndarray:
+    """
+    Places 26 non-overlapping circles in the unit square in order to maximize the sum of radii.
+
+    Returns:
+        circles: np.array of shape (26,3), where the i-th row (x,y,r) stores the (x,y) coordinates 
+                 of the i-th circle of radius r.
+    """
+    np.random.seed(42)  # For reproducibility
+    random.seed(42)
+    
+    # Initialize with hexagonal packing approach
+    circles = initialize_circles_hexagonal(N_CIRCLES)
+    
+    # Optimize using scipy with constraints
+    circles = optimize_with_scipy(circles, 1000)
+    
+    # Final refinement
+    circles = optimize_with_scipy(circles, 500)
+    
+    # Ensure final constraints are met
+    if not check_constraints(circles):
+        # If constraints violated, try a fresh start
+        circles = initialize_circles_hexagonal(N_CIRCLES)
+        circles = optimize_with_scipy(circles, 1000)
+    
+    return circles
+
+
+# EVOLVE-BLOCK-END

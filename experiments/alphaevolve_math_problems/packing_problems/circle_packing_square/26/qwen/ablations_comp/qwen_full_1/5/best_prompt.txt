@@ -1,0 +1,66 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+Consider multiple algorithmic paradigms: 
+- Mathematical optimization approaches (convex programming, Lagrangian relaxation, semidefinite programming)
+- Metaheuristic search (genetic algorithms, simulated annealing, particle swarm optimization, differential evolution)
+- Physics-based simulation (force-directed placement, molecular dynamics, discrete element methods)
+- Geometric construction techniques (Voronoi diagrams, Delaunay triangulation, Apollonian gaskets)
+- Constraint programming approaches (integer programming, satisfiability solvers)
+- Novel hybrid methods combining multiple approaches including machine learning-enhanced search strategies
+
+The solution must avoid common pitfalls such as:
+1. Initial configurations that violate basic geometric constraints
+2. Optimization methods that fail to properly handle complex nonlinear constraints
+3. Numerical instabilities in distance calculations
+4. Overly aggressive local optimization that destroys global structure
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (gradient-based methods), `cvxpy` (convex optimization), `dlib` (robust optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `scipy.spatial.distance` (efficient distance calculations)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `z3-solver` (SMT solver)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `open3d` (3D geometric computing)
+- **Performance**: `cython`, `joblib` (parallelization), `numba.jit` (just-in-time compilation)
+- **Advanced techniques**: Consider using `gurobipy` (commercial optimization), `clarabel` (cone programming), or `cvxopt` (convex optimization)
+
+**Alternative Strategies to Consider**:
+1. **Constraint Satisfaction Approach**: Model the problem as a constraint satisfaction problem and use specialized solvers
+2. **Monte Carlo Methods**: Use randomized sampling with rejection criteria for valid configurations
+3. **Hierarchical Optimization**: Start with coarse-grained placement, then refine locally
+4. **Multi-scale Search**: Combine global exploration with local exploitation using different scales
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations with fallback strategies
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider sparse representations for large-scale problems
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Multi-start strategy**: Implement multiple random initializations or different starting configurations to escape local optima
+- **Adaptive refinement**: Consider hierarchical approaches where coarse placement is refined iteratively
+- **Validation-first approach**: Prioritize generating mathematically valid configurations before optimization
+- **Robust constraint handling**: Ensure all generated solutions satisfy containment and non-overlap constraints rigorously
+- **Fallback mechanisms**: Include backup strategies when primary optimization methods fail
+
+# PROMPT-BLOCK-END
+    

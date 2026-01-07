@@ -1,0 +1,48 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii. Consider multiple algorithmic paradigms including but not limited to: evolutionary computation, gradient-free optimization, geometric construction heuristics, and constraint satisfaction methods.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 90 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Alternative Algorithmic Approaches**:
+- **Evolutionary Strategies**: Implement genetic algorithms using `deap` or `platypus` with custom fitness functions
+- **Gradient-Free Methods**: Utilize `nevergrad` or `scikit-opt` for direct search optimization
+- **Geometric Construction**: Develop heuristic methods based on hexagonal packing principles or circle packing theory
+- **Constraint Programming**: Apply `ortools` or `python-constraint` to model the spatial constraints rigorously
+- **Hybrid Approaches**: Combine multiple techniques such as local refinement of global solutions
+- **Physics-based Simulation**: Use `pymunk` to simulate physical packing processes
+
+**Implementation Strategy**: Choose one primary algorithmic paradigm but consider hybrid combinations that leverage the strengths of different approaches.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Algorithm Selection**: Clearly document your chosen optimization approach and justify its suitability for this problem
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Solution Validation**: Include checks to ensure all constraints (non-overlap, containment) are satisfied
+- **Performance Monitoring**: Track convergence behavior and execution time within the 90-second limit
+
+# PROMPT-BLOCK-END
+    

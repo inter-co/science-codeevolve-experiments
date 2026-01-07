@@ -1,0 +1,51 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and mathematical optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction.
+Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Mathematical Optimization**: `cvxpy` (convex optimization), `scipy.optimize` (nonlinear programming), `pyomo` (advanced optimization modeling)
+- **Constraint Programming**: `python-constraint`, `ortools` (Google OR-Tools), `choco-solver` (constraint satisfaction)
+- **Geometric Algorithms**: `shapely` (geometric operations), `scipy.spatial` (Voronoi, Delaunay), `networkx` (graph-based approaches)
+- **Direct Optimization Methods**: `scipy.optimize.minimize` with various algorithms (L-BFGS, Nelder-Mead, SLSQP)
+- **Global Optimization**: `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization), `dlib` (optimization library)
+- **Parallel Computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Alternative Approaches**: Consider mathematical programming formulations, geometric constructions, or combinatorial optimization strategies rather than physics-based simulations
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Convex Optimization Formulations**: Model as a convex optimization problem using semidefinite programming or second-order cone programming
+2. **Constraint Satisfaction**: Use constraint propagation and backtracking to find valid configurations
+3. **Geometric Construction**: Leverage Voronoi diagrams, Delaunay triangulations, or other geometric structures
+4. **Mathematical Programming**: Formulate as nonlinear programming problem with appropriate variable transformations
+5. **Combinatorial Optimization**: Approach via graph theory or discrete optimization techniques
+
+# PROMPT-BLOCK-END
+    

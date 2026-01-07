@@ -1,0 +1,54 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic paradigms including:
+- **Mathematical construction approaches**: Direct analytical methods using known optimal configurations (such as icosahedral symmetry, E8 lattice projections, or specific spherical codes). Consider leveraging the theory of spherical designs and optimal point distributions on spheres.
+- **Energy-based methods**: Modeling point distribution as electrostatic repulsion with specialized force functions or potential energy minimization. Explore different potential functions like inverse power laws or logarithmic potentials that may yield better convergence properties.
+- **Combinatorial geometry**: Using Voronoi diagrams, Delaunay triangulations, or other discrete geometric structures to guide placement. Consider how the dual structure of these arrangements might inform optimal point placement.
+- **Multi-scale approaches**: Combining coarse-grained global optimization with fine-tuned local refinement strategies. Investigate hierarchical methods that start with coarser approximations and refine locally.
+- **Non-gradient methods**: Trust-region methods, Nelder-Mead, or derivative-free optimization techniques. Focus on methods that can handle discontinuous or non-smooth objective landscapes effectively.
+- **Geometric transformation strategies**: Employ systematic geometric transformations such as rotations, reflections, and stereographic projections to generate new candidate configurations from known optimal sets.
+- **Symmetry-guided construction**: Explicitly leverage high symmetry groups (tetrahedral, octahedral, icosahedral) and their associated invariant subspaces to reduce the dimensionality of the search space.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+Additionally, consider the geometric structure and symmetry properties of your solution - highly symmetric arrangements often yield superior dispersion ratios.
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic diversity**: Consider multiple distinct optimization paradigms rather than relying primarily on gradient-based methods. Prioritize mathematical construction approaches alongside computational optimization.
+- **Mathematical rigor**: Prefer solutions derived from known mathematical constructions or proven optimization methods over purely heuristic approaches. Emphasize theoretical foundations when possible.
+- **Exploration vs Exploitation**: Balance between exploring new geometric configurations and exploiting promising regions of the search space. Consider using hybrid approaches that combine mathematical insights with numerical methods.
+- **Geometric insight**: Leverage deep geometric understanding of point distributions on spheres, including concepts from algebraic geometry, group theory, and discrete mathematics.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 90 seconds maximum execution time
+- **Memory limit**: 5 GB
+- **Diversity emphasis**: Allocate computational resources to explore multiple distinct algorithmic pathways rather than optimizing a single approach
+
+# PROMPT-BLOCK-END
+    

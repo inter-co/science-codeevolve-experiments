@@ -1,0 +1,50 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer, optimization specialist, and simulation engineer focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. Explore diverse algorithmic paradigms, including but not limited to, physics-based simulations, constructive heuristics, or advanced metaheuristics beyond standard evolutionary algorithms.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALGORITHMIC STRATEGIES TO CONSIDER FOR DIVERSITY:
+To encourage a broad exploration of solution spaces, consider these distinct algorithmic paradigms:
+1.  **Physics-based Simulation**: Model circles as particles with repulsive forces and square boundaries as walls. Utilize physics engines (e.g., `pymunk`, `pybullet`) to simulate their movement until a stable, packed configuration is achieved. This approach can naturally find local optima by minimizing potential energy.
+2.  **Constructive/Greedy Heuristics**: Instead of optimizing all circles simultaneously, consider placing circles one by one using a greedy strategy (e.g., largest first, or placing in "gaps" identified by spatial partitioning). This can involve spatial data structures (`rtree`, `scipy.spatial.KDTree`) to efficiently find placement opportunities.
+3.  **Pattern-based Initialization / Hybrid Approaches**: For a specific number of circles (N=26), known good packings often exhibit symmetries or specific geometric arrangements. Consider generating initial configurations based on such patterns, or using a simpler heuristic to seed a more complex optimization process.
+4.  **Hierarchical Decomposition**: Attempt to place a few larger circles first, then recursively pack smaller circles into the remaining void spaces or partitions. This reduces the complexity by breaking down the problem.
+5.  **Global Optimization & Metaheuristics**: Explore non-gradient-based methods such as Genetic Algorithms (e.g., using `deap`), Simulated Annealing, or Particle Swarm Optimization. These approaches are powerful for exploring complex, non-convex search spaces and can avoid local optima where gradient methods might get stuck. Consider multi-objective optimization (e.g., `platypus`) if trade-offs emerge, or specialized libraries for continuous global optimization.
+6.  **Constraint Programming / Satisfiability Modulo Theories (SMT)**: Formulate the problem using declarative constraint solvers (e.g., `ortools`, `python-constraint`). This involves defining variables, domains, and constraints, letting the solver find a valid assignment that satisfies all conditions and optimizes the objective. This symbolic approach offers a fundamentally different problem-solving paradigm, often leading to exact or near-exact solutions for well-defined discrete constraint problems.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

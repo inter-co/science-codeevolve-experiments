@@ -1,0 +1,66 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider employing diverse algorithmic strategies beyond traditional optimization methods:
+- Energy-based approaches with novel potential functions (e.g., logarithmic energies, polynomial repulsion, or custom force laws)
+- Population-based metaheuristics (genetic algorithms, particle swarm optimization, differential evolution) with adaptive parameter control
+- Direct geometric constructions inspired by mathematical theory: spherical codes, equiangular lines, or discrete harmonic analysis
+- Mathematical programming formulations using convex relaxations, semidefinite programming, or Lagrangian duality
+- Hybrid methods combining global exploration with local refinement using different optimization kernels
+- Novel physical system analogies: quantum mechanical systems, non-Euclidean geometries, or topological constraints
+- Alternative computational paradigms: evolutionary algorithms with fitness shaping, memetic algorithms, or biomimetic approaches
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Advanced consideration: Explore configurations inspired by:
+  * Optimal spherical codes and Tammes problems (equidistant point distributions)
+  * Equiangular lines and their 2D projections (uniform angular spacing)
+  * Discrete logarithmic energy minimization (maximizing log-sum of distances)
+  * Configurations derived from root systems (A3, D4, E6, etc.) or lattice structures
+  * Physical analogies: charged particle systems, elastic networks, or mechanical equilibria
+  * Topological constraints: points constrained to specific manifolds or graphs
+  * Non-Euclidean considerations: hyperbolic or spherical geometry-inspired arrangements
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic diversity**: Consider multiple approaches such as:
+  * Energy-based optimization with novel potential functions beyond inverse power laws
+  * Stochastic population methods with adaptive mutation/crossover operators
+  * Physical simulation approaches with unconventional force models or dynamics
+  * Deterministic geometric constructions with mathematical guarantees
+  * Multi-start local optimization with diverse initialization strategies
+  * Hybrid combinations of global and local search strategies using different optimizers
+  * Novel constraint handling techniques for bounded domains
+  * Parallel optimization frameworks leveraging multiple cores or distributed computing
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+- **Alternative approaches**: If the primary method fails to converge, implement fallback strategies using different algorithmic families
+
+# PROMPT-BLOCK-END
+    

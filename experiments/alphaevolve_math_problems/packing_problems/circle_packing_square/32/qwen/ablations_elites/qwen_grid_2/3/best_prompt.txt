@@ -1,0 +1,57 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to design a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+- **Physics-based simulation**: Use particle dynamics or force-directed placement with repulsive forces
+- **Mathematical optimization**: Employ Lagrangian relaxation or convex optimization techniques
+- **Graph-theoretic methods**: Model as a maximum weight independent set problem on a contact graph
+- **Multi-start heuristic**: Combine local search with random initialization strategies
+- **Machine learning approach**: Train a neural network to predict optimal configurations
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (gradient-based methods)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+- **Advanced techniques**: `dask` (distributed computing), `numba.jit` (just-in-time compilation)
+
+ALGORITHMIC DIVERSITY ENCOURAGEMENT:
+Instead of a single approach, consider implementing one of these strategies:
+1. **Hybrid approach**: Combine global optimization (like simulated annealing) with local refinement
+2. **Multi-scale method**: Start with coarse placement then refine details
+3. **Decomposition**: Divide the square into regions and optimize within each
+4. **Sequential placement**: Place circles one by one using greedy or probabilistic criteria
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Robustness**: Implement fallback strategies when primary optimization fails
+
+# PROMPT-BLOCK-END
+    

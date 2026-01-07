@@ -1,0 +1,69 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to implement a function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALGORITHMIC APPROACH:
+This is a highly non-trivial constrained optimization problem that typically requires sophisticated approaches:
+1. **Hybrid Methods**: Combine global optimization (like evolutionary algorithms) with local refinement
+2. **Physical Simulation**: Consider using physics-based approaches where circles repel each other
+3. **Sequential Packing**: Start with a good initial configuration and iteratively improve
+4. **Multi-start Strategy**: Run multiple optimizations from different starting points
+
+For the best results, consider implementing a multi-stage approach:
+- Stage 1: Generate a reasonable initial configuration (e.g., hexagonal packing pattern)
+- Stage 2: Apply constrained optimization to maximize the sum of radii while maintaining constraints
+- Stage 3: Local refinement to squeeze out additional improvements
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (constrained optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+IMPLEMENTATION STRATEGY:
+Given the complexity of this problem, focus on one of these proven approaches:
+1. **Evolutionary Algorithm Approach**: Use DEAP or Platypus to evolve circle configurations, encoding each individual as 78 parameters (26 positions × 2 + 26 radii)
+2. **Sequential Quadratic Programming**: Use scipy.optimize with custom constraint handling
+3. **Energy Minimization**: Model the problem as minimizing potential energy between circles
+4. **Hybrid Method**: Start with a good heuristic solution and refine using local optimization
+
+Consider using `scipy.optimize.minimize` with constraints or evolutionary algorithms from DEAP for the optimization component.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations (consider sparse representations for overlap checks)
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Robustness**: Implement proper constraint checking and penalty functions to handle numerical precision issues
+- **Performance**: Balance between solution quality and execution time, aiming to stay under 180 seconds
+
+IMPLEMENTATION NOTES:
+- The optimization should be structured to handle the high-dimensional parameter space efficiently
+- Consider using spatial data structures (KDTree) for fast neighbor queries during constraint validation
+- Implement a fitness function that penalizes constraint violations heavily to guide optimization toward feasible solutions
+
+# PROMPT-BLOCK-END
+    

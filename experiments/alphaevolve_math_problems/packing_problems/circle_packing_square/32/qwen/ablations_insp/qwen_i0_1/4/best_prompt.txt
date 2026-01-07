@@ -1,0 +1,62 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+Explore unconventional algorithmic paradigms beyond traditional optimization methods. Consider approaches that leverage advanced geometric insights, constraint programming with sophisticated pruning, or novel physics-based simulations with unique interaction models. Focus on innovative combinations of mathematical techniques, spatial data structures, and multi-scale optimization strategies that could yield breakthrough performance.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALGORITHMIC APPROACHES TO CONSIDER:
+1. Constraint Satisfaction with Advanced Pruning: Implement sophisticated constraint propagation using interval arithmetic and advanced domain reduction techniques
+2. Physics-Based Simulation with Novel Forces: Design custom force models that incorporate geometric properties like curvature or local density gradients
+3. Mathematical Programming with Decomposition: Explore decomposition techniques like Benders decomposition or column-and-constraint generation
+4. Spatial Data Structures with Adaptive Refinement: Utilize KD-trees, R-trees, or octrees with dynamic refinement strategies for collision detection
+5. Multi-Scale Optimization: Implement hierarchical approaches that optimize at different scales simultaneously
+6. Machine Learning Enhanced Search: Incorporate learned heuristics or neural networks to guide search in configuration space
+7. Topological Optimization: Apply concepts from topology optimization to determine optimal circle arrangements
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `cvxpy` (convex optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `scikit-geometry` (computational geometry)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `minizinc` (constraint modeling)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation)
+
+SPECIALIZED TECHNIQUES TO EXPLORE:
+- Leverage advanced spatial indexing with dynamic reorganization during optimization
+- Implement constraint propagation with backjumping and conflict-directed backpropagation
+- Design physics simulations with adaptive time-stepping and energy conservation
+- Employ mathematical programming with automatic differentiation for gradient computation
+- Utilize multi-resolution representations with coarse-to-fine optimization strategies
+- Apply topological constraints and geometric invariants to reduce search space
+- Implement learning-based initialization with pre-trained models for circle placement
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Robustness**: Implement comprehensive error handling for numerical instabilities and edge cases
+- **Memory efficiency**: Employ streaming algorithms and incremental updates for large-scale computations
+- **Scalability**: Design modular components that can adapt to varying numbers of circles
+- **Algorithmic innovation**: Prioritize approaches that introduce fundamentally new perspectives on the circle packing problem, even if they require more complex implementation
+- **Validation**: Include rigorous checks for geometric correctness and feasibility throughout the optimization process
+
+# PROMPT-BLOCK-END
+    

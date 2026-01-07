@@ -1,0 +1,45 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. Consider multiple algorithmic paradigms: 
+1. **Geometric approaches**: Utilize Voronoi diagrams, Delaunay triangulation, or lattice-based constructions
+2. **Evolutionary strategies**: Implement genetic algorithms, particle swarm optimization, or differential evolution  
+3. **Constraint programming**: Apply satisfiability solvers or mathematical programming techniques
+4. **Physics-inspired methods**: Simulate repulsive forces or use molecular dynamics approaches
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (gradient-based methods)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `scikit-geometry` (advanced geometry)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `z3-solver` (SMT solver)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `mdtraj` (molecular dynamics)
+- **Performance**: `cython`, `joblib` (parallelization), `numba.jit` (just-in-time compilation)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility; ensure consistent behavior across runs
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations; implement fallback strategies
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider spatial data structures for large-scale interactions
+- **Scalability**: Design with potential extension to different circle counts in mind; modular architecture supporting parameterized problem sizes
+- **Multi-method validation**: If using multiple approaches, ensure consistency checks between solutions from different paradigms
+
+# PROMPT-BLOCK-END
+    

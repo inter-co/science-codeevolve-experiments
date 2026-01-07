@@ -1,0 +1,71 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to implement an efficient algorithm that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+SOLUTION APPROACH GUIDANCE:
+This is a well-studied non-convex optimization problem with known approaches that achieve much better results than naive implementations. The key insight is to leverage:
+1. **Mathematical Structure**: Circle packing problems often benefit from using optimization libraries that can handle nonlinear constraints effectively
+2. **Efficient Spatial Data Structures**: Use spatial indexing (KDTree) to avoid O(n²) pairwise distance calculations
+3. **Specialized Solvers**: Leverage powerful optimization libraries like `scipy.optimize.minimize` with appropriate methods (L-BFGS-B, SLSQP) or `cvxpy` for convex relaxations
+4. **Good Initialization**: Start with a high-quality heuristic solution rather than arbitrary placements
+
+For high-performance solutions to similar problems:
+- Use `scipy.optimize.minimize` with constraint handling via penalty functions or barrier methods
+- Consider using `cvxpy` or `geometric-programming` libraries for convex relaxations
+- Implement proper spatial data structures to efficiently compute constraints
+- Employ simulated annealing or other metaheuristics from libraries like `DEAP` or `Platypus`
+
+IMPLEMENTATION STRATEGY:
+- Begin with a carefully designed initialization strategy (e.g., hexagonal lattice with adaptive spacing)
+- Implement robust constraint handling using penalty methods or constraint violation detection
+- Use efficient spatial data structures (KDTree) for neighbor searches and distance calculations
+- Leverage scipy's optimization routines with proper constraint definitions
+- Implement proper fallback strategies when optimization fails
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `scipy.optimize` (gradient-based methods), `cvxpy` (convex optimization), `DEAP` (evolutionary algorithms)
+- **Geometric computing**: `scipy.spatial.KDTree` (efficient neighbor searches), `shapely` (geometric operations)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools) - though for this case, constraint handling in optimization is preferred
+- **Physics simulation**: Not recommended for this specific problem - focus on mathematical optimization
+- **Performance**: `numba` for critical loops, `joblib` for parallelization where beneficial
+
+IMPLEMENTATION REQUIREMENTS:
+1. The solution must be deterministic - use fixed random seeds for reproducibility
+2. Handle edge cases gracefully - if optimization fails, return a valid but reasonable configuration
+3. Efficiently manage memory especially for pairwise distance calculations using spatial indexing
+4. Provide clear separation between initialization, optimization, and validation phases
+5. Include appropriate error handling for numerical precision issues
+6. Ensure final solution satisfies all geometric constraints within reasonable tolerance
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds (e.g., seed=42) if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations with fallback solutions
+- **Memory efficiency**: Use spatial indexing (`scipy.spatial.KDTree`) to avoid O(n²) distance calculations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Validation**: Include comprehensive checks to ensure all constraints are satisfied before returning results
+- **Performance**: Prioritize solution quality over speed - aim for competitive results rather than just fast execution
+
+# PROMPT-BLOCK-END
+    

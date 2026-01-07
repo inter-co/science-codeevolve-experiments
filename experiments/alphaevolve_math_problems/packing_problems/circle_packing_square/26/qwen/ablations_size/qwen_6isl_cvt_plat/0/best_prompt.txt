@@ -1,0 +1,77 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems. Your goal is to solve the challenging problem of placing exactly 26 non-overlapping circles within a unit square [0,1] × [0,1] to maximize the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+SOLUTION APPROACH:
+This is a classic but highly non-trivial optimization problem. The key is to combine proven mathematical techniques with robust numerical methods. Focus on the following principles:
+
+1. **Proven Heuristics First**: Start with established circle packing patterns such as hexagonal lattice arrangements, which are known to be relatively efficient for many configurations.
+
+2. **Hierarchical Optimization Strategy**: 
+   - Begin with a structured initial placement (hexagonal grid, triangular lattice, or systematic grid)
+   - Apply local optimization to fine-tune positions and radii
+   - Use constraint-aware optimization that respects physical boundaries
+
+3. **Efficient Constraint Handling**: 
+   - Use spatial data structures (like KDTree) for fast neighbor queries
+   - Implement early rejection of invalid configurations
+   - Prioritize mathematical correctness over computational speed
+
+4. **Multi-stage Refinement**: 
+   - Stage 1: Good initial configuration using proven patterns
+   - Stage 2: Local optimization using gradient-free methods suitable for discontinuous objectives
+   - Stage 3: Local search with careful constraint validation
+
+THEORETICAL FOUNDATIONS:
+Circle packing in bounded domains is well-studied. For 26 circles, consider:
+- Hexagonal packing patterns (most efficient for dense packings)
+- Grid-based approximations with adaptive refinement
+- Theoretical upper bounds for comparison
+
+IMPLEMENTATION REQUIREMENTS:
+- The function must return a valid solution with all 26 circles properly placed
+- Handle edge cases gracefully with deterministic fallbacks
+- Focus on achieving high-quality solutions over absolute speed
+- Ensure deterministic behavior with fixed random seeds when using stochastic methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time  
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Recommended packages for this problem**:
+- **Spatial data structures**: `scipy.spatial.KDTree` for efficient neighbor queries
+- **Optimization**: `scipy.optimize.minimize` with appropriate methods (L-BFGS-B, Nelder-Mead)
+- **Geometric computing**: `scipy.spatial.distance` for distance calculations, `numpy` for vectorized operations
+
+**Approach Guidance**:
+1. **Initial Placement**: Use a proven packing pattern like hexagonal lattice or triangular grid
+2. **Optimization**: Use derivative-free optimization methods like Nelder-Mead that handle discontinuous objectives better than gradient methods
+3. **Constraint Validation**: Implement efficient checks using spatial indexing to detect overlaps
+4. **Fallback Strategy**: If optimization fails, return a validated good heuristic solution
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (prefer robustness over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations - always return a valid solution
+- **Memory efficiency**: Use efficient spatial data structures; avoid computing full distance matrices
+- **Robustness**: The solution must work reliably even if optimization steps fail - provide fallback strategies
+- **Validation**: Every returned solution must pass all geometric constraints (containment and non-overlap)
+
+# PROMPT-BLOCK-END
+    

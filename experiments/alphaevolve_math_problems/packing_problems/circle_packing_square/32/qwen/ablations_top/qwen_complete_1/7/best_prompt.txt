@@ -1,0 +1,61 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+Consider multiple algorithmic approaches including but not limited to:
+- Mathematical programming approaches (convex optimization, semidefinite programming, or mixed-integer programming formulations)
+- Advanced evolutionary algorithms with specialized crossover/mutation operators for geometric problems
+- Physics-based simulation with improved constraint handling (e.g., penalty methods with adaptive penalties, or Lagrangian relaxation)
+- Geometric optimization techniques leveraging Voronoi diagrams, Delaunay triangulation, and energy minimization principles
+- Constraint satisfaction methods with advanced constraint propagation
+- Hybrid approaches combining multiple paradigms with careful attention to convergence guarantees
+- Novel metaheuristic approaches inspired by natural phenomena (ant colony optimization, bat algorithm, etc.)
+- Direct geometric construction methods using mathematical relationships between circle positions and radii
+- Decomposition techniques such as branch-and-bound or decomposition into smaller subproblems
+- Lagrangian relaxation or dual optimization approaches for handling complex constraints
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (numerical optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `cvxpy` (convex optimization)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations with fallback strategies
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider spatial data structures like KDTree for neighbor searches
+- **Scalability**: Design with potential extension to different circle counts in mind; consider adaptive algorithms that can adjust complexity based on problem size
+- **Algorithm diversity**: Implement one or more of the following approaches: 
+  * Mathematical programming with convex relaxation techniques or mixed-integer programming
+  * Specialized evolutionary algorithms with geometric-aware operators
+  * Physics-based simulation with robust constraint handling (penalty methods with dynamic scaling, or barrier functions)
+  * Geometric construction methods leveraging Voronoi/Delaunay relationships
+  * Constraint satisfaction with advanced propagation techniques
+  * Direct geometric construction using mathematical optimization of circle positions and radii
+  * Decomposition methods such as branch-and-bound or problem decomposition strategies
+- **Robustness**: Ensure final solutions satisfy all constraints within numerical tolerance; implement proper validation checks before returning results
+
+# PROMPT-BLOCK-END
+    

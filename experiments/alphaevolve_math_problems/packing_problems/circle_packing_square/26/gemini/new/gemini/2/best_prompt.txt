@@ -1,0 +1,94 @@
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-START
+
+# TODO: Implement the `circle_packing26` function to find an optimal packing of 26 circles.
+# The implementation should leverage numerical optimization techniques and adhere to performance guidelines.
+
+# Here's a detailed strategy:
+
+# 1.  **Optimization Algorithm**:
+#     *   Utilize `scipy.optimize.differential_evolution` for global optimization. This algorithm is well-suited for non-convex problems like circle packing, helping to escape local minima.
+#     *   Consider `scipy.optimize.minimize` (e.g., 'SLSQP' or 'TNC') for a final local refinement step if `differential_evolution`'s result isn't fully converged or to ensure precise constraint satisfaction.
+
+# 2.  **Decision Variables Representation**:
+#     *   Represent the state of all N=26 circles as a single 1D NumPy array of length `3 * N`.
+#     *   The order should be `[x1, y1, r1, x2, y2, r2, ..., xN, yN, rN]`.
+
+# 3.  **Objective Function (`evaluate_packing`)**:
+#     *   Define a function `evaluate_packing(params: np.ndarray) -> float` that takes the 1D parameter array.
+#     *   Inside, reshape `params` into an `N x 3` array `circles = params.reshape((N, 3))`.
+#     *   The primary objective is to maximize `sum(radii)`. Since `differential_evolution` performs minimization, the function should return `-sum(radii)`.
+#     *   **Penalty System**: To handle constraints (containment and non-overlap), incorporate penalty terms into the objective function. Penalties should be positive values that increase significantly with constraint violation, effectively guiding the optimizer away from infeasible solutions.
+#         *   **Containment Penalties**: For each circle `i` with `(xi, yi, ri)`:
+#             *   `penalty_x_min = max(0.0, ri - xi)`
+#             *   `penalty_x_max = max(0.0, xi - (1.0 - ri))`
+#             *   `penalty_y_min = max(0.0, ri - yi)`
+#             *   `penalty_y_max = max(0.0, yi - (1.0 - ri))`
+#             *   `penalty_r_min = max(0.0, -ri)` (radii must be non-negative)
+#             *   `penalty_r_max = max(0.0, ri - 0.5)` (radii cannot exceed 0.5 in a unit square)
+#         *   **Non-overlap Penalties**: For every unique pair of circles `(i, j)` where `i < j`:
+#             *   Calculate squared Euclidean distance: `dist_sq = (xi - xj)**2 + (yi - yj)**2`
+#             *   Calculate required minimum squared distance for non-overlap: `min_dist_sq = (ri + rj)**2`
+#             *   `penalty_overlap = max(0.0, min_dist_sq - dist_sq)`
+#         *   **Total Penalty**: Sum all individual penalties. Multiply this sum by a large constant factor (e.g., 1e6) to ensure constraint violations strongly impact the objective.
+#     *   The final return value of `evaluate_packing` should be `-sum(radii) + (penalty_constant * total_penalty)`.
+
+# 4.  **Bounds for `differential_evolution`**:
+#     *   Define `bounds` for each variable in the 1D parameter array.
+#     *   For `x` coordinates: `(0.0, 1.0)`
+#     *   For `y` coordinates: `(0.0, 1.0)`
+#     *   For `r` coordinates: `(1e-7, 0.5)` (a small positive minimum to avoid zero radii, and maximum 0.5)
+#     *   The `bounds` parameter for `differential_evolution` should be a list of `(min, max)` tuples, repeated `N` times for `x, y, r`.
+
+# 5.  **Performance Optimization with Numba**:
+#     *   Decorate the `evaluate_packing` function and any critical helper functions (especially those performing loops for penalties) with `@numba.jit(nopython=True)` to significantly speed up computations. This is crucial given the `O(N^2)` complexity of non-overlap checks.
+#     *   Ensure all data types within `numba`-jitted functions are compatible (e.g., use `np.float64`).
+
+# 6.  **Reproducibility**:
+#     *   Set `np.random.seed()` (e.g., `np.random.seed(42)`) before calling `differential_evolution` to ensure deterministic results.
+
+# 7.  **`circle_packing26` Function Implementation**:
+#     *   Inside `circle_packing26`, set `N=26`.
+#     *   Define the `bounds` list.
+#     *   Call `scipy.optimize.differential_evolution` with `evaluate_packing` as the objective function, the defined `bounds`, and the chosen `seed`.
+#     *   Extract the optimal parameters (`result.x`) from the `DifferentialEvolutionResult`.
+#     *   Reshape `result.x` back into an `N x 3` array `(x, y, r)` and return it.
+
+# PROMPT-BLOCK-END
+    

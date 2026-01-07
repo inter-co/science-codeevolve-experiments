@@ -1,0 +1,69 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your approach should prioritize exploring diverse algorithmic paradigms beyond traditional gradient-based optimization.
+
+Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Constraint Programming**: Formulate as a constraint satisfaction problem using specialized solvers like Google OR-Tools or python-constraint. Focus on mathematical formulation with explicit constraint handling rather than optimization-based approaches
+2. **Mathematical Programming**: Use convex optimization or mixed-integer programming formulations with appropriate relaxation techniques. Consider semidefinite programming or second-order cone programming formulations
+3. **Hierarchical Approaches**: Start with coarse placement then refine, or use multi-scale optimization with different resolution levels. Begin with simple geometric patterns and gradually improve
+4. **Voronoi/Delaunay Based**: Leverage geometric structures but with different sampling strategies - consider using Delaunay triangulation for initial placement followed by geometric refinement
+5. **Hybrid Methods**: Combine discrete optimization with continuous refinement techniques, such as alternating between geometric placement and gradient-based improvement with explicit constraint enforcement
+6. **Randomized Grid Search**: Use systematic random sampling with adaptive refinement based on coverage metrics and constraint violation analysis. Emphasize robustness over speed
+7. **Machine Learning Approaches**: Train neural networks to predict good circle placements or use reinforcement learning to discover packing strategies with proper constraint enforcement
+8. **Multi-Start Local Search**: Run multiple local optimizations from diverse starting points with different initialization schemes, including deterministic geometric arrangements. Prioritize constraint satisfaction over convergence speed
+9. **Adaptive Sampling**: Dynamically adjust sampling density based on regions of high constraint violation or promising areas, with emphasis on robust constraint validation
+10. **Physical Simulation-Based**: Use physics engines or collision detection systems to iteratively improve placements through simulated physical processes
+
+CRITICAL CONSTRAINT ENFORCEMENT REQUIREMENTS:
+- Implement rigorous constraint validation at every step of the optimization process
+- Ensure all returned configurations are strictly feasible (no overlaps, all circles fully contained)
+- Include early termination conditions when constraints cannot be satisfied
+- Provide clear separation between constraint satisfaction and objective maximization
+- Use only methods that guarantee constraint feasibility during optimization, avoiding approaches that require post-processing correction
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II), `differential_evolution` from scipy
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `cvxpy` (convex optimization)
+- **Physics engines**: `pymunk` (2D rigid body physics), `Box2D` (collision detection)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Robust Initialization**: Ensure initial configurations are always valid (no overlapping circles)
+- **Constraint Validation**: Implement comprehensive validation routines that catch and handle edge cases early; ensure strict feasibility of final output
+- **Multi-Strategy Fallback**: Design with fallback mechanisms when primary approaches fail; prioritize mathematical rigor over heuristic approximations
+- **Feasibility First**: Prioritize generating mathematically sound, feasible solutions over attempting complex optimization procedures that may violate constraints. Focus on approaches that maintain feasibility throughout the process
+
+# PROMPT-BLOCK-END
+    

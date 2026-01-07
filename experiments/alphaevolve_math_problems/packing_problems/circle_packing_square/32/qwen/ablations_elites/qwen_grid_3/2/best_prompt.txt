@@ -1,0 +1,59 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+You may employ any valid paradigm, including but not limited to:
+- Evolutionary algorithms (genetic algorithms, differential evolution, particle swarm optimization)
+- Physics-based simulation (particle systems, molecular dynamics, simulated annealing)
+- Mathematical optimization (gradient-based methods, convex optimization, Lagrangian relaxation)
+- Geometric construction heuristics (Voronoi diagrams, Delaunay triangulation, Apollonian gaskets)
+- Constraint satisfaction approaches (integer programming, satisfiability solvers)
+- Hybrid methods combining multiple paradigms
+- Novel combinatorial approaches (grid-based methods, lattice constructions, spectral techniques)
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Evolutionary Algorithms**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (multi-objective optimization)
+- **Constraint Programming**: `python-constraint`, `ortools` (Google OR-Tools), `choco-solver` (Java-based constraint solver interface)
+- **Geometric Construction**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `scipy.spatial.distance` (distance computations), `triangle` (Delaunay triangulation)
+- **Physics Simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `mdtraj` (molecular dynamics)
+- **Advanced Optimization**: `cvxpy` (convex optimization), `optuna` (hyperparameter optimization), `nevergrad` (optimization library), `gurobipy` (commercial optimization solver)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation)
+- **Novel Approaches**: `dask` (distributed computing), `ray` (distributed framework), `sklearn` (machine learning for optimization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Approach diversity**: Consider multiple algorithmic strategies and justify your choice of method
+- **Validation**: Implement collision detection and boundary constraint verification
+- **Alternative Strategy Focus**: Consider novel approaches beyond gradient-based optimization such as:
+  * Population-based evolutionary methods with diverse initialization strategies
+  * Constraint propagation techniques with domain reduction
+  * Geometric construction algorithms based on discrete mathematics
+  * Combinatorial optimization using graph theory or algebraic methods
+  * Machine learning enhanced optimization with learned heuristics
+
+# PROMPT-BLOCK-END
+    

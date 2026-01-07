@@ -1,0 +1,69 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. Employ one or more advanced algorithmic paradigms such as:
+- Evolutionary algorithms: Implement genetic algorithms with specialized crossover/mutation operators for geometric arrangements, or particle swarm optimization with position-velocity updates tailored for circle packing
+- Physics-based simulation: Implement force-directed placement with repulsive forces between circles and attractive forces to boundaries, or molecular dynamics simulations with collision detection
+- Sampling-based approaches: Use quasi-Monte Carlo methods, Latin hypercube sampling, or low-discrepancy sequences for initial configuration generation
+- Decomposition methods: Apply divide-and-conquer strategies by partitioning the square into subregions and optimizing locally, or use hierarchical clustering to group circles spatially
+- Hybrid metaheuristics: Combine local search with global exploration techniques like simulated annealing, tabu search, or adaptive large neighborhood search
+- Geometric constructions: Leverage Voronoi diagrams, Delaunay triangulations, or other geometric structures to inform placement strategies
+- Parallel computing approaches: Utilize embarrassingly parallel evaluations of candidate solutions or distributed optimization techniques
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- Alternative approaches to consider: 
+  * Mathematical programming formulations (linear/nonlinear programming) with possible convex relaxations
+  * Multi-objective optimization with secondary goals like uniform distribution or minimal variance in radii
+  * Physics-based simulation approaches with energy minimization using force models
+  * Graph-theoretic methods using spatial relationships and Voronoi diagrams for spatial partitioning
+  * Advanced sampling techniques like quasi-Monte Carlo or Latin hypercube sampling for initial configurations
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Emphasis on efficiency**: Prioritize algorithms that can demonstrate good convergence within the time limit over those requiring extensive computational resources per iteration
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Evolutionary algorithms**: `deap` (evolutionary algorithms), `pygad` (genetic algorithms), `pyswarm` (particle swarm optimization)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `choco-solver` (Java-based but accessible via Python wrappers)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `vpython` (visualization and simulation)
+- **Graph theory**: `networkx` (graph algorithms), `igraph` (high-performance graph operations)
+- **Integer programming**: `pulp` (linear programming), `ortools` (constraint programming and integer programming)
+- **Machine learning**: `stable-baselines3` (reinforcement learning), `scikit-learn` (supervised learning for surrogate modeling)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation) for computationally intensive parts
+
+STRATEGIC CONSIDERATIONS:
+- The problem exhibits high dimensionality (78 variables) and complex constraints requiring sophisticated handling
+- Favor algorithms that can quickly generate good initial solutions and then refine them efficiently
+- Consider population-based approaches that can escape local optima through diversity maintenance, but ensure they remain within time limits
+- Explore multi-objective formulations including uniformity of radii, spatial distribution, and clustering metrics
+- Leverage problem-specific representations that naturally encode geometric constraints (e.g., relative positions, angular arrangements)
+- Consider parallel evaluation strategies for fitness computation across multiple candidate solutions
+- Think about encoding schemes that preserve geometric relationships during evolutionary operations
+- Focus on approaches that balance exploration and exploitation effectively within the 60-second time constraint
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Robustness**: Implement fallback mechanisms when primary optimization fails
+- **Validation**: Include checks to ensure final solution satisfies all constraints within numerical tolerance
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,70 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 90 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Alternative algorithmic approaches to consider**:
+- **Regular Grid Packing**: Implement systematic hexagonal or square grid arrangements that naturally satisfy non-overlap constraints
+- **Recursive Circle Packing**: Use a divide-and-conquer approach where circles are packed recursively in subregions
+- **Analytical Geometric Construction**: Leverage mathematical properties of circle packings in rectangles for closed-form solutions or approximations
+- **Greedy Sequential Placement**: Place circles one-by-one starting with the largest possible radius at each step
+- **Symmetric Pattern Generation**: Exploit symmetry properties to reduce the search space and generate highly efficient configurations
+- **Physical Simulation**: Model the packing as a force-directed system or use collision physics for natural packing
+- **Combinatorial Optimization**: Use graph-based approaches or combinatorial methods to find optimal arrangements
+
+**Additional useful packages**:
+- **Simple geometric constructions**: `numpy` for vector operations, `scipy.spatial.distance` for distance calculations
+- **Fast geometric algorithms**: `scipy.spatial` for efficient spatial queries, `shapely` for geometric operations
+- **Simple optimization**: `scipy.optimize.minimize` for basic optimization, `scipy.spatial` for spatial analysis
+- **Pattern recognition**: `sklearn.cluster` for clustering-based pattern discovery
+- **Parallel computing**: `joblib` for embarrassingly parallel processing, `multiprocessing` for CPU-bound tasks
+- **Performance**: `numba` for JIT compilation, `numexpr` for fast numerical expressions
+
+TECHNICAL REQUIREMENTS:
+- **Efficiency Focus**: Prioritize computationally efficient algorithms that meet the 90-second time constraint
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic Diversity**: Consider implementing at least one non-traditional approach such as:
+  * Regular grid-based constructions
+  * Mathematical approximation methods
+  * Greedy sequential algorithms
+  * Symmetric pattern generation
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Efficiency Focus**: Prioritize computationally efficient algorithms that meet the 90-second time constraint
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic Diversity**: Consider implementing at least one non-traditional approach such as:
+  * Deterministic geometric construction methods
+  * Mathematical programming formulations with specialized solvers
+  * Sequential heuristic packing strategies
+  * Approximation algorithms with provable bounds
+
+# PROMPT-BLOCK-END
+    

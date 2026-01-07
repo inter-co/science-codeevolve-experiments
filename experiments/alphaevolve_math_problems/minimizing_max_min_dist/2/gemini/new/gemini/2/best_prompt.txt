@@ -1,0 +1,75 @@
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-START
+
+The task is to implement the `min_max_dist_dim2_16` function.
+This function should return an optimal arrangement of 16 points in a 2D unit square `[0,1] x [0,1]`.
+The core challenge is a global optimization problem where the objective function (dmin/dmax) is non-convex and potentially non-smooth.
+
+To achieve the target benchmark, a sophisticated optimization approach is required, rather than simple random placement.
+
+Here's a recommended approach:
+
+1.  **Define the Objective Function**:
+    *   Create a helper function, say `calculate_min_max_ratio(points)`, that takes an `(N, 2)` numpy array of points.
+    *   Inside this helper, use `scipy.spatial.distance.pdist` to efficiently calculate all pairwise distances.
+    *   Compute `dmin` (minimum of all distances) and `dmax` (maximum of all distances) from these distances.
+    *   Return the ratio `dmin / dmax`.
+    *   The objective function for `scipy.optimize.minimize` or `differential_evolution` should take a flattened 1D array of `2*N` coordinates, reshape it into `(N, 2)` points, and then return `-(dmin / dmax)` because optimizers typically perform minimization.
+
+2.  **Choose an Optimization Algorithm**:
+    *   `scipy.optimize.differential_evolution` is highly recommended for this global optimization problem due to its robustness in finding global optima in complex search spaces. It is well-suited for non-convex, non-smooth functions and handles bounds naturally.
+    *   Alternatively, `scipy.optimize.basinhopping` or a combination of local optimizers with multiple random starts could be explored, but `differential_evolution` is often a good first choice.
+    *   The `seed` parameter of `differential_evolution` should be set for reproducibility.
+
+3.  **Define Bounds and Constraints**:
+    *   The points must be strictly contained within the unit square `[0,1] x [0,1]`.
+    *   For `differential_evolution`, specify `bounds` for each coordinate. Since there are 16 points and 2 dimensions, there will be `16 * 2 = 32` bounds, each defined as `(0, 1)`.
+
+4.  **Initial Guess / Population**:
+    *   `differential_evolution` generates its own initial population within the specified bounds, so a specific initial guess array is not strictly needed for this method, but ensure the bounds are correctly set.
+
+5.  **Implementation Details**:
+    *   Import necessary modules: `numpy`, `scipy.spatial.distance`, `scipy.optimize`.
+    *   The `min_max_dist_dim2_16` function should encapsulate the optimization process.
+    *   It should call `scipy.optimize.differential_evolution` with the objective function, bounds, and `seed`.
+    *   The function should return the optimized flattened coordinates (`res.x`) reshaped back to an `(16, 2)` numpy array.
+    *   Ensure `np.random.seed` is set at the beginning of the function for any other random operations, and the `seed` parameter for `differential_evolution` is also set.
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,52 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer, optimization theorist, and mathematical programmer. Your mission is to develop an innovative approach for placing exactly 21 non-overlapping circles within a rectangle of perimeter 4, maximizing the sum of their radii. Consider multiple paradigm shifts:
+- Mathematical programming: Formulate as convex or semidefinite optimization problem
+- Physics-inspired: Implement energy minimization or molecular dynamics simulation  
+- Constraint satisfaction: Use constraint propagation and backtracking search
+- Multi-objective: Balance radius maximization with geometric regularity constraints
+- Geometric construction: Employ Voronoi diagrams, Delaunay triangulation, or Apollonian gaskets
+
+Your solution should demonstrate novel methodology rather than standard heuristic approaches.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Alternative paradigms to consider**:
+- **Mathematical optimization**: `cvxpy`, `cvxopt`, `ECOS`, `SCS` for convex formulations
+- **Advanced constraint solvers**: `ortools` (CP-SAT, SAT), `python-constraint` with advanced filtering
+- **Physics-based simulation**: `pymunk` with custom collision handlers, `Box2D` with energy-based constraints
+- **Multi-objective frameworks**: `platypus`, `deap` with custom fitness functions for geometric regularity
+- **Geometric algorithms**: `scipy.spatial` with custom distance metrics, `shapely` for complex boundary handling
+- **Specialized solvers**: `gurobi`, `cplex` for large-scale optimization, `nlopt` for nonlinear programming
+
+Choose your primary approach based on mathematical tractability and convergence guarantees.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Methodological innovation**: Demonstrate clear departure from standard heuristics through novel formulation or algorithmic insight
+- **Mathematical rigor**: If using optimization, clearly state the mathematical problem being solved
+- **Robustness**: Handle edge cases like degenerate solutions, boundary collisions, and numerical precision issues
+- **Scalability**: Ensure method generalizes beyond 21 circles (consider complexity analysis)
+- **Validation**: Include geometric checks to verify no overlaps and full containment
+
+# PROMPT-BLOCK-END
+    

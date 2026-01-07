@@ -1,0 +1,61 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to implement a complete solution that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALGORITHMIC APPROACHES TO CONSIDER:
+1. **Global Optimization**: Use evolutionary algorithms (like genetic algorithms with DEAP) or simulated annealing
+2. **Local Search**: Implement gradient-based methods or coordinate descent on the objective function
+3. **Hybrid Methods**: Combine geometric insights with numerical optimization
+4. **Constraint Handling**: Properly handle the complex constraint set using penalty methods or constraint satisfaction techniques
+
+IMPLEMENTATION STRATEGY:
+- Start with a good initial configuration (e.g., grid-based placement)
+- Use numerical optimization to iteratively improve the configuration
+- Implement proper collision detection and handling
+- Ensure deterministic behavior with fixed random seeds
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (numerical optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+IMPLEMENTATION REQUIREMENTS:
+- Must implement a complete working solution, not just a skeleton
+- Should handle edge cases gracefully
+- Include proper error handling for optimization failures
+- Consider using spatial data structures for efficient collision detection
+- Implement deterministic seeding for reproducible results
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider using spatial indexing for O(log n) neighbor searches
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Validation**: Include checks to verify that all constraints are satisfied before returning results
+
+# PROMPT-BLOCK-END
+    

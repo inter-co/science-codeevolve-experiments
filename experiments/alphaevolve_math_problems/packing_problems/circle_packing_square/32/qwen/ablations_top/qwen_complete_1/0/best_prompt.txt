@@ -1,0 +1,52 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+Consider multiple algorithmic paradigms: mathematical optimization (convex programming, Lagrangian relaxation), geometric construction (Voronoi diagrams, Delaunay triangulation), evolutionary computation (genetic algorithms, particle swarm optimization), and physics-based simulation approaches.
+Focus particularly on leveraging geometric insights and mathematical programming techniques that might offer superior theoretical guarantees or computational efficiency compared to heuristic approaches.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `cvxpy` (convex optimization), `scipy.optimize` (numerical optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `scipy.spatial.Delaunay`
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+**Algorithmic Approaches to Consider**:
+1. **Mathematical Programming**: Formulate as a nonlinear optimization problem using convex relaxations or semidefinite programming, possibly leveraging Lagrangian duality or interior point methods
+2. **Geometric Construction**: Use Voronoi diagrams to determine optimal placement based on nearest neighbor relationships, or employ Delaunay triangulation to identify potential circle configurations
+3. **Analytical Geometry**: Exploit symmetry properties or known optimal configurations for related circle packing problems to derive starting points
+4. **Constraint Programming**: Model the problem using constraint satisfaction techniques that naturally handle the complex geometric constraints
+5. **Graph-Theoretic Approaches**: Represent circle interactions as a graph and apply combinatorial optimization techniques to find maximal independent sets or optimal vertex packings
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider sparse representations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Methodological Diversity**: Explore at least two distinct algorithmic approaches (preferably mathematical programming and geometric construction) and justify your choice based on theoretical properties and computational complexity
+- **Theoretical Soundness**: Ensure mathematical rigor in constraint handling and optimality conditions, with particular attention to convexity properties or geometric invariants that could simplify the problem
+
+# PROMPT-BLOCK-END
+    

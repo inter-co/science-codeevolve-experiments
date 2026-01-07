@@ -1,0 +1,58 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to design an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. Consider exploring diverse algorithmic paradigms beyond conventional mathematical programming, including but not limited to: 
+- Physics-based simulations (force-directed placement, molecular dynamics, or particle systems)
+- Geometric constructions (Voronoi diagrams, Delaunay triangulations, or tessellation-based approaches)  
+- Novel evolutionary strategies or swarm intelligence methods
+- Machine learning-inspired optimization techniques
+- Topological or combinatorial approaches
+- Hybrid methods that combine multiple paradigms in unconventional ways
+- Memory-efficient spatial partitioning techniques with dynamic reorganization
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- Alternative approaches to consider: 
+  * Physics-based methods using force-directed placement, molecular dynamics, or particle systems with adaptive forces
+  * Geometric algorithms leveraging Voronoi diagrams, Delaunay triangulations, or tessellation-based constructions
+  * Novel evolutionary strategies with specialized crossover/mutation operators for circular arrangements
+  * Machine learning-inspired optimization such as neural network guidance or reinforcement learning policies
+  * Combinatorial approaches that treat circle packing as a graph coloring or constraint satisfaction problem
+  * Memory-efficient spatial partitioning with dynamic reorganization during optimization
+  * Unconventional hybrid approaches that blend seemingly incompatible paradigms
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Approach Diversity**: Prioritize exploration of unconventional algorithmic pathways rather than standard mathematical programming approaches
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Innovation**: Seek breakthrough solutions through novel combinations of techniques or entirely new paradigms for circle packing
+
+# PROMPT-BLOCK-END
+    

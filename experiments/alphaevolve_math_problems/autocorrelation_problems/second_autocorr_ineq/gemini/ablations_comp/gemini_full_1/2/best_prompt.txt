@@ -1,0 +1,66 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods.
+Your mission is to evolve and optimize a function that discovers step function constructions to improve the lower bound on the second autocorrelation inequality constant C₂.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+SOLUTION STRATEGY:
+- Employ a diverse set of advanced optimization algorithms, potentially moving beyond continuous black-box optimizers like CMA-ES. Consider discrete optimization, genetic algorithms (e.g., from `deap` or `pymoo`) that can naturally handle variable-length sequences or symbolic representations, or multi-stage approaches where `n` itself is a parameter to be optimized.
+- Initial population generation or search space definition should leverage mathematical insights, such as exploring symmetric `f` profiles, sparse constructions, or patterns that tend to produce flatter `g` profiles. Consider explicitly encoding these structural properties into the search space.
+- Actively explore a wide range of sequence lengths `n` (e.g., from hundreds to tens of thousands), rather than fixing it to a single value. This could be achieved through nested optimization, multi-fidelity optimization, or by using algorithms capable of handling variable-length representations. `n` is a crucial parameter affecting C₂.
+- **Prioritize alternative, fixed-dimensionality representations for `f`**: Instead of directly optimizing individual step heights, define `f` using a significantly smaller, fixed set of parameters. This could involve:
+    *   **Basis Function Expansion**: Represent `f` as a linear combination of basis functions (e.g., B-splines, Fourier series, wavelets, Gaussian mixture models). The optimization algorithm would then search for the optimal coefficients of these basis functions.
+    *   **Parametric Forms**: Define `f` using a specific mathematical formula with a few adjustable parameters (e.g., a parameterized step function, a polynomial).
+    *   **Control Points**: Use a small number of control points to define a piecewise linear or cubic `f`, with interpolation determining the full `f` vector.
+  This approach dramatically reduces the dimensionality of the search space, potentially enabling more efficient exploration with various optimization algorithms (e.g., CMA-ES, Bayesian Optimization, or Differential Evolution) and allowing for a more thorough search within the computational budget.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+
+# PROMPT-BLOCK-END
+    

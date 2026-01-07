@@ -1,0 +1,69 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+- Leverage geometric symmetries and group theory: exploit the inherent symmetries of hexagonal lattices to construct optimal packings analytically or via symmetry-based search spaces
+- Apply mathematical programming techniques: formulate as a mixed-integer nonlinear program (MINLP) using branch-and-bound or cutting-plane methods to guarantee global optimality
+- Employ constructive geometric algorithms: build the packing incrementally by placing hexagons according to rules derived from hexagonal tiling theory and Voronoi diagrams
+- Utilize machine learning-inspired geometric reasoning: train neural networks or use reinforcement learning to discover promising packing configurations through pattern recognition
+- Explore deterministic optimization with specialized algorithms: implement simulated annealing with custom neighborhood structures or tabu search tailored for hexagon packing constraints
+- Consider topological approaches: model the packing problem as a graph coloring or graph embedding problem on planar graphs derived from hexagon adjacency relationships
+- Apply crystalline geometry principles: leverage the relationship between hexagon packings and honeycomb lattice structures, exploring how the optimal configuration relates to the densest packing of circles in hexagonal arrangement
+- Implement geometric construction algorithms: develop algorithms that systematically construct the optimal packing using geometric theorems about optimal hexagonal arrangements and their dual structures
+- Utilize harmonic analysis on hexagonal grids: employ Fourier-based methods or discrete wavelet transforms to analyze and construct hexagon packings with optimal density properties
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
+  * `deap` (evolutionary algorithms with custom operators for continuous domains)
+  * `platypus` (multi-objective optimization for complex constraint handling)
+- **Collision detection**: 
+  * `pymunk` (2D rigid body physics with polygon shapes)
+  * Custom SAT (Separating Axis Theorem) implementations
+  * Spatial data structures for efficient neighbor searches
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
+
+STRATEGIC APPROACHES:
+Rather than relying on predefined geometric patterns, consider:
+1. Exploiting mathematical properties of hexagonal tilings and their dual structures to derive optimal configurations
+2. Implementing deterministic algorithms that systematically enumerate candidate packings based on combinatorial geometry principles
+3. Developing constraint satisfaction approaches that use backtracking and constraint propagation to efficiently prune the search space
+4. Creating frameworks that alternate between exact geometric reasoning and approximate optimization for efficiency
+5. Exploring the relationship between this packing problem and other well-known geometric optimization problems like circle packing or sphere packing
+6. Investigating whether the optimal solution exhibits specific symmetry properties that could be exploited in construction algorithms
+7. Leveraging known results from hexagonal lattice theory and crystallography to inform construction strategies
+8. Applying geometric duality principles between hexagon packings and their associated Voronoi diagrams or Delaunay triangulations
+9. Using mathematical inequalities and optimization theory to establish theoretical bounds before computational search
+
+TECHNICAL REQUIREMENTS:
+- **Robust constraint enforcement**: Implement rigorous overlap detection and containment verification that can handle edge cases
+- **Flexible optimization framework**: Design modular components that allow easy switching between different optimization algorithms
+- **Multi-resolution approach**: Consider coarse-to-fine strategies where initial solutions are found quickly, then refined for better accuracy
+- **Adaptive parameter tuning**: Allow optimization parameters to adjust based on problem characteristics during execution
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 90 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

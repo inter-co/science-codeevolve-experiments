@@ -1,0 +1,62 @@
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-START
+
+The core task is to implement an optimization procedure to find the optimal point arrangement.
+
+1.  **Define the Objective Function**: Create a Python function, let's call it `objective_function(points_flat)`, that takes a flattened 1D NumPy array of 3D point coordinates (e.g., `[x1,y1,z1,x2,y2,z2,...,x14,y14,z14]`) as input. This function should return the negative of the `min_max_ratio` to be minimized by the optimizer.
+    *   Inside `objective_function`:
+        *   Reshape the input `points_flat` into a `(14, 3)` NumPy array representing the 14 points in 3D space.
+        *   Calculate the Euclidean distances between all unique pairs of these 14 points. `scipy.spatial.distance.pdist` can be very efficient for this.
+        *   Determine the minimum distance (`dmin`) and maximum distance (`dmax`) from the calculated distances.
+        *   Return `-dmin / dmax`. Handle edge cases like `dmax` being zero (e.g., if all points coincide) by returning a very large positive number to penalize such configurations.
+
+2.  **Choose an Optimization Algorithm**: Given the non-convex and potentially rugged nature of this problem's search space, a global optimization method is highly recommended. `scipy.optimize.differential_evolution` is an excellent choice for exploring the search space effectively and finding a global optimum within the given time limits.
+    *   This algorithm is robust and can handle complex objective functions.
+
+3.  **Define Bounds**: The points should be constrained within a unit cube, meaning each coordinate (x, y, z) for all 14 points must be between 0 and 1, inclusive. This translates to 42 bounds (14 points * 3 dimensions * [0,1] range) for the `differential_evolution` algorithm.
+
+4.  **Initial Population/Guess**: `differential_evolution` automatically generates an initial population within the specified bounds. No specific initial guess needs to be provided, but ensure the bounds are correctly set.
+
+5.  **Reproducibility**: Ensure the `seed` parameter for `scipy.optimize.differential_evolution` is set to a fixed integer (e.g., `42`) to guarantee reproducible results for the optimization process.
+
+The final `min_max_dist_dim3_14()` function should encapsulate this entire optimization process and return the `(14,3)` NumPy array of the optimized point coordinates.
+=======
+
+# PROMPT-BLOCK-END
+    

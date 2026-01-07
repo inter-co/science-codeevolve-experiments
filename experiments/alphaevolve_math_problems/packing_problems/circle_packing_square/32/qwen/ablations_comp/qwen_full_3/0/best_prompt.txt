@@ -1,0 +1,52 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+Explore novel algorithmic paradigms beyond traditional mathematical optimization approaches. Focus particularly on implementing one or more of these distinctive methodologies:
+1. **Physics-based simulation**: Implement a force-directed approach where circles repel each other with forces proportional to inverse distance, combined with boundary constraints. Consider using velocity-based dynamics with collision detection and response mechanisms.
+2. **Constraint satisfaction with backtracking**: Develop a systematic search algorithm that incrementally places circles while maintaining feasibility, using sophisticated pruning techniques. Emphasize intelligent domain reduction and constraint propagation.
+3. **Hybrid geometric-heuristic methods**: Combine Voronoi diagram construction with local optimization to iteratively improve the packing. Consider using spatial data structures for efficient neighbor queries.
+4. **Stochastic global optimization**: Apply simulated annealing or particle swarm optimization with specialized operators designed for this geometric problem. Design custom move operators that respect geometric constraints.
+5. **Multi-scale approach**: Begin with coarse placement and progressively refine using local optimization techniques. Consider hierarchical methods that start with coarser approximations.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (nonlinear programming)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `cvxpy` (convex optimization)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider sparse representations for constraints
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic diversity**: Implement one or more of the following approaches in your solution:
+  * A physics-based simulation with force resolution and boundary handling
+  * A constraint satisfaction approach with intelligent backtracking and domain reduction
+  * A multi-scale optimization method combining global and local search strategies
+  * A stochastic optimization algorithm specifically adapted for geometric constraints
+
+# PROMPT-BLOCK-END
+    

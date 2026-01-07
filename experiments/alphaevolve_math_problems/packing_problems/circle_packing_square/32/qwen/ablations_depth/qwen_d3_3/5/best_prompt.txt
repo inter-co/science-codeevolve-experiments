@@ -1,0 +1,60 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+Consider multiple algorithmic approaches including but not limited to:
+- Mathematical optimization using convex programming or semidefinite programming formulations
+- Constraint programming with specialized solvers like Google OR-Tools or python-constraint
+- Deterministic geometric constructions based on optimal lattice packings such as hexagonal or square lattices
+- Advanced numerical optimization techniques with specialized constraint handling using cvxpy or similar convex optimization frameworks
+- Topology optimization methods for continuous domain problems with rigorous mathematical foundations
+- Rigorous geometric algorithms that leverage known theoretical bounds and constructions for circle packing
+- Mathematical programming approaches with guaranteed convergence properties
+- **Novel combinatorial geometric constructions** that exploit symmetry groups, group theory, or discrete mathematical structures
+- **Analytical geometric reasoning** using geometric invariant theory, projective geometry, or algebraic geometry concepts
+- **Hierarchical geometric decomposition** approaches that recursively subdivide the space and optimize at multiple scales
+- **Variational principles** and calculus of variations applied to geometric optimization problems
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `cvxpy` (convex optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+- **Advanced mathematics**: `scs` (splitting cone solver), `osqp` (operator splitting quadratic program solver)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Prefer deterministic algorithms over stochastic methods; if randomness is necessary, use fixed seeds for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations with fallback strategies
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider sparse representations for large constraint matrices
+- **Scalability**: Design with potential extension to different circle counts in mind using scalable mathematical formulations
+- **Algorithm diversity**: Prefer implementations that demonstrate novel mathematical or geometric approaches over iterative stochastic methods
+- **Theoretical soundness**: Prioritize mathematically rigorous formulations with proven convergence properties and theoretical guarantees
+- **Solver selection**: Leverage specialized optimization libraries designed for geometric constraints when applicable, particularly convex optimization solvers
+- **Mathematical rigor**: Implement approaches with clear mathematical foundations and analytical proofs of optimality where possible
+- **Geometric insight**: Emphasize constructions that reveal deeper geometric relationships, symmetry properties, or topological invariants
+- **Analytical elegance**: Seek solutions that demonstrate mathematical beauty through elegant geometric principles or closed-form constructions
+
+# PROMPT-BLOCK-END
+    

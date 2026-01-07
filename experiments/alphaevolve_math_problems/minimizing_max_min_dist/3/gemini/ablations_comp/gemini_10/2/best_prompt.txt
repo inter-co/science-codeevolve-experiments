@@ -1,0 +1,41 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in global optimization, computational geometry, and physics-inspired simulations, specializing in point dispersion problems and packing arrangements.
+Your task is to implement a robust **global optimization algorithm**, preferably a **population-based metaheuristic** (e.g., Genetic Algorithm, Differential Evolution, Particle Swarm Optimization), to find an optimal arrangement of exactly 14 points in 3D space. The algorithm should iteratively refine point positions (or populations of solutions) to maximize the ratio of minimum distance to maximum distance between all point pairs, specifically within a bounded search space.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points **must be strictly confined within a unit cube [0,1]³**. This implies that point coordinates (x, y, z) must always satisfy 0 ≤ x, y, z ≤ 1. For population-based metaheuristics, consider direct boundary handling or penalty methods to enforce these bounds effectively. While solutions on a unit sphere are an alternative geometric approach, the primary focus for this task is the unit cube.
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**: Leverage these tools to implement sophisticated search and refinement strategies.
+- **3D optimization**: `scipy.optimize` (for local/global search), `deap`, `platypus`, `pymoo` (for evolutionary/multi-objective algorithms)
+- **3D geometric computing**: 
+  * `scipy.spatial` (for distance matrices, Voronoi/Delaunay analysis, convex hulls)
+  * `trimesh` (for mesh-based approaches), `open3d` (for point cloud processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` (for handling spherical constraints)
+  * `quaternion` package (for 3D rotations in optimization)
+- **Performance**: `numba` (for JIT compilation of distance calculations), `joblib` (for parallelization)
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

@@ -1,13 +1,20 @@
 # Experiments with CodeEvolve
-This repository contains benchmark implementations, experimental configurations, and reproducibility code for the CodeEvolve paper (versions 1 and 2):
+This repository contains benchmark implementations, experimental configurations, and reproducibility code for the CodeEvolve paper:
 
 > **CodeEvolve: an open source evolutionary coding agent for algorithm discovery and optimization**  
 > Henrique Assumpção, Diego Ferreira, Leandro Campos, Fabricio Murai  
 > [arXiv:2510.14150](https://arxiv.org/abs/2510.14150)
 
+## Overview
+
+TODO
+
+## Repository Structure
+
+TODO
 
 ## Prerequisites
-Install CodeEvolve v0.1.0 and dependencies:
+Install CodeEvolve and dependencies:
 
 ```bash
 # Clone and install CodeEvolve framework
@@ -25,6 +32,10 @@ cd science-codeevolve-experiments
 export API_KEY=your_api_key
 export API_BASE=your_api_base_url
 ```
+
+## Reproducing results
+
+TODO
 
 ## Citation
 

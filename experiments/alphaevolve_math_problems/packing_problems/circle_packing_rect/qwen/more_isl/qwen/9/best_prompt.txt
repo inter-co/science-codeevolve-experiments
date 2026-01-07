@@ -1,0 +1,66 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii. Consider exploring diverse algorithmic paradigms including but not limited to: mathematical programming formulations (convex optimization, semidefinite programming), physics-based simulation approaches (soft matter dynamics, molecular dynamics), advanced metaheuristics (multi-objective evolutionary algorithms, hybrid methods combining local and global search), geometric construction heuristics, and decomposition techniques for large-scale optimization. 
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+- **Mathematical Programming**: Formulate as a convex optimization problem using `cvxpy` or `scs`, or apply semidefinite programming techniques to directly solve the packing constraints. Consider using Lagrangian relaxation or interior point methods for theoretical guarantees
+- **Physics-based Simulation**: Implement soft-body dynamics with `pymunk` or custom collision resolution systems that naturally evolve towards optimal configurations through physical interactions. Explore gradient-free approaches where forces drive convergence
+- **Geometric Construction**: Employ Voronoi diagrams, Delaunay triangulation, or tessellation-based approaches that build the packing from fundamental geometric principles. Investigate how to construct optimal packings using geometric duality or harmonic analysis
+- **Constraint Programming**: Use `python-constraint` or `ortools` to systematically enumerate valid configurations through logical deduction rather than optimization. Consider branch-and-bound with smart pruning strategies
+- **Direct Geometric Algorithms**: Apply known geometric constructions such as Apollonian gaskets, circle packings on surfaces, or systematic grid-based approaches with mathematical guarantees. Explore discrete differential geometry or conformal mappings for optimal arrangements
+- **Topological Optimization**: Approach this as a topological problem where you first determine the connectivity graph of touching circles, then optimize positions. Consider using graph theory and combinatorial optimization
+- **Multi-scale Analysis**: Implement hierarchical approaches where you start with coarse approximations and progressively refine, or use multi-resolution representations for faster exploration
+- **Machine Learning Integration**: Train neural networks to predict good initial configurations or learn optimization policies for the packing problem
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Alternative approaches to consider**:
+- **Mathematical Programming**: Formulate as a convex optimization problem using `cvxpy` or `scs`, or apply semidefinite programming techniques for direct solution
+- **Physics-based Simulation**: Implement soft-body dynamics with `pymunk` or custom collision resolution systems that evolve naturally through physical interaction
+- **Geometric Construction**: Employ Voronoi diagrams, Delaunay triangulation, or tessellation-based approaches building from fundamental geometric principles
+- **Constraint Programming**: Use `python-constraint` or `ortools` to systematically deduce valid configurations through logical constraints
+- **Direct Geometric Algorithms**: Apply known constructions like Apollonian gaskets, circle packings on surfaces, or systematic grid approaches with mathematical guarantees
+- **Hybrid Metaheuristics**: Combine particle swarm optimization with local search, or use `nevergrad` with custom parameterizations
+- **Multi-objective Optimization**: Use `platypus` or `deap` to simultaneously optimize multiple criteria (density, packing efficiency, etc.)
+- **Decomposition Methods**: Break into subproblems using spatial partitioning or clustering techniques
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II), `scipy.optimize` (various algorithms)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `cvxpy` (convex optimization)
+- **Physics engines**: `pymunk` (2D rigid body physics), `Box2D` (collision detection)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider sparse representations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic Diversity**: Demonstrate creative application of optimization theory, geometric insights, or computational methods rather than straightforward brute force approaches. Focus on novel algorithmic paradigms that differ significantly from standard optimization frameworks. Prioritize approaches that leverage mathematical structure, geometric intuition, or physics-based reasoning over black-box optimization methods.
+- **Theoretical Soundness**: Where possible, incorporate provable guarantees, mathematical bounds, or principled approximations that offer insight into the solution quality
+
+# PROMPT-BLOCK-END
+    

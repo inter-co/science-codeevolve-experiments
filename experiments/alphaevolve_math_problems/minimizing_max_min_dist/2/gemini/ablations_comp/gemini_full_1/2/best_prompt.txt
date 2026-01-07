@@ -1,0 +1,54 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+SOLUTION STRATEGY GUIDANCE:
+The problem requires finding an optimal arrangement, which is an inherently difficult global optimization task due to its non-convex nature and the presence of many local optima. The generated function *must* implement or orchestrate an optimization process to arrive at the point arrangement, not merely initialize random points. Consider employing metaheuristic search algorithms or iterative refinement techniques. These include, but are not limited to:
+-   **Evolutionary Algorithms (e.g., Genetic Algorithms, Particle Swarm Optimization, Differential Evolution)**: These population-based methods excel at global search by maintaining a diverse set of candidate solutions. While `scipy.optimize` provides some implementations (like `differential_evolution`), consider approaches that allow for more fine-grained control over genetic operators or particle movement. This can be particularly effective for point dispersion by:
+    *   **Population Initialization**: Generating an initial population with diverse strategies (e.g., random, grid-based, or geometrically inspired patterns like hexagonal packing) to cover a broader search space.
+    *   **Custom Operators**: Designing bespoke mutation (e.g., perturbing individual points, shifting small clusters, boundary reflection), crossover (e.g., combining point sets from two parents, weighted averaging), or velocity update rules (for PSO) that respect spatial constraints and encourage favorable point arrangements. Libraries like `deap` (for custom GAs) or `pymoo` (for multi-objective and flexible EAs) are excellent candidates for implementing these, offering more flexibility than generic optimizers.
+-   **Force-directed algorithms**: This strategy models points as interacting particles. Each point exerts forces on others, and these forces are iteratively applied to adjust point positions until a stable configuration is reached. This approach is intrinsically geared towards spatial distribution.
+    *   **Repulsive Forces**: Implement an inverse-square law (or similar) repulsion between all pairs of points (e.g., Coulomb's law or a spring model) to push them apart, directly addressing the `dmin` maximization.
+    *   **Attractive Forces / Containment**: Introduce forces that keep points within the unit square, perhaps by applying a spring-like attraction to the center or repulsion from boundaries, or by simply clipping coordinates after each step. This helps manage `dmax`.
+    *   **Damping/Cooling**: Incorporate a damping factor or a cooling schedule (similar to simulated annealing) to gradually reduce the magnitude of forces, allowing the system to settle into a low-energy, stable state, avoiding chaotic oscillations.
+    *   **Integration Scheme**: Use a simple Euler integration or more stable Verlet integration to update point positions based on net forces.
+-   **Simulated Annealing**: A robust technique for escaping local optima and exploring complex landscapes, typically operating on a single solution at a time.
+-   **Iterative Gradient-based Optimization**: If a sufficiently smooth and differentiable objective can be constructed, `scipy.optimize` could be used, but care must be taken to avoid getting stuck in local optima.
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

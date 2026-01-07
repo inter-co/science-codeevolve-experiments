@@ -1,0 +1,55 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+Consider multiple algorithmic paradigms including but not limited to:
+- Physics-based simulation (particle systems, force-directed placement) - particularly effective for natural constraint handling through physical interactions
+- Mathematical optimization (sequential quadratic programming, convex relaxation) - for rigorous mathematical approaches  
+- Machine learning approaches (neural networks, reinforcement learning) - for pattern recognition in geometric configurations
+- Geometric construction algorithms (Voronoi-based, Delaunay refinement) - for systematic spatial partitioning
+- Monte Carlo methods with importance sampling - for exploring high-dimensional configuration spaces
+
+The chosen approach should demonstrate clear computational sophistication and leverage the physical intuition or geometric properties of the problem to efficiently navigate the vast search space.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Focus**: Prioritize algorithmic efficiency and exploration of diverse solution paths over exhaustive deterministic optimization
+
+The solution should demonstrate a novel approach that could potentially outperform traditional mathematical programming methods for this combinatorial optimization problem, preferably by leveraging physical simulation principles or geometric construction heuristics.
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (mathematical programming)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+- **Advanced optimization**: Consider `cvxpy` for convex optimization formulations or `gurobipy` for commercial solvers if available
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Algorithmic Innovation**: Prefer approaches that demonstrate novel thinking about the problem structure, particularly physics-based or geometric construction methods
+- **Stochastic Efficiency**: If using random methods, ensure they converge quickly and explore effectively
+- **Constraint Handling**: Efficiently manage both containment and non-overlap constraints through physical or geometric mechanisms
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Computational Budget**: Balance solution quality with time/memory constraints; prioritize rapid convergence over exhaustive search
+- **Approach Diversity**: Avoid standard mathematical programming and evolutionary algorithms; instead favor physics-based simulation, machine learning, or geometric construction approaches
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,53 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+Prioritize mathematically rigorous approaches such as constraint programming, multi-objective optimization, or systematic geometric constructions. Explore diverse algorithmic paradigms including discrete optimization, geometric programming, and combinatorial approaches. Avoid heuristic physics simulations that may produce invalid configurations and ensure mathematically sound constraint validation.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- Alternative approach consideration: Consider using constraint satisfaction solvers, integer programming formulations, or geometric construction methods that inherently guarantee valid solutions rather than post-validation approaches.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Constraint Programming**: `python-constraint`, `ortools` (Google OR-Tools) - prioritize solvers that guarantee constraint satisfaction
+- **Integer Programming**: Consider mixed-integer programming formulations that naturally handle discrete geometric decisions
+- **Multi-objective Optimization**: `platypus` - consider optimizing for both total radius and constraint satisfaction simultaneously
+- **Geometric Construction**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi) - for mathematically sound geometric reasoning
+- **Discrete Optimization**: `deap` (evolutionary algorithms) with proper fitness functions that penalize constraint violations
+- **Performance**: `cython`, `joblib` (parallelization) - focus on avoiding redundant constraint checks
+
+**Alternative algorithmic strategies to consider**:
+1. Formulate as a constraint satisfaction problem with dedicated solvers
+2. Use geometric programming or semidefinite programming relaxations
+3. Employ systematic grid-based approaches with mathematical guarantees
+4. Implement branch-and-bound methods for exact solutions
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations with immediate fallback strategies
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithm diversity**: Prefer mathematically sound constraint satisfaction methods, convex optimization, or systematic geometric constructions over heuristic approaches
+- **Constraint Validation**: Ensure all solutions are mathematically verified to satisfy containment and non-overlap constraints without relying on approximate distance calculations
+- **Solution Quality**: Prioritize solutions that are provably valid over those that merely appear valid through heuristics
+
+# PROMPT-BLOCK-END
+    

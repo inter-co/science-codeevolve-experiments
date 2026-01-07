@@ -1,0 +1,77 @@
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction.
+Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `cvxpy` (convex optimization)
+- **Physics engines**: `pymunk` (2D rigid body physics), `Box2D` (collision detection)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-START
+
+The problem of optimal circle packing is a challenging non-convex global optimization problem. The solution requires a robust approach capable of handling a high-dimensional search space and complex non-linear constraints.
+
+**Recommended Approach & Considerations:**
+
+1.  **Problem Formulation**:
+    *   **Decision Variables**: The optimization variables should include the (x, y, radius) for each of the 21 circles, AND one variable to define the rectangle's aspect ratio (e.g., its width `w`, from which height can be derived as `h = 2 - w`). This results in `21 * 3 + 1 = 64` continuous variables.
+    *   **Search Space**: Define appropriate bounds for each variable. Circle centers (x,y) must be within the rectangle's boundaries (considering radii). Radii must be strictly positive. Rectangle width `w` should be within a reasonable range (e.g., `0.1` to `1.9`, as `w+h=2`).
+
+2.  **Objective Function**:
+    *   Design a fitness function to be *minimized*. This function should return `-(sum of radii)` plus significant penalty terms for any constraint violations:
+        *   **Boundary Violations**: Penalize circles extending beyond the rectangle's chosen width/height.
+        *   **Overlap Violations**: Penalize any pair of circles where the distance between centers is less than the sum of their radii.
+        *   **Non-positive Radii**: Penalize if any radius is not strictly positive. The penalty should be designed to strongly discourage violations but allow the optimizer to explore feasible regions.
+
+3.  **Optimization Strategy**:
+    *   Given the non-convexity, high dimensionality, and the "computational geometer and optimization specialist" persona, **metaheuristic algorithms** (e.g., Genetic Algorithms, Particle Swarm Optimization, Simulated Annealing) are highly recommended for global search.
+    *   Consider using packages like `deap` (evolutionary computation), `scikit-opt` (PSO, GA, SA), or `nevergrad` (gradient-free optimization).
+    *   **Hybrid Approach**: A common strategy for such problems is to combine a global search (metaheuristic) with a local search (e.g., `scipy.optimize.minimize` with a suitable constrained method like SLSQP or COBYLA) to refine the best solutions found by the global optimizer.
+
+4.  **Constraint Handling**:
+    *   **Penalty Method**: Incorporate constraint violations directly into the objective function as penalty terms. The magnitude of these penalties is crucial for guiding the search effectively.
+    *   **Bounded Optimization**: Utilize variable bounds to enforce basic constraints (e.g., `radius > 0`, `0 < x < width`, `0 < y < height`).
+
+5.  **Computational Efficiency**:
+    *   **Distance Calculations**: Avoid redundant distance calculations between circles. Consider using `scipy.spatial.distance.pdist` or similar for efficient pairwise distance computations, especially if a large number of pairs need checking.
+    *   **Parallelization**: If using population-based metaheuristics, leverage `joblib`, `multiprocessing`, or `concurrent.futures` to evaluate the fitness of individuals in parallel, utilizing the available computational budget.
+
+6.  **Reproducibility**:
+    *   Ensure all stochastic components (e.g., random number generators for initial population, mutation, crossover) are seeded for deterministic results, as specified in the technical requirements.
+
+7.  **Output**: The final function `circle_packing21()` should return a NumPy array of shape `(21, 3)` where each row is `(x, y, radius)`. The chosen rectangle dimensions should implicitly define the coordinate system for these circles (e.g., origin at (0,0), extending to (width, height)).
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,61 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length). Approach this problem using advanced mathematical optimization techniques, leveraging geometric properties of hexagonal tilings, and consider non-trivial arrangements beyond simple grid layouts. 
+
+Consider multiple algorithmic paradigms:
+- **Geometric construction**: Design explicit geometric configurations using known optimal packings or tiling patterns, such as the densest known arrangements for hexagonal packings in hexagonal containers
+- **Physical simulation**: Implement a discrete element method or molecular dynamics approach where hexagons interact via repulsive forces until stable equilibrium is achieved
+- **Graph-theoretic approaches**: Model the packing problem as a graph coloring or constraint satisfaction problem, using vertex placement constraints derived from geometric relationships
+- **Symmetry-based optimization**: Exploit the inherent symmetries of hexagonal geometry to reduce the dimensionality of the search space and enforce symmetric arrangements
+- **Hierarchical decomposition**: Decompose the problem into smaller subproblems (e.g., place clusters of hexagons first, then position them optimally within the container)
+- **Variational methods**: Formulate the problem as finding critical points of an energy functional that penalizes overlaps and maximizes packing efficiency
+
+The solution should demonstrate sophisticated understanding of how to balance exploration vs exploitation in non-convex optimization landscapes, with particular attention to ensuring mathematically rigorous constraint satisfaction and geometric correctness.
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom operators)
+  * `platypus` (multi-objective optimization)
+  * `scipy.optimize.differential_evolution` or similar global optimizers
+  * Consider advanced techniques like simulated annealing, genetic algorithms, or particle swarm optimization for this non-convex problem
+- **Collision detection**: 
+  * `pymunk` (2D rigid body physics with polygon shapes)
+  * Custom SAT (Separating Axis Theorem) implementations
+  * Specialized hexagon-hexagon intersection tests
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
+- **Advanced approaches**: 
+  * Use mathematical programming libraries like cvxpy for convex relaxations
+  * Employ branch-and-bound methods for global optimization
+  * Implement hybrid methods combining local and global search strategies
+  * Consider implementing custom energy-based optimization schemes
+
+TECHNICAL REQUIREMENTS:
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly with proper geometric predicates
+- **Reproducibility**: Fixed random seeds for stochastic optimization methods, but allow for alternative deterministic approaches
+- **Mathematical rigor**: Employ rigorous geometric proofs or mathematical formulations when designing the optimization landscape
+- **Algorithmic sophistication**: Implement methods that go beyond simple grid or lattice arrangements, considering irregular packings that might achieve better density. Demonstrate understanding of how to navigate the complex, non-convex optimization landscape through principled exploration strategies.
+- **Constraint satisfaction**: Ensure that all generated solutions strictly satisfy both containment and non-overlap constraints without numerical tolerance issues
+- **Innovation focus**: The solution should show creative application of optimization theory to this specific geometric problem, not merely apply standard techniques in a routine way. Consider novel approaches such as:
+  * Explicit geometric construction based on known mathematical results
+  * Hybrid deterministic-stochastic algorithms that leverage both analytical and numerical methods
+  * Multi-resolution approaches that start with coarse approximations and refine details
+  * Energy-based models with carefully designed interaction potentials that naturally avoid overlaps
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 90 seconds maximum execution time
+- **Memory limit**: 5 GB
+- **Exploration emphasis**: Prioritize exploring diverse algorithmic approaches over rapid convergence to local optima
+
+# PROMPT-BLOCK-END
+    

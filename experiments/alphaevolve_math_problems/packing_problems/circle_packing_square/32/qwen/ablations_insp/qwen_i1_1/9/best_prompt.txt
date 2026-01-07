@@ -1,0 +1,55 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. Consider multiple paradigm shifts: 
+- Explore geometric constructions based on lattice point distributions or Delaunay triangulations
+- Investigate physics-inspired methods using repulsive forces or molecular dynamics simulations  
+- Apply advanced optimization techniques like simulated annealing with adaptive cooling schedules
+- Consider constraint programming approaches with sophisticated pruning strategies
+- Evaluate machine learning methods trained on known optimal configurations for pattern recognition
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- Alternative approach considerations: 
+  * Instead of direct optimization, consider generating candidate configurations using quasi-random sequences or low-discrepancy sampling
+  * Explore the use of geometric duality transformations or projective geometry concepts
+  * Apply topological optimization methods or evolutionary algorithms with specialized crossover operators designed for circular arrangements
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (gradient-based methods)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `cvxpy` (convex optimization)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `pulp` (linear programming)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `mdtraj` (molecular dynamics tools)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation)
+
+**Novel methodology suggestions**:
+- Consider hybrid approaches combining discrete and continuous optimization techniques
+- Explore multi-scale optimization where global structure is optimized first, then local refinements
+- Investigate the use of neural networks to predict good initial configurations or guide search directions
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider spatial data structures like quadtrees
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Innovation focus**: Prefer approaches that demonstrate novel insight into the geometric structure of the problem rather than standard optimization techniques
+
+# PROMPT-BLOCK-END
+    

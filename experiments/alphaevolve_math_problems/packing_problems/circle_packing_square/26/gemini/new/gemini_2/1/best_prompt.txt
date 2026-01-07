@@ -1,0 +1,53 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on global optimization problems, particularly circle packing.
+Your task is to develop a constructor function that generates an *efficiently found* near-optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. This is a challenging non-convex, continuous optimization problem, often tackled with metaheuristics or constrained optimization techniques.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983. This requires a robust optimization approach.
+- Objective: Maximize Σri.
+- Constraints: All circles must be fully contained within the unit square [0,1]x[0,1] with no overlaps.
+  * Containment: For each circle i at (xi, yi) with radius ri, we must have ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri.
+  * Non-overlap: The distance between centers of any two circles i and j must be greater than or equal to the sum of their radii: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j.
+- Optimization Approach: This problem is a continuous, non-linear, constrained global optimization challenge. Consider formulating it for a solver like `scipy.optimize.minimize` (e.g., using `differential_evolution` for global search or `SLSQP` for local constrained optimization) or an evolutionary algorithm framework like `deap`.
+  * For `scipy.optimize.minimize`, bounds can handle containment, and non-overlap can be handled via the `constraints` parameter (for `SLSQP`) or by adding a large penalty to the objective function for any constraint violation (for `differential_evolution`).
+  * A common strategy is to define a fitness function that takes the circle parameters, calculates Σri, and subtracts a large penalty for any violations (overlap or out-of-bounds).
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy (especially `scipy.optimize` for solvers and `scipy.spatial` for efficient geometry), sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Recommended packages and strategies for implementation**:
+- **Optimization**:
+    - `scipy.optimize.minimize`: Explore methods like `differential_evolution` for robust global search or `SLSQP` for constrained local optimization.
+    - `deap`: For implementing custom evolutionary algorithms, which are well-suited for this type of problem.
+- **Geometric computing for efficiency**:
+    - `scipy.spatial.KDTree`: Crucial for speeding up neighbor searches when checking for overlaps. Using a KDTree can reduce the complexity of overlap checks from O(N^2) to O(N log N) per evaluation, which is vital given the time limit.
+- **Constraint handling**:
+    - Implement a single objective/fitness function that takes a flattened array of all circle parameters (x, y, r for each of 26 circles).
+    - This function should calculate the sum of radii (the primary objective).
+    - Apply significant penalties to this sum for any violations:
+        - Circles extending outside the [0,1]x[0,1] unit square.
+        - Any pair of circles overlapping. The penalty should scale with the degree of overlap.
+- **Initial population/guess**: Start the optimization with a diverse initial population or guess (e.g., small radii, randomly placed circles) to aid the search for a good global optimum.
+- **Performance**:
+    - `joblib`: Can be used to parallelize the evaluation of individuals in an evolutionary algorithm's population.
+    - Numba or Cython could be considered for critical, highly iterative parts of the fitness function, if profiling indicates a bottleneck.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

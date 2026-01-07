@@ -1,0 +1,45 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii. Consider multiple algorithmic paradigms including evolutionary computation, gradient-free optimization, geometric construction heuristics, and constraint satisfaction methods.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 90 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Alternative algorithmic approaches to consider**:
+- **Evolutionary algorithms**: Use `deap` or `platypus` to implement genetic algorithms or NSGA-II for multi-objective optimization
+- **Gradient-free optimization**: Implement `nevergrad` or `scikit-opt` methods like PSO, simulated annealing, or differential evolution
+- **Geometric construction**: Develop spatial partitioning strategies using `scipy.spatial` or `rtree` for efficient collision detection
+- **Constraint satisfaction**: Apply `python-constraint` or `ortools` to model the problem as a constraint optimization task
+- **Hybrid approaches**: Combine physics-based simulation (`pymunk`) with optimization algorithms for dynamic refinement
+
+**Implementation flexibility**: Feel free to choose one primary approach or combine multiple methodologies. The key is to demonstrate creative problem-solving through novel algorithmic combinations rather than simple brute force.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic creativity**: Demonstrate novel approach selection or hybrid methodology rather than standard implementations
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,49 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to develop an innovative algorithmic approach for placing exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. Consider multiple distinct paradigms including but not limited to: mathematical optimization (Lagrangian relaxation, convex programming), geometric constructions (Voronoi diagrams, Delaunay triangulation), physics-based simulation (soft matter modeling, molecular dynamics), or advanced evolutionary strategies (multi-objective genetic algorithms, particle swarm optimization).
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `cvxpy` (convex optimization), `scipy.optimize` (numerical optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `delaunay` (Delaunay triangulation)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `open3d` (3D geometry processing)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation)
+
+**Suggested Algorithmic Approaches**:
+1. **Mathematical Programming**: Formulate as a nonlinear optimization problem and solve using gradient-based or evolutionary methods
+2. **Geometric Construction**: Use Voronoi diagrams to determine optimal placements, then optimize radii
+3. **Physics Simulation**: Model circles as particles with repulsive forces, simulate until equilibrium
+4. **Hybrid Methods**: Combine discrete optimization with continuous relaxation techniques
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Innovative Approach**: Demonstrate a novel methodological perspective rather than standard iterative refinement
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Methodological Diversity**: Consider multiple algorithmic families and justify your choice of approach
+
+# PROMPT-BLOCK-END
+    

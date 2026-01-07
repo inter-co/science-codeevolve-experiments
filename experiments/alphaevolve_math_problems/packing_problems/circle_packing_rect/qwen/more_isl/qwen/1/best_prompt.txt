@@ -1,0 +1,71 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Fast Stochastic Search Methods**: Employ Monte Carlo sampling, simulated annealing, or genetic algorithms that efficiently explore the solution space probabilistically rather than deterministically. Focus on rapid convergence with fewer evaluations
+2. **Efficient Discrete Geometric Patterns**: Construct initial configurations using discrete symmetries like triangular, square, or hexagonal lattices with minimal systematic perturbations to quickly generate feasible starting points
+3. **Lightweight Energy Minimization**: Model the system with simplified physics where circles interact via basic repulsive forces, focusing on fast convergence to local optima rather than complex physical simulations
+4. **Smart Constraint Satisfaction**: Frame as a CSP with intelligent constraint propagation that quickly eliminates infeasible regions rather than exhaustive backtracking
+5. **Multi-scale Optimization**: Use coarse-to-fine approaches where you first place circles at low resolution, then refine at higher resolution, trading accuracy for speed
+6. **Hybrid Population-based Methods**: Combine evolutionary algorithms with local search heuristics that can quickly escape poor local optima through diverse population sampling
+
+ENCOURAGED STRATEGIES:
+- Prioritize fast exploration over detailed local refinement
+- Use efficient sampling techniques that quickly generate valid configurations
+- Implement early termination criteria to avoid unnecessary computation
+- Focus on high-quality initial solutions that are already close to optimal
+- Employ parallel evaluation of multiple candidate solutions simultaneously
+- Consider approximate methods that trade some optimality for dramatic speed improvements
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time (prioritize speed over absolute optimality)
+- **Memory limit**: 1 GB
+- **Evaluation focus**: Prioritize solutions that achieve high sum_radii within the time limit rather than perfect optimization
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II), `scipy.optimize` (various optimizers)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `cvxpy` (convex optimization)
+- **Physics engines**: `pymunk` (2D rigid body physics), `Box2D` (collision detection)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
+
+ENCOURAGED STRATEGIES:
+- Embrace rapid stochastic exploration over deterministic gradient descent
+- Prioritize fast combinatorial construction methods over expensive continuous optimization
+- Consider the problem from probabilistic or statistical perspectives rather than purely geometric ones
+- Investigate fast constraint relaxation techniques that enable rapid escape from poor local optima
+- Apply symmetry-breaking through randomized initialization to avoid getting trapped in symmetric suboptimal solutions
+- Explore diverse multi-start strategies with fast, varied initialization schemes to ensure broad exploration
+- Implement adaptive sampling that focuses on promising regions of the search space
+- Use variance reduction techniques to improve the quality of stochastic estimates
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

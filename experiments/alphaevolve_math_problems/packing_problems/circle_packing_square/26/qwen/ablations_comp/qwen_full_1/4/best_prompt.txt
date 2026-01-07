@@ -1,0 +1,57 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems. Your task is to develop a sophisticated solver that leverages advanced mathematical and computational techniques to arrange exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Mathematical Programming**: Formulate as a nonlinear optimization problem using constraint programming libraries like OR-Tools or Python-constraint, or consider convex relaxation techniques
+2. **Geometric Optimization**: Leverage Voronoi diagrams, Delaunay triangulation, or other computational geometry constructs to derive theoretical bounds and heuristics
+3. **Discrete Geometry Approaches**: Consider lattice-based constructions, sphere packing theory, or combinatorial arrangements that might offer provable guarantees
+4. **Machine Learning Methods**: Apply neural networks or reinforcement learning to learn optimal circle placements, or use graph neural networks on spatial graphs
+5. **Topological Methods**: Explore persistent homology or other topological data analysis techniques to understand the configuration space structure
+6. **Multi-scale Optimization**: Begin with coarser approximations and progressively refine, or use multi-resolution approaches
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `cvxpy` (convex optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `scikit-geometry` 
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation)
+
+STRATEGIC APPROACHES:
+1. Consider **theoretical initialization** - leverage known results from circle packing theory or discrete geometry for provably good starting points
+2. Employ **multi-scale search** with different resolution levels to balance exploration vs exploitation
+3. Apply **constraint relaxation** techniques to transform the problem into easier subproblems
+4. Explore **graph-based representations** where nodes represent circles and edges encode spatial relationships
+5. Implement **divide-and-conquer strategies** by partitioning the square and solving subproblems independently
+6. Consider **probabilistic sampling** methods that generate valid configurations according to some distribution
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations, especially for large numbers of circles
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Computational efficiency**: Prioritize algorithms that can demonstrate strong performance within 60 seconds, favoring mathematical approaches that avoid expensive iterative refinement
+
+# PROMPT-BLOCK-END
+    

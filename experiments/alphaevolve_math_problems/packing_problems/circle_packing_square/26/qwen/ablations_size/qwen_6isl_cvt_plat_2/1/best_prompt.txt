@@ -1,0 +1,62 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to implement a sophisticated algorithm that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+This is a classic hard optimization problem known as the "optimal circle packing" or "maximal packing" problem. It requires sophisticated approaches such as:
+- Evolutionary algorithms (genetic algorithms, differential evolution)
+- Physics-based simulation with repulsive forces
+- Sequential packing heuristics followed by local optimization
+- Constrained numerical optimization techniques
+- Hybrid approaches combining multiple methods
+
+Your implementation must actually solve the optimization problem, not just return a placeholder array.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (constrained optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+IMPLEMENTATION STRATEGY:
+Since this is a complex constrained optimization problem, consider implementing one of these approaches:
+1. **Evolutionary Algorithm**: Use DEAP or Platypus to evolve circle positions and radii
+2. **Sequential Packing**: Start with a greedy approach, then optimize using local search
+3. **Physics Simulation**: Implement a force-based method with repulsion forces between circles
+4. **Hybrid Approach**: Combine geometric heuristics with numerical optimization
+
+Your solution should be deterministic (use fixed random seeds) and handle edge cases gracefully.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Implementation completeness**: The function must actually compute and return a valid configuration of 26 circles, not just return zeros or placeholders
+
+Your solution should demonstrate sophisticated understanding of both the mathematical problem and computational optimization techniques.
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,44 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your expertise lies in leveraging geometric properties, symmetry, and advanced optimization techniques.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length). Consider solutions that exploit the inherent hexagonal symmetry of the problem.
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537 by employing a robust optimization strategy.
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint. Utilize geometric libraries like `shapely` for precise intersection testing (e.g., `Polygon.intersects`).
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon. The outer hexagon's size (R) and position should be determined dynamically to minimize R. This should involve efficient geometric algorithms for the minimum enclosing regular hexagon of a set of points, potentially leveraging techniques like rotating calipers on the convex hull of the inner hexagon vertices, or specialized analytical methods if the inner configuration exhibits strong symmetry.
+  * Objective: maximize 1/R where R is the outer hexagon side length.
+- Algorithmic Approach: The solution *must* involve a robust optimization algorithm (e.g., global optimization from `scipy.optimize` like `differential_evolution`, `basinhopping`, or `simulated_annealing`; particle swarm optimization; or evolutionary algorithms from `deap`). Focus on methods capable of handling geometric constraints effectively, possibly through explicit constraint functions or by design. This should be a computational search, not a hardcoded or simple heuristic placement. Crucially, the problem *must* be parametrized to enforce global structural symmetries (e.g., 6-fold or 3-fold rotational symmetry) from the outset, thereby *fundamentally reducing the number of independent variables* for the optimizer. For 12 hexagons, this could involve defining the parameters (x, y, angle) for 2 unique 'seed' hexagons, and then generating the remaining 10 hexagons by applying 6-fold rotational symmetry operations (e.g., rotations by 60, 120, 180, 240, 300 degrees around a central point, typically the origin) to these 2 seeds. This approach dramatically shrinks the search space from 36 independent variables (12 hexagons * 3 parameters each) to a much smaller set (e.g., 2 seed hexagons * 3 parameters each = 6 variables for 6-fold symmetry), promoting a more efficient and geometrically sound search for optimal configurations. Explore initial arrangements based on known hexagonal packing patterns (e.g., concentric rings, dense lattice arrangements) as starting points or structural guides for the optimization process, *ensuring these patterns are maintained by the parametrization*.
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks, e.g., `Polygon.difference`, `Polygon.intersects`, `Polygon.contains`). Focus on efficient methods for checking non-overlap and containment.
+  * `scipy.spatial` (distance calculations, geometric queries, e.g., `KDTree` for proximity checks to speed up overlap detection).
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis).
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations. *Prioritize configurations that inherently possess hexagonal symmetry to simplify the problem, reduce search space, and improve the likelihood of finding optimal solutions.*
+  * Group theory utilities for constraint enforcement.
+  * Symmetry-aware optimization operators.
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like `basinhopping`, `differential_evolution`). *Formulate the problem as a continuous optimization task where hexagon centers and rotations are variables, and the objective function incorporates geometric checks.*
+  * `deap` (evolutionary algorithms with custom symmetry operators).
+  * `platypus` (multi-objective optimization).
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations, especially for the objective function and constraint checks), `joblib` (for parallelizing evaluations if applicable).
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    
+    

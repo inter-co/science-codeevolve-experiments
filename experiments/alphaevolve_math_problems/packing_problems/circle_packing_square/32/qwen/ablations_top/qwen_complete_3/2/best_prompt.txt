@@ -1,0 +1,56 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+Consider exploring novel algorithmic paradigms beyond traditional optimization approaches:
+1. **Physics-based simulation**: Model the circles as repelling particles that settle into equilibrium through force-based dynamics
+2. **Evolutionary algorithms**: Use genetic algorithms, particle swarm optimization, or differential evolution to evolve circle configurations
+3. **Mathematical programming**: Formulate as a constrained optimization problem using advanced techniques like semidefinite programming or convex relaxation
+4. **Geometric construction**: Apply Voronoi diagrams, Delaunay triangulation, or other computational geometry tools for strategic placement
+5. **Discrete geometric methods**: Explore lattice-based arrangements, hexagonal packing patterns, or systematic grid refinements with adaptive refinement
+6. **Machine learning approaches**: Use neural networks, reinforcement learning, or Gaussian processes to learn optimal placement strategies
+7. **Topological optimization**: Employ techniques from topology optimization or level-set methods for continuous shape optimization
+8. **Novel metaheuristic approaches**: Consider ant colony optimization, simulated annealing, or bat algorithms for global search
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Evolutionary algorithms**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pyswarm` (particle swarm optimization)
+- **Advanced optimization**: `cvxpy` (convex optimization), `cvxopt` (conic optimization), `gurobipy` (commercial solver integration)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `scikit-geometry` (computational geometry)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `open3d` (3D geometry processing)
+- **Performance**: `cython`, `joblib` (parallelization), `numba.jit` (just-in-time compilation)
+- **Machine learning**: `tensorflow`, `pytorch`, `sklearn`, `gpytorch` (Gaussian processes)
+- **Specialized solvers**: `minos`, `ipopt` (nonlinear programming), `bonmin` (MINLP)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider sparse representations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Multi-start strategy**: Implement multiple random restarts or diverse initialization strategies
+- **Adaptive refinement**: Consider progressive refinement techniques that start with coarse approximations
+- **Alternative validation**: Implement robust collision detection and resolution mechanisms to ensure valid configurations
+- **Pattern recognition**: Leverage known optimal patterns or symmetry principles from circle packing literature
+
+# PROMPT-BLOCK-END
+    

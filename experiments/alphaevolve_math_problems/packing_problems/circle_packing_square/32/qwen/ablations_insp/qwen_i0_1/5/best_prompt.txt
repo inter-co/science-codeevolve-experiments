@@ -1,0 +1,61 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+You may employ any of several distinct algorithmic paradigms, but should consider novel approaches beyond standard evolutionary methods:
+- Constraint satisfaction methods (e.g., using satisfiability solvers or constraint propagation)
+- Physics-based simulation (particle systems, force-directed placement with custom potentials)
+- Mathematical optimization (quadratic programming, semidefinite programming, or convex relaxation techniques)
+- Geometric construction algorithms (Voronoi diagrams, Delaunay triangulation based approaches)
+- Machine learning approaches (neural networks for predicting good placements)
+- Hybrid approaches combining multiple techniques in innovative ways
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- Alternative approach considerations: Consider leveraging geometric properties, such as:
+  - Using Voronoi tessellations to determine optimal placements
+  - Employing convex optimization formulations or semidefinite programming relaxations
+  - Implementing energy minimization through physical simulation with tailored force laws
+  - Utilizing constraint satisfaction techniques with advanced pruning strategies
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (numerical optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+- **Advanced optimization**: Consider `cvxpy` for convex optimization formulations or `gurobipy` for commercial solvers if available
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider spatial data structures for neighbor queries
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Solution quality**: Prioritize finding high-quality local optima over computational speed when possible
+- **Algorithm choice**: Select an approach that can reasonably converge to solutions better than the benchmark (sum_radii > 2.937944526205518)
+- **Innovation focus**: While the standard evolutionary approach is valid, consider unconventional methods such as:
+  - Novel constraint propagation techniques
+  - Physics-based simulations with custom interaction potentials
+  - Mathematical programming formulations with advanced relaxation techniques
+  - Geometric constructions that exploit symmetry or tiling properties
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,72 @@
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-START
+
+The `min_max_dist_dim2_16` function must generate an optimal arrangement of 16 points in 2D space, constrained within the unit square `[0,1] x [0,1]`.
+The core task is to implement an optimization procedure to maximize the `dmin/dmax` ratio.
+
+Here are the detailed steps for implementation:
+
+1.  **Objective Function Definition**:
+    *   Create a nested helper function, say `objective_function(coords)`, that takes a 1D NumPy array `coords` of shape `(32,)` representing the flattened `(x, y)` coordinates of the 16 points (i.e., `[x1, y1, x2, y2, ..., x16, y16]`).
+    *   Inside `objective_function`:
+        *   Reshape `coords` back into a `(16, 2)` NumPy array `points`.
+        *   Calculate the Euclidean distances between all unique pairs of points. `scipy.spatial.distance.pdist` and `scipy.spatial.distance.squareform` can be useful here.
+        *   Determine the minimum distance (`dmin`) and maximum distance (`dmax`) from the computed distance matrix. Handle the edge case where `dmax` might be zero (e.g., all points are identical, which should yield a very poor ratio).
+        *   Return the *negative* of the `dmin/dmax` ratio. The negative is crucial because optimization algorithms typically minimize, and we want to maximize the ratio.
+
+2.  **Optimization Setup**:
+    *   **Bounds**: Define the bounds for each coordinate. Since points must be in the unit square `[0,1] x [0,1]`, each of the 32 coordinates will have a bound of `(0, 1)`.
+    *   **Optimizer**: Utilize `scipy.optimize.differential_evolution` for global optimization. This algorithm is well-suited for non-convex problems and handles bounds effectively.
+        *   Pass your `objective_function` to `differential_evolution`.
+        *   Pass the `bounds` to `differential_evolution`.
+        *   Set `seed` parameter for `differential_evolution` to ensure reproducibility (e.g., `seed=42`).
+        *   Consider increasing `maxiter` or `popsize` if the default values do not yield sufficient quality, given the generous time limit.
+
+3.  **Result Extraction**:
+    *   After the optimization completes, `differential_evolution` will return an `OptimizeResult` object. The optimal flattened coordinates will be in `result.x`.
+    *   Reshape `result.x` back into a `(16, 2)` array of points.
+
+4.  **Return Value**:
+    *   The `min_max_dist_dim2_16` function should return this `(16, 2)` NumPy array of optimized points.
+
+Remember to import necessary modules from `scipy` (e.g., `scipy.optimize`, `scipy.spatial.distance`).
+=======
+
+# PROMPT-BLOCK-END
+    

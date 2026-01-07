@@ -1,0 +1,50 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic paradigms beyond conventional optimization approaches, considering:
+- Physics-inspired methods: Implement repulsive force models where points act as charged particles or springs, evolving toward equilibrium configurations
+- Evolutionary computation: Design genetic algorithms with custom crossover/mutation operators tailored for geometric point arrangements
+- Novel geometric constructions: Investigate non-lattice arrangements such as Fibonacci spirals, circle packings, or Voronoi-based tessellations
+- Monte Carlo methods: Employ simulated annealing or Markov Chain Monte Carlo approaches with carefully designed proposal distributions
+- Topological optimization: Consider arrangements that optimize geometric properties like Delaunay triangulation quality or convex hull characteristics
+- Multi-scale approaches: Combine coarse-grained global optimization with fine-grained local refinement strategies
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Key insight: This is a challenging non-convex optimization problem where local optima can be very poor. Consider global optimization strategies that escape local minima.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Robustness**: Implement multiple initialization strategies and consider ensemble methods
+- **Scalability**: Design algorithms that could potentially extend to larger point sets while maintaining performance
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

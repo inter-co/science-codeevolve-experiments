@@ -1,0 +1,48 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+**Solution Paradigms to Consider**:
+To encourage exploration of diverse and potentially novel solutions, prioritize paradigms that offer fundamentally different algorithmic pathways than gradient-based local optimization:
+- **Physics-based Simulation (e.g., with `pymunk`)**: Treat circles as physical bodies with repulsive forces and boundary collisions. Simulate their movement to find a stable, tightly-packed equilibrium. This approach intrinsically handles non-overlap and containment through physical interactions. Consider using libraries like `pymunk` or `pybullet` to manage the simulation and interactions. This can serve as a complete solution or provide excellent initial configurations.
+- **Evolutionary Algorithms (e.g., with `deap`)**: Employ population-based optimization techniques, such as Genetic Algorithms, to evolve a set of circle configurations. This global search approach can explore the solution space more broadly than local optimizers, especially for highly multimodal problems. Leverage `deap` or `platypus` for implementing genetic operators, selection, and mutation.
+- **Constructive/Heuristic Algorithms**: Develop iterative methods that build up the packing solution step-by-step. This could involve placing circles greedily, using spatial subdivision (e.g., `rtree` for efficient neighbor finding), or employing geometric rules to determine placement and size.
+- **Hybrid Approaches**: Combine the strengths of the above. For example, use a physics simulation or a constructive algorithm for initial population generation for an Evolutionary Algorithm, or for generating starting points for a local optimizer (if a local optimizer is still deemed necessary for refinement).
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

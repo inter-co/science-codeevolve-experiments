@@ -1,0 +1,53 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+Consider multiple algorithmic paradigms including but not limited to: mathematical programming, constraint satisfaction, geometric optimization, and combinatorial approaches. Explore how different mathematical formulations (such as convex optimization, Lagrangian duality, or graph-theoretic representations) might lead to novel solutions. Prioritize rigorous mathematical approaches that leverage duality theory, semidefinite programming, or exact constraint handling over heuristic methods.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+**Alternative approaches to consider**:
+- Mathematical programming formulations using linear or nonlinear optimization
+- Constraint satisfaction networks with arc consistency and backtracking
+- Semidefinite programming relaxations for global optimization
+- Exact algorithms based on combinatorial geometry and discrete optimization
+- Dual optimization approaches leveraging Lagrangian duality and KKT conditions
+- Graph-based representations using maximal planar graphs or contact graphs
+- Interval arithmetic and branch-and-bound methods for guaranteed global optimality
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Mathematical rigor**: Employ proven mathematical frameworks and theoretical guarantees
+- **Determinism**: Use deterministic algorithms when possible; if stochastic methods are employed, ensure reproducible results through fixed random seeds
+- **Error handling**: Robust handling of numerical precision issues and constraint violations
+- **Memory efficiency**: Leverage sparse representations and efficient data structures for large constraint systems
+- **Scalability**: Design algorithms that maintain theoretical complexity bounds for varying circle counts
+- **Innovation**: Prioritize mathematically sound approaches over heuristic approximations; favor exact methods or those with convergence guarantees
+
+# PROMPT-BLOCK-END
+    

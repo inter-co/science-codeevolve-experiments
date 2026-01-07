@@ -1,0 +1,50 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist, renowned for innovative approaches to circle packing problems. Your task is to develop a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+To foster diversity in solutions, consider exploring distinct algorithmic paradigms beyond standard gradient-based methods. Specifically, investigate approaches like evolutionary algorithms, physics-based simulations, or constraint programming.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALGORITHMIC CONSIDERATIONS:
+To achieve a diverse and potentially superior solution, **and explicitly avoid re-using Evolutionary Algorithms if they were previously explored**, consider prioritizing the following distinct algorithmic pathways:
+
+1.  **Physics-Based Simulation**: Model the circles as particles with repulsive forces (to prevent overlap) and attractive forces (to draw them towards the center or encourage packing density), allowing them to settle into a stable configuration. This can be combined with annealing schedules or even simulated annealing. `pymunk` or `pybullet` could facilitate this. This approach offers a natural way to handle non-overlap constraints dynamically and can be particularly effective for finding good packing configurations.
+2.  **Constructive Heuristics / Spatial Partitioning**: Develop a greedy strategy, e.g., placing larger circles first or using spatial data structures (`rtree`, `scipy.spatial.KDTree`, Voronoi diagrams) to efficiently find empty spaces or manage collisions. This could involve iterative refinement, local search, or even a recursive subdivision of the space. Consider strategies that build up the solution incrementally, or use a "seed-and-grow" approach.
+3.  **Constraint Programming / SMT**: Express the geometric constraints using a solver. While potentially slower for continuous variables, it offers a rigorous way to ensure feasibility. `ortools` or `python-constraint` could be explored, possibly focusing on discrete approximations or hybrid methods to manage complexity. This method guarantees constraint satisfaction if a solution is found.
+4.  **Gradient-Based Optimization with Direct Constraint Handling (rather than just penalties)**: Formulate a differentiable objective function and use optimizers that can handle inequality constraints directly (e.g., `scipy.optimize.minimize` with 'SLSQP' or 'trust-constr'). This can be more robust than pure penalty methods, especially for hard constraints, and might converge more efficiently to valid solutions.
+5.  **Evolutionary Algorithms (EAs)**: (If all other avenues have been exhausted or prove intractable, this remains a viable option, but prioritize others first). Frame the problem as a search in a high-dimensional continuous space. EAs (like Genetic Algorithms or Differential Evolution) are well-suited for non-convex optimization and escaping local optima. Packages like `deap` or `platypus` are highly relevant.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

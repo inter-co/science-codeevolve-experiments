@@ -1,0 +1,59 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to implement a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Physics-based simulation**: Implement a force-directed or collision-based simulation approach where circles repel each other until equilibrium
+2. **Mathematical optimization**: Use constrained optimization techniques like sequential quadratic programming (SQP) or interior point methods
+3. **Geometric construction**: Explore systematic geometric arrangements like hexagonal close packing with adjustments
+4. **Hybrid methods**: Combine deterministic geometric layouts with local optimization refinements
+5. **Machine learning approach**: Train a neural network to predict optimal circle placements based on training data
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `scipy.optimize` (gradient-based methods), `cvxpy` (convex optimization), `nlopt` (nonlinear optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+- **Advanced optimization**: `scipy.optimize.minimize` with various methods (L-BFGS, SLSQP, trust-constr)
+
+ALGORITHMIC DIVERSITY ENCOURAGEMENT:
+Consider approaches that differ significantly from evolutionary algorithms:
+- Gradient-based optimization methods
+- Physics-based simulations with energy minimization
+- Deterministic geometric constructions with refinement
+- Multi-start local optimization with different initializations
+- Decomposition approaches (divide into smaller subproblems)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Robustness**: Handle edge cases where optimization might fail or converge poorly
+- **Multiple strategies**: Implement at least two different algorithmic approaches that could be selected based on performance characteristics
+
+# PROMPT-BLOCK-END
+    

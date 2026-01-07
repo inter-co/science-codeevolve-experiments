@@ -1,0 +1,84 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to implement a highly sophisticated optimization algorithm that places exactly 26 non-overlapping circles within a unit square [0,1] × [0,1] to maximize the sum of their radii.
+
+This is a well-known challenging mathematical optimization problem requiring advanced techniques. The solution must go beyond basic evolutionary algorithms to achieve competitive results against established benchmarks.
+
+You are encouraged to employ state-of-the-art optimization strategies such as:
+- Advanced evolutionary algorithms (differential evolution, genetic algorithms with specialized operators)
+- Simulated annealing with adaptive cooling schedules
+- Particle swarm optimization with constriction coefficients
+- Gradient-based optimization with penalty methods or barrier functions
+- Hybrid approaches combining global and local search strategies
+- Advanced constraint handling using penalty functions or constraint relaxation
+
+The solution should demonstrate sophisticated understanding of:
+- Efficient spatial data structures for collision detection (KDTree, spatial hashing)
+- Mathematical programming techniques for constrained optimization
+- Multi-start strategies with diverse initialization methods
+- Adaptive parameter tuning during optimization
+- Proper handling of the complex constraint landscape with many local optima
+
+Consider leveraging the mathematical structure of the problem: this is a non-convex, constrained optimization problem with a known global optimum that requires careful exploration of the solution space.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+This is a classic mathematical optimization problem that has been extensively studied. The challenge lies in the non-convex nature of the feasible region and the presence of numerous local optima that can trap simpler algorithms. Solutions typically require:
+
+- Sophisticated multi-start strategies with diverse initialization heuristics
+- Efficient spatial indexing for collision detection (KDTree, ball trees, or spatial hashing)
+- Advanced constraint handling with penalty methods or barrier functions
+- Adaptive algorithms that can switch between exploration and exploitation phases
+- Careful consideration of the geometric properties of optimal solutions
+- Robust numerical methods that can handle tight constraints
+
+The key insight is that optimal solutions often exhibit certain geometric regularities, and good initial solutions can dramatically improve convergence.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (various optimizers), `cvxpy` (convex optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `scipy.spatial.cKDTree` (fast spatial queries)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation)
+
+When implementing, consider:
+- Leverage `scipy.spatial.cKDTree` for efficient nearest neighbor queries and collision detection
+- Implement proper penalty methods with adaptive penalty parameters
+- Use multiple initialization strategies including hexagonal packing, quasirandom sequences, and geometric heuristics
+- Employ advanced evolutionary operators designed for continuous optimization
+- Implement sophisticated cooling schedules for simulated annealing
+- Consider using gradient-based methods with constraint relaxation for local refinement
+- Build in proper error handling for numerical precision issues
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider sparse representations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Robustness**: Ensure the solution works reliably across multiple runs with different initial conditions
+- **Numerical stability**: Handle floating-point precision carefully, especially near constraint boundaries
+- **Convergence criteria**: Implement meaningful stopping conditions based on improvement rates and time limits
+- **Solution validation**: Verify that all constraints are satisfied to machine precision
+
+# PROMPT-BLOCK-END
+    

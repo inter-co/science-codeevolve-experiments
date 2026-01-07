@@ -1,0 +1,46 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint. This must be strictly enforced using `shapely`'s polygon intersection methods (e.g., `intersects`, `disjoint`). For evolutionary algorithms, consider implementing "repair mechanisms" or "soft constraints" within genetic operators to handle or resolve overlaps more gracefully than just a harsh penalty, guiding the search towards feasible regions.
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon. The outer hexagon's side length `R` must be dynamically determined as the minimal side length required to enclose all inner hexagons. This calculation should also leverage `shapely` or `scipy.spatial`.
+  * Objective: maximize 1/R where R is the outer hexagon side length. The fitness function for optimization must calculate `R` from the current configuration of inner hexagons and return `1/R` (or `-R` for minimization).
+- **Optimization Strategy**: Implement an advanced global optimization algorithm. Prioritize `deap`'s evolutionary algorithms to leverage its flexibility for custom operator design. The goal is to develop genetic operators (e.g., mutation, crossover) that are problem-aware, capable of maintaining geometric constraints (like non-overlap or containment) and exploiting chosen symmetries. This approach enables a more directed search than generic global optimizers. The search space for (xi, yi) should be constrained appropriately. The range for θi should be determined by the chosen symmetry: 0-60 degrees if strong hexagonal symmetry is enforced for all hexagons, or 0-360 degrees if individual hexagon rotations are fully independent or constrained by a weaker symmetry (e.g., 2-fold).
+- **Initial Configuration**: Generate a sensible initial arrangement for the 12 hexagons. Consider a central hexagon, surrounded by a first ring (e.g., 6 hexagons), and then additional hexagons filling in the next layer or gaps. This should be a starting point for the optimization, not a final hardcoded solution.
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks, minimal enclosing circle/polygon)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * **Explore diverse symmetry groups**: While 6-fold rotational symmetry is common, investigate other possibilities for 12 hexagons, such as 3-fold, 2-fold (point symmetry), or even asymmetric arrangements. The choice of symmetry (or lack thereof) will significantly impact the parameterization of the problem and the number of independent variables. This includes designing the *representation* of the solution and the *genetic operators* (if using EAs) to explicitly enforce or exploit chosen symmetries, rather than just limiting individual hexagon rotation ranges. Consider composite symmetries (e.g., a central 6-fold symmetric core with an asymmetric outer layer) or explicitly breaking symmetries.
+  * Custom functions for generating symmetric configurations based on the chosen symmetry group (or direct parametrization for asymmetric cases).
+  * Group theory utilities for constraint enforcement, especially when dealing with complex symmetries.
+  * Symmetry-aware optimization operators (e.g., custom crossover/mutation in evolutionary algorithms) to maintain symmetry constraints during optimization.
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like `differential_evolution` are preferred for this type of problem)
+  * `deap` (evolutionary algorithms with custom symmetry operators for exploration)
+  * `platypus` (multi-objective optimization)
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations, especially for fitness function and constraint checks), `joblib`
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    
+    

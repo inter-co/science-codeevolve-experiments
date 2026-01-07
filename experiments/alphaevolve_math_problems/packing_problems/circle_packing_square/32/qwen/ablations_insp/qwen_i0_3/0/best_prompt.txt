@@ -1,0 +1,82 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to implement a sophisticated circle packing algorithm that maximizes the sum of radii for 32 non-overlapping circles within a unit square [0,1] × [0,1].
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. Constraint satisfaction using interval arithmetic or satisfiability solvers (e.g., Google OR-Tools) - particularly for rigorous feasibility checking and systematic exploration of the constraint space
+2. Geometric optimization via Voronoi diagrams or Delaunay triangulation for optimal circle placement - leveraging mathematical properties of optimal packings and the relationship between circle packings and discrete geometry
+3. Mathematical programming formulations using mixed-integer programming or semidefinite programming - formulating the problem as a structured optimization problem with explicit constraints
+4. Global optimization using branch-and-bound with geometric pruning - systematically exploring the solution space with theoretical guarantees on optimality
+5. Topological approaches based on circle packing graphs and their embeddings - connecting the problem to graph theory, combinatorial optimization, and topological constraints
+6. Decomposition methods that split the problem into smaller subproblems - such as clustering circles into groups or using hierarchical optimization
+7. Algebraic approaches using resultants or elimination theory - treating the geometric constraints as polynomial systems
+8. Spectral graph theory methods applied to circle packing graphs - leveraging eigenvalues and eigenvectors of graph Laplacians for optimization
+9. Convex optimization techniques including second-order cone programming - reformulating geometric constraints into convex forms
+10. Exact algorithms based on arrangement computation or configuration space analysis - computing the complete space of valid configurations
+
+ENHANCED DIVERSE STRATEGIES:
+- Develop a constructive geometric approach that builds the packing incrementally by placing circles according to known optimal configurations or mathematical theorems about circle packings in squares
+- Implement a pure constraint satisfaction framework that exhaustively searches the feasible region using interval arithmetic or SAT solving techniques
+- Apply mathematical programming with explicit semidefinite relaxation of the non-convex constraints to obtain strong bounds and potentially global solutions
+- Design a multi-scale geometric construction that first places large circles optimally, then fills gaps with smaller ones using Voronoi-based methods
+- Explore topological optimization by modeling circle interactions as a weighted graph where edge weights represent geometric constraints, then applying graph-theoretic algorithms
+- Create a hybrid approach combining exact geometric constructions with adaptive local search that maintains mathematical rigor while improving practical performance
+- Use algebraic geometry methods to analyze the system of polynomial constraints defining the feasible region and identify special cases or symmetries
+- Implement a branch-and-bound algorithm specifically tailored to the circle packing problem using geometric pruning rules based on known packing theorems
+- Apply machine learning techniques to learn promising placement strategies from known optimal configurations or generate new candidate solutions through neural network sampling
+
+ENCOURAGED DIVERSE STRATEGIES:
+- Formulate the problem as a structured mathematical optimization with clear constraint definitions
+- Employ exact or certified algorithms that guarantee global optimality or convergence to local optima
+- Utilize geometric constructions that inherently respect the mathematical properties of circle packings
+- Implement constraint programming approaches that systematically explore the feasible region
+- Leverage theoretical bounds and known results about circle packing density and optimal configurations
+- Design algorithms that combine exact methods with heuristic refinement for improved performance
+- Explore algebraic and symbolic approaches that can handle the geometric constraints symbolically
+- Consider graph-theoretic formulations that model circle interactions as weighted graphs
+- Apply advanced optimization techniques like semidefinite programming relaxations or convex hull methods
+- Implement multi-resolution approaches that start with coarse approximations and refine locally
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility; prioritize deterministic algorithms when possible
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations - ensure all outputs have valid, positive radii
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations - consider sparse representations and efficient data structures
+- **Scalability**: Design with potential extension to different circle counts in mind, favoring algorithms with predictable complexity
+- **Algorithmic diversity**: Consider novel approaches including constraint programming, mathematical programming, exact algorithms, or geometric constructions rather than relying solely on heuristic or physics-based methods
+- **Theoretical grounding**: Leverage mathematical properties of circle packings, discrete geometry, or optimization theory for principled algorithm design
+- **Constraint validity**: Any solution must guarantee all radii are positive and all constraints are satisfied with rigorous verification
+- **Robustness**: Implement multiple validation checks including geometric consistency, constraint satisfaction, and numerical stability tests
+- **Mathematical rigor**: Prefer formulations that naturally maintain feasibility through careful constraint modeling rather than penalty terms or ad-hoc corrections
+- **Optimality guarantees**: Where possible, provide theoretical bounds on solution quality or convergence criteria for iterative methods
+
+# PROMPT-BLOCK-END
+    

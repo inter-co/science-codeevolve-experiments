@@ -1,0 +1,48 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space. Initial point placement or normalization should typically target the unit cube [0,1]³ or the surface/interior of a unit sphere to manage the search space effectively. The final solution should implicitly or explicitly be normalized to avoid arbitrarily large maximum distances.
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+SOLUTION STRATEGY GUIDANCE:
+To achieve a high min/max ratio, consider diverse algorithmic approaches beyond simple random placement. Aim for iterative refinement or metaheuristic optimization, leveraging the provided computational resources. Potential strategies include:
+1.  **Metaheuristic Optimization**: Employ algorithms like Simulated Annealing, Genetic Algorithms, or Particle Swarm Optimization (PSO) to explore the high-dimensional search space. These methods are well-suited for non-convex optimization problems like this.
+2.  **Gradient-Based Optimization**: If a smooth approximation or a piecewise-differentiable objective can be formulated, consider using `scipy.optimize` methods (e.g., L-BFGS-B, SLSQP) to refine point positions.
+3.  **Geometric Construction & Refinement**: Start with a geometrically structured initial configuration (e.g., points on a sphere, vertices of a known polyhedron, a lattice arrangement, or a configuration derived from sphere packing principles) and then iteratively adjust points using local search or a physics-based repulsion model (e.g., treating points as charged particles).
+4.  **Voronoi/Delaunay based approaches**: Utilize concepts from computational geometry (e.g., `scipy.spatial.Voronoi`) to guide point distribution, aiming for more uniform spacing and identifying sparse regions for point placement.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Leverage Advanced Libraries**: Actively utilize the specialized libraries listed under 'COMPUTATIONAL RESOURCES' where appropriate for complex optimization, geometric computations, or performance enhancements.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

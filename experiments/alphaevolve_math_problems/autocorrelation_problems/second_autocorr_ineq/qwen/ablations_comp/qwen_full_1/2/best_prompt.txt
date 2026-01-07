@@ -1,0 +1,73 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to discover mathematically optimal step function constructions that maximize the second autocorrelation inequality constant C₂ through sophisticated optimization strategies.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+ALGORITHMIC APPROACHES TO CONSIDER:
+1. **Fourier-Domain Optimization**: Transform the problem into the frequency domain using FFT-based convolution, then optimize spectral properties directly. Explore how phase relationships and frequency amplitudes in the Fourier transform affect the C₂ ratio, potentially using techniques from compressed sensing or spectral optimization.
+2. **Probabilistic/Variational Methods**: Frame the optimization as a Bayesian inference problem or use variational principles. Consider treating the step function construction as a probabilistic process where you optimize the probability distribution over step heights to maximize expected C₂ values.
+3. **Graph-Theoretic Optimization**: Model the step function construction as a graph optimization problem, where each step is a node and constraints define edges. Use graph partitioning or network flow algorithms to find optimal configurations that maximize the C₂ constant.
+4. **Physics-Inspired Optimization**: Apply techniques from statistical physics such as simulated annealing, quantum annealing, or swarm intelligence (particle swarm optimization, ant colony optimization) to explore the complex energy landscape of the optimization problem.
+5. **Deep Learning Framework**: Consider using neural networks to learn the optimal step function patterns, particularly recurrent or convolutional architectures that can capture spatial dependencies in the step heights.
+6. **Combinatorial Optimization**: Treat the discrete nature of step function construction as a combinatorial optimization problem, potentially using integer programming or constraint satisfaction methods to find optimal configurations.
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+
+IMPLEMENTATION STRATEGIES:
+1. **Leverage mathematical structure** - Design optimization algorithms that directly exploit the known mathematical relationships between step function parameters and the resulting autoconvolution norms
+2. **Integrate symbolic mathematics** - Use `sympy` to derive analytical expressions for gradients or Hessian matrices when possible, then implement gradient-based optimization
+3. **Employ hybrid methods** - Combine global exploration (like evolutionary algorithms) with local refinement (like Newton's method) to balance exploration and exploitation
+4. **Utilize specialized optimization libraries** such as `scipy.optimize.minimize` with appropriate methods (L-BFGS, SLSQP) or `cvxpy` for convex optimization subproblems
+5. **Implement mathematical insights** - Rather than brute-force search, use theoretical understanding of optimal step configurations, such as those derived from extremal problems in functional analysis
+6. **Design principled initialization** - Create step functions with mathematically motivated initial configurations (e.g., based on known optimal solutions to related problems or asymptotic behavior)
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] represents the convolution of the step function with itself, which has deep connections to harmonic analysis and signal processing theory
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) is a ratio that measures the "spread" of the autoconvolution relative to its total mass and peak amplitude
+- To maximize C₂, we seek configurations where the energy is distributed relatively uniformly while maintaining sufficient magnitude to make ||g||₂² large
+- The relationship between ||g||₂² and the product ||g||₁ · ||g||∞ suggests considering extremal principles from functional analysis
+- High-frequency components in the Fourier transform of f contribute to rapid oscillations in g, which can either increase ||g||₂² or decrease the ratio depending on their amplitude and distribution
+- Consider using known optimal functions from approximation theory or information theory as templates for constructing step functions
+- The constraint that all step heights must be non-negative introduces a projection problem onto the positive orthant, which can be handled using proximal operators or active set methods
+- The optimization landscape likely exhibits multiple local optima, so methods that can escape poor local minima (such as simulated annealing or genetic algorithms) should be considered alongside gradient-based approaches
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 90 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

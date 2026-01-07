@@ -1,0 +1,60 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems. 
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. 
+Consider multiple algorithmic approaches: evolutionary algorithms, geometric optimization, constraint satisfaction, physics-based simulation methods, or novel combinatorial constructions. 
+Explore unconventional strategies such as: 
+- Graph-theoretic approaches using clique detection in contact graphs
+- Topological optimization through delaunay refinement
+- Machine learning guided placement heuristics
+- Multi-scale geometric construction with progressive refinement
+- Discrete element method simulations with adaptive time-stepping
+- Algebraic approaches leveraging polynomial optimization or semidefinite programming
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (gradient-based methods)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `cvxpy` (convex optimization)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `z3-solver` (SMT solver)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `open3d` (3D geometry processing)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation)
+
+**Alternative Strategies**:
+- **Graph-Theoretic Approach**: Construct contact graphs and use spectral graph theory to find optimal configurations
+- **Multi-Scale Construction**: Begin with coarse grid placement, then iteratively refine using local optimization
+- **Machine Learning Guidance**: Train neural networks to predict good initial placements or local improvements
+- **Algebraic Optimization**: Formulate as polynomial optimization problem using sum-of-squares relaxations
+- **Discrete Element Simulation**: Implement particle-based dynamics with adaptive step sizes and collision detection
+- **Combinatorial Construction**: Enumerate or sample from known good configurations for similar problems
+- **Topological Optimization**: Use mesh generation techniques to create initial arrangements with desired topological properties
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility; ensure consistent results across runs
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations; implement fallback strategies
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider sparse representations for large-scale problems
+- **Scalability**: Design with potential extension to different circle counts in mind; modular structure allowing easy parameter changes
+- **Algorithmic Innovation**: Prioritize exploration of novel algorithmic paradigms over conventional optimization approaches; demonstrate creative problem-solving
+- **Robustness**: Solutions must guarantee constraint satisfaction without relying on heuristic approximations
+
+# PROMPT-BLOCK-END
+    

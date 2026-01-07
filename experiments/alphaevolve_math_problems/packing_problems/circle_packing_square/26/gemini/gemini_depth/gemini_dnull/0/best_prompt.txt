@@ -1,0 +1,46 @@
+# PROMPT-BLOCK-START
+ALGORITHMIC STRATEGY GUIDANCE:
+Consider a multi-stage approach for constructing and optimizing the arrangement:
+1.  **Initial Placement Heuristic**: Instead of solely relying on random initialization, explore constructive heuristics for initial circle placement. This could involve sequential packing (e.g., placing circles iteratively into the largest available void, or along a grid pattern) or leveraging known optimal configurations for smaller circle counts as a starting point.
+2.  **Iterative Refinement with Force-Directed Simulation**: Once circles are initially placed, apply a physics-based simulation (e.g., using `pymunk` or a custom implementation) where circles repel each other and are attracted to the center or boundaries, allowing them to settle into a stable, non-overlapping configuration that maximizes radii. This phase should dynamically adjust both positions and radii.
+3.  **Constraint Management with Spatial Data Structures**: Efficiently check for overlaps and containment. Leverage spatial indexing (e.g., `rtree` or `scipy.spatial.KDTree`) to quickly query neighbors and potential collision partners, significantly reducing the computational cost of constraint checks during iterative refinement.
+
+The goal is to move beyond simple brute-force optimization and integrate geometric reasoning and efficient data structures into the solution methodology.SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

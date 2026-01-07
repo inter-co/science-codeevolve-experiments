@@ -1,0 +1,63 @@
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-START
+
+The problem requires finding an optimal configuration of points, which is an optimization task.
+You should implement an optimization algorithm to maximize the `dmin/dmax` ratio.
+
+Here's a structured approach:
+
+1.  **Define an objective function**: Create a Python function that takes a flattened 1D numpy array representing the 2D coordinates of the 16 points (e.g., `[x0, y0, x1, y1, ..., x15, y15]`). This function should:
+    *   Reshape the input array into a `(16, 2)` array of points.
+    *   Calculate the pairwise Euclidean distances between all points. A good way to do this efficiently is using `scipy.spatial.distance.pdist` (to get condensed distance vector) and `scipy.spatial.distance.squareform` (optional, to get a square distance matrix).
+    *   Determine the minimum distance (`dmin`) and maximum distance (`dmax`) from the calculated distances.
+    *   Return the negative of the `dmin/dmax` ratio (since `scipy.optimize.minimize` performs minimization). Handle cases where `dmax` might be zero or very small to prevent division by zero or extreme values (e.g., return a large negative number like `-1e9` if `dmax` is effectively zero, or `np.inf` if minimizing `dmax/dmin`).
+
+2.  **Set up bounds**: The points must be placed within the unit square `[0,1] × [0,1]`. This translates to bounds `(0, 1)` for each of the 32 coordinates (16 points * 2 dimensions).
+
+3.  **Generate an initial guess**: Start with an initial arrangement of 16 points within the unit square. A random uniform distribution within `[0,1]` for all coordinates is a reasonable starting point. Consider running the optimization from multiple random initial guesses to increase the chance of finding a better local optimum, given the generous time budget.
+
+4.  **Use an optimizer**: Employ `scipy.optimize.minimize` from the `scipy.optimize` package to find the optimal point configuration.
+    *   Choose an appropriate `method` that supports bounds (e.g., 'L-BFGS-B', 'SLSQP', 'TNC'). 'L-BFGS-B' is often a good default for bounded problems.
+    *   Pass the objective function, initial guess, and bounds to the optimizer.
+    *   Consider passing additional options to the optimizer for convergence criteria or maximum iterations if needed, balancing `eval_time` with `min_max_ratio`.
+
+5.  **Return the optimized points**: The result of the optimization will be the flattened array of coordinates. Reshape it back to `(16, 2)` before returning from the `min_max_dist_dim2_16` function.
+
+# PROMPT-BLOCK-END
+    

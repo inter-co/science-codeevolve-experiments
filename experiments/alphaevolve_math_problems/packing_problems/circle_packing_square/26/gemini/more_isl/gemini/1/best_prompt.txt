@@ -1,0 +1,54 @@
+# PROMPT-BLOCK-START
+
+PREFERRED ALGORITHMIC PARADIGMS:
+To foster solution diversity and explore robust optima for this complex non-convex problem, prioritize the following algorithmic paradigms:
+
+1.  **Global Optimization / Metaheuristics (e.g., Evolutionary Algorithms)**: Implement a dedicated global search framework, such as a Genetic Algorithm or Differential Evolution, using libraries like `deap` or `platypus`. This approach is distinct from merely running multiple local optimizations from different starting points. Focus on:
+    *   **Chromosome Representation**: How to encode circle positions and radii for evolution.
+    *   **Fitness Function**: Directly maximizing the sum of radii, potentially incorporating penalty functions for constraint violations (containment, non-overlap) if not handled by specialized genetic operators.
+    *   **Selection**: Strategies like tournament, roulette wheel, or rank-based selection.
+    *   **Crossover/Recombination**: Methods to combine parent chromosomes to create offspring (e.g., one-point, two-point, blend crossover).
+    *   **Mutation**: Operators to introduce variation (e.g., perturbing positions/radii with Gaussian noise, swapping circle properties).
+    These methods are crucial for exploring the high-dimensional, non-differentiable search space and effectively escaping local optima.
+2.  **Physics-Based Simulation**: Model the circles as interacting particles within the square, subject to repulsive forces (to enforce non-overlap) and attractive forces (to maximize radii/density) or boundary constraints. Allow the system to dynamically evolve and settle into a stable, high-density equilibrium. `pymunk` or `pybullet` could be highly effective for simulating such a system.
+3.  **Constructive/Hierarchical Approaches**: Explore methods that build the packing incrementally or divide the problem space. This could involve placing larger circles first and then filling smaller ones, utilizing spatial partitioning techniques (e.g., Voronoi diagrams or quadtrees), or grid-based strategies to efficiently identify available space within the unit square.
+
+Avoid overly simplistic greedy approaches, pure local gradient descent, or relying solely on multiple restarts of local optimizers as the primary global search mechanism. These are prone to getting stuck in suboptimal configurations for the highly constrained circle packing problem; instead, favor dedicated global search techniques.SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

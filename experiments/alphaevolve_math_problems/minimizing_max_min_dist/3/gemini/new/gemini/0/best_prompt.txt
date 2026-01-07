@@ -1,0 +1,72 @@
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-START
+
+The problem of maximizing the minimum-to-maximum distance ratio for a set of points is a challenging global optimization problem, often related to sphere packing or Thomson problem variants. For N=14 points in 3D, brute-force search is infeasible.
+
+Your task is to implement an optimization algorithm to find an improved point configuration.
+
+**Key Steps and Considerations:**
+
+1.  **Objective Function**: Define a function `objective(flattened_points)` that takes a flattened 1D array of point coordinates (N*D, where N=14, D=3) and returns the negative of the `min_max_ratio`. The optimizer will then minimize this function.
+    *   Inside `objective`, reshape the 1D array back to `(N, D)` (i.e., `(14, 3)`).
+    *   Calculate the pairwise Euclidean distances for all unique point pairs. `scipy.spatial.distance.pdist` and `scipy.spatial.distance.squareform` can be useful here.
+    *   Determine `dmin` and `dmax` from the distance matrix (excluding self-distances).
+    *   Return `-dmin/dmax`. Handle potential division by zero or cases where dmin is 0 by returning a large negative number if min_max_ratio is undefined or 0.
+
+2.  **Optimization Strategy**:
+    *   Given the non-convex and potentially rugged nature of the objective landscape, **global optimization algorithms** are highly recommended over local optimizers.
+    *   Explore methods from `scipy.optimize` such as `scipy.optimize.differential_evolution`, `scipy.optimize.basin_hopping`, or `scipy.optimize.shgo`. These are designed to find global minima.
+    *   The problem statement mentions points "typically normalized to unit cube [0,1]³ or unit sphere". Constrain the points within a unit cube (e.g., [0,1] for each coordinate) by providing appropriate `bounds` to the chosen optimizer (e.g., `bounds=[(0,1)] * (N*D)`).
+
+3.  **Initial Point Placement**:
+    *   Random initialization (e.g., `np.random.randn`) is unlikely to yield good results. For global optimizers like `differential_evolution`, the initial population is often generated internally within the specified bounds, which is generally more robust. If using other optimizers, consider starting with points uniformly distributed in the unit cube (e.g., `np.random.rand(N, D)`).
+
+4.  **Alternative Spatial Constraint: Unit Sphere for Improved Symmetry**:
+    *   The problem statement mentions points can be normalized to a unit cube or a unit sphere. For point dispersion problems, constraining points to the **surface of a unit sphere** `x² + y² + z² = 1` often leads to configurations with higher inherent symmetry and potentially better min/max ratios, as it eliminates boundary effects present in a cube. This approach is directly related to the classic Thomson Problem.
+    *   **Strongly consider implementing the optimization in spherical coordinates**: Instead of optimizing `(x, y, z)` directly with a constraint, optimize `(theta, phi)` for each point, with `r=1`. This naturally enforces the spherical constraint and significantly reduces the dimensionality of the search space from `3N` to `2N` variables, which can improve optimizer performance.
+        *   Conversion: `x = sin(phi)cos(theta)`, `y = sin(phi)sin(theta)`, `z = cos(phi)`.
+        *   Bounds for spherical coordinates: `theta` in `[0, 2*pi]` and `phi` in `[0, pi]`.
+    *   If a Cartesian approach is preferred, a penalty term for deviation from the sphere or a projection step within the objective function could be used, but optimizing in spherical coordinates is generally more robust for this type of problem with `differential_evolution`.
+
+5.  **Computational Budget**: With a generous 360-second time limit, the chosen optimizer's parameters (e.g., `maxiter`, `popsize`, `tol` for `differential_evolution`) **must be aggressively tuned to fully utilize the available time budget**. Prioritize maximizing `maxiter` and/or `popsize` to allow for extensive global exploration, even if it means approaching the time limit. The current solution underutilizes the budget, suggesting more iterations are needed for better solutions.
+
+6.  **Output**: The function `min_max_dist_dim3_14` should return the optimized `np.ndarray` of shape `(14,3)` representing the point coordinates.
+
+# PROMPT-BLOCK-END
+    

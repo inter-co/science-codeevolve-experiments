@@ -1,0 +1,56 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational scientist specializing in global optimization and geometric constraint satisfaction.
+Your task is to develop a novel approach for placing exactly 32 non-overlapping circles in the unit square [0,1] × [0,1] to maximize the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Evolutionary algorithms**: Implement genetic algorithms using DEAP or Platypus to optimize circle positions and radii
+2. **Physics-based simulation**: Use pymunk or pybullet to simulate repulsive forces between circles
+3. **Sequential construction**: Start with a dense packing and iteratively improve using local search
+4. **Mathematical programming**: Formulate as a nonlinear optimization problem using scipy.optimize
+5. **Hybrid method**: Combine multiple approaches such as starting with a geometric layout then optimizing with gradient-based methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (mathematical programming)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+ENCOURAGED STRATEGIES:
+1. Consider multi-start approaches with different initialization heuristics
+2. Explore hybrid methods combining global and local search techniques
+3. Leverage spatial data structures for efficient overlap detection
+4. Utilize parallel processing capabilities for population-based methods
+5. Apply domain-specific knowledge from circle packing literature
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Innovation**: Prefer novel algorithmic approaches over standard implementations; consider exotic optimization techniques or unconventional geometric constructions
+
+# PROMPT-BLOCK-END
+    

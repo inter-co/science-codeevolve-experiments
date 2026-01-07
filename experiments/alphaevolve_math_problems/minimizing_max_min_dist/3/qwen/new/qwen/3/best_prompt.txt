@@ -1,0 +1,49 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic paradigms including mathematical optimization (convex programming, semidefinite programming, Lagrangian relaxation), topology-driven methods (graph theory, manifold learning, simplicial complexes), and alternative geometric constructions (non-regular polyhedra, Fibonacci spirals, or other mathematical distributions). Prioritize mathematical programming formulations and topological approaches over physics-inspired methods like Lloyd relaxation or energy minimization.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider exploring unconventional approaches such as:
+  * Mathematical programming formulations (semidefinite programming, convex optimization, Lagrangian relaxation) - focus on rigorous mathematical programming techniques
+  * Topological approaches using graph theory, manifold learning, or simplicial complexes for point placement - leverage discrete topology and combinatorial structures
+  * Alternative geometric constructions (non-regular polyhedra, Fibonacci spirals, or other mathematical distributions) - emphasize pure mathematical constructions
+  * Novel optimization strategies (integer programming, branch-and-bound, or constraint programming) - avoid gradient-based methods when possible
+  * Advanced mathematical formulations (moment matrices, polynomial optimization, or algebraic geometry approaches) - use algebraic and geometric tools
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Explore at least three distinct algorithmic paradigms, ensuring at least one paradigm differs significantly from conventional optimization approaches (e.g., mathematical programming, physics-based simulation, or topology-driven methods). Prioritize mathematical programming formulations and topological approaches over energy-based methods like Lloyd relaxation or gradient descent.
+- **Mathematical Rigor**: If using geometric constructions, ensure they are mathematically sound and well-documented
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

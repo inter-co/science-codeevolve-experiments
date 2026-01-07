@@ -1,0 +1,74 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to implement a function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+This is a well-studied optimization problem that requires advanced techniques. Based on established research in computational geometry and optimization, the most effective approaches typically combine:
+- Advanced initialization strategies (hexagonal lattice-based approaches)
+- Hybrid optimization methods combining global search with local refinement
+- Efficient constraint handling using spatial data structures
+- Multi-scale optimization techniques
+
+Since this problem has been extensively studied, you should leverage proven methodologies that have demonstrated success in similar packing problems, particularly those that beat benchmarks like the AlphaEvolve result of 2.6358627564136983.
+
+Your implementation should prioritize mathematical rigor and computational efficiency over simple heuristics.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+SOLUTION APPROACH:
+Implement a complete solution that includes:
+1. **Advanced initialization**: Start with a carefully constructed hexagonal lattice pattern or other mathematically motivated initial configuration
+2. **Efficient constraint checking**: Use spatial data structures like KDTree for O(log n) neighbor searches instead of O(n²) brute force checks
+3. **Multi-phase optimization**: Combine global exploration with local refinement techniques
+4. **Robust constraint handling**: Implement precise collision detection and resolution with mathematical guarantees
+5. **Adaptive algorithms**: Use different strategies based on problem characteristics (early exploration vs late refinement)
+6. **Proven optimization frameworks**: Leverage established optimization libraries and techniques rather than reinventing approaches
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+IMPLEMENTATION STRATEGY:
+- Begin with a mathematically sound initialization such as hexagonal packing or systematic grid layouts
+- Employ spatial indexing (KDTree from scipy.spatial) for efficient neighbor queries during constraint checking
+- Implement a hybrid approach: use global optimization (like simulated annealing or differential evolution) for exploration, followed by local optimization for refinement
+- Prioritize mathematical correctness over computational speed in early phases
+- Use adaptive parameter tuning that adjusts based on convergence behavior
+- Implement proper termination criteria that don't waste computation time
+- Ensure all solutions are deterministically reproducible through proper seeding
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation; pre-allocate arrays when possible
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Mathematical rigor**: Implement constraint checking with numerical precision that avoids floating-point artifacts
+- **Performance optimization**: Focus on reducing computational complexity rather than just improving raw speed
+
+SOLUTION QUALITY EXPECTATIONS:
+The final solution should produce a configuration with sum_radii > 2.6358627564136983 to beat the benchmark, while maintaining all geometric constraints.
+
+# PROMPT-BLOCK-END
+    

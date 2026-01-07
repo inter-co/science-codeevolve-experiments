@@ -1,0 +1,46 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. Consider multiple algorithmic paradigms including but not limited to: evolutionary algorithms, gradient-based optimization, physics-based simulation, geometric construction methods, constraint satisfaction approaches, or mathematical programming techniques. Explore whether a combinatorial approach, a continuous relaxation method, or a hybrid of discrete and continuous optimization might yield better results than the current greedy spatial indexing approach.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (gradient-based methods)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+- **Advanced techniques**: Consider hybrid approaches combining multiple methodologies such as: 
+  * Population-based evolutionary strategies with local refinement
+  * Physics-inspired methods with geometric constraints
+  * Multi-scale optimization with initial coarse placement followed by fine-tuning
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations; ensure exactly 32 circles are always returned
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider spatial data structures like KDTree for efficient neighbor searches
+- **Scalability**: Design with potential extension to different circle counts in mind; consider how your approach might scale to larger numbers of circles
+- **Algorithmic diversity**: Explore multiple optimization paradigms - consider whether a mathematical programming approach, constraint satisfaction method, or a completely different paradigm like simulated annealing with adaptive neighborhood structures might be most effective for this specific problem. The solution must guarantee exactly 32 circles in the output regardless of the approach taken.
+
+# PROMPT-BLOCK-END
+    

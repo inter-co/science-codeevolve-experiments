@@ -1,0 +1,74 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+OPTIMIZATION STRATEGY GUIDANCE:
+The circle packing problem is a challenging continuous optimization problem with non-linear constraints. A common and effective approach involves converting the problem into a minimization task suitable for libraries like `scipy.optimize`.
+
+1.  **Variable Representation**: The state of `n` circles can be represented as a 1D array `x` of shape `(n*3,)`, where `x = [x1, y1, r1, x2, y2, r2, ..., xn, yn, rn]`. For `n=26`, this means 78 variables.
+
+2.  **Objective Function**: Since `scipy.optimize.minimize` performs minimization, the objective function should return the *negative* sum of radii. This transforms maximizing `Σri` into minimizing `-Σri`.
+
+3.  **Constraints Formulation**:
+    *   **Bounds**: Radii `ri` must be non-negative. Circle centers `xi, yi` must be within `[ri, 1-ri]`. These can be handled using the `bounds` argument in `scipy.optimize.minimize`. For example, `(0, 0.5)` is a reasonable upper bound for `ri` (a circle cannot have a radius > 0.5 in a unit square). For `xi, yi`, the bounds are dynamic based on `ri`.
+    *   **Non-linear Constraints**: Both containment and non-overlap are non-linear. They should be formulated such that `g(x) >= 0` for `minimize` with `SLSQP` or `trust-constr` (specifically for `trust-constr`'s `ineq` constraint type). It's crucial to avoid square roots in constraint functions for better numerical stability and derivative computation.
+        *   **Containment (for each circle `i`):**
+            *   `xi - ri >= 0`
+            *   `1 - ri - xi >= 0`
+            *   `yi - ri >= 0`
+            *   `1 - ri - yi >= 0`
+        *   **Non-overlap (for each unique pair of circles `i` and `j` where `i < j`):**
+            *   Let `distance_sq = (xi-xj)**2 + (yi-yj)**2`.
+            *   The constraint is `distance_sq - (ri + rj)**2 >= 0`. This formulation avoids `sqrt` and works with squared distances.
+
+4.  **Optimizer Choice**: `scipy.optimize.minimize` with methods like `SLSQP` or `trust-constr` are well-suited for constrained non-linear optimization. `trust-constr` is generally more robust for complex constraints and can handle bounds and general non-linear inequality/equality constraints.
+
+5.  **Initial Guess**: A good initial guess can significantly impact the quality of the local optimum found by gradient-based optimizers. Consider:
+    *   Random placement with small, uniform radii (e.g., `r = 0.01`).
+    *   A simple grid-like arrangement to ensure some initial separation.
+    *   Starting with very small radii and letting them expand.
+
+6.  **Alternative Global Optimization**: For potentially better global search, especially if local optimizers get stuck, consider global optimization methods like `scipy.optimize.differential_evolution` or specialized libraries like `deap` (evolutionary algorithms) or `platypus` (multi-objective optimization). These might require a different constraint handling strategy (e.g., penalty methods).
+
+7.  **Performance Considerations**:
+    *   The number of non-overlap constraints for `n=26` is `n*(n-1)/2 = 26*25/2 = 325`.
+    *   The containment constraints are `4*n = 4*26 = 104`.
+    *   Efficiently calculating all these constraints (and their Jacobians, if required by the optimizer) is crucial. Vectorized `numpy` operations are highly recommended to avoid slow Python loops.
+
+# PROMPT-BLOCK-END
+    

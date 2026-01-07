@@ -1,0 +1,61 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to implement an optimization algorithm that finds an arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+SOLUTION APPROACH:
+This is a challenging constrained optimization problem that typically requires sophisticated numerical methods. Consider using:
+- Evolutionary algorithms (genetic algorithms, differential evolution)
+- Simulated annealing
+- Sequential quadratic programming (SQP)
+- Gradient-based optimization with penalty methods
+- Physics-based approaches with repulsive forces
+
+The solution should be deterministic and use appropriate numerical libraries to handle the geometric constraints efficiently.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (numerical optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+IMPLEMENTATION STRATEGY:
+Since this is a complex constrained optimization problem, consider implementing either:
+1. A gradient-based approach with penalty methods or barrier functions
+2. An evolutionary algorithm that maintains valid configurations through constraint handling
+3. A hybrid approach combining local search with global optimization
+
+The implementation should be robust and handle edge cases where circles might be placed near boundaries or in tight configurations.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Solution validation**: Implement checks to verify that the resulting configuration satisfies all constraints
+- **Numerical stability**: Handle floating-point precision issues that may arise during geometric calculations
+
+# PROMPT-BLOCK-END
+    

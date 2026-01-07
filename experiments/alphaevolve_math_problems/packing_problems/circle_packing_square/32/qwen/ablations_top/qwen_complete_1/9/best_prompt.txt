@@ -1,0 +1,57 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. Consider multiple algorithmic paradigms including but not limited to: mathematical programming, evolutionary algorithms, constraint satisfaction, and hybrid approaches.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `cvxpy` (convex optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+- **Advanced optimization**: Consider `scipy.optimize` with different algorithms (L-BFGS, SLSQP), `basin-hopping`, or `differential evolution`
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Mathematical Programming**: Formulate as nonlinear programming problem using Lagrangian relaxation or barrier methods
+2. **Evolutionary Algorithms**: Implement genetic algorithms with specialized crossover/mutation operators for circle placements
+3. **Constraint Satisfaction**: Use constraint propagation techniques to systematically eliminate invalid configurations
+4. **Hybrid Methods**: Combine local search with global exploration strategies
+5. **Physics-based**: Simulate repulsive forces between circles or use molecular dynamics
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider sparse representations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic Diversity**: Demonstrate understanding of multiple solution paradigms beyond simple greedy or direct optimization approaches
+
+STRATEGIC GUIDANCE:
+The solution should demonstrate either:
+1. A sophisticated mathematical optimization approach (e.g., sequential quadratic programming, interior point methods)
+2. A robust evolutionary computation framework with appropriate fitness landscapes
+3. A constraint programming solution with efficient pruning strategies
+4. A hybrid method combining multiple paradigms for superior performance
+
+# PROMPT-BLOCK-END
+    

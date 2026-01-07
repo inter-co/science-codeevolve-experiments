@@ -1,0 +1,52 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+STRATEGIC APPROACHES:
+To achieve optimal point dispersion and beat the benchmark, consider employing iterative optimization algorithms. Focus on strategies that explore distinct solution spaces or leverage different mathematical properties.
+These could include:
+1.  **Force-directed or Gradient-based methods**: These approaches model points as particles that repel each other, seeking an equilibrium state. A common strategy is to define a potential energy function (e.g., summing inverse squared distances between points, E = Σ 1/d_ij²) and *minimize this potential energy*. The gradient of this potential indicates the direction of movement. Implement this either via:
+    *   **Iterative simulation**: Numerically integrate forces (e.g., Euler steps) to move points, effectively performing a form of gradient descent to reduce potential energy.
+    *   **Gradient-based optimization**: Use `scipy.optimize.minimize` with methods that accept a Jacobian (gradient) function (e.g., `L-BFGS-B`, `CG`, `SLSQP`), targeting the potential energy function. This approach is efficient for finding local optima. The resulting configurations are then evaluated for their dmin/dmax ratio.
+2.  **Geometric Relaxation/Iterative Refinement**: Techniques like Centroidal Voronoi Tessellations (CVT) or other methods that iteratively adjust point positions based on geometric properties of their neighbors or surrounding space. For instance, points could be moved to the centroids of their Voronoi cells. This can lead to highly regular and well-dispersed arrangements.
+3.  **Metaheuristics (Global Search)**: Algorithms like Simulated Annealing, Genetic Algorithms, or Particle Swarm Optimization (PSO) are robust for high-dimensional, non-convex search spaces and exploring global optima, especially when gradient information is unavailable or misleading. While `differential_evolution` is a valid option, consider exploring other metaheuristics (e.g., `basinhopping` for combining local and global search) or hybrid approaches to find more diverse solutions. Explore packages like `deap`, `platypus`, or `pymoo`.
+
+Avoid simple random placement as a final solution; focus on iterative refinement and search to converge towards an optimal configuration.
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

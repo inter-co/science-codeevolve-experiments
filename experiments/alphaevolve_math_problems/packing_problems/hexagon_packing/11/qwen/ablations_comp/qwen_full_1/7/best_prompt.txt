@@ -1,0 +1,82 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+Implement one of the following algorithmic paradigms with a focus on novel approaches:
+1. **Mathematical Optimization**: Formulate this as a constrained optimization problem using Lagrangian methods or convex optimization techniques. Leverage the fact that optimal hexagon packings often exhibit symmetries that can be exploited through group theory or invariant-based optimization
+2. **Evolutionary Approaches**: Implement genetic algorithms or differential evolution with custom crossover/mutation operators designed for hexagon configurations. Consider using multi-objective optimization to simultaneously optimize both packing density and symmetry preservation
+3. **Physics-Based Simulation**: Use discrete element methods or particle swarm optimization with hexagon-specific collision detection. Implement a force-based model where hexagons repel each other with forces inversely proportional to distance squared, and constrain them to stay within the outer boundary
+4. **Analytical Geometry**: Leverage known optimal packings of smaller numbers of hexagons as starting points for local search. Explore the use of Voronoi diagrams or Delaunay triangulations to understand spatial relationships and identify potential optimal configurations
+5. **Multi-scale Methods**: Combine global placement heuristics with local refinement procedures. Implement a hierarchical approach where coarse placement uses geometric insights, followed by fine-grained optimization using local search techniques like simulated annealing or basin-hopping
+6. **Constraint Programming**: Approach this as a constraint satisfaction problem where each hexagon's position and orientation must satisfy geometric constraints while optimizing the overall objective
+
+The solution should demonstrate a clear application of one of these theoretical frameworks rather than relying on hardcoded geometric constructions. Focus on implementing the core optimization methodology with appropriate handling of geometric constraints and numerical stability.
+=======
+```
+
+```
+<<<<<<< SEARCH
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+=======
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint (use SAT, Minkowski sum, or GJK algorithms for precise collision detection)
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon (consider using signed distance fields, half-space representations, or robust geometric predicates)
+  * Objective: maximize 1/R where R is the outer hexagon side length
+  * Consider using symmetry-breaking constraints to reduce search space complexity
+  * Exploit the rotational symmetry of hexagons to reduce degrees of freedom in the optimization
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely, numba
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * Custom robust geometric predicates for exact computations
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
+  * `deap` (evolutionary algorithms with custom operators for hexagon configurations)
+  * `platypus` (multi-objective optimization with custom fitness functions)
+  * `cvxpy` (convex optimization for subproblems when applicable)
+- **Collision detection**: 
+  * Custom SAT (Separating Axis Theorem) implementations with efficient axis selection
+  * GJK algorithm for distance computation between convex polygons
+  * Minkowski sum-based approaches for collision detection
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`, `multiprocessing`
+- **Advanced Techniques**: 
+  * Implement a hybrid approach combining global optimization (like simulated annealing) with local refinement (like gradient-based methods)
+  * Consider using manifold optimization techniques for the rotation parameters
+  * Apply geometric reasoning to prune the search space before optimization
+  * Explore the use of homotopy continuation methods for solving the system of constraints
+
+TECHNICAL REQUIREMENTS:
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly
+- **Reproducibility**: Fixed random seeds for stochastic optimization methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 90 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

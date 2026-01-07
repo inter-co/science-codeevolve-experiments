@@ -1,0 +1,57 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse mathematical frameworks including algebraic geometry, group theory applications to symmetry groups, and novel combinatorial optimization paradigms beyond traditional gradient-based methods. Consider unconventional approaches such as:
+- Topological data analysis and persistent homology for understanding point distributions
+- Quantum-inspired optimization algorithms and quantum annealing frameworks
+- Bio-inspired swarm intelligence and evolutionary computation beyond standard genetic algorithms
+- Finite field constructions and algebraic number theory for point placement
+- Projective geometry and inversive geometry transformations
+- Information-theoretic approaches using entropy maximization principles
+- Category theory applications to point configuration spaces
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider using spherical codes, Platonic solids, or other known optimal configurations as starting points, but also explore unconventional approaches such as:
+  * Algebraic number theory constructions (e.g., using roots of unity in higher-dimensional spaces)
+  * Group-theoretic approaches leveraging symmetry groups like the icosahedral group
+  * Combinatorial designs and finite geometries
+  * Topological methods for point distribution on manifolds
+  * Machine learning-inspired approaches for high-dimensional optimization
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Alternative approaches**: Consider deterministic geometric constructions, evolutionary algorithms, quantum-inspired optimization, or novel metaheuristic frameworks
+- **Multi-start strategy**: Implement multiple initialization strategies to avoid local optima, including non-random seeding based on mathematical principles
+- **Mathematical elegance**: Prioritize solutions that demonstrate clear mathematical reasoning or theoretical foundations over purely empirical approaches
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 90 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

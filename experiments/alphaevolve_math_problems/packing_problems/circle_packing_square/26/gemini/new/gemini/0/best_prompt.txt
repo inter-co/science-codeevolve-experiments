@@ -1,0 +1,90 @@
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-START
+
+The task requires a robust global optimization approach due to the non-linear, non-convex nature of the circle packing problem. A **hybrid optimization strategy** combining global search (Evolutionary Algorithms) with local refinement (e.g., force-directed relaxation, gradient-based methods) is often most effective for this problem, as it leverages the exploration power of GAs and the precision of local search.
+
+**Detailed Implementation Plan:**
+
+1.  **Optimization Framework**: Utilize the `deap` library for implementing a Genetic Algorithm (GA) as the global search component.
+
+2.  **Solution Representation (Individual)**:
+    *   Represent each individual (a set of 26 circles) as a flat numpy array of floats: `[x1, y1, r1, x2, y2, r2, ..., x26, y26, r26]`.
+    *   Each `(xi, yi)` pair represents the center of circle `i`, and `ri` its radius.
+    *   The total length of this array will be `26 * 3 = 78`.
+
+3.  **Fitness Function (Evaluation)**:
+    *   The fitness function must encapsulate both the objective (maximizing sum of radii) and the constraints (containment and non-overlap).
+    *   **Objective Term**: `sum_radii = sum(r_i)`. This should be maximized.
+    *   **Constraint Violations (Penalties)**:
+        *   **Containment Penalty**: For each circle `i`, calculate violations if `xi - ri < 0`, `xi + ri > 1`, `yi - ri < 0`, or `yi + ri > 1`. The penalty for a single circle can be `max(0, ri - xi) + max(0, xi + ri - 1) + max(0, ri - yi) + max(0, yi + ri - 1)`. Sum these for all circles.
+        *   **Non-overlap Penalty**: For every unique pair of circles `(i, j)`, calculate the Euclidean distance `d_ij = sqrt((xi-xj)² + (yi-yj)²)` and the minimum allowed distance `min_d_ij = ri + rj`. If `d_ij < min_d_ij`, there is an overlap. The penalty for a pair can be `max(0, min_d_ij - d_ij)`. Sum these for all pairs.
+    *   **Combined Fitness**: The fitness function should return a tuple, typically `(sum_radii - K_overlap * total_overlap_penalty - K_containment * total_containment_penalty,)`. The leading comma makes it a tuple, which `deap` expects for multi-objective or single-objective maximization.
+        *   `K_overlap` and `K_containment` are large positive penalty coefficients (e.g., 1000 or more) to strongly discourage constraint violations. Consider experimenting with **non-linear penalties** for overlaps (e.g., `max(0, min_d_ij - d_ij)^2` for severe violations) to create a stronger gradient and more effectively push circles apart, which can help the GA escape local optima.
+    *   **Radii Bounds**: Ensure `ri` is always non-negative. If `ri` can become negative during mutation, clamp it to a small positive epsilon (e.g., `1e-7`) or `0`. A practical upper bound for `r_i` is `0.5` (a circle filling half the square).
+
+4.  **DEAP Setup**:
+    *   **Creator**: Define `deap.creator.FitnessMax` and `deap.creator.Individual` (inheriting from `list` or `numpy.ndarray`).
+    *   **Toolbox**:
+        *   Register `attr_float` for `x, y, r` components. Use appropriate bounds (e.g., `x, y` in `[0,1]`, `r` in `[0, 0.5]`). For `x,y`, ensure that `ri` is considered when setting initial `x,y` to prevent immediate containment violations (i.e., `x` should be in `[ri, 1-ri]`).
+        *   Register `individual` and `population`. For initial population generation, consider strategies beyond purely random placement, such as **quasi-random sequences** (e.g., Sobol sequences for `x,y` coordinates) or a **grid-like arrangement** of small circles, to provide a more structured and potentially better starting point for the GA.
+        *   Register the `evaluate` function (the fitness function defined above).
+        *   Register standard GA operators: `mate` (e.g., `deap.tools.cxBlend` or `cxTwoPoint`), `mutate` (e.g., `deap.tools.mutGaussian` with `mu=0`, `sigma=0.05`, `indpb=0.1`, and `low/up` bounds for `x,y,r`), `select` (e.g., `deap.tools.selTournament`).
+
+5.  **Evolutionary Loop**:
+    *   Use `deap.algorithms.eaSimple` or `eaMuPlusLambda`.
+    *   Define population size (`POP_SIZE`), number of generations (`NGEN`), crossover probability (`CXPB`), and mutation probability (`MUTPB`). These parameters will need tuning.
+    *   Record statistics using `deap.tools.Statistics` and `deap.tools.Logbook`.
+    *   The optimization should run for a sufficient number of generations or until the time limit is approached.
+
+6.  **Post-processing and Return Value**:
+    *   After the GA loop, retrieve the best individual from the final population.
+    *   Ensure the returned `numpy.ndarray` is of shape `(26, 3)` with columns `(x, y, r)`.
+    *   Apply a final check to the best individual: if any radii are negative or extremely small due to mutation, clamp them to a tiny positive epsilon or zero, as appropriate.
+
+7.  **Determinism**: Set `random.seed(SEED)` and `np.random.seed(SEED)` at the beginning of the function for reproducibility.
+
+8.  **Performance Considerations**:
+    *   The fitness function involves `N*(N-1)/2` distance calculations. For `N=26`, this is `26*25/2 = 325` pairs, which is manageable.
+    *   Given the tight time limit, prioritize finding a high-quality solution efficiently. This may involve **adaptive parameter tuning** (e.g., mutation rates, population size, selection pressure) throughout the evolutionary process. The generated code demonstrated adaptive mutation, which is a good example of this.
+    *   If performance becomes an issue during fitness evaluation, consider using `numba.jit` to compile the fitness function.
+    *   `deap` supports parallel evaluation; explore using `joblib` or `multiprocessing` with the `deap.tools.HallOfFame` for efficiency.
+    *   **Local Refinement Step**: After the GA converges or the time limit is approached, apply a dedicated local search or force-directed relaxation algorithm (e.g., using `scipy.optimize.minimize` or a custom iterative adjustment function) to the best individual found by the GA. This step should fine-tune positions to resolve any remaining minor overlaps and push circles to their optimal, non-overlapping positions, maximizing the sum of radii while strictly adhering to constraints.
+
+# PROMPT-BLOCK-END
+    

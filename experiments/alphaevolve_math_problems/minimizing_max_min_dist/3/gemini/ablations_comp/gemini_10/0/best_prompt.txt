@@ -1,0 +1,59 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints. This can often be conceptualized as minimizing a "repulsive potential energy" where points try to maximize their distances from each other.
+
+ALGORITHMIC GUIDANCE:
+To achieve an optimal arrangement, consider exploring diverse algorithmic paradigms. The solution should involve a multi-stage process, ideally starting with a structured or globally explored placement and refining it. You may choose one of the following as your primary algorithmic strategy, or combine elements in a novel way:
+
+1.  **Geometric Initialization with Gradient-Based Refinement**:
+    *   **Initialization**: Construct an initial point set based on highly symmetric configurations. Consider distributing points on a unit sphere (e.g., using spherical Fibonacci spirals, or constructions from `spherical-geometry` or similar packages for even distribution) or placing them at the vertices of regular polyhedra (e.g., a dodecahedron's vertices). This provides a strong geometric foundation.
+    *   **Refinement**: Subsequently, apply gradient-based local optimization using `scipy.optimize.minimize`. Use robust methods like L-BFGS-B, SLSQP, or trust-region methods. The objective function for this step should be designed to directly minimize `-dmin/dmax` (which maximizes dmin/dmax) or simulate a repulsive potential energy. This step is crucial for fine-tuning the geometrically initialized points, allowing them to move slightly off their initial manifold (e.g., off the perfect sphere) if it improves the ratio. This two-stage process (structured start + local gradient-based search) is often highly effective.
+
+2.  **Force-Directed Layout / Molecular Dynamics Simulation**:
+    *   **Concept**: Model points as particles exerting repulsive forces on each other (e.g., inverse-square law like Coulomb's law, or Lennard-Jones potential). Simulate their movement over time using numerical integration (e.g., Verlet integration) until the system reaches a stable, low-energy configuration. This directly implements the "repulsive potential energy" concept.
+    *   **Implementation**: Define a potential energy function based on pairwise distances (e.g., sum of 1/d_ij^k or similar, where k is a positive integer). Calculate forces as negative gradients of this potential. Integrate equations of motion with time steps. This approach naturally seeks configurations where points are maximally spread out. It can be combined with annealing schedules to escape local minima.
+    *   **Advantages**: Can lead to highly symmetric and well-dispersed arrangements by simulating physical interactions. Does not require direct gradient computation of `dmin/dmax`.
+
+3.  **Advanced Global Metaheuristic Search**: This approach can be used as a primary strategy, especially for exploring the global search space more broadly. Consider methods that excel at escaping local optima and do not strictly rely on gradient information. Examples include:
+    *   **Evolutionary Algorithms (EAs)**: Utilize libraries like `deap`, `platypus`, or `pymoo` to implement Genetic Algorithms, **Differential Evolution (`scipy.optimize.differential_evolution`)**, or other population-based methods. These can start with a diverse population and evolve solutions over generations. Consider **multi-objective optimization** if the problem can be framed as such (e.g., maximizing dmin and minimizing dmax as separate objectives, using Pareto fronts).
+    *   **Particle Swarm Optimization (PSO)**: Another population-based metaheuristic that explores the search space by adjusting the trajectory of individual "particles."
+    *   **Simulated Annealing or Dual Annealing**: While potentially slow, these can be powerful for global exploration. If used as a primary strategy, ensure sufficient iterations and a well-defined temperature schedule. Initial conditions for these methods can be random within bounds, or informed by simpler geometric heuristics.
+    When using metaheuristics, focus on parameters that balance exploration and exploitation, and consider their suitability for the non-smooth `dmin/dmax` objective function. This approach allows for discovering fundamentally different point arrangements.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

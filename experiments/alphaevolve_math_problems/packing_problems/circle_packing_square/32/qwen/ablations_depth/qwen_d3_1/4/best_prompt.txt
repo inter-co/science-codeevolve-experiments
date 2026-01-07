@@ -1,0 +1,55 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in computational geometry and mathematical optimization. Your task is to develop an efficient approach for arranging exactly 32 non-overlapping circles within a unit square [0,1] × [0,1] to maximize the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Focus on mathematically principled approaches: consider lattice-based constructions, circle packing theory, or constructive geometric algorithms
+- Emphasize deterministic, fast methods that can be implemented efficiently within strict time limits
+- Consider alternative paradigms beyond gradient-based optimization: explore constructive methods, simulated annealing, or evolutionary algorithms that naturally handle constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Alternative approaches to consider**:
+- **Constructive methods**: Use known optimal or near-optimal circle packings from mathematical literature (e.g., hexagonal close packing, square lattice arrangements)
+- **Lattice-based approaches**: Arrange circles on regular grids or triangular lattices with systematic parameter optimization and analytical constraint checking
+- **Greedy constructive algorithms**: Build solutions incrementally by placing circles one at a time with careful attention to geometric constraints and maximizing available space
+- **Mathematical programming**: Formulate as convex optimization problem or use specialized packing solvers that guarantee feasibility
+- **Geometric insight**: Leverage symmetry properties, known bounds, or mathematical relationships for circle packing in squares (e.g., use known upper bounds for 32 circles in unit square)
+- **Stochastic approaches**: Implement simulated annealing with carefully designed neighborhood structures or genetic algorithms with specialized crossover/mutation operators for circle packing
+- **Discrete optimization**: Use combinatorial methods like branch-and-bound or integer programming formulations that inherently respect geometric constraints
+- **Hybrid constructive-heuristic**: Combine mathematical constructions with local search heuristics that work with explicit geometric constraints rather than implicit penalty functions
+
+TECHNICAL REQUIREMENTS:
+- **Efficiency focus**: Prioritize algorithms with predictable performance characteristics and low computational overhead
+- **Mathematical rigor**: Use established bounds or theoretical guarantees where possible, particularly known results for circle packing in squares
+- **Simplicity**: Favor straightforward implementations over complex hybrid methods, especially those prone to numerical instability
+- **Reproducibility**: Ensure deterministic behavior without excessive randomness
+- **Scalability consideration**: Design with potential to adapt to different numbers of circles
+- **Constraint handling**: Prioritize methods that naturally enforce constraints through geometric construction or mathematical formulation rather than penalty functions
+- **Robustness**: Implement approaches that can reliably produce valid solutions even under tight time constraints
+- **Analytical verification**: Include explicit geometric checks that can be verified analytically rather than relying solely on numerical optimization
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+4. **constraint_violations**: Number of overlap violations (must be zero for valid solutions)
+
+TECHNICAL REQUIREMENTS:
+- **Innovation focus**: Prefer approaches that demonstrate novel methodology over brute-force optimization, such as novel geometric constructions or mathematical insights
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Robustness**: Implement graceful fallbacks when primary methods fail, particularly for constraint satisfaction
+- **Memory efficiency**: Avoid excessive memory allocation; consider streaming or incremental algorithms
+- **Extensibility**: Design with potential to scale to varying numbers of circles or different domains
+- **Explicit constraint enforcement**: Methods should have clear geometric or mathematical proofs of constraint satisfaction rather than relying on numerical tolerance
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,58 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions (e.g., direct sequences of heights, basis function expansions, or multi-resolution representations), and numerical integration methods.
+Your mission is to design and implement a sophisticated global optimization algorithm to discover step function constructions that maximize C₂. This algorithm should systematically search the space of possible step functions, rather than relying on random generation, to improve upon existing benchmarks. The representation of the step function should be chosen to efficiently explore a wide range of `n` (number of steps) values. Prioritize representations that directly encode the step heights or use a multi-resolution basis (e.g., wavelets, splines, or hierarchical decompositions) to adaptively manage the complexity and number of steps, rather than relying solely on fixed-grid interpolation from a smaller set of continuous control points.
+For the optimization strategy, consider global approaches such as evolutionary algorithms (e.g., genetic algorithms with variable-length chromosomes or specialized mutation operators for `n`), simulated annealing, or hybrid methods. When optimizing the number of steps (`n`) alongside the step heights, consider approaches where `n` is either an explicit variable in the search space (e.g., a gene in an evolutionary algorithm's chromosome) or is optimized through an outer loop/meta-optimization strategy.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * **Crucially, the sequence length `n` itself must be treated as an optimizable hyperparameter.** Actively explore a diverse range of `n` values (e.g., from tens to tens of thousands), rather than fixing `n` or choosing it randomly. Your optimization algorithm should dynamically adjust or search for an optimal `n`.
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+- When designing your optimization algorithm, explicitly consider how to leverage these insights. For instance, your candidate generation, mutation operators, or fitness function design could incorporate strategies to encourage flatter autoconvolution profiles or penalize sharp peaks in `g` to improve C₂. While functions maximizing C₂ are often symmetric, consider whether to explicitly enforce symmetry in your representation or allow the optimizer to discover it, potentially exploring a broader solution space.
+
+# PROMPT-BLOCK-END
+    

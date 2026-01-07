@@ -1,0 +1,84 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to implement an efficient solution that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+IMPLEMENTATION STRATEGY:
+This is a challenging constrained optimization problem that benefits from:
+1. **Smart Initialization**: Start with a high-quality heuristic like hexagonal packing or a known good configuration
+2. **Advanced Optimization**: Use gradient-based methods with proper constraint handling rather than simple evolutionary approaches
+3. **Efficient Constraint Management**: Implement fast spatial data structures (KDTree) for overlap detection
+4. **Multi-scale Optimization**: Combine global search with local refinement techniques
+
+Consider these algorithmic patterns:
+- **Sequential Quadratic Programming (SQP)** for constrained optimization
+- **Interior Point Methods** that naturally handle bounds and constraints
+- **Lagrangian relaxation** combined with geometric insights
+- **Hybrid approaches** that alternate between global exploration and local exploitation
+
+You should implement a complete, working solution that:
+- Starts with a mathematically sound initial configuration (preferably hexagonal or close to optimal)
+- Uses efficient numerical optimization techniques specifically designed for this type of problem
+- Implements fast constraint checking using spatial indexing (KDTree)
+- Applies proper penalty functions or barrier methods for constraint violations
+- Returns the final optimized configuration with high-quality solution
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time (aim for < 60s for competitive solutions)
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `scipy.optimize.minimize` with constraints, `cvxpy` (convex optimization), `pyomo` (optimization modeling)
+- **Geometric computing**: `scipy.spatial.KDTree` (fast nearest neighbor queries), `scipy.spatial.cKDTree` (even faster)
+- **Constraint programming**: `ortools` (Google OR-Tools) for advanced constraint solving
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine) - may be overkill but useful for validation
+- **Performance**: `numba` (just-in-time compilation), `joblib` (parallelization)
+
+**Key Algorithmic Insights**:
+- Circle packing problems often benefit from starting with known good configurations from literature
+- Consider using optimization libraries that support bound constraints and nonlinear constraints directly
+- Efficient constraint checking is crucial - use spatial data structures for O(log n) neighbor searches
+- For this problem, consider using scipy's minimize with method='SLSQP' or 'trust-constr' which handle constraints well
+- The problem is convex in the sense that increasing any radius while maintaining feasibility increases the objective
+
+IMPLEMENTATION REQUIREMENTS:
+1. Start with a mathematically sound initial configuration (hexagonal packing recommended)
+2. Implement efficient constraint checking using spatial indexing (KDTree) for O(log n) neighbor queries
+3. Use advanced numerical optimization techniques (scipy.optimize with constraints) rather than evolutionary approaches
+4. Ensure the solution meets all mathematical constraints at every iteration
+5. Return the final configuration with maximum sum of radii
+6. Include proper error handling for optimization failures
+7. Implement robust constraint violation handling with penalty methods or projection
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations with fallback strategies
+- **Memory efficiency**: Avoid expensive distance matrix computations; use spatial indexing for O(log n) queries
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Validation**: Include comprehensive checks to ensure all constraints are satisfied before returning the result
+- **Numerical stability**: Handle edge cases like very small radii or near-degenerate configurations carefully
+- **Performance**: Aim for execution time under 60 seconds while maintaining solution quality
+
+# PROMPT-BLOCK-END
+    

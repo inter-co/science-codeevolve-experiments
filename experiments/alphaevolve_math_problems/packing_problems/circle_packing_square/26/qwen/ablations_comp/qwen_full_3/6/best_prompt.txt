@@ -1,0 +1,70 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+Your approach should consider multiple algorithmic paradigms including but not limited to:
+- Mathematical programming with constraint satisfaction (e.g., convex optimization, semidefinite programming)
+- Rigorous geometric constructions based on known optimal configurations or theoretical bounds
+- Exact or approximate semidefinite programming formulations for circle packing
+- Decomposition methods leveraging graph theory and combinatorial optimization
+- Global optimization with branch-and-bound or interval arithmetic techniques
+- Mathematical programming with Lagrangian relaxation and duality theory
+- Gradient-based optimization with proper constraint handling and projection methods
+- Integer programming formulations with cutting plane methods and branch-and-cut
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `cvxpy` (convex optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+**Strategy Considerations**:
+- Prioritize mathematically rigorous formulations that guarantee constraint satisfaction
+- Leverage known theoretical bounds and optimal configurations for small circle counts
+- Employ exact or convex relaxations of the non-convex constraints when possible
+- Consider deterministic geometric constructions that build upon established mathematical results
+- Implement robust constraint handling through penalty methods, barrier functions, or projection-based approaches
+- Explore whether the problem can be reformulated using semidefinite programming or other convex relaxations
+- Use systematic search strategies that can prove optimality or provide certified bounds
+- Implement efficient spatial data structures for collision detection while maintaining numerical stability
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+**Algorithmic Diversity Encouragement**:
+- Implement at least one approach based on mathematical programming or convex optimization
+- Explore exact or approximate semidefinite programming formulations for circle packing
+- Consider deterministic geometric constructions derived from known optimal arrangements or theoretical bounds
+- Demonstrate mastery of constraint handling through proper mathematical programming techniques
+- Investigate whether the problem can be transformed into a convex optimization problem
+- Implement a rigorous algorithm that provides theoretical guarantees on solution quality
+- Compare multiple approaches including both global and local optimization strategies
+- Leverage mathematical programming solvers or implement custom algorithms with convergence proofs
+
+# PROMPT-BLOCK-END
+    

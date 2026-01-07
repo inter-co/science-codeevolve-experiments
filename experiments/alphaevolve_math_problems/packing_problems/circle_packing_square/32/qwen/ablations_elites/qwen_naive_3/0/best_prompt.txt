@@ -1,0 +1,62 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. Consider multiple algorithmic paradigms including but not limited to: evolutionary algorithms, gradient-based optimization, geometric constructions, constraint satisfaction, and hybrid approaches.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALGORITHMIC DIVERSITY ENCOURAGED:
+Consider exploring one or more of these distinct paradigms:
+1. **Evolutionary approaches**: Genetic algorithms, differential evolution, particle swarm optimization - focus on robust implementations with proper selection, crossover, and mutation operators
+2. **Geometric constructions**: Voronoi diagrams, Delaunay triangulation, force-directed placement - leverage spatial structures for initial configurations
+3. **Mathematical programming**: Mixed-integer programming formulations, semidefinite programming relaxations - consider convex relaxations or exact methods
+4. **Hybrid methods**: Combine global search with local refinement techniques - e.g., use evolutionary algorithm to find good starting points, then refine with local optimization
+5. **Multi-start strategies**: Initialize with different seed configurations and select best result - ensure diverse initialization strategies
+6. **Constraint programming**: Utilize constraint satisfaction solvers for exact or approximate solutions - emphasize proper constraint modeling
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (gradient-based methods)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `networkx` (graph-based approaches)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `pulp` (linear programming)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation)
+
+STRATEGIC APPROACHES TO CONSIDER:
+1. **Global optimization**: Employ stochastic methods like simulated annealing or genetic algorithms - ensure proper cooling schedules or population dynamics
+2. **Local refinement**: Start with a good configuration and apply gradient-based optimization - use appropriate numerical methods with careful constraint handling
+3. **Hierarchical methods**: First place circles approximately, then optimize locally - implement robust initialization followed by efficient refinement
+4. **Parallel evaluation**: Evaluate multiple candidate solutions simultaneously - utilize multiprocessing for faster exploration
+5. **Adaptive strategies**: Adjust method parameters based on problem characteristics - dynamically adapt search parameters during execution
+6. **Robust constraint handling**: Implement proper validation before and after optimization steps - ensure all solutions satisfy both containment and overlap constraints
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+4. **constraint_violations**: Count of constraint violations in final solution (should be zero)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Solution quality**: Prioritize finding high-quality solutions over computational speed when possible
+- **Approach diversity**: Demonstrate understanding of multiple solution paradigms rather than relying on a single method
+- **Validation**: Comprehensive constraint checking including boundary conditions and pairwise overlap checks
+- **Fallback mechanisms**: Implement robust fallback strategies when primary optimization fails
+
+# PROMPT-BLOCK-END
+    

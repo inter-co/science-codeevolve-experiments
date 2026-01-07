@@ -1,0 +1,51 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+ALGORITHMIC APPROACHES TO EXPLORE:
+To foster diversity, consider these distinct algorithmic paradigms for global optimization, moving beyond simple gradient-based methods:
+
+1.  **Physics-based Simulation / Force-Directed Layout**:
+    *   **Concept**: Model circles as physical objects. Introduce repulsive forces between overlapping circles and boundary forces. Implement an "expansion force" or pressure that attempts to grow radii while maintaining non-overlap, iteratively adjusting positions and radii over time steps. The system seeks a stable equilibrium maximizing total radius.
+    *   **Implementation Hints**: Utilize libraries like `pymunk` or `pybullet` for 2D physics simulation, or implement a custom force-based relaxation method using numerical integration (e.g., Verlet integration). The objective function (sum of radii) can be a driver for expansion.
+
+2.  **Evolutionary Algorithms / Metaheuristics**:
+    *   **Concept**: Treat a configuration of 26 circles (e.g., a flattened array `[x1,y1,r1, ..., x26,y26,r26]`) as an individual in a population. Define a fitness function that heavily penalizes overlaps and out-of-bounds circles, and rewards a high sum of radii. Evolve the population using genetic operators (mutation, crossover, selection) over many generations.
+    *   **Implementation Hints**: Leverage `deap` or `platypus` for robust evolutionary algorithm frameworks. Pay attention to encoding, initialization strategies (e.g., initial random placements, or a structured grid), and mutation/crossover operators tailored for continuous variables and geometric constraints.
+
+# PROMPT-BLOCK-END
+    

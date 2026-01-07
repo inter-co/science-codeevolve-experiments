@@ -1,0 +1,78 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. Instead of relying primarily on conventional optimization methods, explore the unconventional mathematical frameworks outlined in the problem context. Focus on implementing at least one approach from the alternative perspectives listed, such as topological analysis, information-theoretic modeling, category theory composition, quantum-inspired optimization, game-theoretic formulations, graph-theoretic embeddings, symmetry-based decomposition, or machine learning geometry approaches.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALTERNATIVE PERSPECTIVES TO CONSIDER:
+Rather than standard optimization approaches, explore these unconventional mathematical frameworks:
+
+1. **Topological/Algebraic Approaches**: Formulate the problem using algebraic topology concepts such as persistent homology to analyze the configuration space, or use discrete differential geometry to understand the geometric constraints as manifolds.
+
+2. **Information-Theoretic Methods**: Model the circle packing as a maximum entropy problem where the probability distribution over possible configurations maximizes entropy subject to geometric constraints, treating this as an information-theoretic optimization.
+
+3. **Category Theory & Compositional Design**: Approach the problem through categorical composition of geometric transformations and constraints, viewing circle packing as a composition of functorial mappings between constraint categories.
+
+4. **Quantum-Inspired Optimization**: Utilize quantum annealing principles or quantum-inspired evolutionary algorithms that leverage superposition states of multiple geometric configurations simultaneously.
+
+5. **Game-Theoretic Approaches**: Frame the circle packing as a non-cooperative game where each circle "plays" to maximize its own utility (radius) while respecting constraints imposed by other players, using Nash equilibrium concepts.
+
+6. **Graph-Theoretic Embeddings**: Represent the constraint satisfaction problem as a graph coloring or clique detection problem in a specially constructed graph where vertices represent circles and edges encode overlap constraints.
+
+7. **Symmetry-Based Decomposition**: Leverage group theory to identify symmetry groups in potential solutions and decompose the problem into orbits under these symmetries, reducing the dimensionality of the search space.
+
+8. **Machine Learning Geometry**: Train neural networks to learn geometric priors about optimal circle arrangements, using architectures like Graph Neural Networks or Transformer-based models to capture spatial relationships.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (gradient-based methods)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `cvxpy` (convex optimization)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `z3-solver` (SMT solver)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation)
+
+**Alternative approaches to consider**:
+- Physics-based approaches using particle swarm optimization with adaptive repulsion forces
+- Constraint programming with global constraints and specialized propagators
+- Evolutionary algorithms with specialized crossover operators designed for geometric arrangements
+- Mathematical programming using convex relaxations or branch-and-bound techniques
+- Monte Carlo methods with adaptive sampling based on geometric density
+- Multi-start methods with randomized geometric patterns (grid, spiral, fractal distributions)
+- Hybrid methods combining continuous optimization with discrete geometric reasoning
+- Gradient-free optimization using derivative-free methods like Nelder-Mead or COBYLA
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider spatial data structures for efficient neighbor queries
+- **Scalability**: Design with potential extension to different circle counts in mind; consider how your approach scales with problem size
+- **Algorithmic diversity**: Implement one or more unconventional mathematical frameworks from the alternatives listed, such as:
+  - A topological approach using algebraic topology concepts to analyze configuration space
+  - An information-theoretic method modeling the problem as maximum entropy optimization
+  - A category theory approach using compositional geometric transformations
+  - A quantum-inspired optimization using superposition states of geometric configurations
+  - A game-theoretic formulation with Nash equilibrium concepts
+  - A graph-theoretic embedding representing constraint satisfaction as clique detection
+  - A symmetry-based decomposition leveraging group theory for dimensionality reduction
+  - A machine learning approach using neural networks to learn geometric priors
+
+# PROMPT-BLOCK-END
+    

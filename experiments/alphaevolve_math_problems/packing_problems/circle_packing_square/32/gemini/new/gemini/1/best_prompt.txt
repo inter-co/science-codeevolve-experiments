@@ -1,0 +1,80 @@
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-START
+
+PROBLEM-SOLVING STRATEGY:
+The circle packing problem is a challenging non-linear optimization task. Given the requirement to maximize the sum of radii subject to containment and non-overlap constraints, a robust numerical optimization approach is highly recommended.
+
+1.  **Problem Formulation for Optimizer**:
+    *   **Variables**: Represent the state of all circles as a single, flattened 1D NumPy array `x`, where `x = [x1, y1, r1, x2, y2, r2, ..., xN, yN, rN]`. For N=32, this array will have `3 * 32 = 96` elements.
+    *   **Objective Function**: The goal is to maximize `Σri`. Since most optimizers minimize, your objective function `fun(x)` should return `-np.sum(radii)`.
+    *   **Constraints**: These are critical. You will need to define both bounds and non-linear constraints for `scipy.optimize.minimize`.
+        *   **Bounds**: Each `x_i, y_i` must be within `[0, 1]`, and each `r_i` must be within `[0, 0.5]` (as a circle with radius > 0.5 cannot fit in a unit square).
+        *   **Containment Constraints**: For each circle `i`, `r_i <= x_i <= 1-r_i` and `r_i <= y_i <= 1-r_i`. These can be translated into `4N` inequality constraints of the form `g(x) >= 0`. For example, `x_i - r_i >= 0`.
+        *   **Non-overlap Constraints**: For every distinct pair of circles `i` and `j` (`i < j` to avoid redundancy), the distance between their centers must be greater than or equal to the sum of their radii. This is `(xi-xj)² + (yi-yj)² >= (ri + rj)²`. This translates to `N*(N-1)/2` inequality constraints of the form `g(x) >= 0`. Specifically, `(xi-xj)² + (yi-yj)² - (ri + rj)² >= 0`.
+
+2.  **Optimizer Choice**:
+    *   `scipy.optimize.minimize` is a powerful and flexible tool for constrained optimization. For problems with many non-linear constraints, the `trust-constr` method is generally robust and efficient. **Crucially, providing analytical gradients for the objective function and the Jacobian matrix for the constraints significantly boosts performance and accuracy for `trust-constr`**, as it avoids computationally expensive numerical approximations. The `SLSQP` method is another viable option, though it might struggle with the scale of non-linear constraints for N=32.
+    *   Given the non-convex nature of circle packing, which often has many local optima, a multi-stage approach is highly effective:
+        *   **Stage 1 (Global Exploration)**: Use a global optimizer or a metaheuristic (e.g., an evolutionary algorithm from the `deap` package) to broadly explore the search space and find several promising initial configurations. The goal here is broad coverage, not high precision.
+        *   **Stage 2 (Local Refinement)**: Refine the best configuration(s) found in Stage 1 using `scipy.optimize.minimize` to converge to a local optimum with high precision. **If employing a hybrid strategy, carefully balance the computational effort between Stage 1 and Stage 2.** A very precise Stage 1 might be redundant if Stage 2 is highly efficient with analytical derivatives. Conversely, a poor Stage 1 might trap Stage 2 in a suboptimal local minimum.
+    *   While a direct application of `scipy.optimize.minimize` with a well-chosen initial guess can be a strong starting point, hybrid strategies often yield better global optima for this challenging problem.
+
+3.  **Initial Guess (`x0`)**:
+    *   The quality of the initial guess can significantly impact the optimization result and convergence speed. Start by placing circles randomly within the unit square, ensuring their initial radii are small and valid (e.g., `0 < r_i < 0.05`) and that they satisfy initial containment. A simple approach is to randomly assign `x_i, y_i` and a very small `r_i`.
+
+4.  **Implementation Details**:
+    *   **Analytical Gradients and Jacobians**: For `scipy.optimize.minimize` with `trust-constr`, provide the `jac` argument for `NonlinearConstraint` and the `jac` (or `grad`) argument for the objective function. This is critical for avoiding timeouts.
+        *   **Objective Gradient**: The objective function is `-np.sum(radii)`. Its gradient with respect to `x_flat` will have `-1` for each `r_i` component and `0` for `x_i` and `y_i` components.
+        *   **Constraint Jacobian**: The Jacobian matrix `J` will have dimensions `(num_constraints, num_variables)`. Each row `J_k` corresponds to the gradient of constraint `g_k` with respect to all `3N` variables.
+            *   For containment constraints (e.g., `x_i - r_i >= 0`), the partial derivatives are simple constants (`1`, `-1`, `0`).
+            *   For non-overlap constraints (e.g., `(x_i - x_j)^2 + (y_i - y_j)^2 - (r_i + r_j)^2 >= 0`), the partial derivatives are:
+                *   `∂g/∂x_i = 2(x_i - x_j)`
+                *   `∂g/∂y_i = 2(y_i - y_j)`
+                *   `∂g/∂r_i = -2(r_i + r_j)`
+                *   Similarly for `x_j, y_j, r_j` (with opposite signs for `x_j, y_j` terms).
+        Implementing these analytical derivatives will significantly speed up the optimization process.
+    *   **Vectorization**: Use NumPy for vectorized computations within your objective and constraint functions to improve performance, especially for distance calculations.
+    *   **Determinism**: Ensure reproducibility by setting `np.random.seed()` at the beginning of your function.
+    *   **Output Format**: The final result should be converted back from the flattened `x` array to the `(32, 3)` `np.ndarray` format `(x, y, r)`.
+    *   **Handling edge cases**: Consider what happens if optimization fails to converge. The function should still return the best found configuration, or an empty array if completely unsuccessful.
+
+By following this structured approach, the AI should be able to construct a sophisticated solution using `scipy.optimize` or a hybrid strategy.
+
+# PROMPT-BLOCK-END
+    

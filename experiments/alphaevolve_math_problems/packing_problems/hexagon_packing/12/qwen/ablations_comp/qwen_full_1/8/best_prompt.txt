@@ -1,0 +1,53 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop a novel construction method that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+CRITICAL CONSTRAINTS ON APPROACH:
+1. Avoid simple grid arrangements - seek more sophisticated geometric constructions
+2. Leverage symmetry groups and group theory for constraint satisfaction
+3. Employ mathematical optimization rather than heuristic positioning
+4. Consider both continuous optimization and discrete combinatorial approaches
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+- **Mathematical programming**: Formulate as nonlinear optimization problem with geometric constraints using scipy.optimize or similar tools
+- **Symmetry-aware construction**: Use fundamental domains and group actions to generate valid configurations, leveraging rotational and reflectional symmetries
+- **Energy minimization**: Model as a physical system with repulsive forces between hexagons, using potential energy functions that penalize overlap and encourage spacing
+- **Evolutionary algorithms**: Implement genetic operators specifically designed for hexagonal symmetry, evolving populations of candidate configurations
+- **Hierarchical clustering**: Group hexagons into clusters based on geometric relationships, then optimize cluster arrangements independently before combining
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 90 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

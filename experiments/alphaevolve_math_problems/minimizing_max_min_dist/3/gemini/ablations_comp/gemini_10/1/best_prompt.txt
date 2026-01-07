@@ -1,0 +1,49 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to implement an optimization function that *finds* an optimal arrangement of exactly 14 points in 3D space. This function should iteratively adjust point positions to maximize the ratio of minimum distance to maximum distance between all point pairs, rather than just generating a static configuration.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALGORITHMIC STRATEGY GUIDANCE:
+The problem is a global optimization challenge. Consider approaches that involve:
+1.  **Iterative Refinement**: Start with an initial point distribution (e.g., random, grid-based, or a pre-defined geometric pattern like vertices of a Platonic solid if applicable) and iteratively move points to improve the objective function.
+2.  **Metaheuristics**: Evolutionary algorithms (genetic algorithms, differential evolution), simulated annealing, particle swarm optimization, or other population-based methods are often effective for high-dimensional, non-convex problems like this. Libraries like `deap`, `platypus`, `pymoo` are specifically designed for these.
+3.  **Force-Directed Layouts**: Model points as particles with repulsive forces, allowing them to settle into a stable configuration.
+4.  **Gradient-based Optimization**: If a differentiable objective function proxy can be formulated, methods like L-BFGS-B or SLSQP from `scipy.optimize` could be used, potentially with multiple restarts.
+5.  **Geometric Constructions**: Explore methods for distributing points uniformly on a sphere or within a cube (e.g., Fibonacci sphere, Hammersley points) as robust initial guesses or components of the optimization.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,60 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse mathematical frameworks including but not limited to: semidefinite programming relaxations, combinatorial optimization techniques, algebraic geometry approaches, or novel geometric constructions. Consider both symmetry-based methods and alternative strategies such as:
+- Algebraic approaches using polynomial optimization or moment matrices
+- Combinatorial methods like simulated annealing with sophisticated cooling schedules
+- Topological or differential geometric techniques
+- Group theory applications for symmetry-breaking optimizations
+- Graph theoretical approaches where points are vertices of graphs with specific distance constraints
+- Machine learning-inspired optimization with structured search spaces
+Also consider elegant geometric constructions including regular polyhedra vertex arrangements, known spherical codes, and lattice point distributions. Avoid relying heavily on heuristic optimization algorithms unless they are mathematically justified.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider leveraging known optimal configurations from discrete geometry, such as:
+  * Spherical codes (points on unit sphere maximizing minimum angular separation)
+  * Regular polyhedra vertex arrangements
+  * Lattice point distributions
+  * Semidefinite programming relaxations for global optimization
+  * Analytical constructions based on group theory or symmetry considerations
+  * Algebraic geometric constructions using polynomial systems
+  * Combinatorial designs with distance constraints
+  * Topological approaches for point distribution on manifolds
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Alternative Strategies**: Implement at least one mathematically rigorous non-random method that differs significantly from traditional gradient-based optimization (e.g., semidefinite programming relaxation, analytical geometric construction, symmetry-breaking optimization, algebraic geometric approach, or combinatorial optimization framework)
+- **Validation**: Include a mechanism to verify that the arrangement satisfies the constraint of exactly 14 points in 3D space
+- **Mathematical Rigor**: Prefer solutions that can be justified through mathematical principles rather than empirical optimization heuristics
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

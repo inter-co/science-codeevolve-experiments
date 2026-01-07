@@ -1,0 +1,62 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+Approach Strategy:
+Rather than simple grid arrangements, consider exploring:
+1. Mathematical optimization techniques including constrained nonlinear programming
+2. Symmetry-aware configurations leveraging group theory properties of hexagonal lattices
+3. Geometric constructions based on known optimal packings in hexagonal geometry
+4. Advanced spatial reasoning combining convex optimization with discrete geometric constraints
+5. Multi-scale approaches that balance local optimality with global packing efficiency
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+Alternative Solution Pathways:
+Consider these mathematical frameworks for constructing the solution:
+1. **Lattice-based Construction**: Explore how hexagonal lattice points can be optimally arranged
+2. **Symmetry-Driven Optimization**: Leverage rotational and reflection symmetries inherent to hexagonal systems
+3. **Convex Optimization Approach**: Formulate the problem as a convex optimization with geometric constraints
+4. **Geometric Programming**: Use geometric programming techniques tailored for circular/regular polygon constraints
+5. **Variational Methods**: Consider continuous relaxation of discrete packing constraints
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Advanced Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+  * `cvxpy` (convex optimization framework)
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+
+Special Considerations:
+- Implement geometric constraint checking using robust numerical methods
+- Consider using interval arithmetic or symbolic computation for precise containment verification
+- Explore branch-and-bound or other exact methods for global optimization
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 90 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

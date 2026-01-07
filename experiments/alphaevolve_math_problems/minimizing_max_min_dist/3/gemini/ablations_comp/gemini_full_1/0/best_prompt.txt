@@ -1,0 +1,49 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to implement an optimization function that *finds* and returns an optimal arrangement of exactly 14 points in 3D space. This function must iteratively adjust point positions to maximize the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+GUIDANCE ON ALGORITHMIC APPROACHES:
+To foster diverse solutions, prioritize exploring approaches distinct from typical global optimizers like Differential Evolution. Consider employing iterative optimization techniques to actively search for better point configurations. Possible distinct strategies include:
+1.  **Force-Directed Simulation (HIGH PRIORITY)**: Implement a system where points exert repulsive forces on each other (to maximize `dmin`) and potentially attractive forces to keep them within defined spatial bounds (implicitly influencing `dmax`). This involves small, iterative adjustments to point positions based on these forces, simulating a physical system. This method offers a fundamentally different exploration mechanism.
+2.  **Geometric Construction & Refinement**: Start with a structured geometric pattern (e.g., vertices of a known polyhedron, points uniformly distributed on a sphere) as an initial guess. Then, apply local or global optimization (e.g., gradient descent, simulated annealing, or even other metaheuristics) to refine these initial positions. This blends constructive methods with iterative improvement.
+3.  **Advanced Metaheuristic Optimization**: Beyond basic `scipy.optimize` functions, explore more specialized frameworks like `deap`, `platypus`, or `pymoo`. These can offer more sophisticated evolutionary algorithms, multi-objective optimization capabilities, or more customizable genetic programming approaches. When using parallel processing (e.g., `workers=-1`), ensure any objective functions are defined at the module level (not nested) to avoid `AttributeError` with multiprocessing pickling.
+4.  **Gradient-Based Optimization**: If a differentiable approximation of the objective function can be formulated, use gradient descent or similar methods from `scipy.optimize.minimize`. This requires careful handling of non-differentiable points and constraints.
+The goal is to move beyond simple random placement and engage in a dynamic, iterative search process to improve the objective function, seeking distinct algorithmic pathways.
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

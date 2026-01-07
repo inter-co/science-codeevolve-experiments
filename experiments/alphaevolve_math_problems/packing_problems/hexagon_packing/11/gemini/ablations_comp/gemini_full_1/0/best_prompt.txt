@@ -1,0 +1,61 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to implement an optimization procedure within a function that *discovers* an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon. This procedure should maximize 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length). Leverage advanced optimization techniques, with a strong emphasis on exploring *fundamentally different problem-solving methodologies* and their unique strengths. Prioritize approaches that offer distinct mechanisms for handling geometric constraints and objective evaluation. Consider:
+1.  **Physics-based Simulation / Relaxation (e.g., utilizing `pymunk` for collision response)**: Model hexagons as rigid bodies with repulsive forces, allowing them to settle into stable, non-overlapping configurations. This approach inherently handles non-overlap constraints through physical collision response, offering a distinct alternative to penalty-based methods. Explore integrating this with an annealing schedule or iterative energy minimization.
+2.  **Constructive and Sequential Placement Algorithms**: Develop a "seed and grow" or "layer-by-layer" strategy. Start with a central core, then sequentially add hexagons, optimizing each placement with respect to existing ones and the outer boundary. This can involve discrete placement choices or local optimization at each step.
+3.  **Advanced Evolutionary Algorithms (e.g., DEAP or custom genetic programming)**: Design problem-specific genetic representations (e.g., relative positions, graph-based structures), specialized crossover, and mutation operators that exploit the hexagonal grid geometry or hierarchical arrangements. Focus on evolving *packing rules* or *assembly sequences*, not just raw coordinates.
+4.  **Constraint Satisfaction & Global Optimization (e.g., employing specialized solvers or SciPy's global methods with advanced parameterization)**: Frame the problem as a set of geometric constraints (non-overlap, containment) and an objective function. If using general-purpose global optimizers, critically evaluate the search space parameterization (e.g., relative coordinates, contact points) and initial population generation to avoid local minima and leverage problem structure.
+Prioritize methods that can incorporate domain-specific heuristics effectively, especially those that explore structural patterns beyond simple perturbation.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps.
+- Algorithmic Hint: Explore diverse structural patterns and parameterizations.
+- **Search Space Parameterization**: Beyond absolute (x, y, rotation), consider:
+    - **Relative coordinates**: Define positions relative to a central hexagon or a local coordinate system formed by neighbors.
+    - **Polar coordinates**: Especially useful for arrangements with rotational symmetry.
+    - **Contact-point based**: Parameterize by the types and locations of contacts between hexagons, reducing degrees of freedom for densely packed regions.
+    - **Hierarchical approaches**: Optimize sub-clusters of hexagons first, then arrange the clusters.
+- **Overlap and Containment Checks**:
+    - **Physics Engines (e.g., `pymunk`)**: Strongly consider this for its native, robust collision detection and response, which fundamentally changes how non-overlap is handled. This is a primary mechanism for physics-based relaxation.
+    - **Signed Distance Fields (SDFs)**: Explore representing hexagon geometry using SDFs. This allows for smooth, differentiable collision detection, opening possibilities for gradient-based optimization or more nuanced, continuous penalty functions.
+    - **Hard Constraint Satisfaction**: Investigate methods that treat non-overlap and containment as hard constraints rather than soft penalties. This might involve specialized geometric constraint solvers or exact analytical methods, especially for constructive approaches.
+    - **Beyond `shapely`**: While `shapely` is powerful for geometric operations, actively seek alternatives or custom implementations (e.g., highly optimized SAT, or methods integrated directly into a physics engine) that align more closely with the chosen optimization paradigm and potentially offer performance or conceptual advantages for large-scale simulations or hard constraint enforcement.
+- **Initial Configurations & Heuristics**: Move beyond simple fixed arrangements. Explore *dynamically generated* starting points (e.g., random close packing, crystalline lattice patches, or configurations inspired by smaller N packings). For **constructive methods**, this might involve smart placement heuristics. For **evolutionary algorithms**, design genetic operators that specifically manipulate these structured patterns, hierarchical clusters, or relative arrangements, rather than just perturbing individual hexagon parameters. For **physics-based simulations**, consider configurations that reduce initial overlaps or provide a "warm start."
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint (potentially with a small buffer or soft penalty)
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom operators)
+  * `platypus` (multi-objective optimization)
+- **Collision detection**: 
+  * `pymunk` (2D rigid body physics with polygon shapes)
+  * Custom SAT (Separating Axis Theorem) implementations
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly
+- **Reproducibility**: Fixed random seeds for stochastic optimization methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

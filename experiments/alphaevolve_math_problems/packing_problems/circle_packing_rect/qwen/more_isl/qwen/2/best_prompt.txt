@@ -1,0 +1,57 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Geometric Construction Approaches**: Consider using Voronoi diagrams, Delaunay triangulations, or tessellation patterns as starting points
+2. **Multi-Objective Optimization**: Treat this as a constrained multi-objective problem where you simultaneously optimize for radius sum and geometric regularity
+3. **Hybrid Methods**: Combine deterministic placement with stochastic refinement or gradient-based optimization
+4. **Spatial Data Structures**: Leverage r-trees or other spatial indexing structures for efficient collision detection
+5. **Physics-Based Simulation**: Implement a soft-body dynamics approach where circles repel each other until equilibrium is reached
+6. **Mathematical Programming**: Formulate as a convex or mixed-integer optimization problem using tools like CVXPY or Google OR-Tools
+
+The key is to explore unconventional approaches that might yield better solutions than traditional greedy or evolutionary methods alone.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II), `dlib` (global optimization)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization), `pyswarm` (particle swarm optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi), `scikit-geometry` (advanced geometry)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `cvxpy` (convex optimization), `picos` (robust optimization)
+- **Physics engines**: `pymunk` (2D rigid body physics), `Box2D` (collision detection), `pybullet` (physics simulation)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions), `numba` (just-in-time compilation)
+- **Advanced Techniques**: `gurobipy` (commercial optimization solver), `cvxopt` (convex optimization), `pyomo` (optimization modeling)
+
+Consider combining multiple paradigms: start with a geometric heuristic, then refine with a local optimizer, and finally validate with a global search method.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

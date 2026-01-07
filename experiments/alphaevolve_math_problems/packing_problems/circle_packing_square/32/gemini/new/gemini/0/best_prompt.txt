@@ -1,0 +1,81 @@
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-START
+
+The problem requires a global optimization strategy due to its non-convex nature and numerous local optima. Evolutionary Algorithms (EAs) are particularly well-suited for this challenge.
+
+**Suggested Approach: Evolutionary Algorithm using `deap`**
+
+1.  **Individual Representation**:
+    *   An individual solution should be represented as a flattened 1D NumPy array of `[x1, y1, r1, x2, y2, r2, ..., x32, y32, r32]`.
+    *   Ensure all `r_i` are positive. Radii should be constrained such that `2*r_i <= 1` (maximum possible diameter is the side length of the unit square).
+
+2.  **Fitness Function Design**:
+    *   The primary objective is to maximize `sum_radii = Σri`.
+    *   Introduce **penalty terms** to enforce constraints, transforming the problem into one suitable for unconstrained optimization via EAs (i.e., minimizing a combined objective).
+    *   **Containment Penalty**: For each circle `i`, if `xi < ri` or `xi > 1-ri` or `yi < ri` or `yi > 1-ri`, apply a penalty. The penalty should be proportional to the squared distance the circle extends beyond the boundary. For example, `max(0, ri - xi)^2 + max(0, xi - (1-ri))^2 + ...`.
+    *   **Overlap Penalty**: For every pair of distinct circles `(i, j)`, calculate the center-to-center distance `d_ij = √[(xi-xj)² + (yi-yj)²]`. If `d_ij < ri + rj` (overlap occurs), apply a penalty proportional to `(ri + rj - d_ij)²`. This squared term ensures a smooth penalty function for optimization algorithms and heavily penalizes large overlaps.
+    *   The overall fitness to *minimize* would be `-(Σri) + C1 * (Containment_Penalty) + C2 * (Overlap_Penalty)`. You may need to tune penalty coefficients `C1` and `C2` to balance exploration and constraint satisfaction.
+
+3.  **Initialization Strategy**:
+    *   Generate an initial population of individuals with randomly placed circles.
+    *   Initial `x, y` coordinates should be uniformly distributed within `[0,1]`.
+    *   Initial radii can be small (e.g., uniformly distributed between 0.01 and 0.05) to reduce excessive initial overlaps, allowing the algorithm to gradually grow them.
+
+4.  **Evolutionary Operators (`deap` specific)**:
+    *   **Selection**: Use `deap.tools.selTournament` for selecting parents, as it is robust and widely used.
+    *   **Crossover**: Employ `deap.tools.cxBlend` or similar real-valued crossover operators to combine parent solutions.
+    *   **Mutation**: Use `deap.tools.mutGaussian` to perturb `x, y, r` values with appropriate mean and standard deviation. Consider using different mutation strengths for `x,y` coordinates versus `r` radii, or applying boundary checks to keep `x,y,r` within reasonable ranges after mutation.
+
+5.  **Optimization Loop**:
+    *   Set a reasonable population size (e.g., 100-500 individuals) and number of generations (e.g., 1000-5000) to allow for sufficient evolution within the 180-second time limit.
+    *   The `eval_time` metric should guide the balance between population size/generations and computation time.
+    *   Consider a strategy where radii are initially small and gradually allowed to increase, or a multi-stage approach where an initial rough packing is refined.
+
+6.  **Determinism**:
+    *   Crucially, set `numpy.random.seed()` and `random.seed()` (for `deap`'s internal random number generation) at the beginning of the function to ensure reproducibility of results.
+
+7.  **Performance & Memory**:
+    *   Calculating distances for all pairs of circles can be optimized using `scipy.spatial.distance.pdist` or `scipy.spatial.distance.cdist` for efficiency, especially when evaluating the fitness of the entire population. Avoid explicit nested loops for distance calculations.
+    *   For `N=32`, the number of pairs is `(32 * 31) / 2 = 496`, which is manageable for direct distance calculations.
+    *   Focus on efficient NumPy operations for fitness evaluation to stay within the time budget.
+
+8.  **Output**: The function must return a `np.ndarray` of shape `(32, 3)` where each row `(x, y, r)` describes a circle's center coordinates and radius.
+
+# PROMPT-BLOCK-END
+    

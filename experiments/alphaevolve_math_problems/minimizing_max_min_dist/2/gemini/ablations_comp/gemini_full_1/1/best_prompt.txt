@@ -1,0 +1,50 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to develop a constructor function that *implements an iterative optimization process* to find an optimal arrangement of exactly 16 points in 2D space. The goal is to maximize the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+METHODOLOGY:
+- The solution MUST employ an iterative search or optimization algorithm to refine the point positions. Prioritize exploring distinct approaches such as:
+    - **Physics-based relaxation**: Model points as mutually repulsive particles seeking a stable equilibrium.
+    - **Gradient-based local search**: Utilize methods like L-BFGS-B or SLSQP (from `scipy.optimize.minimize`), potentially combined with multiple restarts or intelligent initializations to explore the global landscape.
+    - **Simulated annealing**: A probabilistic metaheuristic known for escaping local optima.
+    - **Constructive algorithms**: Iteratively add points, optimizing each new point's placement relative to existing ones.
+- Leverage appropriate libraries from `COMPUTATIONAL RESOURCES` (e.g., `scipy.optimize`, `pymoo` for multi-objective problems, or custom implementations) to implement the chosen optimization strategy. When considering metaheuristics, prefer those specifically adapted for geometric problems or hybrid approaches.
+- The initial point configuration should be a reasonable starting guess for the optimization process, not just random points without further refinement.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Ensure fixed random seeds for all stochastic components, and define initial conditions or optimization parameters consistently to guarantee reproducible results across runs.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

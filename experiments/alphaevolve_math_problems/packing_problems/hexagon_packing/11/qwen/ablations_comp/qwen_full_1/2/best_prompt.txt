@@ -1,0 +1,74 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop a sophisticated constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+Your approach should consider diverse mathematical frameworks including:
+- Mathematical programming formulations with constraints on containment and non-overlap
+- Combinatorial optimization approaches leveraging graph theory and topological constraints
+- Symmetry-based reduction techniques using group theory to exploit hexagonal symmetries
+- Algebraic geometry methods for exact solution finding in constrained polynomial systems
+- Variational principles and energy minimization approaches tailored to hexagon interactions
+- Constructive geometric algorithms that build valid packings through systematic placement rules
+- Topological optimization where the problem is first discretized into combinatorial structures
+- Constraint satisfaction formulations that leverage advanced constraint propagation techniques
+- Machine learning approaches for predicting good initial configurations or learning placement policies
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint (use efficient separation axis theorem or other advanced collision detection)
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon (consider convex hull computations and geometric inequalities)
+  * Objective: maximize 1/R where R is the outer hexagon side length (formulate as constrained nonlinear optimization problem)
+
+Consider multiple algorithmic approaches beyond conventional optimization:
+- **Combinatorial Construction**: Develop algorithms that enumerate valid topological arrangements of hexagons, then optimize within each arrangement class
+- **Symmetry-Aware Search**: Exploit the dihedral symmetry group of hexagons to reduce search space and identify equivalent configurations
+- **Algebraic Solution Methods**: Apply elimination theory or Gröbner basis methods to solve the system of polynomial equations defining valid placements
+- **Variational Optimization**: Formulate as a continuous energy minimization problem where the energy functional captures both containment and non-overlap constraints
+- **Constructive Geometric Algorithms**: Design systematic placement procedures based on hexagonal lattice theory and tiling principles
+- **Hybrid Discrete-Continuous Methods**: Combine discrete combinatorial optimization with continuous geometric optimization in a coordinated manner
+- **Learning-Based Initialization**: Use reinforcement learning or supervised learning to generate high-quality starting configurations
+- **Multi-Objective Evolutionary Strategies**: Treat containment, non-overlap, and optimality as competing objectives in a multi-objective framework
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
+  * `deap` (evolutionary algorithms with custom operators for hexagon configurations)
+  * `platypus` (multi-objective optimization with custom fitness functions)
+- **Collision detection**: 
+  * `pymunk` (2D rigid body physics with polygon shapes)
+  * Custom SAT (Separating Axis Theorem) implementations with hexagon-specific optimizations
+  * Advanced spatial data structures like quadtrees or KD-trees for neighbor queries
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib` (parallel execution of constraint evaluations)
+
+Encourage exploration of novel mathematical approaches such as:
+- Leveraging duality theory to transform the packing problem into an equivalent optimization problem
+- Employing semidefinite programming relaxations combined with rounding techniques for approximate solutions
+- Applying homotopy continuation methods to trace solution paths through parameter space
+- Using algebraic topology concepts like Betti numbers to understand the connectivity of feasible regions
+- Exploring category theory applications to model relationships between different packing configurations
+- Implementing tensor-based methods for multi-dimensional geometric constraint solving
+- Applying information geometry to navigate the manifold of valid hexagon configurations
+- Utilizing quantum-inspired optimization algorithms for global search in high-dimensional spaces
+
+TECHNICAL REQUIREMENTS:
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly
+- **Reproducibility**: Fixed random seeds for stochastic optimization methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 90 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

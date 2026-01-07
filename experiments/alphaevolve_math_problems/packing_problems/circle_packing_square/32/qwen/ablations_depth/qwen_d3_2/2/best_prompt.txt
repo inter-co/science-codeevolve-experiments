@@ -1,0 +1,53 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. Consider multiple algorithmic paradigms including but not limited to: 
+1. **Constraint Programming**: Model the problem as a constraint satisfaction/optimization problem using tools like Google OR-Tools or python-constraint
+2. **Mathematical Optimization**: Employ Lagrangian relaxation, semidefinite programming, or convex optimization formulations (e.g., using cvxpy)
+3. **Direct Geometric Construction**: Develop systematic geometric algorithms that construct valid arrangements with provable quality guarantees
+4. **Machine Learning Approaches**: Train neural networks or use reinforcement learning to learn optimal circle placements
+5. **Alternative Evolutionary Methods**: Implement novel evolutionary operators, different selection mechanisms, or population dynamics
+6. **Hybrid Approaches**: Combine constraint solving with local search, or integrate geometric insights with optimization techniques
+
+The key is to demonstrate creative thinking by choosing an unconventional approach that might reveal new insights about the problem structure or achieve competitive results through fundamentally different reasoning.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (gradient-based methods)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+- **Advanced optimization**: Consider `cvxpy` for convex optimization formulations, or `openmdao` for multidisciplinary optimization
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic diversity**: Explore multiple solution strategies and justify your chosen approach based on theoretical guarantees, empirical performance, or problem structure. The approach should be conceptually distinct from standard gradient-based or evolutionary methods.
+- **Multi-start strategy**: Consider running multiple optimization instances with different initializations to escape local optima, especially important for methods that may get trapped in poor local solutions
+- **Theoretical grounding**: Where applicable, provide justification for why your chosen approach is theoretically sound or likely to perform well on this particular problem instance
+
+# PROMPT-BLOCK-END
+    

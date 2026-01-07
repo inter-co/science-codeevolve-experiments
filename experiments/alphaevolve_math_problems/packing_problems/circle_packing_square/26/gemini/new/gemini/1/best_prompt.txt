@@ -1,0 +1,72 @@
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-START
+
+The problem requires finding a global optimum in a high-dimensional, non-convex search space with complex non-linear constraints. Traditional gradient-based methods are likely to get stuck in local minima. Evolutionary algorithms (EAs) or physics-based simulations are well-suited for this challenge.
+
+**Recommended Approach: Evolutionary Algorithm using `deap`**
+
+1.  **Problem Representation**:
+    *   An "individual" in the evolutionary algorithm should represent the state of all 26 circles. This can be a flat array of 26 * 3 = 78 floating-point numbers: `[x1, y1, r1, x2, y2, r2, ..., x26, y26, r26]`.
+    *   The `x_i, y_i` coordinates must be within `[0, 1]` and `r_i` radii within `[0, 0.5]`. Ensure initial generation and genetic operators (mutation, crossover) respect these bounds.
+
+2.  **Fitness Function Design**:
+    *   The primary objective is to maximize `Σr_i`.
+    *   Constraints (containment and non-overlap) must be rigorously enforced, typically through a penalty method. The fitness function should be designed as `F = Σr_i - C_overlap * P_overlap - C_containment * P_containment`.
+    *   **Containment Penalty (`P_containment`)**: For each circle `i`, calculate the violation for `x_i` and `y_i` relative to `r_i`. The penalty for a single circle `i` is `(max(0, r_i - x_i))^2 + (max(0, x_i - (1-r_i)))^2 + (max(0, r_i - y_i))^2 + (max(0, y_i - (1-r_i)))^2`. Sum these for all circles.
+    *   **Non-overlap Penalty (`P_overlap`)**: For each unique pair of circles `(i, j)`, calculate the Euclidean distance `d_ij = √[(xi-xj)² + (yi-yj)²]`. If `d_ij < r_i + r_j`, an overlap occurs. The penalty for this pair is `(max(0, r_i + r_j - d_ij))^2`. Sum these for all overlapping pairs.
+    *   `C_overlap` and `C_containment` should be sufficiently large positive constants (e.g., 1000 to 10000) to strongly penalize constraint violations.
+
+3.  **`deap` Framework Setup**:
+    *   **Types**: Define `deap.creator.FitnessMax` for maximization and `deap.creator.Individual` as a list of floats.
+    *   **Population Initialization**: Create an initial population of individuals. Randomly generate `x, y, r` for each circle. For `r`, initialize with small values (e.g., `[0.01, 0.1]`) and ensure `x, y` are within `[r, 1-r]`.
+    *   **Operators**:
+        *   **Selection**: Use `deap.tools.selTournament` (e.g., `tournsize=3`).
+        *   **Crossover**: `deap.tools.cxSimulatedBinaryBounded` or `deap.tools.cxBlend` for real-valued genes, with appropriate `eta` or `alpha` parameters.
+        *   **Mutation**: `deap.tools.mutPolynomialBounded` or `deap.tools.mutGaussian` with specified `low`, `up` bounds (e.g., `[0, 1]` for `x, y` and `[0, 0.5]` for `r`) and `indpb` (probability of mutating an individual's gene).
+    *   **Evolutionary Loop**: Implement a standard generational evolutionary algorithm.
+        *   `NGEN` (number of generations): Start with 1000-5000, adjust based on the 180-second time limit.
+        *   `POP_SIZE` (population size): Start with 100-500.
+
+4.  **Post-processing / Refinement**:
+    *   The best individual from the EA might still have minor constraint violations or could be slightly improved. Consider a local optimization step (e.g., `scipy.optimize.minimize` with a method like SLSQP or COBYLA) on the best individuals from the EA. Use `Σr_i` as the objective to maximize (or negative to minimize) and explicitly define the containment and non-overlap constraints for `scipy.optimize`. This can help "polish" the solution.
+
+5.  **Output Format**: The final output should be a `np.ndarray` of shape `(26, 3)` where each row is `[x, y, r]` for a circle, as specified.
+
+# PROMPT-BLOCK-END
+    

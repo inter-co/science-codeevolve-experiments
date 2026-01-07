@@ -1,0 +1,64 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+You are encouraged to explore diverse algorithmic paradigms including but not limited to:
+- Mathematical programming approaches - utilize exact or approximate convex optimization techniques such as semidefinite programming, second-order cone programming, or branch-and-bound methods specifically designed for geometric optimization problems. Consider formulating this as a disciplined convex program or using specialized geometric optimization libraries.
+- Combinatorial optimization strategies - apply discrete optimization methods like integer programming, dynamic programming, or graph-based algorithms to systematically enumerate and evaluate promising circle configurations. Think about representing the problem as a maximum clique or independent set problem in a conflict graph.
+- Geometric construction methods (Voronoi diagrams, Delaunay triangulation based approaches) - build arrangements based on dual geometric structures or tessellation principles, considering how to place circles at Voronoi vertices or construct based on triangulation duals. Explore the relationship between circle packings and triangulations.
+- Constraint programming approaches - formulate the problem as a constraint satisfaction problem and solve using specialized solvers like Google OR-Tools or python-constraint library. Model the problem with explicit constraints on positions, radii, and pairwise non-overlapping conditions.
+- Machine learning guided search strategies - employ neural networks or reinforcement learning to learn good initial configurations or optimization policies for circle placement. Consider using graph neural networks to encode spatial relationships.
+- Topological optimization methods - consider using topological derivatives or level set methods to optimize the arrangement structure. Think about evolving the topology of the packing rather than just optimizing positions.
+- Monte Carlo methods with advanced sampling techniques - implement sophisticated sampling schemes such as Markov Chain Monte Carlo or Hamiltonian Monte Carlo for exploring the feasible region. Use geometric constraints to define the sampling space.
+- Evolutionary computation methods - apply genetic algorithms, differential evolution, or particle swarm optimization with specialized representations and operators tailored for continuous geometric optimization. Design encoding schemes that naturally handle geometric constraints.
+- Novel hybrid frameworks - combine geometric insights with metaheuristic search, such as using Voronoi-based initialization followed by physics simulation refinement, or geometric constraints embedded within evolutionary algorithms. Consider using geometric reasoning to guide exploration.
+- Alternative mathematical formulations - think beyond traditional approaches. Consider using Lagrangian duality, semialgebraic optimization, or algebraic geometry techniques. Explore the connection between circle packing and polynomial optimization problems.
+- Graph-theoretic approaches - model the circle packing problem as a graph coloring or graph partitioning problem. Consider the relationship between circle packings and graph theory concepts like planar graphs or graph minors.
+- Algebraic geometric methods - leverage tools from algebraic geometry to analyze the configuration space of circle packings. Use resultants or Gröbner bases to understand constraints.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `cvxpy` (convex optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `scipy.optimize` (mathematical optimization)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+- **Advanced geometrics**: `triangle` (Delaunay triangulation), `skgeom` (computational geometry)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility, but also consider multiple random restarts for robustness
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations with fallback strategies. Implement comprehensive validation of all generated solutions.
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider spatial data structures like KDTree for efficient neighbor searches
+- **Scalability**: Design with potential extension to different circle counts in mind, favoring modular approaches
+- **Algorithmic diversity**: Consider novel combinations of approaches rather than standard implementations; favor approaches that can adaptively switch between exploration and exploitation phases
+- **Mathematical rigor**: Where applicable, use formal mathematical formulations for constraints and objectives, but also consider approximate or relaxed formulations that enable faster computation
+- **Multi-start strategies**: Implement multiple initialization heuristics or restarts to escape local optima, particularly important for non-convex problems
+- **Adaptive methods**: Consider algorithms that dynamically adjust parameters based on progress (e.g., adaptive mutation rates in evolutionary algorithms)
+- **Alternative solution strategies**: Explore fundamentally different paradigms such as mathematical programming, combinatorial optimization, or purely geometric construction methods rather than relying on physics-based simulation or gradient optimization. Focus on either:
+  1. Exact mathematical optimization using convex relaxations or global optimization techniques
+  2. Purely combinatorial approaches that enumerate geometric structures
+  3. Constraint satisfaction with advanced constraint propagation techniques
+  4. Algebraic geometric approaches that exploit the mathematical structure of the problem
+
+# PROMPT-BLOCK-END
+    

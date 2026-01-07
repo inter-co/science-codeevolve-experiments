@@ -1,0 +1,51 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to implement an optimization procedure within a constructor function to *iteratively refine* the arrangement of exactly 14 points in 3D space. The goal is to maximize the ratio of minimum distance to maximum distance between all point pairs through an *algorithmic search* rather than a static generation.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALGORITHMIC GUIDANCE:
+To foster diversity and move beyond simple random placements, consider strategies that involve iterative refinement or global optimization. Potential approaches include:
+- **Repulsive Force Models**: Simulate particles repelling each other (e.g., electrostatic, Lennard-Jones-like potentials) to spread out points, then minimize a potential energy function.
+- **Gradient-based Optimization**: If a differentiable objective function proxy can be formulated, use methods like L-BFGS-B or SLSQP.
+- **Global Optimization/Metaheuristics**: For highly non-convex problems, explore `scipy.optimize.basinhopping`, `differential_evolution`, or specialized evolutionary algorithms (`deap`, `platypus`, `pymoo`).
+- **Initialization Strategies**: Consider initializing points on a sphere or a regular grid, then refining their positions.
+- **Centroidal Voronoi Tessellations**: Iteratively move points to the centroids of their Voronoi cells.
+- **Simulated Annealing**: Gradually reducing the "temperature" to explore the solution space.
+This problem is akin to the Thomson problem or Tammes problem for sphere packing/dispersion, suggesting solutions often exhibit high symmetry. Focus on dynamic, search-based methods. Given the problem's highly non-convex nature and the goal of exploring diverse solution landscapes, prioritize global optimization strategies like `differential_evolution`, `basinhopping`, or physics-inspired repulsive force models over more localized iterative refinement techniques.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

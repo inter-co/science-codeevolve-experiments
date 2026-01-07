@@ -1,0 +1,55 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to implement a sophisticated optimization algorithm that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Evolutionary Algorithms**: Implement genetic algorithms or differential evolution to iteratively improve circle placements - consider using specialized operators for geometric constraints
+2. **Physics-Based Simulation**: Use particle physics or force-directed methods where circles repel each other - implement adaptive force scaling based on overlap penalties
+3. **Mathematical Optimization**: Formulate as constrained nonlinear optimization problem using Lagrange multipliers or interior point methods - consider using penalty methods for hard constraints
+4. **Hybrid Methods**: Combine deterministic geometric insights with stochastic search techniques - e.g., start with a deterministic hexagonal packing then apply local stochastic refinement
+5. **Multi-scale Approaches**: Start with coarse placement then refine locally - consider hierarchical optimization where global structure is optimized first, then local fine-tuning
+6. **Constraint Programming**: Use constraint satisfaction techniques specifically designed for geometric problems - leverage spatial indexing structures like KD-Trees for efficient overlap detection
+7. **Machine Learning Approaches**: Train neural networks to predict good circle arrangements or use reinforcement learning to discover optimal packing strategies
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations - include robust initialization strategies
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations - consider spatial data structures for efficient neighbor queries
+- **Scalability**: Design with potential extension to different circle counts in mind - ensure algorithms scale gracefully
+- **Algorithmic Diversity**: Consider multiple distinct algorithmic approaches rather than just one method - prioritize novel combinations of techniques
+- **Performance Trade-offs**: Balance solution quality against computational efficiency within the 60-second time limit
+- **Robust Initialization**: Ensure initial configurations are feasible (no overlapping circles) and reasonably spread out
+- **Constraint Handling**: Implement careful constraint enforcement that prevents invalid states during optimization
+- **Geometric Robustness**: Use numerically stable geometric computations and avoid degenerate cases
+
+# PROMPT-BLOCK-END
+    

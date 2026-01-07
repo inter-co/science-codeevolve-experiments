@@ -1,0 +1,48 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. Consider multiple algorithmic paradigms including:
+- Mathematical programming approaches (convex optimization, Lagrangian relaxation)
+- Constraint satisfaction techniques with sophisticated pruning
+- Geometric reasoning based on optimal sphere packing theory
+- Hybrid methods combining deterministic and stochastic search
+- Multi-scale optimization strategies that leverage symmetry and spatial partitioning
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Mathematical Optimization**: `cvxpy` (convex optimization), `scipy.optimize` (nonlinear programming)
+- **Constraint Programming**: `python-constraint`, `ortools` (Google OR-Tools) 
+- **Advanced Geometry**: `shapely` (geometric operations), `scipy.spatial` (KDTree, Voronoi), `triangle` (Delaunay triangulation)
+- **Stochastic Search**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `dlib` (global optimization)
+- **Physics-based Methods**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Algorithmic Diversity**: Implement at least one non-trivial optimization strategy beyond simple greedy placement
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Theoretical grounding**: Where possible, leverage known bounds or theoretical results about optimal circle packings
+
+# PROMPT-BLOCK-END
+    

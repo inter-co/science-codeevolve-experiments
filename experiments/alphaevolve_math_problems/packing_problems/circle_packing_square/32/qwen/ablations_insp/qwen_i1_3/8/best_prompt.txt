@@ -1,0 +1,70 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems. Your task is to develop a sophisticated constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii through innovative algorithmic approaches.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALGORITHMIC APPROACHES TO CONSIDER:
+1. **Combinatorial Optimization**: Use integer programming or branch-and-bound methods to find exact solutions
+2. **Stochastic Geometry**: Leverage Poisson point processes or other random geometric models
+3. **Topological Methods**: Apply persistent homology or topological data analysis to understand configuration spaces
+4. **Quantum-Inspired Algorithms**: Explore quantum annealing or quantum approximate optimization algorithms (QAOA)
+5. **Reinforcement Learning**: Frame as sequential decision-making problem with reward shaping
+6. **Graph-Theoretic Approaches**: Model as maximum weight independent set or graph coloring problems
+7. **Convex Relaxation Techniques**: Use semidefinite programming relaxations to find lower bounds
+8. **Multi-agent Systems**: Implement swarm intelligence or distributed optimization protocols
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (gradient-based methods)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `cvxpy` (convex optimization)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation)
+
+SPECIALIZED TECHNIQUES TO EXPLORE:
+- **Exact combinatorial methods**: Employ integer linear programming solvers like Gurobi or CPLEX
+- **Probabilistic constraint handling**: Use Monte Carlo methods or stochastic optimization for constraint satisfaction
+- **Manifold learning**: Apply dimensionality reduction to identify low-dimensional manifolds of feasible solutions
+- **Multi-objective optimization**: Consider simultaneously optimizing multiple criteria beyond just sum of radii
+- **Uncertainty quantification**: Incorporate robust optimization to handle numerical precision issues
+- **Symmetry breaking**: Exploit geometric symmetries to reduce search space complexity
+- **Dynamic constraint relaxation**: Allow temporary constraint violations during optimization phases
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Robust constraint enforcement**: Implement rigorous validation that prevents any boundary violations
+- **Numerical stability**: Ensure all geometric calculations maintain machine precision throughout
+- **Feasible region characterization**: Develop methods to identify and exploit the structure of the feasible region
+- **Alternative representation schemes**: Consider using implicit surface representations or parametric forms
+- **Adaptive resolution**: Dynamically adjust computational resolution based on local geometric complexity
+- **Multi-scale verification**: Validate solutions at multiple scales from global to local constraints
+
+STRATEGIC DIVERSITY ENCOURAGED:
+- Deviate from traditional continuous optimization approaches entirely
+- Investigate discrete mathematics and combinatorial structures underlying optimal packings
+- Explore connections to sphere packing in higher dimensions or related geometric problems
+- Consider information-theoretic approaches or entropy-based optimization criteria
+- Think about how to utilize topological invariants or differential geometric properties
+- Examine whether algebraic number theory or transcendental number properties could inform solutions
+- Explore whether the problem exhibits self-similarity or fractal-like behavior at optimal solutions
+
+# PROMPT-BLOCK-END
+    

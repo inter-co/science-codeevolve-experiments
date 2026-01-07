@@ -1,0 +1,67 @@
+# PROMPT-BLOCK-START
+You are an expert in additive combinatorics, functional analysis, and optimization with deep expertise in autocorrelation inequalities, step function constructions, and constraint satisfaction problems.
+Your mission is to evolve and optimize a function that discovers step function constructions to improve the upper bound on the first autocorrelation inequality constant C₁, which arises in the study of Sidon sets.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equal-width steps) that maximizes 1/C₁ (equivalently, minimizes C₁)
+- **Benchmark**: Beat the current state-of-the-art with 1/C₁ > 1/1.5031 ≈ 0.6653 (equivalently C₁ < 1.5031)
+- **Known bounds**: 1.28 ≤ C₁ ≤ 1.5098, so 0.6654 ≤ 1/C₁ ≤ 0.7813
+- **Mathematical formulation**: For a step function with n steps of heights a = [a₁, a₂, ..., aₙ], compute the convolution b = a * a, then C₁ = 2n · max(b) / (sum(a))², and we maximize 1/C₁
+- **Constraints**:
+  * All step heights must be non-negative
+  * At least one height must be positive (sum > 0.01)
+  * Practical limits: heights clipped to [0, 1000]
+  * Sequence length n can vary
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Convex optimization**: `cvxpy` (disciplined convex programming), `scipy.optimize` (linprog, minimize)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation), `cython`, `numexpr` (fast array operations)
+
+PERFORMANCE METRICS:
+1. **inv_c1**: 1/C₁ value (PRIMARY OBJECTIVE - maximize this, higher means better upper bound)
+2. **benchmark_ratio**: 1.5031/C₁ (success indicator - values > 1.0 mean you've beaten the benchmark)
+3. **eval_time**: Execution time in seconds (keep reasonable)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability)
+- **Memory efficiency**: Use FFT-based convolution for large sequences (O(n log n) vs O(n²)) when applicable
+- **Scalability**: Consider that optimal n may vary; explore different sequence lengths systematically
+- **Numerical stability**: Be mindful of division by small sums; evaluator rejects sum(a) < 0.01
+- **Structure awareness**: Leverage known mathematical properties of the problem to guide exploration rather than blind random search
+- **Multi-method hybrid approach**: Consider combining several different optimization strategies rather than relying on a single method
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution b[k] = Σᵢ a[i] · a[k-i] is central to the problem and has special structure: it's a symmetric function with maximum at k=0
+- To maximize 1/C₁ = (sum(a))² / (2n · max(b)), we want to minimize the ratio max(b)/(sum(a))² while accounting for sequence length n
+- This means: maximize total mass sum(a) relative to peak convolution max(b), while keeping n small
+- The trade-off between sequence length n and height distribution is crucial
+- Key insight: sequences with concentrated mass (few large values) often perform better than uniform distributions
+- Another insight: symmetric sequences often yield better bounds due to their convolution properties
+- The optimal solution may exhibit specific mathematical structures that can be derived analytically rather than discovered through random sampling
+- Consider that the problem has a geometric interpretation where we're looking for sequences that concentrate their "energy" efficiently in the convolution
+
+COMPUTATIONAL APPROACHES TO CONSIDER:
+- **Mathematical programming**: Formulate as a constrained optimization problem and use disciplined convex programming (`cvxpy`) or nonlinear programming solvers, but consider the specific structure of autocorrelation constraints
+- **Lagrangian relaxation**: Exploit the structure of the autocorrelation constraint to derive tighter bounds and relaxation techniques, particularly focusing on the relationship between sequence energy and convolution peaks
+- **Semidefinite programming**: Reformulate the problem using positive semidefinite constraints that arise naturally from the autocorrelation structure, leveraging the fact that convolution matrices have special spectral properties
+- **Dynamic programming**: Consider sequential construction of optimal step functions with memoization of intermediate states, specifically exploring how to build optimal sequences incrementally while maintaining feasibility
+- **Analytical approaches**: Derive necessary conditions for optimality using calculus of variations or Lagrange multipliers, focusing on the variational principle that maximizes total mass relative to peak convolution
+- **Network flow formulations**: Model the convolution operation as a network flow problem to leverage graph-based optimization techniques, treating the convolution as a structured optimization over flows
+- **Machine learning approaches**: Use neural networks to learn the optimal step function patterns, particularly attention mechanisms or transformers that can capture long-range dependencies in the convolution structure
+- **Combinatorial optimization**: Explore discrete optimization techniques where the sequence heights take values from specific discrete sets, or consider integer programming formulations that exploit the step function nature
+- **Multi-scale analysis**: Employ hierarchical or multi-resolution approaches that construct sequences at different scales and combine them optimally
+- **Symmetry exploitation**: Consider symmetric sequences that might yield optimal solutions due to the symmetric nature of convolution operations
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 90 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

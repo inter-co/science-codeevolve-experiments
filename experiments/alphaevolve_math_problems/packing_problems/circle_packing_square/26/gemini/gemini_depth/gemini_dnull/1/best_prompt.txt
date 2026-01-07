@@ -1,0 +1,50 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer, optimization specialist, and materials scientist, skilled in modeling physical interactions and packing phenomena. Your focus is on achieving optimal dense circle packings.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 26 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.6358627564136983
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+SOLUTION STRATEGIES TO CONSIDER FOR DIVERSITY:
+To encourage exploration beyond standard mathematical optimization, consider these distinct algorithmic pathways:
+-   **Physics-based Simulation**: Model circles as particles with repulsive forces and the square boundaries as confining walls. Use a physics engine (e.g., `pymunk`, `pybullet`) to simulate their movement until they settle into a stable, densely packed configuration. This can explore local optima effectively.
+-   **Constructive/Greedy Heuristics**: Develop algorithms that place circles sequentially. Examples include:
+    *   Placing the largest possible circle in the center, then filling surrounding gaps.
+    *   Iteratively placing circles in the largest available empty space.
+    *   Using a "front-advancing" method to fill the square.
+-   **Global Optimization with Geometric Initialization**: Employ powerful global optimization algorithms (e.g., `scipy.optimize.differential_evolution`, `scipy.optimize.basin_hopping`, or `deap` for EAs) but initialize them with geometrically informed starting configurations (e.g., perturbed hexagonal lattices, or configurations derived from smaller packing problems).
+-   **Constraint Satisfaction with Iterative Refinement**: Formulate the problem as a constraint satisfaction problem and use solvers (`ortools`, `python-constraint`) to find feasible solutions, then iteratively refine radii and positions to improve the objective.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.6358627564136983 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

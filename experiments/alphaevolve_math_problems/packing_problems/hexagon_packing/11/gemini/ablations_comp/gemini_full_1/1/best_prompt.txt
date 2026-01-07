@@ -1,0 +1,52 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to implement an *optimization-driven search strategy* to determine the optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length). This implies dynamically calculating hexagon positions and rotations, not hardcoding them.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps.
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi, the goal is to find these (xi, yi, θi) values:
+  * Non-overlap: All pairs of inner hexagons must be disjoint.
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon.
+  * Objective: maximize 1/R where R is the outer hexagon side length.
+- **Solution Space Note**: Optimal hexagon packing solutions are frequently found in configurations that align with hexagonal lattices or close-packed arrangements. The search strategy **must explore diverse algorithmic paradigms beyond direct parameter optimization**, such as:
+    *   **Physics-based simulations (e.g., using `pymunk`)**: Model hexagons as interacting rigid bodies, using forces to drive them into dense packing.
+    *   **Constructive placement algorithms**: Sequentially place hexagons, perhaps guided by a hexagonal grid, available space, or local optimization.
+    *   **Evolutionary algorithms with geometry-aware operators (e.g., using `deap`)**: Design custom mutation/crossover strategies that respect hexagonal symmetries or lattice structures, rather than just optimizing continuous parameters directly.
+The problem remains a non-convex global optimization challenge.
+- **Symmetry and Centering Considerations**: While many optimal packings exhibit symmetry, the specific type and whether a hexagon is fixed at the origin are open questions. Solutions should explore ways to either dynamically discover symmetries, or allow for non-symmetric optimal arrangements, rather than hardcoding a single fixed symmetric pattern (e.g., forcing a central hexagon). The outer hexagon is assumed to be centered at (0,0) and unrotated, but the inner hexagons' arrangement relative to this can be fully flexible.
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Crucial for an effective solution**: The problem's complexity necessitates the strategic application of the following libraries. The solution should leverage them for geometric calculations, collision detection, and especially for the optimization search.
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing & Collision Detection**: 
+  * `shapely` (**Highly recommended for robust polygon operations, intersection testing, and containment checks, potentially offering a different algorithmic pathway than low-level SAT implementations.**)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * Custom SAT (Separating Axis Theorem) implementations (for fine-grained control and performance in critical loops, if `shapely` proves too slow or inflexible for a given approach)
+- **Optimization**: 
+  * `deap` (evolutionary algorithms, **highly recommended for custom, geometry-aware operators** that can exploit hexagonal symmetry or lattice structures for mutation/crossover strategies, or to allow symmetry to emerge dynamically)
+  * `scipy.optimize` (for fine-tuning local configurations or as a component in a hybrid strategy, e.g., `basinhopping` for global exploration or `minimize` for local refinement, **especially consider `basinhopping` for exploring multiple local optima without hardcoding symmetry**).
+  * `platypus` (multi-objective optimization, if considering secondary objectives)
+- **Constructive/Physics-based Packing**:
+  * `pymunk` (for simulating physical interactions and dynamic packing, e.g., using repulsive forces between hexagons to achieve dense packing, or dropping hexagons into a container, **consider this as a primary search strategy rather than just an auxiliary tool**).
+  * Custom constructive algorithms (e.g., sequentially placing hexagons into available spaces, potentially guided by a hexagonal grid)
+- **Performance**: `numba` (JIT compilation for geometric calculations, crucial for speeding up objective function evaluations), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly
+- **Reproducibility**: Fixed random seeds for stochastic optimization methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    
