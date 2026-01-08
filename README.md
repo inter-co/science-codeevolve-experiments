@@ -1,14 +1,23 @@
-# CodeEvolve Experiments Repository
+# CodeEvolve Experiments
 
-This repository contains the complete experimental setup, benchmark implementations, and reproducibility code for the CodeEvolve [paper](https://arxiv.org/abs/2510.14150).
+<div align="center">
 
-> **CodeEvolve: An open source evolutionary coding agent for algorithm discovery and optimization**  
-> Henrique Assumpção, Diego Ferreira, Leandro Campos, Fabricio Murai  
-> [arXiv:2510.14150](https://arxiv.org/abs/2510.14150)
+<img src="assets/codeevolve_logo.png" alt="CodeEvolve Logo" width="400">
+<p align="center">
+  <img src="https://img.shields.io/badge/version-v0.2.1-green" alt="v0.2.1"></a>
+  <a href="https://arxiv.org/abs/2510.14150"><img src="https://img.shields.io/badge/arxiv-2510.14150-red" alt="Arxiv"></a>
+  <a href="https://github.com/inter-co/science-codeevolve/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" alt="License"></a>
+</p>
+
+**An open-source framework that combines large language models with evolutionary algorithms to discover and optimize high-performing code solutions.**
+
+</div>
+
+This is a companion repository to [science-codeevolve](https://github.com/inter-co/science-codeevolve), and contains the complete experimental setup, benchmark implementations, and reproducibility code for the CodeEvolve [paper](https://arxiv.org/abs/2510.14150).
 
 ## Overview
 
-This companion repository to [science-codeevolve](https://github.com/inter-co/science-codeevolve) provides:
+This repository provides:
 
 - **Complete benchmark problems** used in the paper's evaluation
 - **Experimental configurations** for reproducing all results
