@@ -85,27 +85,7 @@ export API_KEY=your_api_key_here
 export API_BASE=your_api_base_url
 ```
 
-## Reproducing Paper Results
-
-### Running a Benchmark Problem
-
-Each problem has configuration files for different LLM providers (Gemini, Qwen, etc.). Here's how to run an experiment:
-
-```bash
-# Example: Circle packing in a square (26 circles) with Qwen
-codeevolve \
-  --inpt_dir=problems/alphaevolve_math_problems/packing_problems/circle_packing_square/26 \
-  --cfg_path=problems/alphaevolve_math_problems/packing_problems/circle_packing_square/26/configs/qwen_config.yaml \
-  --out_dir=results/circle_packing_26_qwen \
-  --terminal_logging
-
-# Example: First autocorrelation inequality with Gemini
-codeevolve \
-  --inpt_dir=problems/alphaevolve_math_problems/autocorrelation_problems/first_autocorr_ineq/input \
-  --cfg_path=problems/alphaevolve_math_problems/autocorrelation_problems/first_autocorr_ineq/configs/gemini_config.yaml \
-  --out_dir=results/autocorr_first_gemini \
-  --terminal_logging
-```
+## Paper Results
 
 ### Available Benchmark Problems
 
@@ -121,13 +101,33 @@ codeevolve \
 | | Circle in Square | 26, 32 | Pack N circles in unit square |
 | | Hexagon Packing | 11, 12 | Pack N hexagons in larger hexagon |
 
+### Running a Benchmark Problem
+
+Each problem has configuration files for different LLM providers (Gemini, Qwen, etc.). Here's how to run an experiment:
+
+```bash
+# Example: Circle packing in a square (26 circles) with Qwen
+codeevolve \
+  --inpt_dir=problems/alphaevolve_math_problems/packing_problems/circle_packing_square/26/input \
+  --cfg_path=problems/alphaevolve_math_problems/packing_problems/circle_packing_square/26/configs/qwen_config.yaml \
+  --out_dir=results/circle_packing_26_qwen \
+  --terminal_logging
+
+# Example: First autocorrelation inequality with Gemini
+codeevolve \
+  --inpt_dir=problems/alphaevolve_math_problems/autocorrelation_problems/first_autocorr_ineq/input \
+  --cfg_path=problems/alphaevolve_math_problems/autocorrelation_problems/first_autocorr_ineq/configs/gemini_config.yaml \
+  --out_dir=results/autocorr_first_gemini \
+  --terminal_logging
+```
+
 ### Resuming from Checkpoints
 
 To resume an interrupted run:
 
 ```bash
 codeevolve \
-  --inpt_dir=problems/alphaevolve_math_problems/packing_problems/circle_packing_square/26 \
+  --inpt_dir=problems/alphaevolve_math_problems/packing_problems/circle_packing_square/26/input \
   --out_dir=results/circle_packing_26_qwen \
   --load_ckpt=-1  # Load latest checkpoint
 ```
@@ -136,32 +136,26 @@ Or load a specific checkpoint epoch:
 
 ```bash
 codeevolve \
-  --inpt_dir=problems/alphaevolve_math_problems/packing_problems/circle_packing_square/26 \
+  --inpt_dir=problems/alphaevolve_math_problems/packing_problems/circle_packing_square/26/input \
   --out_dir=results/circle_packing_26_qwen \
   --load_ckpt=100  # Load checkpoint from epoch 100
 ```
 
-### Exact Reproducibility
+### Reproducibility
 
-Our experimental results were obtained using Qwen and Gemini models as the backbone for our LLM ensembles. Both models were accessed via an internal API system at Inter that routed requests to the respective LLM provider. Many commercial LLM providers do not guarantee deterministic outputs even when random seeds are provided. As a result, **exact numerical reproduction of our paper results is not guaranteed**, even when using the same configuration files and seeds. Despite these limitations, our ablation studies demonstrate that CodeEvolve consistently achieves **state-of-the-art results across multiple seeds and experimental runs** on all considered benchmarks. The core algorithmic contributions remain robust to LLM stochasticity.
+This repository supports two distinct notions of reproducibility:
 
-## Analyzing Results
+#### 1) Reproducing the paper analysis (deterministic, using included artifacts)
+The folder `experiments/` contains the raw artifacts used in the paper (checkpoints, histories, logs). The notebook(s) in `notebooks/` analyze those artifacts to generate the plots and comparisons. Re-running the analysis should reproduce the reported figures/tables as long as your analysis environment is compatible.
 
-### Using the Analysis Notebook
+#### 2) Re-running the full search (best-effort; exact replay depends on the LLM provider)
+**Exact numerical reproduction of a full evolutionary run is not guaranteed** when using hosted LLM APIs.
 
-```bash
-# Make sure jupyter is installed
-conda activate codeevolve
-pip install jupyter matplotlib pandas
+Why:
+- Many commercial LLM providers **do not support deterministic sampling** or **do not honor `seed`**.
+- Even when a provider accepts `seed`, outputs can vary due to backend nondeterminism (load balancing, infrastructure-level randomness, model version rollouts).
 
-# Launch notebook
-jupyter notebook notebooks/experiment_analysis.ipynb
-```
-
-The notebook provides:
-- Solution quality over time plots
-- Comparison with AlphaEvolve baselines
-- Ablation study analysis
+This is not a limitation of CodeEvolve’s evolutionary framework: CodeEvolve is **seedable for its internal stochastic decisions**, and it forwards model `seed` to OpenAI-compatible endpoints when supported. The remaining nondeterminism comes from the LLM backbone/provider.
 
 ## Citation
 
@@ -183,8 +177,8 @@ If you use CodeEvolve or these benchmarks in your research, please cite:
 
 Experiments are versioned to match the main repository:
 
-- **v0.1.0**: Initial release, corresponds to v1 of technical report
-- **v0.2.0**: Current release, corresponds to v3 of technical report
+- **v0.1.0**: Initial release, corresponds to v1 of CodeEvolve's [paper](https://arxiv.org/abs/2510.14150).
+- **v0.2.0**: Current release, corresponds to v3 of CodeEvolve's [paper](https://arxiv.org/abs/2510.14150).
 
 ## Acknowledgements
 
