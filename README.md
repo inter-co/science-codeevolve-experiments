@@ -1,6 +1,6 @@
 # CodeEvolve Experiments Repository
 
-This repository contains the complete experimental setup, benchmark implementations, and reproducibility code for the CodeEvolve research paper.
+This repository contains the complete experimental setup, benchmark implementations, and reproducibility code for the CodeEvolve [paper](https://arxiv.org/abs/2510.14150).
 
 > **CodeEvolve: An open source evolutionary coding agent for algorithm discovery and optimization**  
 > Henrique Assumpção, Diego Ferreira, Leandro Campos, Fabricio Murai  
@@ -143,7 +143,7 @@ codeevolve \
 
 ### Exact Reproducibility
 
-Our experimental results were obtained using Qwen and Gemini models as the backbone for our LLM ensembles. Both models were accessed via an internal API system at Inter that routed requests to the respective LLM providers. Many commercial LLM providers do not guarantee deterministic outputs even when random seeds are provided. As a result, **exact numerical reproduction of our paper results is not guaranteed**, even when using the same configuration files and seeds. Despite these limitations, our ablation studies demonstrate that CodeEvolve consistently achieves **state-of-the-art results across multiple seeds and experimental runs** on all considered benchmarks. The core algorithmic contributions remain robust to LLM stochasticity.
+Our experimental results were obtained using Qwen and Gemini models as the backbone for our LLM ensembles. Both models were accessed via an internal API system at Inter that routed requests to the respective LLM provider. Many commercial LLM providers do not guarantee deterministic outputs even when random seeds are provided. As a result, **exact numerical reproduction of our paper results is not guaranteed**, even when using the same configuration files and seeds. Despite these limitations, our ablation studies demonstrate that CodeEvolve consistently achieves **state-of-the-art results across multiple seeds and experimental runs** on all considered benchmarks. The core algorithmic contributions remain robust to LLM stochasticity.
 
 ## Analyzing Results
 
