@@ -98,15 +98,15 @@ export API_BASE=your_api_base_url
 
 ### Available Benchmark Problems
 
-| Problem Category | Problem | Dimensions | Description |
+| Problem Category | Problem | Parameters | Description |
 |-----------------|---------|------------|-------------|
 | **Autocorrelation** | First Autocorr Ineq | - | First autocorrelation inequality |
 | | Second Autocorr Ineq | - | Second autocorrelation inequality |
 | **Heilbronn** | Triangle | - | Heilbronn triangle problem |
 | | Convex | 13, 14 | Heilbronn convex hull problem |
-| **Max-Min Distance** | Dimension 2 | 2D | Maximize minimum distance |
-| | Dimension 3 | 3D | Maximize minimum distance |
-| **Packing** | Circle in Rectangle | - | Pack circles in rectangle |
+| **Max-Min Distance** | 2D | N=16 | Place N 2D points, Minimize Max-Min distance ratio |
+| | 3D | N=14 | Place N 3D points, Minimize Max-Min distance ratio |
+| **Packing** | Circle in Rectangle | - | Pack N circles in rectangle |
 | | Circle in Square | 26, 32 | Pack N circles in unit square |
 | | Hexagon Packing | 11, 12 | Pack N hexagons in larger hexagon |
 
