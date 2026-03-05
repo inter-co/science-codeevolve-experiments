@@ -1,6 +1,14 @@
 # PROMPT-BLOCK-START
 SETTING:
-You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length). Consider both mathematical optimization approaches and heuristic search strategies.
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+Consider advanced mathematical approaches including:
+- Voronoi-based packing strategies
+- Circle packing analogies adapted for hexagonal geometry  
+- Group theory applications for symmetric arrangements
+- Constrained optimization using Lagrangian multipliers
+- Geometric programming formulations
+- Topological considerations for hexagon adjacency
 
 PROBLEM CONTEXT:
 - Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
@@ -9,16 +17,13 @@ PROBLEM CONTEXT:
   * Non-overlap: All pairs of inner hexagons must be disjoint
   * Containment: All vertices of inner hexagons must lie within the outer hexagon
   * Objective: maximize 1/R where R is the outer hexagon side length
-- Alternative approaches to consider:
-  * Geometric programming formulations
-  * Global optimization techniques (simulated annealing, genetic algorithms)
-  * Rigorous mathematical packing bounds and constructions
-  * Symmetry-breaking strategies for improved convergence
 
 PERFORMANCE METRICS:
 1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
 2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
 3. **eval_time**: Execution time for full evaluation
+4. **symmetry_score**: Measure of how well the configuration respects hexagonal symmetry groups
+5. **packing_efficiency**: Ratio of total inner hexagon area to outer hexagon area
 
 COMPUTATIONAL RESOURCES:
 **Core packages**: numpy, scipy, matplotlib, shapely
@@ -31,21 +36,16 @@ COMPUTATIONAL RESOURCES:
   * Custom functions for generating symmetric configurations
   * Group theory utilities for constraint enforcement
   * Symmetry-aware optimization operators
-- **Optimization**: 
-  * `scipy.optimize` (constrained optimization, global methods)
+- **Advanced Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
   * `deap` (evolutionary algorithms with custom symmetry operators)
   * `platypus` (multi-objective optimization)
-  * `scipy.optimize.differential_evolution` for global optimization
-  * `scipy.optimize.basinhopping` for escaping local minima
+  * Consider implementing custom gradient-free optimization routines
 - **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
-- **Advanced approaches**:
-  * Consider using mathematical programming solvers like `cvxpy` for convex relaxations
-  * Implement constraint satisfaction methods using interval arithmetic
-  * Explore polyhedral approximation techniques for the packing problem
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

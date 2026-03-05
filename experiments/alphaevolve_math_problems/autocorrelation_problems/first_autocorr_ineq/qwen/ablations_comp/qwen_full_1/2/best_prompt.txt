@@ -16,12 +16,12 @@ COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
 **Additional useful packages**:
-- **Symbolic Mathematics**: `sympy` for analytical derivation of optimal patterns
-- **Algebraic Structures**: `networkx` for modeling relationships in optimal sequences
-- **Advanced Mathematical Analysis**: `jax` for automatic differentiation of complex expressions
-- **Tensor Operations**: `torch` for high-dimensional pattern recognition
-- **Specialized Optimization**: `cvxpy` for convex relaxations, `scipy.optimize` for constrained optimization
-- **Mathematical Modeling**: `scipy.signal` for understanding signal properties, `scipy.fft` for spectral analysis
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Convex optimization**: `cvxpy` (disciplined convex programming), `scipy.optimize` (linprog, minimize)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation), `cython`, `numexpr` (fast array operations)
 
 PERFORMANCE METRICS:
 1. **inv_c1**: 1/C₁ value (PRIMARY OBJECTIVE - maximize this, higher means better upper bound)
@@ -41,19 +41,18 @@ MATHEMATICAL INSIGHTS:
 - This means: maximize total mass sum(a) relative to peak convolution max(b), while keeping n small
 - The trade-off between sequence length n and height distribution is crucial
 
-COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
-
 ALTERNATIVE APPROACHES TO CONSIDER:
-- **Analytical Derivation Frameworks**: Prove mathematical properties of optimal sequences using variational calculus or Lagrangian methods, then construct explicit formulas
-- **Group-Theoretic Approaches**: Leverage symmetry groups and representation theory to identify optimal step function structures
-- **Tensor Network Methods**: Use tensor contractions to model multi-scale autocorrelation patterns
-- **Quantum-Inspired Optimization**: Apply principles from quantum computing and quantum annealing to search the space of step functions
-- **Machine Learning with Mathematical Constraints**: Train neural networks with built-in mathematical guarantees about autocorrelation properties
-- **Topological Data Analysis**: Apply persistent homology to understand the shape of the autocorrelation landscape
-- **Algebraic Number Theory**: Explore connections to algebraic integers and their role in optimal step function constructions
-- **Combinatorial Design Theory**: Apply concepts from design theory to systematically construct sequences with desired autocorrelation properties
+- **Mathematical Programming**: Formulate the problem as a constrained optimization using convex or non-convex programming techniques, leveraging Lagrangian duality or semidefinite programming relaxations
+- **Analytical Methods**: Derive necessary conditions for optimality using calculus of variations or variational principles, exploring the structure of optimal step functions
+- **Decomposition Techniques**: Break the problem into smaller subproblems using dynamic programming or column generation approaches
+- **Advanced Gradient-Free Methods**: Employ sophisticated derivative-free optimization such as model-based methods, pattern search, or mesh adaptive direct search (MADS)
+- **Hybrid Approaches**: Combine deterministic mathematical insights with stochastic sampling to create efficient hybrid algorithms
+- **Structure-Aware Search**: Design search strategies that exploit known structural properties of optimal solutions (e.g., sparsity patterns, symmetry constraints)
+- **Machine Learning for Problem Reformulation**: Use learning techniques to discover more effective representations or approximations of the optimization landscape
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

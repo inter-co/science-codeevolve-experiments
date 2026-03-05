@@ -1,7 +1,7 @@
 # PROMPT-BLOCK-START
 
 SETTING:
-You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to discover mathematically informed step function constructions that exploit structural properties to maximize the second autocorrelation inequality constant C₂.
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your approach should combine mathematical insight with advanced optimization strategies to discover optimal step function configurations.
 
 PROBLEM CONTEXT:
 - **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
@@ -20,22 +20,16 @@ PROBLEM CONTEXT:
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
-**Additional useful packages**:
-- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
-- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
-- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
-- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
-- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
-- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
-- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+**Advanced Optimization Approaches**:
+- **Global optimization**: Leverage `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation) for exploring complex solution spaces
+- **Metaheuristics**: Use `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization) for efficient search
+- **Hybrid methods**: Combine analytical insights with computational optimization
+- **Structured approaches**: Consider mathematical properties of optimal step functions rather than purely random sampling
 
-**Mathematical Approach Guidance**:
-Consider analytical approaches such as:
-- Convex optimization formulations for the constrained maximization problem
-- Lagrangian duality methods for handling constraints on step heights
-- Fourier domain analysis where g = f*f translates to G = F·F* (where F is the Fourier transform)
-- Gradient-based optimization using automatic differentiation
-- Structured optimization where step locations and heights are optimized jointly
+**Signal Processing & Mathematical Tools**:
+- **Convolution methods**: Utilize `scipy.signal` for precise autoconvolution calculations and `scipy.fft` for fast convolution when beneficial
+- **Numerical stability**: Implement robust handling of edge cases and numerical precision issues
+- **Analytical insights**: Apply mathematical properties of optimal step function configurations based on the C₂ formulation
 
 PERFORMANCE METRICS:
 1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
@@ -46,8 +40,8 @@ TECHNICAL REQUIREMENTS:
 - **Determinism**: Use fixed random seeds for reproducibility across runs
 - **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
 - **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
-- **Algorithmic sophistication**: Employ principled optimization methods rather than naive random search
-- **Mathematical rigor**: Ensure that your approach respects the theoretical structure of the problem
+- **Optimization strategy**: Employ principled search strategies rather than naive random exploration
+- **Solution quality**: Prioritize mathematically sound approaches over brute-force methods
 
 MATHEMATICAL INSIGHTS:
 - The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
@@ -56,13 +50,12 @@ MATHEMATICAL INSIGHTS:
 - Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
 - More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
 - The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
-- Consider leveraging the fact that optimal solutions often exhibit symmetry or specific geometric structures
-- Think about how to formulate this as a convex optimization problem or use variational principles
-- Explore whether the optimal step function has special properties like being piecewise constant with specific spacing
+- Consider mathematical structures such as symmetric functions, optimal spacing, or known extremal configurations
+- Explore whether specific patterns (like exponential decay, sinusoidal modulation, or geometric progressions) might yield better results than random distributions
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

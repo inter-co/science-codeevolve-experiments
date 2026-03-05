@@ -1,0 +1,69 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in physics-based computational geometry specializing in circle packing through force-directed relaxation methods.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+ALGORITHMIC PARADIGM:
+Consider physics-inspired approaches where circles behave as particles subject to:
+- **Repulsive forces** between overlapping circles (proportional to overlap depth)
+- **Boundary forces** pushing circles away from square edges when they exceed bounds
+- **Expansion pressure** allowing radii to grow when spatial constraints permit
+- **Energy minimization** through iterative relaxation until equilibrium
+
+INITIALIZATION STRATEGY:
+Rather than starting from empty configurations, consider:
+- **Hexagonal lattice seeds**: Initialize positions on a regular hexagonal grid pattern (optimal for infinite plane packing)
+- **Stratified random placement**: Divide the square into regions and place circles with guaranteed minimum separation
+- **Progressive growth**: Start with small equal-sized circles and incrementally expand radii while maintaining feasibility
+=======
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+DOMAIN INSIGHTS:
+- **Hexagonal close packing** achieves ~90.7% density on infinite planes; adapt this principle to finite squares
+- **Edge effects**: Circles near boundaries have asymmetric packing constraints; consider non-uniform radius distributions
+- **Local vs global optima**: Greedy expansion can trap in poor configurations; use perturbation/annealing strategies
+- **Symmetry exploitation**: The unit square has 4-fold rotational symmetry; symmetric configurations may approach optimality
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds (e.g., `np.random.seed(42)`) if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Iterative refinement**: Implement multi-stage processes (e.g., position relaxation → radius expansion → fine-tuning)
+- **Convergence criteria**: Define clear stopping conditions (e.g., maximum iterations, energy threshold, improvement plateau)
+
+IMPLEMENTATION SUGGESTIONS:
+- Use **vectorized operations** (numpy broadcasting) for efficient force/distance calculations
+- Consider **spatial indexing** (scipy.spatial.cKDTree) to accelerate nearest-neighbor queries for large circle counts
+- Implement **adaptive step sizes** in relaxation loops (larger steps initially, smaller near convergence)
+- Apply **simulated annealing** or **basin hopping** to escape local minima during position optimization
+
+# PROMPT-BLOCK-END
+    

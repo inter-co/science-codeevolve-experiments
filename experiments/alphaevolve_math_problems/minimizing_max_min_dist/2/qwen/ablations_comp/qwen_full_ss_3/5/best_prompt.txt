@@ -1,0 +1,67 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+STRATEGIC APPROACHES TO CONSIDER:
+1. **Direct Geometric Construction**: Develop configurations using purely geometric principles without iterative optimization, such as lattice-based arrangements, spiral patterns, or fractal-like distributions. Consider regular polygons, hexagonal tilings, or other symmetric geometric constructs as starting points.
+2. **Energy-Based Models with Alternative Force Laws**: Model the point configuration using different potential functions (e.g., inverse power laws, logarithmic potentials) rather than simple repulsion. Explore non-standard force laws such as inverse cubic, exponential decay, or logarithmic repulsion.
+3. **Combinatorial Optimization**: Approach the problem through discrete mathematics, considering arrangements as graph-theoretic objects or exploring exact combinatorial constructions. Consider using graph coloring, perfect matchings, or other discrete structures to inform point placement.
+4. **Randomized Construction with Constraints**: Generate random point sets and apply systematic constraint satisfaction procedures rather than optimization. Try stochastic methods like simulated annealing with custom cooling schedules or genetic algorithms with specialized crossover operators.
+5. **Multi-Scale Analysis**: Begin with coarse-grained arrangements and progressively refine them through local adjustments. Consider hierarchical approaches where global structure is established first, then local optimization is applied in successive refinement steps.
+
+ALTERNATIVE FORMULATIONS TO EXPLORE:
+1. **Dual Objective Approach**: Minimize dmax while constraining dmin ≥ some threshold value. This can be approached through constrained optimization or penalty methods.
+2. **Normalized Distance Approach**: Work with normalized distances to avoid scale issues. Consider using unit sphere embeddings or other normalization techniques.
+3. **Potential Field Approach**: Define an energy function based on pairwise distances and minimize it using alternative optimization methods like particle swarm optimization, differential evolution, or basin-hopping algorithms.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE FORMULATIONS TO EXPLORE:
+1. **Dual Objective Approach**: Minimize dmax while constraining dmin ≥ some threshold value
+2. **Normalized Distance Approach**: Work with normalized distances to avoid scale issues
+3. **Potential Field Approach**: Define an energy function based on pairwise distances and minimize it
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Robustness**: Ensure the solution works across different initialization strategies
+- **Validation**: Include checks for numerical stability and convergence criteria
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+ADVANCED TECHNIQUES TO CONSIDER:
+1. **Quadratic Programming**: Formulate as QP problem with appropriate constraints. Consider using interior-point methods or active-set strategies for better convergence properties.
+2. **Semidefinite Programming**: Use SDP relaxations for global optimization. Explore how to formulate the distance constraints as semidefinite constraints.
+3. **Monte Carlo Methods**: Employ importance sampling or Markov Chain Monte Carlo methods. Try Hamiltonian Monte Carlo or other advanced MCMC variants.
+4. **Machine Learning Approaches**: Use neural networks trained on known good configurations. Consider reinforcement learning where the agent learns to place points optimally through trial and error.
+5. **Swarm Intelligence**: Implement particle swarm optimization, ant colony optimization, or bacterial foraging algorithms. These may escape local optima more effectively than gradient-based methods.
+6. **Evolutionary Algorithms**: Use genetic algorithms with specialized representations for point configurations. Try multi-objective evolutionary algorithms that optimize both minimum and maximum distances simultaneously.
+
+# PROMPT-BLOCK-END
+    

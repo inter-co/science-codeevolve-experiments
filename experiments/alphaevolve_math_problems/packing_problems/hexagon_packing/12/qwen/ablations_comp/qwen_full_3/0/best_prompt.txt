@@ -1,0 +1,49 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length). Approach this as a rigorous mathematical optimization problem requiring precise constraint satisfaction.
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint (use precise geometric intersection tests)
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon (validate all 6 vertices per hexagon)
+  * Objective: maximize 1/R where R is the outer hexagon side length
+- Strategy considerations: Employ rigorous mathematical programming approaches including:
+  * **Constraint programming with explicit feasibility checking**: Design algorithms that first ensure constraint satisfaction before optimizing, rather than relying on penalty functions
+  * **Lattice-based construction methods**: Explore systematic grid-based or lattice arrangements that naturally satisfy many constraints
+  * **Symmetry-aware geometric constructions**: Leverage known symmetries of hexagonal tilings to reduce search space and guarantee valid solutions
+  * **Exact geometric computation**: Use exact arithmetic or interval arithmetic for critical geometric tests to avoid floating-point errors that cause false positives
+  * **Multi-scale optimization**: Combine global search strategies with local refinement that maintains feasibility throughout the process
+  * **Combinatorial approaches**: Consider discrete combinatorial methods that enumerate valid configurations rather than continuous optimization
+  * **Verification-first methodology**: Prioritize constructing mathematically sound solutions over fast but potentially invalid heuristics
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Advanced Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution or basin hopping)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+  * Consider implementing specialized algorithms for hexagonal packing such as simulated annealing with geometric constraints
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,56 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Prioritize geometric constructions and mathematical optimization approaches that leverage known optimal configurations from discrete geometry, such as:
+- Regular polygonal arrangements and their deformations
+- Lattice-based constructions (hexagonal, square, triangular lattices)
+- Spherical code theory and optimal point distributions on spheres
+- Voronoi diagram-based constructions and Delaunay triangulations
+- Symmetry-preserving methods and group-theoretic approaches
+- Analytical solutions from potential field theory or electrostatic repulsion models
+Avoid heavy reliance on evolutionary algorithms; instead, favor mathematically rigorous geometric constructions that can be proven to approach optimality.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Mathematical Rigor**: Prioritize solutions derived from geometric principles, analytical proofs, or known optimal configurations from discrete geometry over heuristic random sampling
+- **Alternative Strategies**: Emphasize systematic geometric constructions such as:
+  * Known optimal spherical codes for 16 points
+  * Regular polygonal symmetries with controlled perturbations
+  * Lattice-based approaches with optimized basis vectors
+  * Symmetry-breaking techniques that preserve optimality conditions
+  * Analytical methods from potential theory or variational principles
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

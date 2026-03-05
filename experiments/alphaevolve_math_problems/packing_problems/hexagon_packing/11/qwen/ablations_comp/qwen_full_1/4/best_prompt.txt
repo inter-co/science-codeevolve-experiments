@@ -1,6 +1,7 @@
 # PROMPT-BLOCK-START
 SETTING:
-You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your approach should integrate advanced mathematical principles and sophisticated optimization strategies to discover novel geometric arrangements.
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
 
 PROBLEM CONTEXT:
 - Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
@@ -9,12 +10,24 @@ PROBLEM CONTEXT:
   * Non-overlap: All pairs of inner hexagons must be disjoint
   * Containment: All vertices of inner hexagons must lie within the outer hexagon
   * Objective: maximize 1/R where R is the outer hexagon side length
-- Strategy: Consider advanced geometric configurations such as:
-  * Hexagonal lattice packings with optimized spacing
-  * Symmetric arrangements exploiting rotational symmetry
-  * Mathematical programming formulations using convex optimization
-  * Probabilistic methods like simulated annealing with geometric constraints
-  * Hybrid approaches combining analytical bounds with numerical optimization
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Constraint Satisfaction**: Formulate as a SAT or CSP problem where hexagon placements must satisfy containment and non-overlap constraints
+2. **Physics-based Simulation**: Model hexagons as rigid bodies with repulsive forces that naturally settle into optimal configurations
+3. **Graph-Theoretic Methods**: Represent hexagon arrangements as graph coloring or clique problems with geometric constraints
+4. **Neural Network Approaches**: Train a model to predict optimal hexagon positions based on learned geometric patterns
+5. **Multi-objective Optimization**: Simultaneously optimize for packing density, symmetry, and geometric regularity rather than just inverse side length
+6. **Discrete Geometry Approaches**: Explore tessellation patterns and geometric constructions that inherently satisfy constraints
+7. **Evolutionary Computation**: Use genetic algorithms with specialized crossover/mutation operators designed for geometric arrangements
+
+ENCOURAGED STRATEGIES:
+- Consider fundamentally different paradigms such as constraint solving, force-based simulation, or machine learning
+- Move beyond traditional optimization frameworks to explore combinatorial or probabilistic approaches
+- Investigate whether the problem can be reformulated as a discrete geometry problem or graph theory challenge
+- Embrace hybrid methods that combine geometric reasoning with non-traditional computational techniques
+- Focus on discovering novel geometric insights rather than just improving existing optimization parameters
+- Explore constructive geometric algorithms that build valid configurations systematically
+- Consider randomized or stochastic methods that might escape local optima more effectively
 
 PERFORMANCE METRICS:
 1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
@@ -27,29 +40,26 @@ COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 - **Geometric computing**: 
   * `shapely` (polygon operations, intersection testing, containment checks)
   * `scipy.spatial` (distance calculations, geometric queries)
+- **Alternative Paradigms**: 
+  * `pymunk` (2D rigid body physics with polygon shapes) - for force-based approaches
+  * `networkx` (graph algorithms) - for graph-theoretic methods
+  * `torch` or `tensorflow` (neural networks) - for ML approaches
+  * `pycosat` or `python-sat` (SAT solvers) - for constraint satisfaction
 - **Optimization**: 
   * `scipy.optimize` (constrained optimization, global methods)
   * `deap` (evolutionary algorithms with custom operators)
   * `platypus` (multi-objective optimization)
 - **Collision detection**: 
-  * `pymunk` (2D rigid body physics with polygon shapes)
   * Custom SAT (Separating Axis Theorem) implementations
-- **Advanced Techniques**: 
-  * Consider mathematical programming approaches using semidefinite programming relaxations
-  * Explore branch-and-bound methods for exact solutions
-  * Implement multi-start local optimization with diverse initial configurations
-  * Utilize machine learning-inspired geometric sampling strategies
 - **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
 
 TECHNICAL REQUIREMENTS:
 - **Numerical stability**: Handle hexagon intersection and containment calculations robustly
 - **Reproducibility**: Fixed random seeds for stochastic optimization methods
-- **Innovation Focus**: Prioritize novel geometric insights over brute-force approaches
-- **Mathematical Rigor**: Ensure theoretical soundness in constraint handling and objective function formulation
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

@@ -1,0 +1,68 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Emphasize mathematically rigorous and theoretically grounded approaches over heuristic optimization methods. Consider employing diverse mathematical and algorithmic paradigms including:
+- Algebraic number theory approaches to constructing optimal point sets (e.g., using roots of unity, algebraic integers, cyclotomic fields)
+- Direct geometric constructions with provable optimality properties such as:
+  * Regular polygonal arrangements with mathematical justification
+  * Lattice-based constructions with optimal packing properties
+  * Configurations derived from finite geometries or combinatorial designs
+  * Symmetric arrangements with group-theoretic foundations
+- Spectral graph theory and Laplacian eigenvalue optimization for point placement
+- Combinatorial optimization techniques with symmetry considerations and mathematical guarantees
+- Analytical methods based on potential theory and energy minimization, including:
+  * Configurations derived from electrostatic equilibrium
+  * Harmonic analysis and spherical harmonics
+  * Potential functions with known global optima
+- Topological approaches to point distribution on manifolds, considering the intrinsic geometry of the space
+- Constructive proofs and explicit mathematical constructions rather than black-box optimization
+- Geometric invariant theory and symmetry groups for systematic point arrangement
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider exploring arrangements inspired by:
+  * Algebraic number theory constructions (roots of unity, cyclotomic fields)
+  * Spectral graph theory and eigenvector-based point placement
+  * Direct geometric optimization with mathematical guarantees
+  * Combinatorial designs and finite geometry approaches
+  * Energy minimization with novel potential functions
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Implement at least one non-trivial mathematical construction method beyond simple random placement or gradient optimization
+- **Mathematical Rigor**: Ensure any geometric constructions are mathematically sound and theoretically grounded, preferably with explicit proofs of optimality or near-optimality
+- **Construction Focus**: Prioritize mathematically-derived constructions when possible, reserving optimization methods for fine-tuning rather than primary strategy
+- **Theoretical Foundation**: Prefer approaches with established mathematical theory over empirical optimization
+- **Explicit Construction**: Where possible, provide explicit formulas or deterministic algorithms rather than iterative methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

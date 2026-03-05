@@ -1,13 +1,18 @@
 # PROMPT-BLOCK-START
 SETTING:
-You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop a constructive algorithm that systematically searches for an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length). The solution must be derived through computational optimization rather than pre-computed configurations.
-
-Consider novel geometric insights such as:
-- Hexagonal lattice packings with non-trivial symmetries
-- Optimization using evolutionary algorithms with custom crossover operators for hexagonal arrangements
-- Mathematical programming formulations leveraging duality theory for geometric constraints
-- Advanced constraint satisfaction techniques combining continuous and discrete optimization
-- Novel geometric transformations that exploit the inherent symmetries of hexagonal tilings
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+Consider multiple geometric paradigms including:
+- Direct geometric construction approaches leveraging hexagonal lattice theory and Voronoi diagrams
+- Mathematical optimization using Lagrangian methods or convex programming formulations
+- Group theory based constructions with explicit symmetry group actions (D6, C6, etc.) 
+- Analytical approaches that exploit the duality between hexagonal packings and their dual triangular lattices
+- Combinatorial optimization over discrete configurations with geometric constraints
+- Geometric programming techniques tailored for circular/convex constraints
+- Topological approaches that consider the combinatorial structure of hexagon arrangements
+- Exact analytical solutions using algebraic number fields and root finding
+- Variational methods exploiting the smoothness of hexagon boundary functions
+- Numerical continuation methods that track optimal configurations through parameter space
 
 PROBLEM CONTEXT:
 - Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
@@ -16,6 +21,11 @@ PROBLEM CONTEXT:
   * Non-overlap: All pairs of inner hexagons must be disjoint
   * Containment: All vertices of inner hexagons must lie within the outer hexagon
   * Objective: maximize 1/R where R is the outer hexagon side length
+- Consider that optimal solutions may involve:
+  * Non-uniform rotational arrangements
+  * Asymmetric but symmetrically balanced configurations
+  * Hexagonal lattice point optimizations
+  * Voronoi-based spatial distributions
 
 PERFORMANCE METRICS:
 1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
@@ -29,22 +39,30 @@ COMPUTATIONAL RESOURCES:
   * `shapely` (polygon operations, intersection testing, containment checks)
   * `scipy.spatial` (distance calculations, geometric queries)
   * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Mathematical optimization**:
+  * `cvxpy` (convex optimization framework)
+  * `scipy.optimize` (Lagrangian methods, quadratic programming)
+  * `scipy.spatial.distance` (efficient distance computations for overlap detection)
 - **Symmetry handling**:
   * Custom functions for generating symmetric configurations
   * Group theory utilities for constraint enforcement
-  * Symmetry-aware optimization operators
-- **Advanced Optimization**: 
-  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
-  * `deap` (evolutionary algorithms with custom symmetry operators)
-  * `platypus` (multi-objective optimization)
-  * `cvxpy` (convex optimization formulations when applicable)
+  * Symmetry-adapted coordinate systems
+- **Advanced Techniques**:
+  * `scipy.spatial.KDTree` (fast nearest neighbor searches for overlap checking)
+  * `scipy.linalg` (matrix operations for geometric transformations)
+  * `sympy` (symbolic mathematics for exact geometric calculations)
+  * Custom analytical initialization strategies based on known optimal structures
+  * `scipy.integrate` (for calculating areas and volumes in geometric contexts)
+  * `scipy.optimize.root_scalar` (for solving transcendental equations arising in hexagon packing)
 - **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
-
-INSTRUCTION: The solution must be derived through computational search and optimization rather than relying on hardcoded configurations. Implement a method that explores the solution space to find an arrangement that approaches or exceeds the benchmark performance, emphasizing the optimization process itself over static solutions.
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy preference**: Prioritize mathematically rigorous, closed-form or semi-analytical approaches over purely numerical optimization when possible
+- **Efficiency focus**: Solutions should leverage geometric symmetries and mathematical properties to reduce search space dimensionality
+- **Constraint satisfaction**: Ensure all geometric constraints are met exactly, not approximately
+- **Alternative methodologies**: Consider analytical derivation of optimal configurations using variational principles or algebraic geometry
 
 # PROMPT-BLOCK-END
     

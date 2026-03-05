@@ -1,7 +1,8 @@
 # PROMPT-BLOCK-START
 
 SETTING:
-You are an expert in harmonic analysis, functional inequalities, and advanced optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to discover optimal step function constructions that maximize the second autocorrelation inequality constant C₂ through diverse mathematical reasoning and computational strategies, including both traditional and unconventional optimization paradigms.
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods.
+Your mission is to discover and optimize a function that improves the lower bound on the second autocorrelation inequality constant C₂ through innovative mathematical and computational approaches.
 
 PROBLEM CONTEXT:
 - **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
@@ -20,25 +21,25 @@ PROBLEM CONTEXT:
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
-**Alternative algorithmic strategies**:
-- **Analytical approaches**: Derive closed-form expressions or asymptotic approximations for optimal configurations using variational calculus, Lagrangian methods, or saddle-point analysis
-- **Geometric optimization**: Approach the problem through geometric insights, considering the autoconvolution as a geometric object and optimizing its shape characteristics
-- **Spectral methods**: Analyze the problem through Fourier domain representations, leveraging Parseval's theorem and spectral properties of convolution operators
-- **Symmetry-based constructions**: Exploit inherent symmetries in the problem to reduce dimensionality and construct solutions with specific symmetric patterns
-- **Discrete mathematics approaches**: Model the problem using graph theory, combinatorial optimization, or integer programming techniques
-- **Machine learning paradigms**: Apply neural networks, reinforcement learning, or unsupervised learning to discover patterns in optimal solutions
-- **Multi-scale analysis**: Use hierarchical or multi-resolution approaches to build solutions from coarse to fine scales
-- **Constraint satisfaction**: Formulate as constraint satisfaction problems with additional mathematical constraints derived from functional analysis
+**Alternative Optimization Approaches**:
+- **Analytical Methods**: Consider variational principles or calculus of variations for continuous optimization; explore differential equations that characterize optimal solutions
+- **Convex Optimization**: Explore semidefinite programming formulations or other convex relaxations; consider Lagrangian duality approaches
+- **Fast Fourier Transform**: Leverage FFT-based convolution for computational efficiency; investigate frequency-domain properties of optimal solutions
+- **Gradient-based Methods**: Implement projected gradient descent or quasi-Newton methods if gradients can be computed; explore implicit differentiation techniques
+- **Stochastic Methods**: Try simulated annealing, particle swarm optimization, or genetic algorithms with different encoding schemes; consider Bayesian optimization frameworks
+- **Multi-scale Analysis**: Employ wavelet-based approaches or multi-resolution analysis; explore hierarchical optimization strategies
+- **Machine Learning Approaches**: Utilize neural networks to learn optimal function shapes; apply reinforcement learning for policy optimization
+- **Combinatorial Methods**: Consider integer programming formulations or branch-and-bound approaches for discrete approximations
+- **Hybrid Strategies**: Combine multiple paradigms such as evolutionary algorithms with local search heuristics, or gradient-based methods with stochastic exploration
 
-**Mathematical sophistication**:
-- Apply variational principles or Lagrangian optimization frameworks with emphasis on saddle-point formulations
-- Consider convex relaxation techniques and semidefinite programming relaxations for tractable approximations
-- Utilize duality theory and conjugate functions to derive optimality conditions and dual certificates
-- Explore connections to information theory, entropy maximization, and information-theoretic bounds
-- Investigate the role of reproducing kernel Hilbert spaces (RKHS) and integral operator theory in the optimization framework
-- Apply tools from measure theory and functional analysis to characterize the space of admissible step functions
-- Utilize the theory of majorization and Schur convexity to establish structural properties of optimal solutions
-- Consider reformulations of the problem in terms of moment matrices or polynomial optimization
+**Additional useful packages**:
+- **Global optimization**: `scipy.optimize` (various optimizers), `cvxpy` (convex optimization), `dlib` (optimization library)
+- **Advanced metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
 
 PERFORMANCE METRICS:
 1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
@@ -48,28 +49,23 @@ PERFORMANCE METRICS:
 TECHNICAL REQUIREMENTS:
 - **Determinism**: Use fixed random seeds for reproducibility across runs
 - **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
-- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small; implement safeguards against overflow/underflow
-- **Convergence criteria**: Define clear stopping conditions for optimization algorithms
-- **Multi-start strategy**: Run optimization from multiple random initializations to avoid local optima
-- **Adaptive parameters**: Adjust optimization parameters dynamically based on progress
-- **Computational efficiency**: Balance solution quality with time constraints (maximum 90 seconds)
-- **Scalability considerations**: Ensure algorithms scale well with varying sequence lengths
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Exploration Strategy**: Consider multiple initialization strategies including random, structured, and mathematically-inspired approaches
+- **Convergence Criteria**: Implement adaptive stopping conditions based on improvement rates or solution stability
 
 MATHEMATICAL INSIGHTS:
-- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object with rich mathematical structure, connecting to convolution operators and their spectral properties
-- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g, with geometric interpretations involving the aspect ratio of the autoconvolution profile
-- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞, suggesting optimal solutions balance smoothness and energy concentration while avoiding excessive peak values
-- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster, indicating a fundamental tension in optimization that can be analyzed through norm inequalities
-- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞), suggesting that "flat" solutions might be favorable, but also consider that extreme flatness can lead to poor conditioning
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object with rich structural properties
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g, representing a trade-off between energy concentration and spread
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞; this suggests seeking solutions with concentrated energy in g
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster, indicating a delicate balance between concentration and smoothness
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞), suggesting that solutions with controlled variation may be beneficial
 - The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
-- Consider the dual nature of the problem: maximizing the ratio while respecting constraints on the step function configuration, potentially through Lagrange multiplier techniques
-- Explore connections to extremal problems in functional analysis, such as finding functions that extremize ratios of norms, including applications of Hölder's inequality and Young's convolution inequality
-- Investigate the connection between C₂ and the concept of "flatness" in signal processing and how it relates to the coherence properties of the autoconvolution
-- Examine whether optimal solutions exhibit specific symmetry properties or follow particular mathematical laws (e.g., power-law decays or exponential behaviors)
+- Consider exploring solutions that exhibit specific symmetry properties or scaling behaviors that might simplify the optimization landscape
+- Investigate whether optimal solutions have particular regularity properties or singularities that could guide construction approaches
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

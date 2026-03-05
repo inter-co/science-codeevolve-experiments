@@ -1,0 +1,56 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+Consider multiple algorithmic paradigms including:
+- Mathematical optimization approaches (Lagrangian relaxation, convex optimization)
+- Geometric constraint satisfaction methods using symbolic computation
+- Discrete geometry techniques with vertex enumeration
+- Physics-based simulation approaches with force-directed placement
+- Graph-theoretic representations of hexagon adjacency
+- Multi-scale optimization combining local refinement with global search strategies
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+- Alternative approaches to consider:
+  * Employ numerical optimization with gradient-based methods for continuous parameter spaces
+  * Use discrete optimization techniques such as simulated annealing or genetic algorithms
+  * Implement constraint programming with specialized propagators for hexagon constraints
+  * Apply geometric algebra methods for efficient rotation and transformation operations
+  * Explore the use of Voronoi diagrams or Delaunay triangulations in the packing context
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Advanced optimization**:
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
+  * `scipy.spatial.distance` (efficient distance computations between hexagon centers)
+  * `cvxpy` or `picos` (convex optimization frameworks for geometric problems)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`, `cython` for critical loops
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

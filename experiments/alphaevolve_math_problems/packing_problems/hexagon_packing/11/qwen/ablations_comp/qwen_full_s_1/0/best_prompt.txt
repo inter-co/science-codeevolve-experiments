@@ -1,0 +1,69 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop an intelligent constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Discrete Geometric Construction**: Start with known optimal lattice arrangements and systematically explore discrete placement patterns using symmetry-adapted configurations. Focus on combinatorial enumeration of valid hexagon packings rather than continuous parameter optimization
+2. **Constraint Satisfaction Networks**: Model the problem as a CSP where each hexagon's placement is a variable subject to geometric constraints, then solve using backtracking or message passing. Emphasize rigorous constraint propagation and domain reduction with emphasis on exact geometric reasoning
+3. **Topological Optimization**: Use mesh generation techniques or Voronoi diagrams to partition space, then adapt to hexagonal constraints through systematic pattern variation. Explore how hexagonal tiling symmetries can be leveraged for configuration generation
+4. **Hybrid Symbolic-Numeric Methods**: Combine exact geometric computations (using algebraic numbers) with discrete search strategies for the best of both worlds. Prioritize exact validation of geometric constraints over approximate solutions, using symbolic computation for critical geometric relationships
+5. **Combinatorial Search with Geometric Pruning**: Employ systematic enumeration of discrete hexagon configurations with aggressive pruning based on geometric invariants and symmetry considerations to dramatically reduce search space complexity
+
+INTEGRATED STRATEGY:
+Develop a multi-phase approach that combines:
+- Phase 1: Systematic enumeration of discrete symmetric configurations using combinatorial methods
+- Phase 2: Rigorous constraint validation using exact geometric algorithms with early termination
+- Phase 3: Discrete refinement strategies that preserve geometric validity rather than continuous optimization
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
+  * `deap` (evolutionary algorithms with custom operators for hexagon positioning)
+  * `platypus` (multi-objective optimization frameworks)
+- **Collision detection**: 
+  * `pymunk` (2D rigid body physics with polygon shapes) - consider for dynamic simulation
+  * Custom SAT (Separating Axis Theorem) implementations - for efficient overlap detection
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib` (parallel processing)
+
+STRATEGIC CONSIDERATIONS:
+- Prioritize exact geometric validation over approximate optimization heuristics
+- Implement systematic exploration of symmetry-adapted configuration spaces
+- Use mathematical programming formulations that naturally handle hexagon-specific constraints
+- Develop a hierarchy of validation checks: first coarse containment, then precise vertex-by-vertex testing
+- Consider geometric invariants and conservation laws that could simplify the search space
+- Enforce strict constraint satisfaction before evaluating objective functions to prevent invalid configurations
+- Implement robust collision detection using Separating Axis Theorem for reliable overlap checking
+- Design the algorithm to be resilient to local minima by exploring multiple initial configurations
+
+TECHNICAL REQUIREMENTS:
+- **Geometric correctness**: Implement robust polygon containment and intersection tests using proven computational geometry algorithms, including Separating Axis Theorem for reliable overlap detection
+- **Exact arithmetic**: Where possible, use symbolic representations for critical geometric relationships to avoid floating-point errors, particularly for vertex coordinates and containment checks
+- **Constraint satisfaction**: Ensure all geometric constraints are rigorously enforced before evaluating objectives. Implement comprehensive validation that catches all intersection cases with explicit geometric proof mechanisms
+- **Multi-resolution analysis**: Implement both coarse and fine-grained geometric checks to balance efficiency and accuracy, with early rejection of clearly invalid configurations using combinatorial arguments
+- **Robust initialization**: Start with mathematically sound initial configurations that are guaranteed to satisfy basic constraints, preferably derived from known optimal discrete arrangements
+- **Discrete refinement**: Design the algorithm to iteratively improve valid configurations through discrete moves that preserve geometric validity rather than continuous parameter adjustments
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

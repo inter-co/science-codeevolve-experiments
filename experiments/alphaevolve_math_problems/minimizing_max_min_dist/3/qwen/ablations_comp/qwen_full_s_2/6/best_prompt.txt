@@ -1,0 +1,58 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider exploring novel algorithmic paradigms beyond traditional optimization approaches:
+- **Algebraic geometry methods**: Employ Groebner basis computations or polynomial system solving to find exact geometric configurations
+- **Quantum-inspired algorithms**: Implement quantum annealing or variational quantum eigensolvers for global optimization
+- **Bio-inspired computation**: Utilize particle swarm optimization, ant colony optimization, or genetic algorithms with unconventional crossover operators
+- **Machine learning geometric learning**: Train neural networks to learn point distribution patterns from known optimal configurations
+- **Topological data analysis**: Apply persistent homology or Mapper algorithms to understand the shape of point configuration spaces
+- **Information geometry approaches**: Use Fisher information metrics or statistical manifolds to define natural point distributions
+- **Tensor network methods**: Leverage tensor contractions and renormalization group techniques for high-dimensional point optimization
+- **Combinatorial optimization**: Frame as integer programming or constraint satisfaction problems with exotic constraints
+- **Fractal and self-similar constructions**: Develop iterative function systems or iterated morphisms to generate point sets with optimal ratios
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider leveraging known optimal configurations for small numbers of points (e.g., 14 points on a sphere)
+- Explore theoretically grounded constructions including algebraic number fields, group representations, and topological arrangements
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Approach diversity**: Prioritize exploration of unconventional mathematical frameworks and computational paradigms
+- **Algorithmic sophistication**: Emphasize methods that demonstrate novel application of mathematical theory or computational innovation
+- **Theoretical grounding**: While maintaining mathematical rigor, prefer approaches that push beyond conventional optimization boundaries
+- **Innovation focus**: Reward solutions that introduce new conceptual frameworks or computational techniques rather than merely improving existing methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Exploration emphasis**: Prioritize algorithms that can potentially reveal fundamentally better configurations through unconventional search strategies
+- **Risk tolerance**: Encourage approaches that might be computationally expensive but conceptually innovative over guaranteed but conventional methods
+
+# PROMPT-BLOCK-END
+    

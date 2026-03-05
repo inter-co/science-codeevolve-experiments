@@ -1,0 +1,70 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Prioritize exploring fundamental mathematical constructions and geometric principles over purely numerical optimization. Instead of iterative optimization, focus on constructing points from first principles using:
+- Exact geometric constructions using algebraic numbers (golden ratio, sqrt(2), etc.)
+- Regular polygonal symmetries and their mathematical properties
+- Configurations derived from discrete geometry and combinatorial optimization theory
+- Analytical solutions from known optimal point distributions in 2D
+- Group theory applications to symmetric point arrangements (cyclic, dihedral groups)
+- Mathematical constructions based on sphere packing in 2D (hexagonal lattice and its fundamental domains)
+- Algebraic number fields and their geometric realizations (constructible numbers)
+- Symmetric polytopes and their 2D projections (regular polygons, star polygons)
+- Exact solutions from potential theory and electrostatic equilibrium (minimal energy configurations)
+- Geometric constructions using compass and straightedge principles
+- Lattice-based approaches with fundamental domains (triangular, square, hexagonal lattices)
+- Harmonic analysis on discrete groups for symmetric arrangements
+Emphasize mathematical rigor and exact geometric reasoning rather than numerical approximation methods. Consider configurations that are mathematically proven optimal or near-optimal rather than relying primarily on heuristic optimization.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+Consider leveraging known mathematical results about optimal point distributions by constructing points directly from:
+  - Regular polygonal arrangements (vertices of regular polygons, star polygons)
+  - Configurations derived from sphere packing in 2D (hexagonal lattice, triangular lattice)
+  - Geometric constructions related to the golden ratio, sqrt(2), or other algebraic numbers
+  - Symmetric polytopes or their projections into 2D space (regular 16-gon, etc.)
+  - Mathematical constructions based on group theory and symmetry groups (cyclic, dihedral)
+  - Exact solutions from discrete geometry and combinatorial optimization theory
+  - Constructions using fundamental domains of lattice groups (hexagonal, square, triangular)
+  - Solutions from potential theory and electrostatic equilibrium (known minimal energy configurations)
+  - Methods from harmonic analysis on finite groups for symmetric arrangements
+  - Geometric realizations of algebraic number fields (constructible numbers)
+  - Approaches based on extremal length in conformal geometry for optimal distribution
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components (if used)
+- **Algorithmic Diversity**: Implement at least one non-random method that relies on mathematical construction principles or exact geometric reasoning, in addition to any stochastic approaches
+- **Mathematical Rigor**: Where applicable, use symbolic computation or exact arithmetic to maintain precision in geometric calculations
+- **Construction Focus**: Prioritize explicit mathematical construction over numerical optimization techniques when possible
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

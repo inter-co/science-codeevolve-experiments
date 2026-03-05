@@ -1,0 +1,67 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider employing diverse mathematical and algorithmic approaches including:
+- Mathematical programming formulations with semidefinite programming relaxations or convex optimization techniques
+- Geometric constructions based on regular polytopes, spherical codes, or equiangular lines with explicit geometric constraints
+- Spectral graph theory methods applied to point configuration graphs, leveraging eigenvalue optimization for point distributions
+- Fast optimization using gradient-free methods like Nelder-Mead or Powell's method with smart initialization
+- Direct analytical constructions from known optimal configurations (such as the 16-point spherical code or Hadamard matrices)
+- Algebraic number theory approaches for constructing points with rational coordinates or algebraic dependencies
+- Low-discrepancy sequence generation with careful point selection for initial configurations
+- Efficient constraint handling through projection methods or penalty functions tuned for speed
+- Coordinate descent or block coordinate optimization for large-scale point placement problems
+- Symmetry-breaking techniques combined with group theory to reduce search space
+- Explore variational principles and Lagrangian optimization frameworks for point placement
+- Investigate evolutionary algorithms with custom crossover operators designed for geometric constraints
+- Apply machine learning approaches such as neural networks trained on geometric optimization patterns
+- Utilize topological optimization methods that preserve connectivity while optimizing distance ratios
+- Employ multi-start optimization with carefully designed diversification strategies
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider exploring known optimal configurations from spherical codes, equiangular lines, or the 16-point spherical code
+- Think about how to leverage symmetry groups, group representations, or discrete Fourier transforms in optimization
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Sophistication**: Prioritize mathematically sound optimization methods over simple heuristics
+- **Geometric Insight**: Leverage known geometric structures and their optimization properties
+- **Computational Efficiency**: Focus on methods that minimize redundant calculations and leverage mathematical symmetries
+- **Scalability**: Implementation should be adaptable to different numbers of points while maintaining performance
+- **Mathematical Rigor**: Emphasize formal proofs of optimality conditions or theoretical guarantees where possible
+- **Alternative Paradigms**: Consider non-traditional approaches such as physics-based simulations or game-theoretic optimizations
+- **Multi-objective Framework**: Explore trade-offs between various geometric criteria beyond just min/max distance ratio
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 30 seconds maximum execution time (prioritize fast convergence)
+- **Memory limit**: 1 GB
+- **Efficiency focus**: Implement algorithms that scale well with the number of points and avoid expensive operations like full distance matrix computation in every iteration
+
+# PROMPT-BLOCK-END
+    

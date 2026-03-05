@@ -1,0 +1,55 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic paradigms that move beyond conventional iterative optimization, emphasizing mathematical construction and structural approaches:
+- **Mathematical construction methods**: Leverage algebraic number fields, finite group representations, or lattice-based constructions (e.g., E8 lattice, Leech lattice, or regular polytopes). Construct points using symmetry groups, root systems, or algebraic number fields like Q(√2) or Q(√3).
+- **Graph-theoretic approaches**: Model the problem as graph embedding or vertex coloring on distance graphs, focusing on extremal graph theory. Consider complete graphs, Turán-type constructions, or spectral graph theory approaches.
+- **Machine learning paradigms**: Use neural networks, reinforcement learning, or generative models to discover point configurations, emphasizing novel architectures or training objectives such as adversarial training on distance distributions.
+- **Topological optimization**: Employ simplicial complexes, persistent homology, or topological data analysis to understand the underlying structure. Explore how topological features relate to distance distributions.
+- **Combinatorial designs**: Apply concepts from design theory, error-correcting codes, or combinatorial geometry (e.g., Hadamard matrices, orthogonal arrays). Consider codes over finite fields or association schemes.
+- **Physics-inspired methods**: Implement molecular dynamics, electrostatic repulsion models, or swarm intelligence with unconventional force laws or interaction potentials. Focus on non-standard potential functions or multi-scale interactions.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components where applicable
+- **Mathematical rigor**: Leverage known bounds from discrete geometry and coding theory
+- **Multi-method validation**: Consider at least two distinct algorithmic approaches that represent different conceptual frameworks
+- **Innovation focus**: Prioritize novel algorithmic concepts over optimization refinements. The solution should demonstrate understanding of fundamental mathematical structures rather than just parameter tuning.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Mathematical rigor**: Leverage known bounds from discrete geometry and coding theory
+- **Multi-method validation**: Consider at least two distinct algorithmic approaches
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Algorithm diversity**: Demonstrate different conceptual approaches rather than just improving upon random placement
+
+# PROMPT-BLOCK-END
+    

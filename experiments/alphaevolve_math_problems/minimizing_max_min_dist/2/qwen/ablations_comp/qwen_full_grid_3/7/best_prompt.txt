@@ -1,0 +1,57 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Analytical geometric constructions**: Seek exact mathematical solutions using principles from discrete geometry, such as constructing configurations based on regular polygons, Platonic solids, or other symmetric arrangements
+2. **Potential field methods**: Model point interactions using repulsive forces and derive equilibrium configurations through physical intuition or energy minimization principles
+3. **Graph-theoretic approaches**: Formulate as finding optimal graphs with specific distance constraints, leveraging concepts from spectral graph theory or extremal graph theory
+4. **Symmetry-based optimization**: Exploit the inherent symmetries of the problem to reduce dimensionality and discover configurations with high symmetry properties
+5. **Variational principles**: Apply calculus of variations or Lagrangian mechanics to derive necessary conditions for optimality in point placement
+6. **Discrete differential geometry**: Use concepts from discrete curvature, triangulations, or mesh optimization to construct point sets with desirable distance properties
+7. **Number-theoretic constructions**: Explore point arrangements based on low-discrepancy sequences, Diophantine approximation, or algebraic number fields
+8. **Geometric programming**: Reformulate using geometric programming techniques that handle posynomials and monomials naturally
+9. **Convex optimization with geometric interpretations**: Leverage convex relaxations or geometric interpretations of the distance constraints
+10. **Combinatorial rigidity theory**: Apply frameworks from rigidity theory to understand when point configurations can achieve certain distance properties
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic diversity**: Prefer novel approaches over standard implementations; favor mathematical formulations that reveal deeper structure
+- **Theoretical grounding**: Solutions should ideally have either analytical justification or strong mathematical foundations
+- **Novel conceptual frameworks**: Encourage approaches that may not have been tried before in this context, even if they're computationally expensive
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Innovation emphasis**: Prioritize exploration of less conventional optimization strategies over well-trodden paths
+
+# PROMPT-BLOCK-END
+    

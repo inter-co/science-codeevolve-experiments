@@ -1,0 +1,48 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to explore and implement at least two fundamentally different algorithmic paradigms—ranging from constructive geometric constructions (e.g., Apollonian gasket inversions, circle‐inversion hierarchies), algebraic and convex relaxations (e.g., semi‐definite programming, sum‐of‐squares hierarchies), combinatorial formulations (e.g., MILP or SAT/SMT-based contact graph enumeration), to learning‐guided stochastic search (e.g., Bayesian optimization or surrogate‐assisted metaheuristics). Your goal remains to generate an arrangement of exactly 32 non-overlapping circles within [0,1]² that maximizes the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to the above constraints. To foster novel solution strategies, consider exploratory avenues such as:
+    - Geometric inversion schemes (Apollonian gaskets, circle‐inversion tessellations)
+    - Convex and polynomial relaxations (SDP, sum‐of‐squares hierarchies)
+    - Exact combinatorial encodings (MILP, SAT/SMT formulations of the contact graph)
+    - Learning‐adaptive metaheuristics (Bayesian or surrogate‐assisted optimization)
+    - Hybrid pipelines combining analytic, algebraic, and stochastic components
+    Reflect on symmetry reductions, topological properties of contact graphs, and the trade-offs between computational cost and packing density.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind  
+- **Algorithmic Diversity**: Explore at least three fundamentally different paradigms (such as geometric inversion constructions, convex/SDP relaxations, combinatorial MILP/SAT encodings, and machine‐learning‐guided metaheuristics), and provide a concise comparative analysis of their convergence behavior, computational efficiency, and achieved packing quality.
+
+# PROMPT-BLOCK-END
+    

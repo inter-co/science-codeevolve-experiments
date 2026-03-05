@@ -1,0 +1,72 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your approach should combine analytical insights with advanced optimization techniques to discover step function constructions that maximize C₂.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Advanced Strategy Framework**:
+- Consider mathematical optimization approaches: gradient-based methods, convex optimization, or Lagrangian relaxation
+- Explore direct analytical approaches using variational principles or calculus of variations to derive optimal step functions
+- Investigate spectral methods and Fourier domain analysis for understanding autoconvolution behavior and deriving optimal solutions
+- Utilize advanced optimization libraries like `cvxpy` for convex optimization formulations or `scipy.optimize` for advanced numerical optimization
+- Leverage automatic differentiation frameworks (`jax`, `torch`) for gradient computation and sensitivity analysis
+- Apply advanced sampling techniques including importance sampling or quasi-Monte Carlo methods
+- Consider reformulating the problem as a constrained optimization in function space rather than discrete parameter optimization
+- Explore constructive approaches that build optimal solutions from known mathematical principles rather than searching through discrete spaces
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+- **Advanced Optimization**: `cvxpy` (convex optimization), `scipy.optimize` (advanced numerical optimization)
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Algorithmic sophistication**: Implement at least one advanced optimization strategy beyond simple random search
+- **Theoretical grounding**: Each approach should be motivated by mathematical analysis or known results in harmonic analysis
+- **Scalability consideration**: Design algorithms that can scale to larger problem sizes while maintaining performance
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object with rich structural properties
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g, where maximizing requires careful balance
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+- Consider using variational principles or Lagrange multipliers to derive necessary conditions for optimality
+- Explore the connection between step function construction and extremal problems in functional analysis
+- Think about the geometric interpretation: how does the shape of f affect the smoothness and concentration of g?
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

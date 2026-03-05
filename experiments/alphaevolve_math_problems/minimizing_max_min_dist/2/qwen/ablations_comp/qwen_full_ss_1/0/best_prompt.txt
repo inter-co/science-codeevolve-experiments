@@ -1,0 +1,56 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider multiple algorithmic paradigms with emphasis on exploring diverse methodologies:
+1. **Mathematical constructions**: Explore known optimal or near-optimal configurations (e.g., regular polygons, hexagonal lattices, or spherical codes) - consider non-traditional arrangements like Fibonacci spirals or quasi-crystalline structures
+2. **Evolutionary approaches**: Implement genetic algorithms, particle swarm optimization, or differential evolution to iteratively improve point distributions - focus on population-based methods that can escape local optima
+3. **Geometric optimization**: Utilize convex optimization techniques, gradient-based methods, or Lagrangian relaxation with appropriate constraints - consider semidefinite programming formulations or alternating optimization schemes
+4. **Hybrid methods**: Combine deterministic placement with local refinement strategies - explore multi-start approaches with different initialization heuristics
+5. **Alternative paradigms**: Consider simulated annealing with temperature schedules, ant colony optimization, or neural network-based approaches for continuous optimization
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy: Employ advanced optimization techniques beyond simple random sampling, such as:
+  * Global optimization algorithms (simulated annealing, differential evolution, genetic algorithms)
+  * Constrained numerical optimization (L-BFGS with bounds, trust-region methods)
+  * Geometric constructions based on symmetry groups, quasicrystals, or discrete energy minimization
+  * Multi-start methods with different initialization strategies including low-discrepancy sequences
+  * Novel approaches like evolutionary computation, swarm intelligence, or machine learning-inspired optimization
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic diversity**: Prefer solutions that demonstrate novel optimization strategies over brute-force approaches - explore unconventional methods like evolutionary algorithms, swarm intelligence, or hybrid metaheuristics
+- **Mathematical rigor**: Where applicable, leverage theoretical bounds or known optimal configurations as starting points, but also consider heuristic approaches that may outperform theoretical constructions
+- **Innovation focus**: Emphasize creative problem-solving approaches rather than standard optimization pipelines
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

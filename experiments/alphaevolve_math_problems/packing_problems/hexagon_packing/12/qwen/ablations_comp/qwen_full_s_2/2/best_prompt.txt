@@ -1,0 +1,87 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+Approach:
+1. Leverage group theory and symmetry analysis to identify invariant configurations under rotational and reflectional symmetries
+2. Employ diverse geometric construction methods including:
+   - Direct geometric construction with explicit constraint satisfaction using constraint satisfaction networks
+   - Discrete optimization with systematic grid-based search and combinatorial enumeration
+   - Physics-based simulation with repulsive forces between hexagons and energy minimization
+   - Mathematical programming approaches such as integer programming or mixed-integer nonlinear programming
+   - Monte Carlo methods with importance sampling for probabilistic exploration
+   - Swarm intelligence approaches like particle swarm optimization or genetic algorithms
+   - Alternative paradigms: 
+     * Enumerative search with pruning heuristics for small configuration spaces
+     * Randomized search with adaptive neighborhood exploration
+     * Multi-start local search with diverse initialization strategies
+     * Evolutionary algorithms with specialized crossover operators for hexagon arrangements
+     * Hierarchical decomposition methods that build arrangements incrementally
+3. Consider mathematical frameworks such as:
+   - Voronoi diagrams for optimal spatial distribution and proximity analysis
+   - Circle packing duality for hexagon arrangement and geometric transformations
+   - Lagrangian relaxation for constraint handling with dual ascent methods
+   - Convex optimization relaxations for faster convergence with branch-and-bound techniques
+   - Algebraic geometry methods for exact symbolic solutions to geometric constraints
+   - Topological approaches for understanding connectivity and arrangement spaces
+4. Exploit known geometric insights about hexagonal tiling and packing bounds
+   - Utilize known optimal arrangements from mathematical literature
+   - Apply geometric transformations to generate diverse starting configurations
+   - Implement rigorous validation procedures to prevent overlap violations
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Robust Construction Methods**:
+  * Custom functions for direct geometric construction with validation
+  * Grid-based sampling for systematic exploration
+  * Force-based simulation libraries for physical modeling
+- **Constraint Handling**:
+  * Constraint satisfaction networks for exact geometric relationships with arc consistency
+  * Explicit overlap detection with robust geometric predicates and interval arithmetic
+  * Multi-resolution approaches for efficient constraint checking with hierarchical refinement
+  * Symbolic constraint solving for exact geometric relationships
+- **Alternative Optimization Paradigms**:
+  * Integer programming formulations for discrete placement with cutting plane methods
+  * Monte Carlo methods with importance sampling and variance reduction techniques
+  * Swarm intelligence approaches like particle swarm optimization with adaptive parameters
+  * Gradient-free optimization with evolutionary strategies and differential evolution variants
+  * Simulated annealing with novel cooling schedules for global optimization
+  * Dynamic programming approaches for structured arrangement problems
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+- **Mathematical Frameworks**:
+  * `sympy` (symbolic computation for geometric relationships)
+  * `cvxpy` (convex optimization for relaxed constraints)
+  * `scipy.optimize` (for constrained optimization with robust solvers)
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Exploration Strategy**: 
+  * Implement robust validation at every step to prevent constraint violations
+  * Explore both deterministic construction methods and stochastic search strategies
+  * Employ multi-scale approaches that start with coarse grids and refine locally
+  * Implement fail-safe fallback mechanisms when optimization fails to converge
+  * Prioritize geometric correctness over pure optimization performance
+  * Consider non-gradient approaches such as evolutionary algorithms or simulated annealing
+  * Emphasize diverse exploration strategies rather than relying solely on gradient-based methods
+
+# PROMPT-BLOCK-END
+    

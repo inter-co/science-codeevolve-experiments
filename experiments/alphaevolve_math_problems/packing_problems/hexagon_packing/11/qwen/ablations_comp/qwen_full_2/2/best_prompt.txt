@@ -1,0 +1,59 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+Consider multiple algorithmic paradigms beyond simple grid arrangements:
+1. **Geometric construction approaches**: Start with established mathematical configurations and systematically refine them, leveraging known optimal packings from the literature
+2. **Constraint satisfaction methods**: Use rigorous geometric constraint solving to ensure non-overlapping and containment conditions are met before optimization
+3. **Symmetry-based constructions**: Exploit rotational and translational symmetries inherent in hexagonal lattices to reduce search space
+4. **Multi-scale optimization**: Begin with coarse-grained placement and progressively refine positions and rotations using local optimization techniques
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint (use precise geometric collision detection with robust numerical predicates)
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon (consider both vertex containment and edge containment)
+  * Objective: maximize 1/R where R is the outer hexagon side length
+  * Additional consideration: Exploit symmetry properties and known optimal configurations from mathematical literature on hexagonal packing
+
+IMPLEMENTATION STRATEGY:
+Rather than starting with arbitrary configurations and optimizing blindly, consider these approaches:
+1. Begin with mathematically sound starting configurations (e.g., hexagonal lattice arrangements)
+2. Use robust geometric libraries with exact arithmetic when possible
+3. Implement proper separation distance calculations to avoid numerical precision issues
+4. Employ constraint-handling techniques that maintain feasibility throughout optimization
+5. Consider hybrid approaches that combine deterministic geometric construction with stochastic search for global optimization
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom operators)
+  * `platypus` (multi-objective optimization)
+- **Collision detection**: 
+  * `pymunk` (2D rigid body physics with polygon shapes)
+  * Custom SAT (Separating Axis Theorem) implementations
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly using exact geometric predicates
+- **Reproducibility**: Fixed random seeds for stochastic optimization methods, but allow for multiple runs to verify convergence
+- **Algorithmic sophistication**: Consider advanced optimization strategies including multi-start methods, adaptive sampling, and constraint handling techniques
+- **Geometric precision**: Implement proper separation distance calculations between hexagons to avoid numerical precision issues in overlap detection
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

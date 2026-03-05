@@ -1,7 +1,7 @@
 # PROMPT-BLOCK-START
 
 SETTING:
-You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii. Consider exploring diverse algorithmic paradigms including but not limited to: mathematical programming formulations, geometric construction heuristics, evolutionary algorithms, or hybrid metaheuristic approaches that combine global search with local refinement.
 
 PROBLEM CONTEXT:
 - **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
@@ -13,20 +13,15 @@ PROBLEM CONTEXT:
   * Exactly 21 circles required
   * All radii must be positive
 
-COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 1 GB
-
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
-**Algorithmic Strategy Options** (choose one or combine):
-1. **Evolutionary Approaches**: Use `deap` or `platypus` for genetic algorithms with custom fitness functions
-2. **Physics-Based Simulation**: Implement `pymunk` or `Box2D` with collision detection and energy minimization
-3. **Mathematical Programming**: Employ `cvxpy` or `ortools` for constrained convex optimization formulations
-4. **Hybrid Metaheuristics**: Combine `nevergrad` with spatial indexing via `rtree` for efficient neighbor queries
-5. **Sampling Methods**: Use `scipy.spatial` for systematic grid sampling followed by local refinement
-6. **Multi-Objective Optimization**: Apply NSGA-II through `platypus` to balance radii maximization with geometric constraints
+**Alternative algorithmic approaches to consider**:
+- Mathematical programming: Formulate as a nonlinear optimization problem using cvxpy or similar tools
+- Geometric construction: Implement systematic grid-based or hexagonal packing approaches
+- Hybrid methods: Combine evolutionary algorithms with local geometric optimization
+- Physics-inspired: Implement a discrete event simulation with collision detection
+- Machine learning: Use reinforcement learning or neural networks to guide the search
 
 **Additional useful packages**:
 - **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II)
@@ -47,8 +42,11 @@ TECHNICAL REQUIREMENTS:
 - **Error handling**: Graceful handling of optimization failures or infeasible configurations
 - **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
 - **Scalability**: Design with potential extension to different circle counts in mind
-- **Algorithmic Diversity**: Demonstrate understanding of multiple optimization paradigms rather than relying on a single approach
-- **Constraint Satisfaction**: Explicitly verify that all geometric constraints (non-overlapping, boundary containment) are met
+- **Algorithmic diversity**: Prefer approaches that demonstrate novel combinations of techniques or fundamentally different paradigms rather than simple parameter tuning of existing methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

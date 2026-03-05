@@ -1,0 +1,53 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii. Consider both deterministic geometric constructions and stochastic optimization approaches.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II), `gplearn` (symbolic regression)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization), `pyswarm` (particle swarm optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi), `triangle` (Delaunay triangulation)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `cvxpy` (convex optimization), `z3-solver` (SMT solver)
+- **Physics engines**: `pymunk` (2D rigid body physics), `Box2D` (collision detection), `pybullet` (physics simulation)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions), `numba` (JIT compilation)
+
+**Alternative approaches to consider**:
+- Mathematical programming formulations using convex relaxations
+- Physics-based simulation with collision detection
+- Hybrid methods combining discrete and continuous optimization
+- Machine learning approaches for generating initial configurations
+- Geometric construction heuristics inspired by natural packing phenomena
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility; implement deterministic fallbacks
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations; include validation checks
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; use spatial data structures like quadtrees or k-d trees
+- **Scalability**: Design with potential extension to different circle counts in mind; modular architecture for parameter tuning
+- **Validation**: Include geometric validation that all circles fit within bounds and satisfy non-overlap constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy diversity**: Employ at least two different algorithmic approaches (e.g., evolutionary algorithm + local search, or geometric construction + optimization refinement)
+
+# PROMPT-BLOCK-END
+    

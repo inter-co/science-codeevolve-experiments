@@ -1,0 +1,62 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: (xi - xj)² + (yi - yj)² ≥ (ri + rj)² for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- **Optional secondary objectives**: 
+  * Maximize the minimum radius (fairness)
+  * Minimize the variance of radii (balance)
+  * Optimize a weighted sum of sum_radii and fairness metrics
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (global optimizers), `pyomo` (modeling language)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi, Delaunay), `meshpy` (mesh generation)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `cp-sat` (CP-SAT solver), `pulp` (LP modeling)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `pydart` (physics simulation)
+- **Performance**: `cython`, `numba`, `jax`, `joblib` (parallelization), `cupy` (GPU acceleration)
+- **Graph & Network**: `networkx` (graph algorithms), `igraph` (efficient graph library)
+- **Miscellaneous**: `sympy` (symbolic math), `itertools`, `functools`
+
+**Suggested high-level strategies**:
+- Use *constraint programming* (CP-SAT, OR-Tools) to encode circle packing as a feasibility problem with soft constraints for radii.
+- Apply *global optimization* (differential evolution, simulated annealing, particle swarm) with a custom penalty for overlaps.
+- Leverage *physics-based* relaxation: simulate circles as repulsive particles and let them settle.
+- Build a *force-directed* model where circles repel each other and attract to the center of the square.
+- Employ *Voronoi-based* heuristics: start from a regular grid or hexagonal lattice and iteratively adjust radii.
+- Combine *multi-start local search* with *gradient descent* on a smooth surrogate objective.
+- Use *parallel* or *GPU* acceleration for distance computations (numba, jax, cupy).
+- Explore *integer programming* formulations for small numbers of circles to obtain exact solutions.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility; document seed usage.
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations; provide fallback strategies (e.g., restart, relax constraints).
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; use sparse representations or neighbor queries via KDTree or RTree.
+- **Scalability**: Design with potential extension to different circle counts in mind; parameterize the number of circles and use dynamic data structures.
+- **Algorithmic diversity**: Encourage exploration of at least two distinct algorithmic families (e.g., evolutionary vs. constraint programming vs. physics simulation).
+- **Performance trade-offs**: Prioritize accuracy over speed, but aim to keep eval_time under the 60-second budget; use vectorized operations and just-in-time compilation (numba, jax).
+- **Parallelism**: Utilize joblib or multiprocessing for multi-start runs; consider GPU acceleration with cupy or jax where applicable.
+- **Constraint handling**: Prefer squared distance constraints to avoid expensive sqrt; use barrier or penalty functions for overlap constraints.
+- **Logging & reproducibility**: Log intermediate best solutions, seed values, and algorithm parameters; provide a deterministic mode that reproduces results.
+
+# PROMPT-BLOCK-END
+    

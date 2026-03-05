@@ -1,6 +1,6 @@
 # PROMPT-BLOCK-START
 SETTING:
-You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your approach should leverage diverse algorithmic strategies and explore multiple optimization paradigms to discover novel configurations.
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your approach should integrate advanced mathematical reasoning and geometric optimization principles.
 
 Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
 
@@ -13,12 +13,11 @@ PROBLEM CONTEXT:
   * Objective: maximize 1/R where R is the outer hexagon side length
 
 ALTERNATIVE APPROACHES TO CONSIDER:
-1. **Evolutionary Algorithms**: Implement genetic algorithms or evolutionary strategies with custom crossover/mutation operators specifically designed for hexagon configurations
-2. **Monte Carlo Methods**: Use stochastic sampling with importance weighting to explore the configuration space efficiently
-3. **Physics-based Simulation**: Model the hexagons as particles with repulsive forces that converge to optimal packing
-4. **Machine Learning Approaches**: Train neural networks to predict good configurations or use reinforcement learning to optimize packing layouts
-5. **Multi-objective Optimization**: Simultaneously optimize for multiple criteria like packing density, symmetry, and geometric regularity rather than just 1/outer_hex_side_length
-6. **Hierarchical Decomposition**: Break the problem into subproblems (e.g., cluster hexagons first, then optimize their arrangement)
+1. **Symmetry-based construction**: Exploit rotational and reflectional symmetries inherent in hexagonal lattices
+2. **Mathematical optimization**: Use Lagrangian multipliers or convex optimization for constrained packing
+3. **Geometric insight**: Leverage the fact that optimal packings often exhibit specific angular relationships and distance constraints
+4. **Hierarchical refinement**: Start with coarse arrangements and iteratively improve through local optimization
+5. **Graph-theoretic modeling**: Model hexagon placements as nodes in a graph with constraints on adjacency and separation
 
 PERFORMANCE METRICS:
 1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
@@ -40,15 +39,15 @@ COMPUTATIONAL RESOURCES:
   * `scipy.optimize` (constrained optimization, global methods)
   * `deap` (evolutionary algorithms with custom symmetry operators)
   * `platypus` (multi-objective optimization)
-- **Advanced techniques**:
-  * `cvxpy` (convex optimization formulations)
-  * `scipy.optimize.differential_evolution` (global optimization)
-  * `scipy.spatial.distance.cdist` (efficient pairwise distance computations)
+- **Advanced Techniques**:
+  * `cvxpy` (convex optimization framework)
+  * `scipy.optimize.differential_evolution` (global optimization for complex landscapes)
+  * `sklearn.gaussian_process` (surrogate modeling for expensive evaluations)
 - **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

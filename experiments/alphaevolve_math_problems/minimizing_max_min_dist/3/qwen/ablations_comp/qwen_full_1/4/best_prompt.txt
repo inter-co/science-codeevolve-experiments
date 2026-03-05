@@ -2,7 +2,35 @@
 SETTING:
 You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
 Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
-Consider both analytical geometric constructions and advanced numerical optimization techniques.
+Prioritize mathematical elegance and deep geometric insight over brute-force optimization. Consider diverse mathematical approaches including:
+- Direct analytical constructions using algebraic number fields and exact geometric relationships
+- Group-theoretic approaches leveraging rotational symmetries (especially cyclic and dihedral groups)
+- Discrete optimization using combinatorial search methods rather than continuous optimization
+- Spectral graph theory and eigenvalue-based constructions for point distributions
+- Finite field constructions and their geometric interpretations
+- Exact solutions from classical discrete geometry (e.g., regular polyhedra, their subdivisions)
+- Algebraic curve constructions and their 3D embeddings
+- Geometric programming with explicit constraints rather than general-purpose optimization
+- Constructive methods from coding theory and sphere packing
+- Topological approaches using spherical Voronoi diagrams and their duals
+
+Focus on constructing mathematically significant configurations rather than optimizing numerically. Seek solutions that demonstrate profound understanding of underlying geometric principles, such as:
+- Exploiting known optimal configurations from discrete geometry (icosahedra, dodecahedra, etc.)
+- Leveraging group actions and symmetry considerations to reduce search space
+- Employing exact algebraic constructions that guarantee optimality within their framework
+- Using spectral methods to identify configurations with desirable distance properties
+- Applying finite field theory to construct point sets with controlled distance distributions
+
+Emphasize constructive mathematical methods over iterative numerical optimization. Prefer solutions that can be derived from first principles using:
+- Exact algebraic number theory (constructible numbers, cyclotomic fields)
+- Group representation theory and symmetry reduction
+- Explicit geometric constructions based on known optimal spherical codes
+- Combinatorial designs and their geometric realizations
+- Algebraic geometry approaches to point distribution problems
+- Constructive proofs that yield explicit coordinates rather than black-box optimization
+=======
+
+The solution should demonstrate clear mathematical derivation and theoretical justification rather than empirical optimization.
 
 PROBLEM CONTEXT:
 - Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
@@ -12,38 +40,49 @@ PROBLEM CONTEXT:
   * Minimum distance: dmin = min{dij : i≠j}
   * Maximum distance: dmax = max{dij : i≠j}
   * Objective: maximize dmin/dmax subject to spatial constraints
-- Consider geometric constructions such as:
-  * Platonic solids and their vertex arrangements
-  * Spherical codes and spherical designs
-  * Voronoi diagrams and Delaunay triangulations
-  * Symmetric arrangements based on group theory
-  * Optimization via gradient-based methods or evolutionary algorithms
 
 PERFORMANCE METRICS:
 1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
 2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
 3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+4. **geometric_quality**: Measure of how well the configuration approximates known optimal or near-optimal geometric arrangements (e.g., icosahedral symmetry, spherical codes)
 
 COMPUTATIONAL RESOURCES:
 **Core packages**: numpy, scipy, sympy, pandas
 **Additional useful packages**:
-- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **Mathematical programming**: `cvxpy`, `scs`, `ecos` for semidefinite programming
 - **3D geometric computing**: 
   * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
   * `trimesh` (3D mesh operations), `open3d` (3D data processing)
 - **Specialized 3D algorithms**: 
   * `spherical-geometry` for spherical arrangements
   * `quaternion` package for 3D rotations
+- **Algebraic computations**: `sympy` for symbolic mathematics and exact solutions
 - **Performance**: `numba` (3D JIT compilation), `joblib`
 
 TECHNICAL REQUIREMENTS:
-- **Reproducibility**: Fixed random seeds for all stochastic components
-- **Algorithmic Diversity**: Prefer methods that demonstrate mathematical insight over brute-force sampling
-- **Geometric Intuition**: Leverage known optimal configurations for small numbers of points in 3D
+- **Mathematical rigor**: Use proven mathematical constructions or rigorous theoretical frameworks
+- **Geometric insight**: Leverage known symmetries and optimal configurations from discrete geometry, coding theory, and algebraic constructions
+- **Alternative approaches**: Prefer direct construction methods, group actions, or exact solutions over numerical optimization when possible
+- **Theoretical foundation**: Ground solutions in established mathematical frameworks from algebraic geometry, finite geometry, or group theory where applicable
+- **Constructive proofs**: Provide explicit geometric constructions with mathematical justification
+- **Symmetry exploitation**: Utilize rotational symmetries and group-theoretic approaches to generate configurations
+- **Exact solutions**: When possible, provide exact algebraic solutions rather than approximate numerical ones
+- **Analytical derivation**: Derive configurations through mathematical reasoning rather than computational search
+- **Explicit constructions**: Provide coordinates that can be computed exactly using elementary operations or known mathematical constants
+- **Symmetric configurations**: Prioritize configurations with high symmetry groups that can be analyzed systematically
+- **Algebraic approach**: Where feasible, express point coordinates using roots of polynomials or algebraic extensions
+=======
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Preference**: Prioritize mathematically elegant solutions with clear geometric construction principles over computationally intensive optimization routines
+- **Approach**: Seek direct constructions that leverage known optimal configurations from discrete geometry, rather than relying heavily on iterative numerical optimization
+- **Construction focus**: Emphasize deriving point coordinates from fundamental mathematical principles rather than optimization procedures
+- **Verification**: Include mathematical verification steps that confirm the optimality or near-optimality of the constructed configuration
+- **Theoretical grounding**: Solutions should be justified by mathematical theory rather than empirical validation alone
+=======
 
 # PROMPT-BLOCK-END
     

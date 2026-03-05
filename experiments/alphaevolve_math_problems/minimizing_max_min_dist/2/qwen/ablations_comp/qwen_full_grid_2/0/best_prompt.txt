@@ -1,0 +1,59 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic paradigms that go beyond conventional geometric+optimization combinations, emphasizing truly innovative and unconventional approaches such as:
+- Physics-inspired methods with novel force models (e.g., non-linear repulsion potentials, time-dependent interactions, or quantum-inspired particle behaviors)
+- Combinatorial optimization with exotic search spaces (e.g., hypergraph-based optimization, topological optimization, or abstract algebraic structures)
+- Advanced geometric constructions with mathematical elegance (e.g., arrangements based on algebraic curves, transcendental number distributions, or fractal-based tessellations)
+- Multi-scale approaches with non-traditional refinement strategies (e.g., hierarchical clustering followed by geometric optimization, or multi-resolution analysis)
+- Novel hybrid methods that merge seemingly incompatible paradigms (e.g., combining machine learning with pure geometric constructions, or using information theory to guide point placement)
+- Non-gradient based optimization with unconventional fitness landscapes (e.g., using game theory concepts, evolutionary dynamics, or information-theoretic measures)
+- Constraint-handling through emergent properties rather than explicit enforcement (e.g., letting symmetries arise naturally from the system, or using topological constraints)
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy emphasis: Prioritize truly novel algorithmic perspectives over standard heuristics, such as:
+  * Implementing physics-inspired models with unconventional interaction laws (e.g., inverse-distance squared with logarithmic corrections, or power-law repulsion with memory effects)
+  * Employing combinatorial optimization with non-local search operators (e.g., using graph partitioning or topological data analysis)
+  * Developing constraint-handling mechanisms that exploit emergent properties rather than explicit bounds (e.g., using phase transitions or critical phenomena)
+  * Creating symmetry-breaking strategies through mathematical constructs (e.g., using quasiperiodic tilings, or number-theoretic sequences)
+  * Designing hybrid methods that blend mathematical optimization with artistic or aesthetic principles
+  * Utilizing multi-scale approaches that exploit dimensional reduction or self-similarity properties
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components  
+- **Algorithmic diversity**: Consider at least two fundamentally different methodological approaches (e.g., one based on mathematical theory, one inspired by natural phenomena)
+- **Innovation focus**: Demonstrate creative application of unconventional optimization principles that may not have direct analogues in classical optimization
+- **Mathematical rigor**: Where applicable, use formal mathematical expressions to describe your novel approach, possibly incorporating concepts from topology, information theory, or abstract algebra
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

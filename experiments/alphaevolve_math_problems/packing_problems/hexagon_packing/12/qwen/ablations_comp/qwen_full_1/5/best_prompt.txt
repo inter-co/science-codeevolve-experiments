@@ -1,15 +1,39 @@
 # PROMPT-BLOCK-START
 SETTING:
-You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop a novel construction method for arranging exactly 12 unit regular hexagons within a larger regular hexagon that maximizes 1/outer_hex_side_length. Consider both mathematical symmetries and computational optimization strategies.
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop a sophisticated constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+The solution must be derived through rigorous mathematical optimization rather than hardcoded configurations. Emphasize formal constraint satisfaction and proper optimization methodology:
+
+- **Formal Optimization Approach**: Implement a true optimization algorithm that systematically explores the parameter space of positions (x,y) and rotations (θ) for all 12 hexagons, varying all parameters simultaneously
+- **Constraint Handling**: Explicitly enforce all geometric constraints through mathematical formulations:
+  * Non-overlap: Implement precise geometric distance calculations to ensure all pairs of inner hexagons are disjoint
+  * Containment: Formally verify that all vertices of inner hexagons lie within the outer hexagon boundaries
+  * Boundary Conditions: Define proper variable bounds and constraint matrices for mathematical programming solvers
+- **Mathematical Rigor**: Formulate as a constrained nonlinear optimization problem with guaranteed convergence properties
+
+Consider diverse algorithmic approaches including but not limited to:
+- Mathematical programming formulations with explicit constraints on containment and non-overlap using formal optimization solvers like cvxpy or pyomo
+- Symmetry-aware geometric optimization using group theory principles with constrained optimization variables
+- Geometric reasoning based on the kissing number problem for hexagons with formal constraint satisfaction
+- Advanced packing strategies that exploit the inherent symmetries of hexagonal lattices through symmetry-adapted coordinate systems
+- Multi-objective optimization considering both packing density and geometric constraints with proper Lagrangian relaxation or penalty methods
+- Formally constrained optimization using convex relaxations or semidefinite programming techniques
+- Evolutionary algorithms with custom symmetry operators that iteratively improve packing configurations
+- Monte Carlo methods with geometric constraint sampling for exploring configuration space
+- Gradient-based optimization with automatic differentiation for smooth approximations of discrete geometric constraints
+- Hybrid approaches combining deterministic optimization with stochastic search methods
 
 PROBLEM CONTEXT:
 - Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
 - Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
 - Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
-  * Non-overlap: All pairs of inner hexagons must be disjoint
-  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Non-overlap: All pairs of inner hexagons must be disjoint (use precise geometric distance calculations with formal constraint enforcement)
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon (consider vertex-to-edge distance constraints with formal verification)
   * Objective: maximize 1/R where R is the outer hexagon side length
-- Consider using group theory to identify symmetric arrangements, or employ optimization techniques like simulated annealing or evolutionary algorithms to escape local optima
+  * Consider using mathematical programming with explicit constraints and formal optimization solvers like cvxpy or pyomo rather than heuristic arrangements
+  * Formulate as a constrained nonlinear optimization problem with proper variable bounds and constraint matrices
+  * Implement a true optimization algorithm that varies all parameters simultaneously rather than using fixed seed configurations
+  * The optimization should explore the entire parameter space of positions and rotations for all 12 hexagons
 
 PERFORMANCE METRICS:
 1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
@@ -27,16 +51,25 @@ COMPUTATIONAL RESOURCES:
   * Custom functions for generating symmetric configurations
   * Group theory utilities for constraint enforcement
   * Symmetry-aware optimization operators
-- **Optimization**: 
-  * `scipy.optimize` (constrained optimization, global methods)
+- **Advanced Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
   * `deap` (evolutionary algorithms with custom symmetry operators)
   * `platypus` (multi-objective optimization)
+  * `cvxpy` or `pyomo` (formal mathematical programming solvers with guaranteed convergence)
+  * Consider implementing a formal constraint satisfaction approach with proper proof of optimality conditions
 - **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
-- **Alternative approaches**: Consider using Monte Carlo methods, gradient-free optimization, or hybrid algorithms that combine analytical geometry with numerical search
+- **Alternative Approaches**: 
+  * Implement a complete optimization framework that starts with random initialization and evolves towards optimal solutions
+  * Use constraint-handling techniques that properly manage the complex geometric constraints
+  * Explore multiple initialization strategies to avoid local optima
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Approach preference**: Favor mathematically rigorous optimization approaches with formal convergence guarantees over heuristic grid arrangements
+- **Implementation emphasis**: Prioritize formal mathematical programming formulations with explicit constraint matrices and variable definitions over ad-hoc geometric constructions
+- **Algorithmic diversity**: Implement at least one optimization method that differs significantly from simple gradient-based approaches (e.g., evolutionary algorithms, simulated annealing, or constraint programming)
+- **Robustness requirement**: Ensure the solution handles geometric constraint violations gracefully and provides meaningful feedback when constraints cannot be satisfied
 
 # PROMPT-BLOCK-END
     

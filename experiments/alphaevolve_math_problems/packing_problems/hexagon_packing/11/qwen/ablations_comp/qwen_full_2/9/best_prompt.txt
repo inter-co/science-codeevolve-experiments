@@ -1,0 +1,61 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+Explore algorithmic paradigms that leverage mathematical optimization theory and advanced computational geometry:
+- **Global optimization with constraint handling**: Employ evolutionary algorithms or simulated annealing that can navigate complex constraint landscapes with many local minima
+- **Continuous relaxation with discrete rounding**: Formulate the problem as a continuous optimization with geometric constraints, then apply systematic rounding techniques to recover valid discrete solutions
+- **Lagrangian duality approaches**: Reformulate the packing problem using Lagrangian relaxation to decompose constraints and solve using dual ascent methods
+- **Semidefinite programming relaxations**: Utilize convex relaxations that capture geometric constraints through matrix inequalities, particularly useful for packing problems with symmetry
+- **Constraint satisfaction with backtracking**: Implement sophisticated backtracking search with intelligent variable ordering and constraint propagation tailored to hexagon geometry
+- **Hybrid metaheuristics**: Combine local search with global exploration mechanisms that adaptively switch between exploitation and exploration phases
+- **Algebraic geometry methods**: Apply polynomial system solving techniques to characterize the feasible region of hexagon placements using elimination theory
+=======
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom operators)
+  * `platypus` (multi-objective optimization)
+  * Consider using `scipy.optimize.differential_evolution` or `scipy.optimize.basinhopping` for global optimization
+- **Collision detection**: 
+  * `pymunk` (2D rigid body physics with polygon shapes)
+  * Custom SAT (Separating Axis Theorem) implementations
+  * Spatial indexing structures like `rtree` for efficient neighbor queries
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
+- **Advanced Techniques**: 
+  * Implement simulated annealing or genetic algorithms with specialized hexagon placement operators
+  * Use mathematical programming solvers like `cvxpy` for convex relaxations
+  * Apply concepts from discrete geometry and packing theory
+
+TECHNICAL REQUIREMENTS:
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly
+- **Reproducibility**: Fixed random seeds for stochastic optimization methods
+- **Algorithmic sophistication**: Implement advanced optimization strategies that go beyond basic geometric arrangements
+- **Theoretical grounding**: Incorporate known bounds and packing theory where applicable
+- **Scalability**: Ensure your approach can be extended to similar packing problems
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

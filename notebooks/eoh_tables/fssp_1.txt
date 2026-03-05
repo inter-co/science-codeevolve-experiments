@@ -1,0 +1,164 @@
+Loading test data from: /home/sagemaker-user/evolve/EoH/examples/user_fssp_gls/TestingData/Taillard
+  20x5: 10 instances
+  20x10: 10 instances
+  20x20: 10 instances
+  50x5: 10 instances
+  50x10: 10 instances
+  50x20: 10 instances
+  100x5: 10 instances
+  100x10: 10 instances
+  100x20: 10 instances
+  200x10: 10 instances
+  200x20: 10 instances
+
+Warming up numba JIT...
+Done.
+
+Evaluating heuristic: experiments/eoh-problems/fssp_gls/qwen/reviews/qwen_full_1/7/best_sol.py
+
+  20x5 inst 1/10: makespan=1278, UB=1278, gap=0.00%
+  20x5 inst 2/10: makespan=1359, UB=1359, gap=0.00%
+  20x5 inst 3/10: makespan=1088, UB=1081, gap=0.65%
+  20x5 inst 4/10: makespan=1297, UB=1293, gap=0.31%
+  20x5 inst 5/10: makespan=1235, UB=1236, gap=-0.08%
+  20x5 inst 6/10: makespan=1195, UB=1195, gap=0.00%
+  20x5 inst 7/10: makespan=1251, UB=1239, gap=0.97%
+  20x5 inst 8/10: makespan=1206, UB=1206, gap=0.00%
+  20x5 inst 9/10: makespan=1230, UB=1230, gap=0.00%
+  20x5 inst 10/10: makespan=1108, UB=1108, gap=0.00%
+  20x5 done: avg gap=0.18%, time=11.4s
+
+  20x10 inst 1/10: makespan=1583, UB=1582, gap=0.06%
+  20x10 inst 2/10: makespan=1660, UB=1659, gap=0.06%
+  20x10 inst 3/10: makespan=1506, UB=1496, gap=0.67%
+  20x10 inst 4/10: makespan=1379, UB=1378, gap=0.07%
+  20x10 inst 5/10: makespan=1419, UB=1419, gap=0.00%
+  20x10 inst 6/10: makespan=1397, UB=1397, gap=0.00%
+  20x10 inst 7/10: makespan=1484, UB=1484, gap=0.00%
+  20x10 inst 8/10: makespan=1544, UB=1538, gap=0.39%
+  20x10 inst 9/10: makespan=1602, UB=1593, gap=0.56%
+  20x10 inst 10/10: makespan=1598, UB=1591, gap=0.44%
+  20x10 done: avg gap=0.23%, time=16.4s
+
+  20x20 inst 1/10: makespan=2297, UB=2297, gap=0.00%
+  20x20 inst 2/10: makespan=2101, UB=2100, gap=0.05%
+  20x20 inst 3/10: makespan=2331, UB=2326, gap=0.21%
+  20x20 inst 4/10: makespan=2225, UB=2223, gap=0.09%
+  20x20 inst 5/10: makespan=2296, UB=2291, gap=0.22%
+  20x20 inst 6/10: makespan=2229, UB=2226, gap=0.13%
+  20x20 inst 7/10: makespan=2273, UB=2273, gap=0.00%
+  20x20 inst 8/10: makespan=2204, UB=2200, gap=0.18%
+  20x20 inst 9/10: makespan=2242, UB=2237, gap=0.22%
+  20x20 inst 10/10: makespan=2178, UB=2178, gap=0.00%
+  20x20 done: avg gap=0.11%, time=27.0s
+
+  50x5 inst 1/10: makespan=2724, UB=2724, gap=0.00%
+  50x5 inst 2/10: makespan=2838, UB=2834, gap=0.14%
+  50x5 inst 3/10: makespan=2621, UB=2621, gap=0.00%
+  50x5 inst 4/10: makespan=2762, UB=2751, gap=0.40%
+  50x5 inst 5/10: makespan=2863, UB=2863, gap=0.00%
+  50x5 inst 6/10: makespan=2829, UB=2829, gap=0.00%
+  50x5 inst 7/10: makespan=2725, UB=2725, gap=0.00%
+  50x5 inst 8/10: makespan=2683, UB=2683, gap=0.00%
+  50x5 inst 9/10: makespan=2552, UB=2552, gap=0.00%
+  50x5 inst 10/10: makespan=2782, UB=2782, gap=0.00%
+  50x5 done: avg gap=0.05%, time=43.1s
+
+  50x10 inst 1/10: makespan=3033, UB=3025, gap=0.26%
+  50x10 inst 2/10: makespan=2896, UB=2892, gap=0.14%
+  50x10 inst 3/10: makespan=2871, UB=2864, gap=0.24%
+  50x10 inst 4/10: makespan=3071, UB=3064, gap=0.23%
+  50x10 inst 5/10: makespan=3006, UB=2986, gap=0.67%
+  50x10 inst 6/10: makespan=3022, UB=3006, gap=0.53%
+  50x10 inst 7/10: makespan=3115, UB=3107, gap=0.26%
+  50x10 inst 8/10: makespan=3042, UB=3039, gap=0.10%
+  50x10 inst 9/10: makespan=2905, UB=2902, gap=0.10%
+  50x10 inst 10/10: makespan=3099, UB=3091, gap=0.26%
+  50x10 done: avg gap=0.28%, time=83.8s
+
+  50x20 inst 1/10: makespan=3909, UB=3875, gap=0.88%
+  50x20 inst 2/10: makespan=3718, UB=3715, gap=0.08%
+  50x20 inst 3/10: makespan=3699, UB=3668, gap=0.85%
+  50x20 inst 4/10: makespan=3767, UB=3752, gap=0.40%
+  50x20 inst 5/10: makespan=3660, UB=3635, gap=0.69%
+  50x20 inst 6/10: makespan=3727, UB=3698, gap=0.78%
+  50x20 inst 7/10: makespan=3754, UB=3716, gap=1.02%
+  50x20 inst 8/10: makespan=3752, UB=3709, gap=1.16%
+  50x20 inst 9/10: makespan=3790, UB=3765, gap=0.66%
+  50x20 inst 10/10: makespan=3809, UB=3777, gap=0.85%
+  50x20 done: avg gap=0.74%, time=182.2s
+
+  100x5 inst 1/10: makespan=5493, UB=5493, gap=0.00%
+  100x5 inst 2/10: makespan=5268, UB=5268, gap=0.00%
+  100x5 inst 3/10: makespan=5175, UB=5175, gap=0.00%
+  100x5 inst 4/10: makespan=5014, UB=5014, gap=0.00%
+  100x5 inst 5/10: makespan=5250, UB=5250, gap=0.00%
+  100x5 inst 6/10: makespan=5135, UB=5135, gap=0.00%
+  100x5 inst 7/10: makespan=5246, UB=5246, gap=0.00%
+  100x5 inst 8/10: makespan=5094, UB=5106, gap=-0.24%
+  100x5 inst 9/10: makespan=5448, UB=5454, gap=-0.11%
+  100x5 inst 10/10: makespan=5322, UB=5328, gap=-0.11%
+  100x5 done: avg gap=-0.05%, time=222.6s
+
+  100x10 inst 1/10: makespan=5770, UB=5770, gap=0.00%
+  100x10 inst 2/10: makespan=5362, UB=5349, gap=0.24%
+  100x10 inst 3/10: makespan=5679, UB=5677, gap=0.04%
+  100x10 inst 4/10: makespan=5797, UB=5791, gap=0.10%
+  100x10 inst 5/10: makespan=5497, UB=5468, gap=0.53%
+  100x10 inst 6/10: makespan=5308, UB=5303, gap=0.09%
+  100x10 inst 7/10: makespan=5602, UB=5599, gap=0.05%
+  100x10 inst 8/10: makespan=5623, UB=5623, gap=0.00%
+  100x10 inst 9/10: makespan=5881, UB=5875, gap=0.10%
+  100x10 inst 10/10: makespan=5848, UB=5845, gap=0.05%
+  100x10 done: avg gap=0.12%, time=441.2s
+
+  100x20 inst 1/10: makespan=6322, UB=6286, gap=0.57%
+  100x20 inst 2/10: makespan=6255, UB=6241, gap=0.22%
+  100x20 inst 3/10: makespan=6362, UB=6329, gap=0.52%
+  100x20 inst 4/10: makespan=6353, UB=6306, gap=0.75%
+  100x20 inst 5/10: makespan=6409, UB=6377, gap=0.50%
+  100x20 inst 6/10: makespan=6437, UB=6437, gap=0.00%
+  100x20 inst 7/10: makespan=6377, UB=6346, gap=0.49%
+  100x20 inst 8/10: makespan=6505, UB=6481, gap=0.37%
+  100x20 inst 9/10: makespan=6364, UB=6358, gap=0.09%
+  100x20 inst 10/10: makespan=6499, UB=6465, gap=0.53%
+  100x20 done: avg gap=0.40%, time=604.4s
+
+  200x10 inst 1/10: makespan=10885, UB=10868, gap=0.16%
+  200x10 inst 2/10: makespan=10494, UB=10494, gap=0.00%
+  200x10 inst 3/10: makespan=11006, UB=10922, gap=0.77%
+  200x10 inst 4/10: makespan=10893, UB=10889, gap=0.04%
+  200x10 inst 5/10: makespan=10537, UB=10524, gap=0.12%
+  200x10 inst 6/10: makespan=10375, UB=10331, gap=0.43%
+  200x10 inst 7/10: makespan=10857, UB=10857, gap=0.00%
+  200x10 inst 8/10: makespan=10762, UB=10731, gap=0.29%
+  200x10 inst 9/10: makespan=10465, UB=10438, gap=0.26%
+  200x10 inst 10/10: makespan=10706, UB=10676, gap=0.28%
+  200x10 done: avg gap=0.23%, time=629.8s
+
+  200x20 inst 1/10: makespan=11328, UB=11294, gap=0.30%
+  200x20 inst 2/10: makespan=11437, UB=11420, gap=0.15%
+  200x20 inst 3/10: makespan=11499, UB=11446, gap=0.46%
+  200x20 inst 4/10: makespan=11479, UB=11347, gap=1.16%
+  200x20 inst 5/10: makespan=11399, UB=11311, gap=0.78%
+  200x20 inst 6/10: makespan=11334, UB=11282, gap=0.46%
+  200x20 inst 7/10: makespan=11547, UB=11456, gap=0.79%
+  200x20 inst 8/10: makespan=11516, UB=11415, gap=0.88%
+  200x20 inst 9/10: makespan=11347, UB=11343, gap=0.04%
+  200x20 inst 10/10: makespan=11496, UB=11422, gap=0.65%
+  200x20 done: avg gap=0.57%, time=634.8s
+
+
+### Table 12: Flow Shop Scheduling Results (Taillard Benchmarks)
+Average gap (%) to Taillard upper bound (lower is better). 10 instances per set.
+
+| Method | n20m5 | n20m10 | n20m20 | n50m5 | n50m10 | n50m20 | n100m5 | n100m10 | n100m20 | n200m10 | n200m20 | Avg |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| NEH | 3.24 | 4.05 | 3.06 | 0.57 | 3.47 | 5.48 | 0.39 | 2.07 | 3.58 | 0.98 | 2.90 | 2.71 |
+| NEHFF | 2.30 | 4.15 | 2.72 | 0.40 | 3.62 | 5.10 | 0.31 | 1.88 | 3.73 | 0.70 | 2.52 | 2.49 |
+| LS | 1.91 | 2.77 | 2.60 | 0.32 | 3.33 | 4.67 | 0.28 | 1.38 | 3.51 | 0.87 | 2.53 | 2.20 |
+| ILS1 | 0.42 | 0.33 | 0.29 | 0.15 | 1.47 | 2.13 | 0.20 | 0.77 | 2.27 | 0.74 | 2.26 | 1.00 |
+| ILS2 | 0.18 | 0.25 | 0.25 | 0.32 | 0.29 | 0.34 | 0.38 | 0.34 | 0.43 | 0.54 | 0.59 | 0.36 |
+| EoH | 0.09 | 0.30 | 0.10 | 0.02 | 0.19 | 0.60 | -0.04 | 0.14 | 0.41 | 0.12 | 0.61 | 0.23 |
+| **CodeEvolve** | **0.18** | **0.23** | **0.11** | **0.05** | **0.28** | **0.74** | **-0.05** | **0.12** | **0.40** | **0.23** | **0.57** | **0.26** |
+

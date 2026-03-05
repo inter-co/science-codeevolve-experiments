@@ -1,0 +1,60 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic paradigms including: 
+- Analytical geometric constructions based on regular polygons, lattice structures, or known optimal configurations from discrete geometry
+- Mathematical approaches using symmetry groups, invariant theory, or group representations
+- Alternative optimization paradigms such as evolutionary algorithms, simulated annealing, or particle swarm optimization
+- Direct analytical solutions derived from known bounds or extremal configurations in sphere packing and distance geometry
+- Hybrid approaches that combine geometric insight with computational methods
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Alternative approaches to consider:
+  * Geometric constructions based on regular polygons, circle packings, or known optimal configurations
+  * Exact mathematical solutions derived from symmetry groups or group theory
+  * Optimization using gradient-based methods with constraints
+  * Evolutionary algorithms or simulated annealing
+  * Semi-definite programming relaxations for distance geometry
+  * Approaches leveraging known results from discrete geometry and sphere packing
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Geometric constructions**: `sympy.geometry` for symbolic geometry, `numpy.linalg` for linear algebra
+- **Advanced optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **Specialized geometric algorithms**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, ConvexHull)
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations (for potential projections)
+- **Performance**: `numba` (JIT compilation), `joblib` for parallel processing
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Exploration Strategy**: Consider multiple algorithmic paradigms:
+  * Exact geometric solutions based on symmetry, regular polygons, or known mathematical configurations from discrete geometry
+  * Analytical approaches using group theory, invariant theory, or algebraic methods
+  * Alternative optimization methods beyond gradient-based techniques (genetic algorithms, differential evolution, simulated annealing)
+  * Direct construction methods leveraging known results from sphere packing, kissing number problems, or extremal graph theory
+  * Novel hybrid approaches combining combinatorial optimization with geometric insights
+  * Approaches that exploit mathematical properties of the objective function or constraint space
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

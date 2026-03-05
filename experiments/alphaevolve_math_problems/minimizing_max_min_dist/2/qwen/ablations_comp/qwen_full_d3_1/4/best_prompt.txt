@@ -1,0 +1,76 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider both theoretical bounds and practical construction methods. Explore diverse geometric configurations including regular polygons, lattices, spherical codes, and other mathematical structures. Approach this problem through multiple algorithmic paradigms with emphasis on fundamentally different mathematical approaches: 
+- Algebraic number theory constructions (Galois fields, cyclotomic fields)
+- Group-theoretic approaches using symmetry groups and their actions on point sets
+- Topological methods involving knot theory or surface embeddings
+- Spectral graph theory applied to distance graphs
+- Convex optimization with novel constraint formulations
+- Information-theoretic approaches using entropy maximization principles
+- Geometric functional analysis techniques (Banach space embeddings)
+The solution should demonstrate creative application of different mathematical frameworks rather than relying on a single optimization technique. Focus particularly on approaches that leverage:
+- **Algebraic constructions**: Use roots of unity, finite field embeddings, or number field discriminants to create point sets with optimal spacing properties
+- **Group-theoretic symmetries**: Exploit the action of rotation groups, dihedral groups, or crystallographic groups to generate symmetric point distributions
+- **Information-theoretic principles**: Maximize entropy or mutual information between point positions while maintaining distance constraints
+- **Topological invariants**: Consider embeddings on surfaces with specific genus or knot-theoretic properties
+- **Extremal combinatorics**: Apply principles from coding theory or design theory to construct point sets with extremal distance properties
+The solution should prioritize theoretically grounded constructions that may outperform conventional heuristic methods, demonstrating deep mathematical insight over empirical optimization.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Population-based optimization**: `deap`, `platypus`, `pymoo` (multi-objective evolutionary algorithms)
+- **Stochastic methods**: `numpy.random` for Monte Carlo approaches, `scipy.optimize.differential_evolution`
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, ConvexHull, Voronoi diagrams)
+  * `scipy.spatial.distance` for efficient distance computations
+- **Specialized algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations (if extending to 3D)
+- **Performance**: `numba` (JIT compilation), `joblib` for parallel execution
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Mathematical rigor**: Consider known bounds and theoretical limits for point distributions
+- **Geometric intuition**: Leverage symmetries and known optimal configurations where applicable
+- **Algorithmic diversity**: Demonstrate multiple distinct approaches - combine analytical constructions with stochastic methods, or use hybrid combinations of different paradigms. Prioritize approaches that leverage deep mathematical theory over empirical heuristics
+- **Exploration strategy**: Implement multiple initialization strategies and algorithmic paths to ensure comprehensive search of solution space. Emphasize theoretically motivated approaches such as group actions, algebraic constructions, or topological invariants
+- **Novelty emphasis**: Where possible, implement approaches that have not been previously explored in similar contexts, such as using representation theory, category theory concepts, or novel functional analytic techniques
+- **Algebraic focus**: Prioritize constructions based on algebraic number fields, finite field arithmetic, or Galois theory when applicable
+- **Symmetry exploitation**: Leverage discrete symmetry groups and their representations to generate point configurations with provable optimality properties
+- **Information-theoretic methods**: Apply entropy-based criteria or mutual information measures to guide point placement
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy diversity**: Prioritize exploring multiple algorithmic pathways including:
+  * Algebraic constructions using cyclotomic fields, Galois groups, or number field embeddings
+  * Symmetry-based approaches utilizing discrete groups, group actions, or invariant theory
+  * Information-theoretic methods employing entropy maximization or mutual information principles
+  * Topological constructions involving surfaces, knots, or embedding spaces
+  * Extremal combinatorial designs from coding theory or design theory
+  * Spectral methods with emphasis on algebraic graph theory or harmonic analysis
+  * Analytical geometric constructions (regular polygons, lattice-based arrangements)
+  * Hybrid approaches combining discrete and continuous optimization with theoretical guarantees
+  * Multi-start strategies with different initialization heuristics based on mathematical invariants
+  * Approaches leveraging representation theory, category theory, or novel functional analytic techniques
+
+# PROMPT-BLOCK-END
+    

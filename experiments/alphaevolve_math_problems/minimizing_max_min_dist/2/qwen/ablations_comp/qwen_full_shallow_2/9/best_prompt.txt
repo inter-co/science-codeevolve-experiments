@@ -1,0 +1,48 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Emphasize mathematical rigor and known optimal configurations from geometry and coding theory, while also considering numerical refinement where beneficial.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider classical geometric constructions including:
+  * Regular polygonal arrangements (e.g., 16 vertices of a regular 16-gon)
+  * Optimal spherical codes and their planar projections
+  * Lattice-based constructions like triangular or square lattices with appropriate point selection
+  * Known extremal configurations from discrete geometry and coding theory
+  * Symmetric configurations with rotational or reflectional symmetry
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Advanced geometric constructions**: `scipy.spatial` for distance calculations, Voronoi diagrams, Delaunay triangulations
+- **Symbolic computation**: `sympy` for exact geometric calculations and algebraic manipulations
+- **Optimization**: `scipy.optimize` for local refinement of promising geometric candidates
+- **Geometric libraries**: `spherical-geometry` for spherical arrangements, `quaternion` for 3D rotations when applicable
+- **Performance**: `numba` for JIT compilation of computationally intensive geometric operations
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Mathematical Rigor**: Leverage known mathematical results about optimal point distributions, especially those from spherical codes, discrete geometry, and extremal problems
+- **Geometric Construction Focus**: Prioritize mathematically-derived constructions over purely numerical optimization
+- **Hybrid Approach**: Combine exact geometric insights with targeted numerical refinement only where needed
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

@@ -1,7 +1,7 @@
 # PROMPT-BLOCK-START
 
 SETTING:
-You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to develop a novel approach for optimizing an arrangement of exactly 21 non-overlapping circles within a rectangle to maximize the sum of their radii.
+You are an expert in multiple optimization paradigms including computational geometry, constraint satisfaction, physics-based simulation, and mathematical programming. Your mission is to design an innovative constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
 
 PROBLEM CONTEXT:
 - **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
@@ -13,28 +13,30 @@ PROBLEM CONTEXT:
   * Exactly 21 circles required
   * All radii must be positive
 
-COMPUTATIONAL APPROACHES TO CONSIDER:
-1. **Evolutionary Strategies**: Implement genetic algorithms or particle swarm optimization with custom crossover/mutation operators designed for circle packing
-2. **Mathematical Programming**: Formulate as a constrained optimization problem using convex relaxation or semidefinite programming techniques
-3. **Hybrid Geometric Methods**: Combine deterministic grid-based placement with local refinement using physics-based simulation
-4. **Multi-scale Optimization**: Begin with coarse arrangement and progressively refine using gradient-based methods or simulated annealing
-5. **Constraint Satisfaction Networks**: Model as a constraint satisfaction problem with sophisticated propagation techniques
-
-COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 1 GB
-
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
+**Alternative approaches to consider** (prioritize these over gradient-based methods):
+1. **Constraint Programming**: Use `ortools` or `python-constraint` to model the problem as a constraint satisfaction task - this is particularly suitable for circle packing with hard constraints
+2. **Physics Simulation**: Implement a force-directed or collision-based simulation using `pymunk` or `Box2D` - treat circles as physical objects with repulsive forces
+3. **Evolutionary Algorithms**: Use `deap` or `nevergrad` to evolve circle configurations through genetic algorithms or evolutionary strategies
+4. **Simulated Annealing**: Implement a probabilistic technique for approximating global optimization with `scikit-opt` or custom implementation
+5. **Voronoi-based Methods**: Leverage `scipy.spatial.Voronoi` to generate candidate placements and optimize from those structures
+
 **Additional useful packages**:
-- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II)
-- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization)
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II), `nevergrad` (gradient-free optimization)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `optuna` (hyperparameter optimization)
 - **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi)
-- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `cvxpy` (convex optimization)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
 - **Physics engines**: `pymunk` (2D rigid body physics), `Box2D` (collision detection)
 - **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
 - **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
+
+**Key Strategy Shifts**:
+- Prioritize discrete, combinatorial, or physics-based approaches over continuous gradient methods
+- Focus on robust constraint handling rather than delicate numerical optimization
+- Consider multi-start strategies with different initialization schemes
+- Explore geometric constructions that naturally satisfy constraints
 
 PERFORMANCE METRICS:
 1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
@@ -46,6 +48,12 @@ TECHNICAL REQUIREMENTS:
 - **Error handling**: Graceful handling of optimization failures or infeasible configurations
 - **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
 - **Scalability**: Design with potential extension to different circle counts in mind
+- **Approach Diversity**: Consider at least one unconventional method beyond standard gradient-based optimization. Prefer constraint programming, evolutionary algorithms, or physics-based simulation over continuous optimization methods
+- **Robustness**: Ensure solutions are feasible and satisfy all constraints without relying on numerical tolerance issues
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

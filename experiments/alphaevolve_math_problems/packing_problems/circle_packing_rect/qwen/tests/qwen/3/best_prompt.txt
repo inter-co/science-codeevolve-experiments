@@ -1,0 +1,57 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Mathematical Programming Approach**: Formulate as a convex optimization problem using semidefinite programming or Lagrangian relaxation techniques
+2. **Hybrid Metaheuristic**: Implement a multi-start approach combining particle swarm optimization with local refinement using Nelder-Mead
+3. **Geometric Pattern-Based**: Start with hexagonal lattice approximation, then apply constrained optimization to refine positions
+4. **Multi-Scale Optimization**: Begin with coarse grid placement, then iteratively improve using simulated annealing or genetic algorithms
+5. **Constraint Programming**: Model as a constraint satisfaction problem with global constraints on circle placements
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II), `cvxpy` (convex optimization)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics engines**: `pymunk` (2D rigid body physics), `Box2D` (collision detection)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
+
+SPECIALIZED TECHNIQUES TO EXPLORE:
+- **Convex Optimization**: Use `cvxpy` to model the circle packing as a second-order cone program
+- **Multi-objective Evolutionary Algorithms**: Employ NSGA-II via `platypus` to handle the trade-off between circle density and arrangement quality
+- **Voronoi-based Refinement**: Generate initial layout using Voronoi diagrams, then optimize using gradient-based methods
+- **Machine Learning Enhanced Search**: Implement neural network-guided sampling to focus search on promising regions
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,78 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to evolve and optimize a function that discovers step function constructions to improve the lower bound on the second autocorrelation inequality constant C₂.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+- **Discrete Optimization Approaches**: Consider combinatorial methods like genetic algorithms, simulated annealing, or particle swarm optimization that work directly with discrete step configurations rather than continuous parameter spaces
+- **Analytical Construction Methods**: Explore constructing step functions with specific mathematical properties (e.g., orthogonal components, periodic structures, or functions with known convolution properties)
+- **Hierarchical Search Strategies**: Implement multi-scale approaches where you first determine coarse structure, then refine details
+- **Theoretical Constraints**: Leverage known mathematical relationships between the norms ||g||₂², ||g||₁, and ||g||∞ to guide construction rather than purely empirical optimization
+- **Sparse Representation Techniques**: Consider representing functions in compressed forms or using basis expansions that naturally satisfy constraints
+- **Multi-objective Optimization**: Instead of maximizing C₂ alone, consider optimizing for both the numerator (||g||₂²) and denominator (||g||₁ · ||g||∞) separately to understand trade-offs
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+- **Discrete Mathematics**: `itertools` (combinatorial generation), `networkx` (graph-based approaches to function structure)
+
+ALTERNATIVE COMPUTATIONAL APPROACHES:
+Consider implementing approaches that differ significantly from the current continuous optimization framework:
+1. **Graph-based optimization**: Model the optimization landscape as a graph where nodes represent function configurations and edges represent transformations
+2. **Constraint Satisfaction**: Formulate this as a constraint satisfaction problem where you seek configurations that maximize the desired ratio
+3. **Combinatorial Search**: Use systematic enumeration of important classes of functions (e.g., symmetric functions, functions with specific support patterns)
+4. **Multi-resolution Analysis**: Start with coarse discretization and progressively refine rather than optimizing at full resolution from start
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+
+THEORETICAL PERSPECTIVES TO EXPLORE:
+1. **Fourier Domain Analysis**: Consider how properties in the frequency domain relate to the autoconvolution properties in the time domain
+2. **Convexity Properties**: Investigate whether the C₂ objective function has any convexity or concavity characteristics that could guide search strategies
+3. **Symmetry Exploitation**: Analyze how symmetries in the function f translate to symmetries in g and affect the C₂ value
+4. **Extreme Value Theory**: Consider what configurations might lead to extreme values of the ratio, possibly through analytical derivation rather than numerical search
+5. **Information-Theoretic Interpretations**: Think about how maximizing C₂ relates to information-theoretic quantities or entropy considerations
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

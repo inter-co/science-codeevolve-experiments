@@ -1,0 +1,89 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and mathematical optimizer specializing in hexagon packing theory. Your task is to construct an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+Prioritize mathematically rigorous analytical approaches over numerical optimization. Leverage known results from hexagon packing theory, particularly:
+- The triangular lattice arrangement as a foundation for dense packings and explore how to optimally select lattice points for 12 hexagons
+- Known optimal configurations for small numbers of hexagons (12 is a well-studied case) and their mathematical proofs of optimality
+- Geometric constructions that exploit the D6 symmetry group naturally by constructing arrangements that are invariant under D6 operations
+- Analytical methods that derive optimal positions from mathematical principles such as:
+  * Using Voronoi diagrams or Delaunay triangulations to understand optimal spacing
+  * Applying group theory to systematically generate symmetric configurations
+  * Employing geometric inequalities to establish theoretical bounds
+  * Constructing configurations based on the kissing number problem for hexagons
+- Focus on direct geometric reasoning that builds the configuration from first principles rather than optimizing parameters
+
+Focus on approaches that:
+1. Constructively build the optimal configuration using geometric principles derived from mathematical theory
+2. Exploit the inherent symmetries of the hexagonal tiling (particularly D6 symmetry operations)
+3. Utilize known mathematical bounds and constructions from the literature, especially those involving triangular lattice points
+4. Employ direct geometric reasoning based on distance relationships and packing constraints
+5. Consider the relationship between the 12-hexagon packing and its underlying triangular lattice structure, including how to optimally place hexagons at lattice points while satisfying containment constraints
+
+The solution should demonstrate deep understanding of hexagon packing mathematics and produce a configuration that achieves or exceeds the benchmark ratio of 0.2537 through principled geometric construction rather than heuristic search. Specifically, consider using known optimal arrangements such as the "kissing number" configurations or symmetric arrangements that have been mathematically proven to be near-optimal for 12 hexagons in a circle.
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+Approach the problem using constructive geometric methods that leverage established mathematical theory. Instead of treating this as a black-box optimization problem, derive the optimal configuration through mathematical insight into how hexagons tile the plane and how to optimally arrange them in a circular boundary. Consider the following mathematical frameworks:
+
+1. **Triangular lattice theory**: Start with the triangular lattice structure and identify which 12 lattice points give the best packing density when converted to hexagon centers.
+
+2. **Symmetric group theory**: Construct configurations that respect D6 symmetry operations (rotations and reflections) and prove that such symmetric arrangements achieve optimal packing.
+
+3. **Geometric programming**: Formulate the problem using geometric constraints and solve using analytical methods rather than numerical optimization.
+
+4. **Lattice point selection**: Rather than optimizing continuous variables, consider discrete choices of lattice points and evaluate the resulting packings analytically.
+
+5. **Boundary analysis**: Analyze how the outer hexagon boundary interacts with the arrangement of inner hexagons to determine optimal placement.
+
+The solution should demonstrate deep understanding of hexagon packing mathematics and produce a configuration that achieves or exceeds the benchmark ratio of 0.2537 through principled mathematical construction rather than numerical search.
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Advanced Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+  * `cvxpy` (convex optimization formulations when applicable)
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+
+Encourage the use of mathematical frameworks that can exploit geometric symmetries and known optimal configurations. Prioritize approaches that leverage fundamental mathematical theorems about hexagon packing rather than brute-force numerical optimization. Consider:
+
+1. **Mathematical proof techniques**: Demonstrate that the constructed configuration is optimal or near-optimal using mathematical arguments rather than empirical validation.
+
+2. **Combinatorial geometry**: Use combinatorial methods to enumerate possible arrangements and select the best ones theoretically.
+
+3. **Algebraic geometry**: Apply algebraic techniques to describe the constraints and optimize the geometric configuration.
+
+4. **Discrete mathematics**: Approach the problem as selecting optimal discrete points from a structured grid rather than continuous optimization.
+
+5. **Analytical bounds**: Derive mathematical bounds on the optimal packing density and show that the proposed solution meets or exceeds these bounds.
+
+The focus should be on constructing a mathematically rigorous solution that leverages known theoretical results rather than empirical optimization.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

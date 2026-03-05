@@ -1,0 +1,65 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in physics-based optimization and geometric packing algorithms.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+STRATEGIC INSIGHT:
+Consider physics-inspired approaches where circles behave as repelling particles that expand under pressure until reaching equilibrium. Multi-phase strategies often outperform single-shot optimization:
+1. Initial placement (e.g., grid-based, random with blue noise, or centroidal Voronoi)
+2. Iterative expansion with collision resolution
+3. Fine-tuning via gradient-based or evolutionary refinement
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALGORITHMIC PATHWAYS TO EXPLORE:
+- **Force-directed methods**: Simulate repulsive forces between circles and attractive forces toward expansion
+- **Iterative radius growth**: Start with small circles and incrementally grow them while maintaining feasibility
+- **Spatial partitioning**: Use Voronoi diagrams or quadtrees to identify regions with expansion potential
+- **Hybrid approaches**: Combine deterministic initialization with stochastic perturbations and local search
+- **Physical simulation**: Leverage rigid body dynamics engines (e.g., pymunk) where circles push each other apart while trying to expand
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Recommended for this problem**:
+- **Physics simulation**: `pymunk` (2D rigid body physics with collision detection - HIGHLY RECOMMENDED for force-based approaches)
+- **Geometric computing**: `scipy.spatial` (KDTree for nearest neighbors, Voronoi for spatial partitioning)
+- **Optimization**: `scipy.optimize` (minimize, differential_evolution for local refinement)
+- **Performance**: `numba` (@jit decorator for accelerating tight loops)
+
+**Additional useful packages**:
+- **Evolutionary**: `deap` (genetic algorithms for global search)
+- **Spatial indexing**: `rtree`, `shapely` (efficient overlap checking)
+- **Constraint solving**: `ortools` (if formulating as constraint satisfaction problem)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds (e.g., `np.random.seed(42)`) if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: For distance computations, consider vectorized operations or KDTree-based nearest neighbor queries instead of full O(n²) matrices
+- **Iterative refinement**: Prefer algorithms that progressively improve solutions over time rather than one-shot optimization
+- **Validation**: Ensure final configuration satisfies all constraints before returning
+
+IMPLEMENTATION HINTS:
+- Start with a reasonable initial placement (e.g., uniform grid adjusted for 32 circles, or Halton sequence for low-discrepancy)
+- Use binary search or gradient ascent to find maximum feasible radius for each circle given current positions
+- Consider alternating between position adjustment and radius maximization phases
+- Physics engines can naturally handle collision constraints while you focus on expansion dynamics
+
+# PROMPT-BLOCK-END
+    

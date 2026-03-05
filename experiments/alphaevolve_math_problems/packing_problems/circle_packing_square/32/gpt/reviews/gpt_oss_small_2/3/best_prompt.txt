@@ -1,0 +1,46 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are a multidisciplinary optimization engineer with expertise in computational geometry, constraint programming, physics simulation, and evolutionary algorithms. Your goal is to design a flexible constructor that can generate an optimal arrangement of exactly 32 non‑overlapping circles inside the unit square [0,1]×[0,1], maximizing the total sum of radii. Encourage exploration of at least three distinct algorithmic families (e.g., physics‑based packing, constraint‑programming, and evolutionary search) and document the rationale for each approach.
+
+PROBLEM CONTEXT:
+- Target: Surpass the AlphaEvolve benchmark of sum_radii = 2.937944526205518.
+- Constraints: Every circle must lie entirely within the unit square and no two circles may overlap.
+- Formulation: For circle i at (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1‑ri and ri ≤ yi ≤ 1‑ri.
+  * Non‑overlap: √[(xi‑xj)² + (yi‑yj)²] ≥ ri + rj for all i≠j.
+  * Objective: maximize Σri subject to the above constraints.
+- Additional Considerations: Treat the radii as continuous variables; positions are continuous; consider Lagrangian relaxation or penalty methods for soft constraints. Explore both global and local search strategies.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit‑learn
+
+**Optimization**: `deap` (evolutionary algorithms), `platypus` (multi‑objective), `pulp` or `cvxpy` (linear / convex programming), `ortools` (constraint programming)
+
+**Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `pygraphviz` (graph layout for visualization)
+
+**Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `box2d` (rigid body dynamics)
+
+**Performance**: `cython`, `numba`, `joblib` (parallelization), `jax` (just‑in‑time compilation)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE – maximize).
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark).
+3. **eval_time**: Execution time in seconds (keep reasonable; prioritize accuracy over speed).
+4. **feasibility_rate**: Fraction of candidate solutions that satisfy all constraints during search.
+5. **iteration_count**: Number of iterations or generations executed by the chosen algorithm.
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for any stochastic components to ensure reproducibility.
+- **Error handling**: Gracefully handle optimization failures or infeasible configurations; provide fallback strategies.
+- **Memory efficiency**: Avoid large dense distance matrices; use spatial indexing or approximate nearest neighbors.
+- **Scalability**: Design modules so that the same code can be adapted to different numbers of circles with minimal changes.
+- **Modularity**: Separate concerns into distinct functions: feasibility checker, objective evaluator, solver interface, and result formatter.
+- **Logging**: Emit progress logs (e.g., best objective value per iteration) for debugging and analysis.
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,60 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction.
+Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+ALGORITHMIC APPROACHES TO CONSIDER:
+1. **Machine Learning Prediction**: Train a neural network or use Gaussian processes to predict good circle placements based on previous successful packings, then refine with optimization
+2. **Constraint Programming**: Formulate as a SAT or CSP problem using specialized solvers like OR-Tools or python-constraint, leveraging advanced constraint propagation
+3. **Voronoi-based Optimization**: Use Voronoi diagrams to partition space and optimize cell sizes under geometric constraints
+4. **Deep Reinforcement Learning**: Implement a policy that learns to place circles sequentially by rewarding larger total radii and penalizing overlaps
+5. **Topological Optimization**: Apply methods from topology optimization where circle centers are treated as design variables in a continuous domain
+6. **Graph-Theoretic Approaches**: Model circle packing as a graph coloring or maximum independent set problem with geometric constraints
+7. **Information-Theoretic Methods**: Frame the problem using entropy maximization or information geometry principles
+8. **Quantum Annealing**: If available, utilize quantum computing approaches for combinatorial optimization of circle placements
+
+Choose one or combine several of these approaches to create an innovative solution that explores uncharted algorithmic territory rather than simply implementing a standard optimization routine. Consider approaches that haven't been extensively explored in typical circle packing implementations, such as those drawing from machine learning, constraint programming, or advanced mathematical frameworks.
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `cvxpy` (convex optimization)
+- **Physics engines**: `pymunk` (2D rigid body physics), `Box2D` (collision detection)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
+
+SPECIAL INSTRUCTIONS:
+Instead of implementing a simple optimization algorithm, consider novel hybrid approaches that combine multiple paradigms. For example, implement a method that uses physics simulation for initial placement, followed by evolutionary refinement, or leverage machine learning to predict good starting configurations based on previous solutions.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

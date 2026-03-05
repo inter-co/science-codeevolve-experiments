@@ -1,0 +1,63 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider employing advanced mathematical and geometric approaches such as:
+- Analytical geometric constructions based on regular polygons, tilings, or symmetric arrangements with rigorous mathematical proofs of optimality
+- Mathematical programming formulations using convex optimization or semidefinite programming techniques with tight bounds
+- Algebraic geometry methods involving polynomial systems or root finding to solve exact geometric constraints
+- Combinatorial optimization approaches leveraging graph theory or discrete mathematics with exact solutions
+- Direct geometric reasoning based on known optimal configurations for small point sets with theoretical guarantees
+- Spectral graph theory or eigenvalue-based methods for point placement with provable convergence properties
+- Topological constraints and Voronoi diagram analysis for optimal distribution with mathematical rigor
+- Group theory and symmetry considerations for constructing point sets with maximal symmetry groups
+- Moment matrix methods for polynomial optimization with certificate generation
+- Geometric invariant theory for understanding optimal configurations with algebraic invariants
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Alternative approaches to consider:
+  * Symmetric group theory applications for point arrangements
+  * Moment matrix methods for polynomial optimization
+  * Geometric invariant theory for understanding optimal configurations
+  * Group actions and orbit methods for constructing symmetric point sets
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components, but prioritize deterministic mathematical constructions over randomized heuristics
+- **Algorithmic Diversity**: Prefer mathematically principled approaches including exact geometric constructions, algebraic methods, and combinatorial optimizations with theoretical foundations
+- **Mathematical Rigor**: Emphasize closed-form solutions, symmetry arguments, analytical derivations, and provable bounds where possible
+- **Geometric Insight**: Utilize known results from discrete geometry, sphere packing, and optimal point distribution theory with mathematical proofs
+- **Alternative Optimization**: Consider gradient-free methods, deterministic algorithms, or exact mathematical procedures rather than purely heuristic approaches, with preference for methods that can provide certificates of optimality
+- **Exact Solutions**: Where possible, favor constructions that can be expressed analytically or verified through rigorous mathematical proof over numerical approximations
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Exploration Strategy**: Prioritize algorithms that can escape local optima and explore the global solution space effectively
+
+# PROMPT-BLOCK-END
+    

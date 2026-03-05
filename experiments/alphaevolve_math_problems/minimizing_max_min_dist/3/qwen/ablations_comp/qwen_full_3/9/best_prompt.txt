@@ -1,0 +1,71 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic strategies including:
+- Analytical geometric constructions using known optimal configurations (spherical codes, Platonic solids, geodesic spheres, kissing number configurations)
+- Mathematical programming approaches (convex relaxation, Lagrangian optimization, semidefinite programming, quadratic programming formulations)
+- Combinatorial and discrete geometry methods (vertex arrangements of regular polytopes, Voronoi diagrams, Delaunay triangulations, graph-theoretic approaches)
+- Topological and symmetry-based constructions (icosahedral symmetry groups, rotationally symmetric arrangements, group representation theory)
+- Algebraic and number-theoretic approaches (algebraic number fields, rational approximations, Diophantine approximation)
+- Spectral and harmonic analysis methods (eigenvalue optimization, Fourier analysis on spheres, spherical harmonics)
+- Constraint satisfaction and satisfiability approaches (SAT solvers, constraint programming)
+- Optimization-free methods (brute force search with symmetry reduction, exhaustive enumeration with pruning)
+- Probabilistic and randomized constructions (randomized geometric algorithms, Monte Carlo methods, stochastic optimization)
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider leveraging known optimal configurations from discrete geometry, such as:
+  * Spherical codes and designs (especially those with high symmetry)
+  * Platonic solids and their refinements (tetrahedron, octahedron, icosahedron)
+  * Geodesic spheres and their vertex distributions
+  * Optimal point distributions on spheres (kissing number configurations)
+  * Symmetric group theory applications to point arrangements
+  * Group-theoretic approaches to constructing highly symmetric point sets
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Alternative optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective), `scipy.optimize.differential_evolution`, `scipy.optimize.basinhopping`
+- **Physics-based simulation**: `numpy` for force calculations, custom implementations for electrostatic repulsion models
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Alternative Approaches**: Consider exploring multiple distinct methodologies:
+  * Exact geometric constructions (vertices of regular polyhedra, spherical codes, lattice point arrangements)
+  * Mathematical programming formulations (semidefinite programming, convex optimization, Lagrangian duality)
+  * Combinatorial optimization (integer programming, graph algorithms, network flow methods)
+  * Spectral and harmonic methods (eigenvalue problems, spherical harmonics, Fourier transforms)
+  * Algebraic and number-theoretic constructions (algebraic integers, rational approximations, modular arithmetic)
+  * Constraint satisfaction and satisfiability approaches (SAT solvers, constraint programming)
+  * Probabilistic and randomized methods (Monte Carlo sampling, randomized rounding, stochastic optimization)
+  * Optimization-free approaches (symmetry reduction, exhaustive search with pruning, combinatorial enumeration)
+  * Hybrid methods combining exact mathematical theory with approximate numerical techniques
+  * Structure-exploiting algorithms that leverage known bounds and theoretical guarantees
+  * Approximation algorithms that provide provable performance ratios while maintaining efficiency
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Efficiency emphasis**: Prioritize solutions that demonstrate clear mathematical insight or exploit structural properties over brute-force optimization
+
+# PROMPT-BLOCK-END
+    

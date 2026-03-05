@@ -1,0 +1,56 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic paradigms including deterministic geometric constructions, population-based evolutionary algorithms, physics-inspired models, and mathematical programming approaches to discover novel configurations that surpass traditional random sampling approaches.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy: Consider multiple algorithmic approaches including:
+  * Deterministic geometric constructions (lattice-based, spherical codes, etc.) - particularly focus on non-traditional arrangements like spiral patterns, Fibonacci-based distributions, or Platonic solid projections
+  * Population-based optimization (genetic algorithms, particle swarm, differential evolution) - emphasize evolutionary strategies that maintain diversity through specialized crossover/mutation operators
+  * Physics-inspired models (electrostatic repulsion, molecular dynamics) - explore novel force models or multi-scale simulation approaches
+  * Mathematical programming formulations (semidefinite programming, convex optimization) - consider relaxation techniques or novel constraint formulations
+  * Combinatorial approaches (graph theory, discrete optimization) - investigate point placement as graph coloring or network flow problems
+  * Novel hybrid methods combining multiple paradigms for improved convergence - encourage creative combinations that don't follow standard optimization pipelines
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Optimization**: `scipy.optimize`, `deap`, `pymoo`, `scikit-optimize` (multi-objective, Bayesian optimization)
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, ConvexHull)
+  * `shapely` (2D geometric operations), `matplotlib` (visualization)
+- **Specialized algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations (if extending to 3D)
+- **Performance**: `numba` (JIT compilation), `joblib` (parallel processing)
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Alternative Approaches**: Explore diverse methodologies such as:
+  * Deterministic geometric constructions (e.g., regular lattices, optimal sphere packings, Fibonacci spirals, or irregular but structured patterns)
+  * Evolutionary computation (genetic algorithms, differential evolution, particle swarm optimization) - focus on innovative selection mechanisms and adaptive parameter control
+  * Physics-based simulation (repulsion models, gradient descent with momentum) - consider non-standard interaction potentials or multi-scale dynamics
+  * Mathematical programming (convex optimization, semidefinite programming formulations) - explore novel relaxations or constraint handling techniques
+  * Combinatorial optimization approaches (graph-based methods, discrete optimization) - treat the problem as finding optimal configurations in abstract spaces
+  * Novel hybrid methods combining multiple paradigms for improved convergence - encourage approaches that blend classical geometry with modern computational techniques in unexpected ways
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

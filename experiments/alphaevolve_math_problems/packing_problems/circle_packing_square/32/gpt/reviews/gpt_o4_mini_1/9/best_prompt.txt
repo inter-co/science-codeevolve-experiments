@@ -1,0 +1,51 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALTERNATIVE ALGORITHMIC PATHS:
+- Encourage exploring distinct algorithm classes such as:
+  * Discrete constraint programming (e.g., CP-SAT, SAT solvers)
+  * Stochastic metaheuristics (e.g., simulated annealing, tabu search)
+  * Evolutionary and multi-objective frameworks (beyond DEAP defaults)
+  * Physics-based repulsion models and differentiable simulation
+  * Voronoi-based partitioning and Lloyd relaxation for initial seeding
+  * Gradient-based continuous optimization (leveraging JAX autodiff)
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (metaheuristics)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `gurobipy` (commercial LP/MIP solver)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), use repulsive force field models for circle dynamics
+- **Differentiable simulation**: `jax`, `autograd` for gradient-based geometry optimization
+- **Performance**: `cython`, `numba`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Hierarchical strategy encouraged**: Consider multi-stage frameworks starting from coarse grid/quantized placement then refine with local continuous optimization or force-based relaxation
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

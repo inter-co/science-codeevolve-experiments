@@ -1,0 +1,56 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+- Random initialization with evolutionary algorithms (genetic algorithms, particle swarm optimization)
+- Physics-based simulations with repulsive forces between points
+- Mathematical programming approaches using convex optimization techniques
+- Voronoi diagram based constructions or Delaunay triangulation optimizations
+- Gradient-free optimization methods like simulated annealing or Nelder-Mead
+- Grid-based or lattice construction approaches with systematic perturbations
+- Multi-start local optimization with diverse initial configurations
+- Constrained optimization using Lagrangian relaxation or penalty methods
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **General optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective), `scipy.optimize.differential_evolution`
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, ConvexHull, Voronoi diagrams)
+  * `sklearn.metrics.pairwise` for efficient distance computations
+- **Specialized algorithms**: 
+  * `scipy.spatial.SphericalVoronoi` for spherical arrangements
+  * `quaternion` package for rotation-based transformations
+- **Performance**: `numba` (JIT compilation), `joblib` for parallelization
+- **Alternative methods**: `scipy.optimize.basinhopping`, `scipy.optimize.shgo` for global optimization
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Robustness**: Handle edge cases where optimization might fail or get stuck in local minima
+- **Multiple starting points**: Consider several different initialization strategies
+- **Validation**: Include checks to ensure the returned configuration satisfies constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Fallback strategy**: Implement multiple algorithmic approaches with graceful degradation
+
+# PROMPT-BLOCK-END
+    

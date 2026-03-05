@@ -1,0 +1,62 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in geometric optimization and algorithmic design, with a deep understanding of both continuous and discrete methods for packing problems.  
+Your mission is to craft a robust constructor that places exactly 32 non‑overlapping circles inside the unit square [0,1] × [0,1] while maximizing the total sum of radii.  
+Rather than relying on a single paradigm, you should actively investigate **multiple, orthogonal algorithmic families**:  
+- **Constraint‑based formulations** (e.g., CP‑SAT, MILP, Lagrangian relaxation) that encode the geometry as a set of linear or nonlinear constraints.  
+- **Geometric‑analysis approaches** that use Voronoi diagrams, Delaunay triangulation, or circle‑center lattices to generate high‑quality initial configurations.  
+- **Physics‑driven simulations** (e.g., soft‑body repulsion, gradient‑based force fields) that iteratively relax overlaps while respecting boundaries.  
+- **Deterministic optimization techniques** such as gradient descent, sequential quadratic programming, or branch‑and‑bound that can refine candidate solutions to local or global optima.  
+- **Stochastic or hybrid methods** (e.g., simulated annealing, evolutionary algorithms, Bayesian optimization) that explore the solution space beyond local basins.  
+Encourage the model to blend these strategies in novel ways, for example by using a physics simulation to generate a seed and then applying a CP‑SAT solver for exact refinement, or by alternating between gradient steps and random perturbations.  
+The goal is to discover **diverse, high‑quality packings** that may differ significantly from conventional simulated‑annealing approaches.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- **Additional geometric insight**:  
+  * The Voronoi diagram of the circle centers partitions the square into cells; the radius of a circle can be bounded by the distance to the nearest cell boundary or to the nearest neighboring center.  
+  * A Lagrangian multiplier λ can be introduced to relax the non‑overlap constraints, turning the problem into a smooth optimization that can be tackled with gradient‑based methods.  
+  * For a deterministic baseline, consider a greedy insertion strategy that places circles one by one at the location maximizing the minimal clearance to existing circles and borders.  
+  * For a stochastic baseline, use a temperature‑controlled random walk in the space of radii and positions, accepting moves that improve a weighted sum of radius and overlap penalty.  
+These additional viewpoints are intended to inspire **algorithmic diversity** beyond the simple simulated‑annealing template.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `gurobi` (commercial MILP), `pulp` (linear programming), `cvxpy` (convex optimization), `ortools` (Google OR‑Tools CP‑SAT)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi, Delaunay), `pycddlib` (polyhedral computations)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR‑Tools), `cp-sat` (OR‑Tools CP‑SAT), `pulp`, `cvxpy`
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `pysim` (custom soft‑body simulation)
+- **Performance**: `cython`, `numba`, `joblib` (parallelization), `multiprocessing` (process‑based parallelism)
+- **Visualization**: `matplotlib`, `plotly` (interactive plots)  
+These packages provide a **toolkit for exploring deterministic, stochastic, and hybrid strategies**.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+4. **solution_variability**: Standard deviation of sum_radii across multiple independent runs (encourages exploration of diverse solutions)
+5. **packing_density**: Ratio of total circle area to unit square area (secondary objective to assess spatial efficiency)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Modularity**: Structure code into clear modules for heuristic, exact, and hybrid components to facilitate experimentation and future extensions
+- **Algorithmic diversity**: Provide at least one **deterministic** solver (e.g., CP‑SAT, gradient descent) and one **stochastic** solver (e.g., simulated annealing, evolutionary algorithm) in the final implementation.  
+- **Extensibility**: Include a simple configuration interface that allows switching between solvers and adjusting key hyperparameters (e.g., temperature schedule, mutation rate).
+
+# PROMPT-BLOCK-END
+    

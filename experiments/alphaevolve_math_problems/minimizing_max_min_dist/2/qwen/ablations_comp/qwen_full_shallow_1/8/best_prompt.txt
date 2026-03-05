@@ -1,0 +1,71 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider multiple algorithmic paradigms including:
+1. **Geometric constructions**: Explore regular polygonal symmetries, lattice arrangements, spherical codes, or known optimal configurations from discrete geometry
+2. **Stochastic optimization**: Employ evolutionary algorithms, particle swarm optimization, or simulated annealing without relying on gradient information
+3. **Energy-based approaches**: Model point placement as a physical system minimizing potential energy functions or repulsive forces
+4. **Multi-objective frameworks**: Instead of maximizing just one ratio, consider simultaneously optimizing multiple geometric criteria such as distance distribution, symmetry properties, or packing density
+5. **Alternative mathematical formulations**: Explore reformulations using Voronoi diagrams, Delaunay triangulations, or spectral graph theory approaches
+6. **Combinatorial methods**: Consider discrete optimization techniques or exact combinatorial constructions that might yield superior configurations
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Advanced considerations: 
+  * Explore whether the optimal configuration exhibits rotational symmetry or other geometric properties
+  * Consider the relationship to sphere packing problems and their 2D analogues
+  * Evaluate if the solution lies near the boundary of the feasible region where some distances are minimized
+
+ALGORITHMIC DIVERSITY FOCUS:
+Instead of relying primarily on gradient-based numerical optimization or spectral analysis, prioritize approaches that:
+- Leverage **combinatorial optimization** techniques such as branch-and-bound, integer programming, or constraint satisfaction solvers
+- Employ **topological methods** like simplicial complexes or persistent homology to analyze point configurations
+- Apply **algebraic geometry** approaches using resultants, Groebner bases, or polynomial systems to characterize optimal arrangements
+- Use **graph-theoretic formulations** where points are vertices in graphs with specific structural constraints
+- Implement **quantum-inspired algorithms** or **neural network-based approaches** for global optimization
+- Explore **information-theoretic measures** such as entropy or mutual information to guide point placement
+- Consider **category theory** or **categorical approaches** to point configuration problems
+- Utilize **machine learning** approaches like reinforcement learning or Gaussian processes to discover optimal patterns
+- Apply **tensor decomposition** or **multilinear algebra** techniques to model point interactions
+- Employ **non-Euclidean geometric frameworks** such as hyperbolic or spherical geometries for alternative formulations
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic diversity**: Prioritize solutions that explore fundamentally different computational paradigms over variations of existing approaches
+- **Novelty emphasis**: Reward approaches that demonstrate unique mathematical insights or unconventional methodologies
+- **Exploration focus**: Encourage methods that systematically sample diverse solution spaces rather than local optimization from a single starting point
+- **Mathematical rigor**: Where possible, validate solutions through rigorous mathematical proofs or symbolic computation
+- **Cross-disciplinary fusion**: Combine techniques from seemingly unrelated fields such as quantum computing, category theory, or information theory
+- **Structural insight**: Focus on understanding the underlying mathematical structures rather than just numerical optimization
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

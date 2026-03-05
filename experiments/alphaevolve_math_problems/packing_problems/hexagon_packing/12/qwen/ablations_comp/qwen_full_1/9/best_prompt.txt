@@ -1,6 +1,7 @@
 # PROMPT-BLOCK-START
 SETTING:
-You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length). Consider both mathematical optimization approaches and geometric symmetries to discover novel configurations that may outperform conventional grid arrangements.
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
 
 PROBLEM CONTEXT:
 - Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
@@ -9,7 +10,57 @@ PROBLEM CONTEXT:
   * Non-overlap: All pairs of inner hexagons must be disjoint
   * Containment: All vertices of inner hexagons must lie within the outer hexagon
   * Objective: maximize 1/R where R is the outer hexagon side length
-- Exploration Strategy: Consider both analytical geometric constructions and numerical optimization techniques, including symmetry-adapted search spaces and advanced constraint satisfaction methods.
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Symmetry-based Construction**: Explore highly symmetric arrangements like icosahedral or dihedral symmetries that naturally reduce degrees of freedom
+2. **Geometric Programming**: Formulate as a convex optimization problem using logarithmic barrier methods
+3. **Lattice-based Approaches**: Consider hexagonal lattice point configurations with geometric constraints
+4. **Constraint Satisfaction**: Use SAT solvers or constraint propagation techniques for discrete geometric problems
+5. **Multi-scale Optimization**: Combine global search (genetic algorithms) with local refinement (gradient-based methods)
+6. **Energy Minimization**: Model as a physical system where overlapping hexagons repel each other
+=======
+```
+
+```
+<<<<<<< SEARCH
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+=======
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+  * `cvxpy` (convex optimization framework for geometric constraints)
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+- **Advanced Techniques**:
+  * `gurobipy` or `ortools` for mixed-integer programming formulations
+  * `scikit-learn` for clustering-based initial configurations
+  * `networkx` for graph representation of geometric relationships
 
 PERFORMANCE METRICS:
 1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
@@ -31,15 +82,13 @@ COMPUTATIONAL RESOURCES:
   * `scipy.optimize` (constrained optimization, global methods)
   * `deap` (evolutionary algorithms with custom symmetry operators)
   * `platypus` (multi-objective optimization)
-- **Advanced Techniques**:
-  * Geometric programming approaches
-  * Convex optimization formulations
-  * Monte Carlo sampling with constraint validation
 - **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Robustness Requirement**: Solution must guarantee valid non-overlapping configurations with rigorous constraint checking
+- **Fallback Strategy**: Must include deterministic construction methods when optimization fails to converge
 
 # PROMPT-BLOCK-END
     

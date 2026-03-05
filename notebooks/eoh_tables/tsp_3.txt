@@ -1,0 +1,95 @@
+Loading test data from: /home/sagemaker-user/evolve/EoH/examples/user_tsp_gls/TestingData
+  TSP20: 1000 instances, size 20
+  TSP50: 1000 instances, size 50
+  TSP100: 1000 instances, size 100
+
+Evaluating heuristic: experiments/eoh-problems/tsp_gls/qwen/reviews/qwen_full_3/5/best_sol.py
+
+  TSP20: 50/1000 instances, avg gap=-0.000%, avg time=0.591s
+  TSP20: 100/1000 instances, avg gap=-0.000%, avg time=0.571s
+  TSP20: 150/1000 instances, avg gap=-0.000%, avg time=0.564s
+  TSP20: 200/1000 instances, avg gap=-0.000%, avg time=0.560s
+  TSP20: 250/1000 instances, avg gap=-0.000%, avg time=0.558s
+  TSP20: 300/1000 instances, avg gap=-0.000%, avg time=0.556s
+  TSP20: 350/1000 instances, avg gap=-0.000%, avg time=0.556s
+  TSP20: 400/1000 instances, avg gap=-0.000%, avg time=0.555s
+  TSP20: 450/1000 instances, avg gap=-0.000%, avg time=0.554s
+  TSP20: 500/1000 instances, avg gap=-0.000%, avg time=0.553s
+  TSP20: 550/1000 instances, avg gap=-0.000%, avg time=0.553s
+  TSP20: 600/1000 instances, avg gap=-0.000%, avg time=0.552s
+  TSP20: 650/1000 instances, avg gap=-0.000%, avg time=0.552s
+  TSP20: 700/1000 instances, avg gap=-0.000%, avg time=0.552s
+  TSP20: 750/1000 instances, avg gap=-0.000%, avg time=0.551s
+  TSP20: 800/1000 instances, avg gap=-0.000%, avg time=0.551s
+  TSP20: 850/1000 instances, avg gap=-0.000%, avg time=0.551s
+  TSP20: 900/1000 instances, avg gap=-0.000%, avg time=0.551s
+  TSP20: 950/1000 instances, avg gap=-0.000%, avg time=0.551s
+  TSP20: 1000/1000 instances, avg gap=-0.000%, avg time=0.551s
+  TSP20 done: gap=-0.000%, avg_time=0.551s, total=550.6s
+
+  TSP50: 50/1000 instances, avg gap=0.049%, avg time=1.114s
+  TSP50: 100/1000 instances, avg gap=0.048%, avg time=1.116s
+  TSP50: 150/1000 instances, avg gap=0.049%, avg time=1.115s
+  TSP50: 200/1000 instances, avg gap=0.045%, avg time=1.115s
+  TSP50: 250/1000 instances, avg gap=0.042%, avg time=1.115s
+  TSP50: 300/1000 instances, avg gap=0.038%, avg time=1.116s
+  TSP50: 350/1000 instances, avg gap=0.037%, avg time=1.116s
+  TSP50: 400/1000 instances, avg gap=0.032%, avg time=1.116s
+  TSP50: 450/1000 instances, avg gap=0.031%, avg time=1.116s
+  TSP50: 500/1000 instances, avg gap=0.035%, avg time=1.116s
+  TSP50: 550/1000 instances, avg gap=0.034%, avg time=1.116s
+  TSP50: 600/1000 instances, avg gap=0.032%, avg time=1.116s
+  TSP50: 650/1000 instances, avg gap=0.030%, avg time=1.116s
+  TSP50: 700/1000 instances, avg gap=0.030%, avg time=1.116s
+  TSP50: 750/1000 instances, avg gap=0.031%, avg time=1.116s
+  TSP50: 800/1000 instances, avg gap=0.031%, avg time=1.116s
+  TSP50: 850/1000 instances, avg gap=0.033%, avg time=1.116s
+  TSP50: 900/1000 instances, avg gap=0.033%, avg time=1.116s
+  TSP50: 950/1000 instances, avg gap=0.031%, avg time=1.116s
+  TSP50: 1000/1000 instances, avg gap=0.032%, avg time=1.116s
+  TSP50 done: gap=0.032%, avg_time=1.116s, total=1116.1s
+
+  TSP100: 50/1000 instances, avg gap=0.104%, avg time=2.634s
+  TSP100: 100/1000 instances, avg gap=0.150%, avg time=2.634s
+  TSP100: 150/1000 instances, avg gap=0.140%, avg time=2.633s
+  TSP100: 200/1000 instances, avg gap=0.165%, avg time=2.634s
+  TSP100: 250/1000 instances, avg gap=0.165%, avg time=2.633s
+  TSP100: 300/1000 instances, avg gap=0.171%, avg time=2.634s
+  TSP100: 350/1000 instances, avg gap=0.165%, avg time=2.634s
+  TSP100: 400/1000 instances, avg gap=0.168%, avg time=2.636s
+  TSP100: 450/1000 instances, avg gap=0.168%, avg time=2.636s
+  TSP100: 500/1000 instances, avg gap=0.184%, avg time=2.637s
+  TSP100: 550/1000 instances, avg gap=0.185%, avg time=2.636s
+  TSP100: 600/1000 instances, avg gap=0.185%, avg time=2.636s
+  TSP100: 650/1000 instances, avg gap=0.182%, avg time=2.637s
+  TSP100: 700/1000 instances, avg gap=0.178%, avg time=2.637s
+  TSP100: 750/1000 instances, avg gap=0.179%, avg time=2.637s
+  TSP100: 800/1000 instances, avg gap=0.178%, avg time=2.637s
+  TSP100: 850/1000 instances, avg gap=0.175%, avg time=2.636s
+  TSP100: 900/1000 instances, avg gap=0.174%, avg time=2.636s
+  TSP100: 950/1000 instances, avg gap=0.179%, avg time=2.637s
+  TSP100: 1000/1000 instances, avg gap=0.186%, avg time=2.637s
+  TSP100 done: gap=0.186%, avg_time=2.637s, total=2636.9s
+
+
+### Table 10: TSP Results (Gap % to Concorde Optimal)
+Average gap (%) over test instances (lower is better).
+
+| Method | TSP20 | TSP50 | TSP100 |
+|---|---|---|---|
+| NN | 17.448 | 23.230 | 25.104 |
+| FI | 2.242 | 7.263 | 12.456 |
+| AM | 0.069 | 0.494 | 2.368 |
+| GLS | 0.004 | 0.045 | 0.659 |
+| EBGLS | 0.002 | 0.003 | 0.155 |
+| KGLS | 0.000 | 0.000 | 0.035 |
+| EoH | 0.000 | 0.000 | 0.025 |
+| **CodeEvolve** | **-0.000** | **0.032** | **0.186** |
+
+#### Average time per instance (seconds)
+
+| Method | TSP20 | TSP50 | TSP100 |
+|---|---|---|---|
+| EoH | 0.498 | 1.494 | 4.510 |
+| **CodeEvolve** | **0.551** | **1.116** | **2.637** |
+

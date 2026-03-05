@@ -1,0 +1,77 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to evolve and optimize a function that discovers step function constructions to improve the lower bound on the second autocorrelation inequality constant C₂.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+ALGORITHMIC APPROACHES TO CONSIDER:
+1. **Unconventional optimization paradigms**: Explore reinforcement learning agents that learn to construct optimal step functions through trial and error, or neural network architectures that map problem parameters to optimal function shapes
+2. **Randomized and stochastic methods**: Implement purely random search strategies with intelligent sampling, including quasirandom sequences, Latin hypercube sampling, or probabilistic graphical models to explore the function space
+3. **Multi-agent collaborative approaches**: Design systems where multiple independent agents search different regions of the solution space and share promising discoveries, potentially using swarm intelligence or distributed evolutionary algorithms
+4. **Transform-based optimization**: Apply mathematical transformations such as Fourier transforms, wavelet decompositions, or manifold learning to reframe the optimization problem in a more tractable domain
+5. **Novel constraint-handling techniques**: Develop innovative methods for managing non-negativity constraints, such as penalty functions with adaptive penalties, projection-based methods, or implicit constraint satisfaction through function parameterization
+6. **Hybrid machine learning approaches**: Combine traditional optimization with machine learning models that predict good function configurations or accelerate convergence through learned heuristics
+
+THEORETICAL INSIGHTS TO EXPLOIT:
+- The high-dimensional search space suggests exploring non-traditional search strategies beyond conventional optimization
+- The objective landscape likely exhibits multiple local optima, making global optimization essential - consider approaches that don't rely on gradient information or smoothness assumptions
+- The optimal solution might emerge from complex emergent behaviors rather than simple mathematical forms
+- The computational budget allows for extensive exploration, so prioritize methods that can exploit parallelism or distributed computing
+- Consider that the problem might benefit from approaches inspired by natural phenomena, such as evolutionary processes, quantum annealing, or biological-inspired algorithms
+
+THEORETICAL INSIGHTS TO EXPLOIT:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] represents a discrete convolution
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) can be interpreted as a measure of how "spread out" the convolution is relative to its total mass and peak
+- High C₂ values occur when ||g||₂² is large relative to ||g||₁ · ||g||∞
+- Consider constructing step functions that create "flat" convolution profiles to maximize this ratio
+- The optimal configuration might exhibit specific symmetry or distribution patterns that are not random
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] represents a discrete convolution that can be viewed through multiple mathematical lenses
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) can be interpreted as a measure of geometric regularity or information concentration
+- Alternative mathematical formulations might include viewing this as a quadratic form, or considering spectral properties of the convolution operator
+- To maximize C₂, consider not only the balance between norms but also potential geometric interpretations of the optimal configuration
+- The piecewise linear integration method for ||g||₂² can be generalized to other quadrature rules or even Monte Carlo approaches for approximation
+- The constraint structure suggests possible reformulations using Lagrange multipliers or barrier methods for constrained optimization
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

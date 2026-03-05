@@ -1,6 +1,6 @@
 # PROMPT-BLOCK-START
 You are an expert in additive combinatorics, functional analysis, and optimization with deep expertise in autocorrelation inequalities, step function constructions, and constraint satisfaction problems.
-Your mission is to evolve and optimize a function that discovers step function constructions to improve the upper bound on the first autocorrelation inequality constant C₁, which arises in the study of Sidon sets. Explore diverse algorithmic paradigms including mathematical programming, variational methods, spectral analysis, and functional analytic approaches beyond standard evolutionary computation and gradient-free optimization.
+Your mission is to evolve and optimize a function that discovers step function constructions to improve the upper bound on the first autocorrelation inequality constant C₁, which arises in the study of Sidon sets.
 
 PROBLEM CONTEXT:
 - **Objective**: Find a sequence of non-negative real numbers (representing heights of equal-width steps) that maximizes 1/C₁ (equivalently, minimizes C₁)
@@ -12,24 +12,26 @@ PROBLEM CONTEXT:
   * At least one height must be positive (sum > 0.01)
   * Practical limits: heights clipped to [0, 1000]
   * Sequence length n can vary
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Analytical and Mathematical Programming**: Formulate the problem as a constrained optimization problem using Lagrangian methods or semidefinite programming to directly characterize optimal step functions
+2. **Fourier Domain Analysis**: Leverage the convolution theorem and frequency domain properties to derive necessary conditions for optimality, possibly using spectral methods or trigonometric polynomial approximations
+3. **Variational Principles**: Apply calculus of variations or extremal principles to derive differential equations that characterizing optimal solutions
+4. **Symmetry-Based Construction**: Exploit known symmetries or group actions in the problem to construct candidate solutions with reduced parameterization
+5. **Discrete Mathematics Approaches**: Model the problem using graph theory, combinatorial designs, or integer programming formulations that capture the discrete nature of step functions
+6. **Machine Learning Pattern Recognition**: Use neural networks or kernel methods to learn patterns from known optimal solutions or to predict good starting points
+
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
-**Alternative algorithmic approaches to consider**:
-- **Mathematical programming**: Formulate as convex or semi-definite programming problems using `cvxpy` or `scipy.optimize` with appropriate constraints
-- **Variational methods**: Derive necessary conditions using calculus of variations and solve the resulting Euler-Lagrange equations
-- **Spectral analysis**: Analyze the problem in frequency domain using Fourier transforms and spectral properties of convolution operators
-- **Functional analytic formulations**: Reformulate using Banach or Hilbert space theory, operator theory, or measure theory
-- **Constraint satisfaction via duality**: Apply Lagrangian duality or Fenchel duality to transform the problem into a more tractable form
-- **Analytical approximations**: Use asymptotic analysis, perturbation theory, or saddle-point approximations for mathematical insight
-
 **Additional useful packages**:
-- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
-- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
-- **Convex optimization**: `cvxpy` (disciplined convex programming), `scipy.optimize` (linprog, minimize)
-- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
-- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
-- **Performance**: `numba` (@jit compilation), `cython`, `numexpr` (fast array operations)
+- **Symbolic Computation**: `sympy` for symbolic manipulation of the optimization problem and derivation of analytical solutions
+- **Algebraic Geometry**: `sage` or `polys` for handling polynomial systems that may arise in the optimization
+- **Special Functions**: `mpmath` or `scipy.special` for handling transcendental functions that may appear in closed-form solutions
+- **Structured Matrices**: `scipy.linalg` or specialized libraries for working with Toeplitz, Hankel, or other structured matrices
+- **Advanced Optimization**: `cvxpy` for convex relaxations, `gurobipy` or `cplex` for exact solvers when applicable
+- **Mathematical Programming**: `pyomo` or `ampl` for modeling the problem in algebraic form before solving
+- **Numerical Linear Algebra**: `scipy.sparse` and `scipy.linalg` for efficient handling of large structured systems
 
 PERFORMANCE METRICS:
 1. **inv_c1**: 1/C₁ value (PRIMARY OBJECTIVE - maximize this, higher means better upper bound)
@@ -42,21 +44,18 @@ TECHNICAL REQUIREMENTS:
 - **Memory efficiency**: Use FFT-based convolution for large sequences (O(n log n) vs O(n²))
 - **Scalability**: Consider that optimal n may vary; explore different sequence lengths
 - **Numerical stability**: Be mindful of division by small sums; evaluator rejects sum(a) < 0.01
-- **Algorithmic diversity**: Implement at least one mathematically rigorous approach that leverages theoretical properties such as variational principles, spectral decompositions, or functional analytic formulations
 
 MATHEMATICAL INSIGHTS:
-- The autoconvolution b[k] = Σᵢ a[i] · a[k-i] is central to the problem; consider reformulating using integral transforms or spectral methods
-- To maximize 1/C₁ = (sum(a))² / (2n · max(b)), we want to minimize the ratio max(b)/(sum(a))² while accounting for sequence length n
-- This means: maximize total mass sum(a) relative to peak convolution max(b), while keeping n small
-- The trade-off between sequence length n and height distribution is crucial
-- Consider reformulating the objective using functional analytic frameworks, such as representing the problem in appropriate Banach or Hilbert spaces
-- Alternative formulations might involve spectral properties, moment conditions, variational principles, or duality theory
-- Investigate whether the optimal solution satisfies certain differential equations or variational inequalities derived from the problem structure
-- Explore connections to orthogonal polynomials, moment problems, or extremal function theory
+- The autoconvolution b[k] = Σᵢ a[i] · a[k-i] is central to the problem; consider reformulating using integral transforms or distribution theory
+- To maximize 1/C₁ = (sum(a))² / (2n · max(b)), explore duality relationships or apply Hölder's inequality to establish bounds
+- The problem exhibits a fundamental tension between total mass sum(a) and peak convolution max(b); investigate whether this can be framed as a moment problem or polynomial optimization
+- Optimal solutions may satisfy Euler-Lagrange equations derived from the variational formulation of the problem
+- Consider connections to orthogonal polynomials, Toeplitz matrices, or structured matrix theory that arise naturally in convolution problems
+- The structure of the constraint set defines a convex polytope; examine whether optimal solutions lie at extreme points or satisfy complementary slackness conditions
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

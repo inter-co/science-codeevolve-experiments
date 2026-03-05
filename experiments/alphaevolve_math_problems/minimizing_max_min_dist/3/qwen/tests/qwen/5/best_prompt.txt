@@ -1,0 +1,59 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic paradigms including: 
+- Discrete optimization approaches such as simulated annealing, tabu search, or genetic algorithms with custom crossover operators
+- Physics-based simulations with unconventional interaction models (e.g., repulsive forces with exponential decay, or attractive-repulsive potentials with phase transitions)
+- Topological and combinatorial constructions that exploit graph theory or manifold embeddings
+- Machine learning approaches including neural networks trained on known good configurations or reinforcement learning agents that learn point placement policies
+- Hybrid methods combining discrete search with local geometric refinement techniques
+- Novel mathematical frameworks such as information-theoretic approaches or game-theoretic formulations of point placement
+- Probabilistic methods like Markov Chain Monte Carlo sampling with carefully designed proposal distributions
+- Constraint satisfaction approaches that iteratively tighten distance constraints through satisfiability solving
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy Considerations:
+  * Consider completely non-symmetric arrangements that might outperform highly symmetric ones
+  * Investigate unconventional energy models such as those based on entropy maximization or information-theoretic measures
+  * Explore approaches that work directly with the combinatorial structure of point relationships rather than continuous optimization
+  * Apply machine learning models trained on similar point distribution problems or use reinforcement learning to discover new construction heuristics
+  * Utilize constraint satisfaction or satisfiability solving techniques to find point configurations satisfying distance constraints
+  * Consider approaches that model this as a game where points compete for optimal positions or as a multi-agent system with distributed decision making
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithm Diversity**: Implement at least one non-trivial optimization technique that differs significantly from gradient-based methods
+- **Geometric Insight**: Leverage known mathematical properties of point distributions in 3D, particularly symmetry-based constructions
+- **Alternative Approaches**: Consider multiple distinct algorithmic strategies beyond traditional optimization (e.g., analytical geometric constructions, energy models with different force laws, or topological methods)
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

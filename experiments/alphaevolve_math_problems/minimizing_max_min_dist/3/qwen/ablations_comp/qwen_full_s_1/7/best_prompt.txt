@@ -1,0 +1,53 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse mathematical frameworks including algebraic geometry, number theory approaches, and topological methods alongside traditional geometric and optimization techniques.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy: Employ any of these diverse approaches:
+  1. Algebraic geometry methods (e.g., polynomial systems, Groebner bases for constraint satisfaction)
+  2. Number-theoretic constructions (e.g., using rational approximations, Diophantine equations)
+  3. Topological approaches (e.g., mapping to surfaces, knot theory-inspired configurations)
+  4. Combinatorial optimization with novel constraint handling
+  5. Machine learning geometric priors or neural embedding approaches
+  6. Direct analytical methods leveraging symmetry groups or group representations
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Algebraic methods**: `sympy` for symbolic computation, `numpy.polynomial` for polynomial solving
+- **Advanced optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Number theory tools**: `gmpy2` or `sympy.ntheory` for advanced arithmetic
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components (if used)
+- **Mathematical rigor**: Demonstrate theoretical soundness or near-optimality for chosen approach
+- **Computational efficiency**: Balance solution quality with execution time under 60 seconds
+- **Alternative validation**: Include mathematical verification or geometric intuition supporting the approach
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

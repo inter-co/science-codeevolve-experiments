@@ -1,0 +1,62 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider employing advanced mathematical optimization strategies such as:
+- Analytical geometric constructions based on known optimal configurations (e.g., 16-point spherical codes, equiangular lines, or kissing number configurations)
+- Symmetric group theory approaches for constructing highly symmetric point sets
+- Algebraic geometry methods involving polynomial systems and root finding
+- Spectral graph theory applications for point placement
+- Topological approaches using manifolds or toroidal embeddings
+- Combinatorial optimization techniques leveraging known bounds and constructions
+- Variational principles and energy minimization frameworks
+- Group representation theory for symmetric point distributions
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Advanced Strategy Considerations:
+  * Leverage known mathematical constructions such as the 16-point spherical code or optimal point sets in the plane
+  * Explore algebraic number fields and their geometric realizations for point placement
+  * Consider using symmetry groups (Coxeter groups, finite reflection groups) to generate point configurations
+  * Apply harmonic analysis and Fourier transform techniques for understanding point distributions
+  * Investigate connections to coding theory and sphere packing problems
+  * Utilize potential energy minimization with physically meaningful potentials
+  * Employ tensor product constructions or direct product methods for higher-dimensional insights
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Sophistication**: Prefer methods that demonstrate deep understanding of the underlying mathematical structure and theoretical guarantees
+- **Optimization Focus**: Prioritize approaches that leverage mathematical insights over brute-force numerical optimization
+- **Efficiency**: Balance theoretical elegance with computational feasibility within the 60-second time constraint
+- **Mathematical Rigor**: Where possible, use proven constructions or mathematical bounds rather than heuristic optimization
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

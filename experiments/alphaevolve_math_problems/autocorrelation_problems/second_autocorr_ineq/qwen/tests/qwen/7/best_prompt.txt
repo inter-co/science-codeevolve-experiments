@@ -1,0 +1,114 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your approach should explore diverse mathematical frameworks including variational principles, spectral analysis, and unconventional optimization paradigms beyond standard gradient-based methods. Consider completely different mathematical perspectives such as:
+
+**ALGEBRAIC APPROACHES**: 
+- Represent the problem through polynomial algebra or ring theory
+- Consider the autoconvolution as a structured polynomial multiplication problem
+- Explore Gröbner basis methods or polynomial ideal theory for finding optimal configurations
+- Study the algebraic structure of the convolution operation in function spaces
+
+**TOPOLOGICAL OPTIMIZATION**: 
+- Use simplicial complexes or topological data analysis to understand the solution landscape
+- Apply persistent homology to study how the optimization landscape changes with parameter variations
+- Consider the topology of the space of valid step functions and how C₂ varies across topological classes
+
+**INFORMATION-THEORETIC FORMULATIONS**: 
+- Frame the optimization as entropy maximization or information bottleneck problems
+- Consider the mutual information between step positions and their contributions to C₂
+- Explore how maximizing C₂ relates to minimizing information loss or maximizing channel capacity
+
+**GAME-THEORETIC APPROACHES**: 
+- Model the optimization as a strategic game where each step's height is a player's strategy
+- Analyze Nash equilibria in the game where each step optimizes its contribution to the overall C₂
+- Consider the Shapley value or other cooperative game theory concepts for distributing the optimization benefit
+
+**CATEGORY THEORY APPLICATIONS**: 
+- Use categorical structures to represent function spaces and convolution operations
+- Represent the convolution as a morphism in an appropriate category
+- Apply categorical limits or colimits to understand optimal function constructions
+
+**COMBINATORIAL OPTIMIZATION**: 
+- Treat the problem as finding optimal configurations in discrete combinatorial structures
+- Consider the problem as a graph coloring or matching problem on a constructed graph
+- Apply integer programming or constraint satisfaction methods with specialized constraints
+
+**QUANTUM-PHYSICS INSPIRED METHODS**: 
+- Apply quantum algorithms or quantum annealing principles to the optimization
+- Model the optimization as a quantum spin system or quantum field theory problem
+- Consider path integrals or quantum Monte Carlo methods for exploring the solution space
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Advanced Optimization Approaches**:
+- **Algebraic Optimization**: Formulate the problem using polynomial rings, Gröbner bases, or other algebraic structures to find optimal step configurations
+- **Topological Data Analysis**: Apply persistent homology or simplicial complexes to understand the connectivity and structure of the solution space
+- **Information-Theoretic Frameworks**: Reformulate as an information bottleneck problem or entropy maximization under constraints
+- **Game-Theoretic Approaches**: Model the optimization as a Nash equilibrium problem where each step interacts strategically with others
+- **Category Theory Applications**: Use categorical constructions to represent function spaces and convolution operations
+- **Combinatorial Optimization**: Treat the problem as finding optimal configurations in discrete combinatorial structures
+- **Quantum Annealing**: Apply quantum-inspired optimization techniques or quantum approximate optimization algorithms
+- **Causal Inference Methods**: Frame the problem through causal graphs where the convolution operation represents causal relationships
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+- **Advanced Optimization Libraries**: `cvxpy` (convex optimization), `scipy.optimize` (various optimization routines)
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs, but also implement adaptive seeding strategies
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations) with graceful degradation
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small; implement regularization or fallback strategies
+- **Algorithmic Sophistication**: Implement at least one advanced optimization technique beyond simple random search, such as:
+  * Gradient-based optimization with automatic differentiation
+  * Evolutionary algorithms with adaptive parameters
+  * Multi-start optimization with diverse initialization strategies
+  * Constrained optimization with penalty methods or barrier functions
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object with rich structure in its optimization landscape
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g, where maximizing this ratio requires careful balance
+- To maximize C₂, consider exploring connections to random matrix theory, where the autoconvolution represents a structured correlation matrix
+- Alternative approaches might consider the problem through the lens of optimal transport or Wasserstein distances between probability distributions
+- The optimization landscape may contain multiple metastable states; consider basin-hopping or multi-level optimization strategies
+- Investigate whether the problem admits analytical solutions for special cases or limiting configurations
+- Consider the role of symmetries: what happens if we restrict to even or odd functions? How does this change the optimization?
+- Explore connections to compressed sensing or sparse recovery where the solution structure is expected to be sparse or have special structure
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+- Consider reformulating the problem using integral transforms or generating functions to gain new perspectives on the optimization
+- Think about the problem in terms of category theory: how can we represent the convolution operation as a morphism in an appropriate category?
+- Approach the problem from an information-theoretic standpoint: what information-theoretic quantities might be optimized alongside C₂?
+- Consider the problem from a topological perspective: what topological invariants of the solution space might be relevant?
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

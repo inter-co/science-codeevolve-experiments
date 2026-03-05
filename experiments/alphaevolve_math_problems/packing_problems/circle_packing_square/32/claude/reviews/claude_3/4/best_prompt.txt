@@ -1,0 +1,60 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in discrete geometry and stochastic optimization, specializing in dense circle packing configurations.
+Your task is to design a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+STRATEGIC INSIGHT:
+Optimal circle packing often exhibits **quasi-crystalline patterns** rather than uniform grids. For 32 circles, consider:
+- **Hexagonal close-packing** principles adapted to rectangular boundaries
+- **Boundary-aware strategies**: Larger circles near edges where boundary constraints allow
+- **Hierarchical placement**: Start with a core high-density region, then fill gaps
+- **Physical relaxation**: Model circles as repelling particles that push apart while expanding under pressure
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (basin-hopping, differential evolution)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi, Delaunay)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+RECOMMENDED ALGORITHMIC APPROACHES:
+1. **Force-directed relaxation**: Initialize circles with small radii, simulate repulsive forces between circles and attractive forces toward expansion
+2. **Sequential maximal packing**: Place circles one-by-one at positions that allow maximum radius given existing circles
+3. **Hybrid methods**: Combine deterministic initialization (e.g., hexagonal lattice clipped to unit square) with stochastic refinement (simulated annealing, gradient descent on positions)
+4. **Voronoi-based adaptive sizing**: Use Voronoi tessellation to identify free space, then size circles proportionally to their Voronoi cell areas
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds (e.g., `np.random.seed(42)`) if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations (use vectorized operations)
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+IMPLEMENTATION HINTS:
+- **Initialization matters**: A good starting configuration (e.g., hexagonal lattice with ~5-6 rows) significantly improves final quality
+- **Incremental radius growth**: Start with small radii and gradually inflate circles until constraints are tight
+- **Local search**: After initialization, apply local perturbations (jitter positions, swap circle roles) to escape local optima
+- **Constraint enforcement**: Continuously project configurations back to feasible space during optimization
+
+# PROMPT-BLOCK-END
+    

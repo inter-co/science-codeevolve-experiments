@@ -1,0 +1,50 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop a mathematically rigorous approach that leverages advanced geometric optimization techniques to construct an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+- ADVANCED APPROACHES TO CONSIDER:
+  * Global optimization using simulated annealing or genetic algorithms
+  * Mathematical programming formulations with constraints
+  * Geometric reasoning based on hexagonal lattice symmetries
+  * Convex optimization techniques for smooth approximations
+  * Multi-start local optimization with different initial configurations
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom operators)
+  * `platypus` (multi-objective optimization)
+- **Collision detection**: 
+  * `pymunk` (2D rigid body physics with polygon shapes)
+  * Custom SAT (Separating Axis Theorem) implementations
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly
+- **Reproducibility**: Fixed random seeds for stochastic optimization methods
+- **Mathematical rigor**: Employ formal geometric proofs or mathematical reasoning where possible
+- **Algorithmic diversity**: Consider multiple optimization paradigms (gradient-based, evolutionary, hybrid approaches)
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

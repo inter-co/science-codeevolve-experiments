@@ -1,0 +1,69 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Constructive Geometric Algorithms**: Instead of optimization, consider direct construction methods that build point sets based on mathematical principles, such as placing points on specific curves (circle, ellipse, spiral) or using discrete geometric constructions that inherently satisfy distance constraints.
+2. **Energy-Based Models**: Model the point configuration as a physical system where points repel each other according to inverse distance laws, then simulate relaxation dynamics to reach equilibrium configurations.
+3. **Multi-Objective Evolutionary Strategies**: Approach this as a multi-objective optimization problem where you simultaneously maximize minimum distance and minimize maximum distance, potentially using NSGA-II or similar algorithms to find a Pareto front of solutions.
+4. **Combinatorial Optimization Frameworks**: Reformulate the problem using combinatorial optimization techniques, possibly leveraging graph theory concepts where points are vertices in a graph with specific distance constraints, or using branch-and-bound methods for discrete optimization.
+5. **Hierarchical Clustering Techniques**: Use hierarchical clustering approaches to iteratively partition the space and place points in a way that naturally maximizes separation between clusters while maintaining internal compactness.
+6. **Swarm Intelligence Approaches**: Explore population-based metaheuristics like particle swarm optimization or ant colony optimization that can handle the non-differentiable nature of the min/max ratio objective without requiring gradient information.
+
+INSTRUCTIONAL GUIDANCE:
+Rather than relying primarily on gradient-based numerical optimization, focus on either:
+- Mathematical constructions that naturally achieve good dispersion properties
+- Physical simulation models that evolve point configurations through energy minimization
+- Combinatorial approaches that systematically explore geometric arrangements
+- Hybrid methods that combine constructive elements with local refinement
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Swarm Intelligence Approaches**: Explore population-based metaheuristics like particle swarm optimization or ant colony optimization that can handle the non-differentiable nature of the min/max ratio objective without requiring gradient information.
+2. **Constructive Geometric Algorithms**: Instead of optimization, consider direct construction methods that build point sets based on mathematical principles, such as placing points on specific curves or using discrete geometric constructions that inherently satisfy distance constraints.
+3. **Multi-Objective Evolutionary Strategies**: Approach this as a multi-objective optimization problem where you simultaneously maximize minimum distance and minimize maximum distance, potentially using NSGA-II or similar algorithms to find a Pareto front of solutions.
+4. **Energy-Based Models**: Model the point configuration as a physical system where points repel each other according to inverse distance laws, then simulate relaxation dynamics to reach equilibrium configurations.
+5. **Hierarchical Clustering Techniques**: Use hierarchical clustering approaches to iteratively partition the space and place points in a way that naturally maximizes separation between clusters while maintaining internal compactness.
+6. **Combinatorial Optimization Frameworks**: Reformulate the problem using combinatorial optimization techniques, possibly leveraging graph theory concepts where points are vertices in a graph with specific distance constraints, or using branch-and-bound methods for discrete optimization.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, ConvexHull, Voronoi diagrams)
+  * `scipy.spatial.distance` (efficient distance computations)
+- **Advanced algorithms**: 
+  * `scipy.optimize.minimize` with various algorithms (L-BFGS, Nelder-Mead, etc.)
+  * `sklearn.cluster` for potential clustering-based approaches
+- **Performance**: `numba` (JIT compilation), `joblib` for parallelization
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Robustness**: Handle edge cases where points might coincide or approach boundaries
+- **Numerical Stability**: Ensure distance calculations remain accurate even with very small distances
+- **Convergence Criteria**: Define clear stopping conditions for iterative optimization methods
+- **Alternative Validation**: Include multiple validation methods to verify optimality, such as comparing against known bounds or using different algorithmic approaches
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Iteration Limits**: Set reasonable iteration caps to prevent infinite loops while allowing sufficient exploration
+
+# PROMPT-BLOCK-END
+    

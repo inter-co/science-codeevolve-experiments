@@ -1,0 +1,50 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your goal is to design a flexible, extensible algorithm that can generate high-quality arrangements of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], aiming to maximize the sum of their radii. You should explore multiple algorithmic paradigms (e.g., evolutionary, physics-based, constraint programming, geometric heuristics) and select the most promising strategy or combine them for improved performance.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time (allowing for multiple algorithmic trials)
+- **Memory limit**: 1 GB
+- **Parallelism**: You may spawn multiple processes or threads to run independent algorithmic experiments in parallel, aggregating the best result.
+
+ALTERNATIVE APPROACHES:
+1. **Evolutionary Algorithms**: Use `deap` or `platypus` to evolve circle positions and radii with custom fitness.
+2. **Physics-Based Simulation**: Treat circles as soft bodies and let them settle under repulsive forces; use `pymunk` or `pybullet`.
+3. **Constraint Programming**: Encode non-overlap and containment as constraints in OR-Tools or Z3 and solve with a CP-SAT solver.
+4. **Geometric Heuristics**: Generate a lattice or hexagonal packing, then locally adjust radii using Voronoi cells or Delaunay triangulation.
+5. **Hybrid Methods**: Combine a coarse geometric layout with a fine-grained evolutionary refinement.
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `cvxpy` (convex optimization), `pulp` (linear programming), `pyomo` (modeling language)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `geopandas` (geospatial data handling)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `z3-solver` (SMT solver)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `box2d-py` (2D rigid body dynamics)
+- **Performance**: `cython`, `numba`, `joblib` (parallelization), `dask` (distributed computing)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility.
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations; log diagnostics for debugging.
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; use sparse structures or spatial indexing.
+- **Scalability**: Design with potential extension to different circle counts in mind; parameterize the algorithm to accept arbitrary n.
+- **Extensibility**: Provide hooks for swapping optimization backends (e.g., CP-SAT, evolutionary, physics) without changing core logic.
+
+# PROMPT-BLOCK-END
+    

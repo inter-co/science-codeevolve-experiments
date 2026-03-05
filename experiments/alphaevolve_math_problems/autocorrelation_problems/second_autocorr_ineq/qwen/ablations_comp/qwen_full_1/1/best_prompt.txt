@@ -1,7 +1,7 @@
 # PROMPT-BLOCK-START
 
 SETTING:
-You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to discover and optimize step function constructions that improve the lower bound on the second autocorrelation inequality constant C₂ through innovative mathematical and computational approaches.
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your approach should leverage mathematical insights about optimal step function configurations and their autoconvolutions.
 
 PROBLEM CONTEXT:
 - **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
@@ -29,6 +29,18 @@ COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 - **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
 - **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
 
+**Mathematical Strategy Guidance**:
+Consider exploring analytical approaches to construct step functions that theoretically maximize C₂, rather than relying purely on numerical optimization. Think about leveraging properties of Fourier transforms and frequency-domain analysis of autoconvolutions. Alternative approaches include:
+
+1. **Analytical construction**: Derive step functions based on mathematical principles that inherently favor high C₂ values
+2. **Lagrangian optimization**: Formulate the problem as constrained optimization using Lagrange multipliers
+3. **Convex optimization**: Reformulate the problem in terms of convex optimization primitives
+4. **Symmetry-based construction**: Exploit symmetries in the problem to reduce dimensionality
+5. **Multi-scale analysis**: Construct step functions using hierarchical or multi-resolution approaches
+6. **Information-theoretic approaches**: Frame the problem in terms of entropy or information content
+
+Consider also examining the dual nature of the problem - instead of directly optimizing the step heights, think about what properties of the resulting autoconvolution g would maximize C₂, then work backwards to construct suitable f.
+
 PERFORMANCE METRICS:
 1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
 2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
@@ -46,24 +58,23 @@ MATHEMATICAL INSIGHTS:
 - Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
 - More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
 - The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
-- Consider analytical properties of optimal solutions: does symmetry play a role? Are there known extremal functions?
-- Think about convexity properties of the objective function and how they might inform optimization strategies
-- Explore connections to other mathematical concepts like Fourier transforms, moment problems, or information theory
+
+**Algorithmic Approach Considerations**:
+Rather than focusing primarily on numerical optimization or pattern-based construction, explore these alternative paradigms:
+
+1. **Variational methods**: Formulate the problem as finding a function that extremizes a certain functional related to C₂
+2. **Graph-based optimization**: Model the problem as a graph where nodes represent potential step configurations and edges represent transitions
+3. **Machine learning approaches**: Train neural networks or other ML models to predict good step function configurations
+4. **Monte Carlo methods**: Use stochastic sampling approaches like simulated annealing or Markov Chain Monte Carlo
+5. **Tensor-based approaches**: Represent the step function as a tensor and apply tensor decomposition techniques
+6. **Geometric optimization**: Think of the problem geometrically - what shapes in function space maximize C₂?
+7. **Combinatorial approaches**: Discretize the problem differently and use combinatorial optimization techniques
+
+The key insight is to consider the mathematical structure of the autoconvolution operation itself, rather than just optimizing parameters directly.
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
-
-INNOVATION FOCUS:
-Explore diverse algorithmic paradigms beyond traditional gradient-based optimization:
-1. **Discrete combinatorial approaches**: Consider integer programming or constraint satisfaction methods to directly construct optimal step configurations
-2. **Population-based evolutionary strategies**: Employ genetic algorithms, differential evolution, or particle swarm optimization to search the discrete space of possible step functions
-3. **Monte Carlo and stochastic methods**: Implement randomized search procedures with adaptive sampling based on promising regions
-4. **Physics-inspired methods**: Apply simulated annealing, genetic algorithms, or other bio-inspired optimization techniques
-5. **Multi-start and basin-hopping**: Systematically explore multiple starting points and transitions between local optima
-6. **Decomposition and surrogate modeling**: Break down the problem into subproblems or use machine learning surrogates to approximate the objective landscape
-7. **Non-smooth optimization**: Leverage methods designed for non-differentiable objectives, such as Nelder-Mead or subgradient methods
-8. **Multi-modal search**: Explicitly seek multiple distinct local optima rather than focusing on a single trajectory
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

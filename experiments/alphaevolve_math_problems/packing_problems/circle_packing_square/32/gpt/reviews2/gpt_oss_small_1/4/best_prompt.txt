@@ -1,0 +1,66 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems, with a strong background in discrete geometry, continuous optimization, and geometric constraint programming.
+Your task is to design a function that constructs an arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1] that maximizes the sum of their radii. You are encouraged to explore a variety of algorithmic strategies beyond standard evolutionary methods, including deterministic, geometric, and constraint‑based approaches.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+# ALTERNATIVE APPROACHES:
+# 1. **Deterministic geometric packing** – e.g., lattice‑based or circle‑in‑polygon heuristics that place circles in a regular grid and then iteratively adjust positions.
+# 2. **Force‑directed simulation** – model circles as repelling particles and use a physics engine (pymunk, pybullet) to let them settle into a low‑energy configuration.
+# 3. **Constraint programming** – formulate the problem as a mixed‑integer/non‑linear program and solve with OR‑Tools or python‑constraint, possibly using cutting‑plane or branch‑and‑bound techniques.
+# 4. **Iterative circle‑inversion and conformal mapping** – employ Möbius transformations to iteratively adjust circle positions and radii, preserving tangency and containment while exploring the configuration space. This geometric method can generate highly regular packings that are difficult to reach with stochastic perturbations.
+# 5. **Gradient‑based local search** – treat the objective as a differentiable function of positions and radii and use automatic differentiation (jax, torch) to climb the gradient while enforcing constraints via penalty terms.
+# 6. **Hybrid meta‑heuristics** – combine evolutionary algorithms (deap, platypus) with local refinement steps to escape local optima.
+# 7. **Spatial indexing and analytical lattice construction** – use rtree or scipy.spatial.KDTree to accelerate distance queries and overlap checks during iterative updates, and additionally derive circle radii from known optimal lattice packings (e.g., hexagonal, square) scaled to fit the unit square.
+8. **Geometric constraint relaxation** – formulate the problem as a continuous relaxation using slack variables and solve with a convex solver (e.g., CVXPY) to obtain a lower bound and guide integer packing.
+9. **Circle‑inversion lattice synthesis** – construct an initial lattice of circles via circle inversion techniques (e.g., Apollonian gasket or Soddy circles) and then adaptively prune or enlarge circles to fit the unit square while maintaining non‑overlap. This approach leverages known analytic packings to seed the search with near‑optimal configurations.
+
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn, cvxpy, pymoo
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi‑objective optimization), `cvxpy` (convex optimization), `pymoo` (multi‑objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR‑Tools), `cvxpy` (convex programming)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+- **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+- **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)
+- **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+- **feasibility_ratio**: Fraction of candidate configurations that satisfy all constraints (higher is better)
+- **constraint_violations**: Total number of pairwise overlap violations in the best solution (should be zero for a valid packing)
+- **stability**: Ratio of the minimal pairwise distance to the maximal radius (higher indicates a more robust packing)
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

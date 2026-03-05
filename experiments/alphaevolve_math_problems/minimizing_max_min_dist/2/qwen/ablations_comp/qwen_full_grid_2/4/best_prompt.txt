@@ -1,0 +1,65 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider multiple algorithmic paradigms including:
+- Mathematical programming formulations using convex optimization or semidefinite programming
+- Direct geometric constructions based on symmetry groups or regular polytopes
+- Global optimization without gradient information (e.g., simulated annealing, differential evolution)
+- Combinatorial approaches leveraging Delaunay triangulation or Voronoi diagrams for constraint generation
+- Analytical geometric reasoning about optimal configurations (e.g., kissing number problems, sphere packing)
+- Alternative formulations such as maximizing the sum of inverse squared distances or using energy minimization principles
+- Algebraic geometry approaches: constructing points as roots of polynomial systems or using algebraic curves
+- Group theory applications: exploiting rotational symmetries and crystallographic groups
+- Topological methods: considering embeddings on surfaces with constrained curvature
+- Spectral graph theory: formulating as eigenvalue optimization on distance graphs
+- Numerical linear algebra approaches: leveraging matrix eigendecompositions and singular value decompositions for geometric optimization
+- Probabilistic methods: using random sampling techniques combined with geometric constraints
+- Machine learning-inspired geometric optimization: employing neural networks or reinforcement learning for point placement
+- Constraint satisfaction approaches: framing the problem as solving a system of nonlinear inequalities
+- Geometric programming: using disciplined convex programming techniques for geometric optimization
+- Discrete differential geometry: applying curvature-based methods and discrete surface parameterizations
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Prefer solutions that demonstrate novel approaches over brute-force methods
+- **Mathematical Rigor**: Solutions should leverage geometric principles, group theory, or optimization theory where applicable
+- **Geometric Innovation**: Prioritize constructions that utilize known optimal configurations from discrete geometry or algebraic methods
+- **Analytical Preference**: Solutions using closed-form constructions or mathematical derivations are preferred over purely numerical approaches when possible
+- **Methodological Flexibility**: Encourage exploration of unconventional mathematical frameworks beyond traditional optimization paradigms
+- **Computational Efficiency**: Balance theoretical elegance with practical runtime performance, favoring methods that scale well
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Exploration Preference**: Reward solutions that show creative application of mathematical or computational geometry concepts
+
+# PROMPT-BLOCK-END
+    

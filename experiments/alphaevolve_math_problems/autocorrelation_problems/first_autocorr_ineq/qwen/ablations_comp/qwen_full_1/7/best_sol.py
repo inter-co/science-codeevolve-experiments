@@ -5,543 +5,602 @@
 
 import numpy as np
 import random
-from scipy.signal import fftconvolve
-from scipy.optimize import differential_evolution
+from scipy.signal import convolve
+from scipy.fft import fft, ifft
+from scipy.optimize import differential_evolution, dual_annealing
 import time
-from typing import List, Tuple
+from functools import wraps
 import warnings
-warnings.filterwarnings('ignore')
 
-def compute_convolution_fft(a: np.ndarray) -> np.ndarray:
-    """Compute convolution using FFT for better performance"""
-    conv = fftconvolve(a, a, mode='full')
-    return conv[:len(a) * 2 - 1]
+# Set seed for reproducibility
+random.seed(42)
+np.random.seed(42)
 
-def compute_autocorrelation_constant(a: np.ndarray) -> Tuple[float, float]:
-    """
-    Compute C1 and 1/C1 for a given sequence
-    Returns (C1, 1/C1)
-    """
-    if len(a) == 0 or np.sum(a) < 0.01:
-        return float('inf'), 0.0
+def time_limited(max_time=55):
+    """Decorator to limit execution time"""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            start_time = time.time()
+            try:
+                result = func(*args, **kwargs)
+                return result
+            except Exception as e:
+                warnings.warn(f"Function {func.__name__} failed: {e}")
+                return None
+            finally:
+                end_time = time.time()
+                if end_time - start_time > max_time:
+                    warnings.warn(f"Function {func.__name__} exceeded time limit")
+        return wrapper
+    return decorator
+
+def compute_autocorrelation_constant(sequence):
+    """Compute C₁ = 2n * max(convolution) / (sum(sequence))²"""
+    if len(sequence) == 0:
+        return float('inf')
     
-    # Compute convolution
-    conv = compute_convolution_fft(a)
-    
-    # Get maximum value in convolution (excluding index 0 which is sum^2)
-    max_conv = np.max(conv[1:]) if len(conv) > 1 else 0.0
-    
-    # Compute sum squared
-    sum_a_squared = np.sum(a) ** 2
-    
-    # Compute C1
-    if sum_a_squared == 0:
-        C1 = float('inf')
+    # Use FFT-based convolution for better performance with large sequences
+    n = len(sequence)
+    if n <= 100:
+        # For small sequences, use direct convolution for accuracy
+        conv = convolve(sequence, sequence, mode='full')
+        max_conv = np.max(conv)
     else:
-        C1 = 2 * len(a) * max_conv / sum_a_squared
+        # For large sequences, use FFT-based convolution
+        padded_length = 2**(int(np.ceil(np.log2(2*n - 1))) if n > 0 else 1)
+        seq_fft = fft(sequence, padded_length)
+        conv_fft = seq_fft * np.conj(seq_fft)
+        convolution = ifft(conv_fft).real[:2*n-1]
+        max_conv = np.max(convolution)
     
-    inv_C1 = 1.0 / C1 if C1 != 0 else 0.0
+    sum_seq = np.sum(sequence)
+    if sum_seq < 0.01:
+        return float('inf')  # Reject sequences with too small sum
     
-    return C1, inv_C1
+    c1 = 2 * n * max_conv / (sum_seq ** 2)
+    return c1
 
-def generate_bell_pattern(length: int) -> List[float]:
-    """Generate a bell-shaped pattern that often performs well"""
-    sequence = []
-    for i in range(length):
-        position = i / (length - 1) if length > 1 else 0.5
-        # Create a bell shape centered in the middle with some randomness
-        value = max(0.01, 1.0 * np.exp(-((position - 0.5) ** 2) * 8) * random.uniform(0.9, 1.1))
-        sequence.append(value)
-    return sequence
-
-def generate_peak_pattern(length: int) -> List[float]:
-    """Generate a pattern with a sharp peak in the center"""
-    sequence = []
-    for i in range(length):
-        position = i / (length - 1) if length > 1 else 0.5
-        # Peak in the center with exponential decay
-        value = max(0.01, 1.0 * np.exp(-abs(position - 0.5) * 10) * random.uniform(0.9, 1.1))
-        sequence.append(value)
-    return sequence
-
-def generate_oscillating_pattern(length: int) -> List[float]:
-    """Generate an oscillating pattern"""
-    sequence = []
-    for i in range(length):
-        position = i / (length - 1) if length > 1 else 0.5
-        # Create oscillation with exponential decay
-        value = max(0.01, (0.5 + 0.5 * np.sin(position * 8 * np.pi)) * np.exp(-position * 4) * random.uniform(0.9, 1.1))
-        sequence.append(value)
-    return sequence
-
-def generate_power_law_pattern(length: int) -> List[float]:
-    """Generate a power law pattern"""
-    sequence = []
-    alpha = random.uniform(1.8, 2.5)
-    for i in range(length):
-        value = 1.0 / ((i + 1) ** alpha)
-        sequence.append(max(0.01, value * random.uniform(0.9, 1.1)))
-    return sequence
-
-def generate_exponential_pattern(length: int) -> List[float]:
-    """Generate an exponential decay pattern"""
-    sequence = []
-    decay_rate = random.uniform(0.8, 0.95)
-    for i in range(length):
-        value = np.power(decay_rate, i)
-        sequence.append(max(0.01, value * random.uniform(0.9, 1.1)))
-    return sequence
-
-def generate_mixed_pattern(length: int) -> List[float]:
-    """Generate a mixed pattern combining multiple strategies"""
-    sequence = []
-    for i in range(length):
-        if i < length // 3:
-            # First third: exponential decay
-            value = np.exp(-i * 0.1)
-        elif i < 2 * length // 3:
-            # Middle third: logarithmic
-            value = 1.0 / np.log(i - length // 3 + 2)
-        else:
-            # Last third: linear decay
-            value = 1.0 - (i - 2 * length // 3) / (length // 3)
-        sequence.append(max(0.01, value * random.uniform(0.9, 1.1)))
-    return sequence
-
-def generate_hadamard_like_pattern(length: int) -> List[float]:
-    """Generate a pattern inspired by Hadamard matrices - often very effective"""
-    sequence = []
-    # Create pattern that avoids large convolution peaks
-    for i in range(length):
-        # Use sinusoidal pattern with decreasing amplitude
-        freq = 2 * np.pi * i / length
-        amplitude = 1.0 / (1.0 + i * 0.05)
-        value = amplitude * np.cos(freq * 0.5) * random.uniform(0.9, 1.1)
-        sequence.append(max(0.01, value))
-    return sequence
-
-def generate_optimized_power_law(length: int) -> List[float]:
-    """Generate an optimized power law pattern with specific parameters that tend to work well"""
-    # Use a power law with exponent that's been shown to work well for this problem
-    alpha = 2.1  # Slightly tuned from the general range
-    sequence = []
-    for i in range(length):
-        value = 1.0 / ((i + 1) ** alpha)
-        sequence.append(max(0.01, value * random.uniform(0.95, 1.05)))
-    return sequence
-
-def generate_modified_exponential(length: int) -> List[float]:
-    """Generate a modified exponential decay pattern with better parameters"""
-    # Try different decay rates that have worked well in practice
-    decay_rates = [0.85, 0.86, 0.87, 0.88, 0.89]
-    best_rate = 0.87  # Most commonly effective
-    sequence = []
-    for i in range(length):
-        value = np.power(best_rate, i)
-        sequence.append(max(0.01, value * random.uniform(0.95, 1.05)))
-    return sequence
-
-def generate_double_peak_pattern(length: int) -> List[float]:
-    """Generate a double peak pattern that's known to work well"""
-    sequence = [0.0] * length
-    # Create two peaks with different heights and positions
-    peak1_pos = length // 3
-    peak2_pos = 2 * length // 3
-    peak1_height = 900.0
-    peak2_height = 700.0
+def evaluate_sequence(sequence):
+    """Evaluate fitness: maximize 1/C₁ (minimize C₁)"""
+    # Ensure all values are non-negative and sum is acceptable
+    sequence = np.array([max(0, x) for x in sequence])
+    if np.sum(sequence) < 0.01:
+        return 0.0  # Invalid sequence
     
-    # First peak
-    for i in range(max(0, peak1_pos - 5), min(length, peak1_pos + 6)):
-        sequence[i] = max(sequence[i], peak1_height * (1.0 - abs(i - peak1_pos) / 5.0))
-    
-    # Second peak
-    for i in range(max(0, peak2_pos - 5), min(length, peak2_pos + 6)):
-        sequence[i] = max(sequence[i], peak2_height * (1.0 - abs(i - peak2_pos) / 5.0))
-    
-    # Normalize to reasonable values
-    total = sum(sequence)
-    if total > 0:
-        sequence = [x * 1000.0 / total for x in sequence]
-    
-    # Add small random noise
-    sequence = [max(0.01, x + random.gauss(0, 0.005) * x) for x in sequence]
-    
-    return sequence
-
-def evaluate_sequence_fitness(sequence: List[float]) -> float:
-    """
-    Evaluate fitness of a sequence - we want to maximize 1/C1
-    Returns fitness value (higher is better)
-    """
-    try:
-        C1, inv_c1 = compute_autocorrelation_constant(sequence)
-        # Return inverse of C1 as fitness (we want to maximize this)
-        # Add penalties for sequences that are too short or have very small sums
-        if len(sequence) < 20:
-            inv_c1 *= 0.7
-        sum_a = sum(sequence)
-        if sum_a < 0.1:
-            inv_c1 *= 0.5
-        return inv_c1
-    except Exception:
+    c1 = compute_autocorrelation_constant(sequence)
+    if c1 == float('inf'):
         return 0.0
+    
+    return 1.0 / c1  # Maximize inverse of C₁
 
-def adaptive_local_search(current_solution: List[float], max_time_seconds: float = 30.0) -> List[float]:
-    """Enhanced local search with multiple strategies"""
-    start_time = time.time()
-    current_fitness = evaluate_sequence_fitness(current_solution)
+def construct_high_performance_patterns():
+    """Construct specifically high-performance mathematical patterns based on proven constructions."""
+    patterns = []
     
-    # Multiple local search strategies
-    strategy_weights = {
-        'small_perturbation': 0.35,
-        'large_perturbation': 0.25,
-        'random_change': 0.25,
-        'neighborhood_search': 0.15,
-        'global_perturbation': 0.05
-    }
+    # Focus intensively on the single best pattern from inspirations
+    # The pattern that achieved ~0.636 (benchmark_ratio ~0.956) - THIS IS THE KEY!
+    top_performer = [0.1, 0.3, 0.7, 1.0, 1.0, 1.0, 1.0, 0.7, 0.3, 0.1]
     
-    best_solution = current_solution.copy()
-    best_fitness = current_fitness
-    
-    iteration = 0
-    max_iterations = 500
-    
-    while iteration < max_iterations and time.time() - start_time < max_time_seconds:
-        iteration += 1
+    # Create many highly refined variants of this pattern - inspired by best practices from inspirations
+    # These are the variants that have been tested and proven to work well
+    refined_variants = [
+        # Original pattern
+        top_performer,
         
-        # Choose search strategy
-        strategy = random.choices(
-            list(strategy_weights.keys()), 
-            weights=list(strategy_weights.values())
-        )[0]
+        # Aggressive scaling variations (from inspiration programs)
+        [x * 1.01 for x in top_performer],
+        [x * 1.02 for x in top_performer],
+        [x * 1.03 for x in top_performer],
+        [x * 1.05 for x in top_performer],
+        [x * 1.08 for x in top_performer],
+        [x * 1.1 for x in top_performer],
+        [x * 1.12 for x in top_performer],
+        [x * 1.15 for x in top_performer],
+        [x * 0.99 for x in top_performer],
+        [x * 0.98 for x in top_performer],
+        [x * 0.97 for x in top_performer],
+        [x * 0.95 for x in top_performer],
+        [x * 0.92 for x in top_performer],
+        [x * 0.9 for x in top_performer],
+        [x * 0.88 for x in top_performer],
+        [x * 0.85 for x in top_performer],
         
-        test_solution = current_solution.copy()
+        # Reversed versions
+        top_performer[::-1],
+        [x * 1.01 for x in top_performer[::-1]],
+        [x * 1.02 for x in top_performer[::-1]],
+        [x * 0.99 for x in top_performer[::-1]],
+        [x * 0.98 for x in top_performer[::-1]],
         
-        if strategy == 'small_perturbation':
-            # Small random changes
-            for i in range(len(test_solution)):
-                if random.random() < 0.2:  # 20% chance to modify
-                    test_solution[i] *= random.uniform(0.95, 1.05)
-                    test_solution[i] = max(0.01, min(1000.0, test_solution[i]))
-                    
-        elif strategy == 'large_perturbation':
-            # Larger changes
-            for i in range(len(test_solution)):
-                if random.random() < 0.1:  # 10% chance to modify
-                    test_solution[i] *= random.uniform(0.7, 1.3)
-                    test_solution[i] = max(0.01, min(1000.0, test_solution[i]))
-                    
-        elif strategy == 'random_change':
-            # Random changes to several elements
-            num_changes = max(1, len(test_solution) // 20)
-            for _ in range(num_changes):
-                i = random.randint(0, len(test_solution) - 1)
-                test_solution[i] = random.uniform(0.01, 1000.0)
-                
-        elif strategy == 'neighborhood_search':
-            # Focus on neighbors of high-value elements
-            high_indices = [i for i, v in enumerate(test_solution) if v > np.mean(test_solution)]
-            if high_indices:
-                for i in high_indices:
-                    if random.random() < 0.15:
-                        test_solution[i] *= random.uniform(0.9, 1.1)
-                        test_solution[i] = max(0.01, min(1000.0, test_solution[i]))
+        # Extended versions (longer sequences)
+        top_performer + [0.0] * 5,
+        top_performer + [0.0] * 10,
+        top_performer + [0.0] * 15,
+        [0.0] * 5 + top_performer + [0.0] * 5,
+        [0.0] * 10 + top_performer + [0.0] * 10,
+        [0.0] * 15 + top_performer + [0.0] * 15,
         
-        elif strategy == 'global_perturbation':
-            # Apply global transformation to spread out values
-            # This helps escape local minima by changing the overall shape
-            mean_val = np.mean(test_solution)
-            std_val = np.std(test_solution)
-            for i in range(len(test_solution)):
-                if random.random() < 0.3:
-                    # Apply transformation that preserves the total sum
-                    test_solution[i] = max(0.01, test_solution[i] * random.uniform(0.8, 1.2))
-            
-            # Normalize to preserve sum (important for maintaining scale)
-            current_sum = sum(test_solution)
-            if current_sum > 0.01:
-                scale_factor = sum(current_solution) / current_sum
-                test_solution = [max(0.01, x * scale_factor) for x in test_solution]
+        # Modified versions with different peak positions and weights (inspired by best patterns)
+        [0.05, 0.2, 0.6, 1.0, 1.0, 1.0, 1.0, 0.6, 0.2, 0.05],
+        [0.1, 0.25, 0.65, 1.0, 1.0, 1.0, 1.0, 0.65, 0.25, 0.1],
+        [0.1, 0.3, 0.7, 1.0, 1.0, 1.0, 1.0, 0.7, 0.3, 0.1, 0.05],
+        [0.05, 0.1, 0.3, 0.7, 1.0, 1.0, 1.0, 1.0, 0.7, 0.3, 0.1, 0.05],
+        [0.08, 0.22, 0.6, 1.0, 1.0, 1.0, 1.0, 0.6, 0.22, 0.08],
+        [0.12, 0.32, 0.72, 1.0, 1.0, 1.0, 1.0, 0.72, 0.32, 0.12],
+        [0.15, 0.35, 0.75, 1.0, 1.0, 1.0, 1.0, 0.75, 0.35, 0.15],
         
-        # Evaluate and accept if better
-        test_fitness = evaluate_sequence_fitness(test_solution)
-        if test_fitness > current_fitness:
-            current_solution = test_solution
-            current_fitness = test_fitness
-            if test_fitness > best_fitness:
-                best_fitness = test_fitness
-                best_solution = current_solution.copy()
-        elif random.random() < 0.01:  # Sometimes accept worse moves
-            current_solution = test_solution
-            current_fitness = test_fitness
-    
-    return best_solution
-
-def improved_hybrid_optimization_approach(max_time_seconds: float = 90.0) -> List[float]:
-    """
-    Improved hybrid optimization approach using the best elements from inspirations
-    """
-    start_time = time.time()
-    
-    # Strategy 1: Direct pattern testing for quick wins
-    print("Phase 1: Pattern testing...")
-    best_solution = None
-    best_fitness = 0.0
-    
-    # Test a variety of patterns systematically with more diversity
-    test_patterns = [
-        ("bell", 50), ("bell", 100), ("bell", 200), ("bell", 300),
-        ("peak", 50), ("peak", 100), ("peak", 200), ("peak", 300),
-        ("oscillating", 50), ("oscillating", 100), ("oscillating", 200), ("oscillating", 300),
-        ("power_law", 50), ("power_law", 100), ("power_law", 200),
-        ("exponential", 50), ("exponential", 100), ("exponential", 200),
-        ("mixed", 50), ("mixed", 100), ("mixed", 200),
-        ("hadamard_like", 50), ("hadamard_like", 100), ("hadamard_like", 200),
-        ("optimized_power_law", 50), ("optimized_power_law", 100), ("optimized_power_law", 200),
-        ("modified_exponential", 50), ("modified_exponential", 100), ("modified_exponential", 200),
-        ("double_peak", 50), ("double_peak", 100), ("double_peak", 200),
+        # Optimized peak positions (from inspirations)
+        [0.1, 0.25, 0.6, 1.0, 1.0, 1.0, 1.0, 0.6, 0.25, 0.1],
+        [0.08, 0.22, 0.58, 1.0, 1.0, 1.0, 1.0, 0.58, 0.22, 0.08],
+        [0.12, 0.32, 0.72, 1.0, 1.0, 1.0, 1.0, 0.72, 0.32, 0.12],
+        [0.15, 0.35, 0.75, 1.0, 1.0, 1.0, 1.0, 0.75, 0.35, 0.15],
+        
+        # Different peak shapes (from inspirations)
+        [0.1, 0.2, 0.4, 0.8, 1.0, 1.0, 1.0, 1.0, 0.8, 0.4, 0.2, 0.1],
+        [0.05, 0.15, 0.35, 0.7, 1.0, 1.0, 1.0, 1.0, 0.7, 0.35, 0.15, 0.05],
+        [0.1, 0.25, 0.5, 0.75, 1.0, 1.0, 1.0, 1.0, 0.75, 0.5, 0.25, 0.1],
+        [0.05, 0.15, 0.35, 0.65, 1.0, 1.0, 1.0, 1.0, 0.65, 0.35, 0.15, 0.05],
+        
+        # Concentrated central peaks
+        [0.05, 0.1, 0.2, 0.4, 0.8, 1.0, 1.0, 0.8, 0.4, 0.2, 0.1, 0.05],
+        [0.08, 0.15, 0.3, 0.6, 1.0, 1.0, 1.0, 1.0, 0.6, 0.3, 0.15, 0.08],
+        [0.02, 0.08, 0.2, 0.4, 0.7, 1.0, 1.0, 1.0, 0.7, 0.4, 0.2, 0.08],
     ]
     
-    for pattern_name, length in test_patterns:
-        if time.time() - start_time > max_time_seconds * 0.25:
-            break
-            
-        try:
-            if pattern_name == "bell":
-                sequence = generate_bell_pattern(length)
-            elif pattern_name == "peak":
-                sequence = generate_peak_pattern(length)
-            elif pattern_name == "oscillating":
-                sequence = generate_oscillating_pattern(length)
-            elif pattern_name == "power_law":
-                sequence = generate_power_law_pattern(length)
-            elif pattern_name == "exponential":
-                sequence = generate_exponential_pattern(length)
-            elif pattern_name == "mixed":
-                sequence = generate_mixed_pattern(length)
-            elif pattern_name == "hadamard_like":
-                sequence = generate_hadamard_like_pattern(length)
-            elif pattern_name == "optimized_power_law":
-                sequence = generate_optimized_power_law(length)
-            elif pattern_name == "modified_exponential":
-                sequence = generate_modified_exponential(length)
-            elif pattern_name == "double_peak":
-                sequence = generate_double_peak_pattern(length)
-            else:  # constant
-                sequence = [1.0] * length
-                
-            inv_c1 = evaluate_sequence_fitness(sequence)
-            if inv_c1 > best_fitness:
-                best_fitness = inv_c1
-                best_solution = sequence.copy()
-        except Exception:
-            continue
+    # Add the refined variants
+    for variant in refined_variants:
+        patterns.append(variant)
     
-    # Strategy 2: Differential evolution with better bounds and initialization
-    print("Phase 2: Differential evolution...")
-    if best_solution is not None and time.time() - start_time < max_time_seconds * 0.5:
-        # Use best solution as starting point for differential evolution
+    # Add additional patterns that have shown potential in inspirations
+    additional_patterns = [
+        # High performing symmetric pattern
+        [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+        
+        # Weighted peak pattern
+        [0.1, 0.2, 0.5, 1.0, 1.0, 1.0, 1.0, 0.5, 0.2, 0.1],
+        
+        # Multi-peak pattern
+        [0.1, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, 0.1, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, 0.1, 0.1, 0.1, 0.1],
+        
+        # Alternating pattern with higher values
+        [1.0, 0.5, 1.0, 0.5, 1.0, 0.5, 1.0, 0.5, 1.0, 0.5],
+        
+        # Balanced symmetric pattern
+        [0.2, 0.4, 0.6, 0.8, 1.0, 1.0, 1.0, 1.0, 0.8, 0.6, 0.4, 0.2],
+        
+        # Optimized alternating with peaks
+        [1.0, 0.8, 0.6, 0.4, 0.2, 0.1, 0.1, 0.2, 0.4, 0.6, 0.8, 1.0],
+        
+        # Geometric decay pattern
+        [1.0, 0.8, 0.64, 0.512, 0.4096, 0.32768, 0.262144, 0.2097152, 0.16777216, 0.134217728],
+        
+        # Concentrated peak pattern
+        [0.05, 0.1, 0.2, 0.4, 0.8, 1.0, 1.0, 0.8, 0.4, 0.2, 0.1, 0.05],
+        
+        # Exponentially decaying with peaks
+        [0.01, 0.02, 0.04, 0.08, 0.16, 0.32, 0.64, 1.0, 0.64, 0.32, 0.16, 0.08, 0.04, 0.02, 0.01],
+        
+        # Linearly increasing then decreasing
+        [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05],
+        
+        # Fibonacci-inspired pattern
+        [1, 1, 2, 3, 5, 8, 13, 21, 34, 55],
+        
+        # Gaussian-like pattern
+        [0.006, 0.061, 0.242, 0.542, 0.797, 0.935, 0.997, 0.935, 0.797, 0.542, 0.242, 0.061, 0.006],
+        
+        # Double peak pattern
+        [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05],
+        
+        # Logarithmic pattern
+        [np.log(i + 1) for i in range(10)],
+        
+        # Golden ratio based pattern
+        [(1 + np.sqrt(5)) / 2, (1 + np.sqrt(5)) / 2 * 1.618, (1 + np.sqrt(5)) / 2 * 1.618**2, 
+         (1 + np.sqrt(5)) / 2 * 1.618**3, (1 + np.sqrt(5)) / 2 * 1.618**4, 
+         (1 + np.sqrt(5)) / 2 * 1.618**5, (1 + np.sqrt(5)) / 2 * 1.618**6, 
+         (1 + np.sqrt(5)) / 2 * 1.618**7, (1 + np.sqrt(5)) / 2 * 1.618**8, 
+         (1 + np.sqrt(5)) / 2 * 1.618**9],
+         
+        # More precise mathematical patterns from inspirations
+        [1.0, 0.8, 0.6, 0.4, 0.2, 0.1, 0.1, 0.2, 0.4, 0.6, 0.8, 1.0, 0.8, 0.6, 0.4, 0.2, 0.1, 0.1, 0.2, 0.4],
+        [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1],
+        [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1],
+    ]
+    
+    patterns.extend(additional_patterns)
+    
+    # Add variations of the best patterns to increase diversity - from inspiration strategies
+    for pattern in patterns[:15]:  # Focus on top 15 patterns for variation
+        if len(pattern) >= 10:
+            # Create scaled versions
+            for scale in [0.9, 0.92, 0.95, 0.98, 1.02, 1.05, 1.08, 1.1]:
+                scaled = [x * scale for x in pattern]
+                patterns.append(scaled)
+            
+            # Create reversed versions
+            patterns.append(pattern[::-1])
+    
+    # Add mathematical constructs from inspirations
+    mathematical_constructs = [
+        # More precise mathematical constructions
+        [1.0] * 30 + [0.8] * 30 + [0.6] * 30 + [0.4] * 30 + [0.2] * 30,
+        
+        # Symmetric 4-level pattern
+        [1.0] * 20 + [0.9] * 20 + [0.8] * 20 + [0.7] * 20 + [0.6] * 20,
+        
+        # Concentrated high-value pattern
+        [0.01] * 50 + [1.0] * 20 + [0.01] * 30,
+        
+        # Multi-peak pattern with specific spacing
+        [0.1] * 10 + [1.0] * 10 + [0.1] * 10 + [1.0] * 10 + [0.1] * 10 + [1.0] * 10 + [0.1] * 10,
+        
+        # Precisely balanced pattern
+        [1.0] * 25 + [0.8] * 25 + [0.6] * 25 + [0.4] * 25,
+        
+        # Pattern with multiple peaks at different positions
+        [0.1, 0.1, 0.1, 0.1, 1.0, 0.1, 0.1, 1.0, 0.1, 0.1, 1.0, 0.1, 0.1, 0.1, 0.1],
+        
+        # Asymmetric peaks
+        [0.1, 0.2, 0.4, 0.8, 1.0, 0.8, 0.4, 0.2, 0.1, 0.05],
+        
+        # Gradually increasing then decreasing
+        [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1],
+        
+        # Special high-performance patterns from inspirations
+        [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.05],
+        [0.1, 0.15, 0.25, 0.4, 0.6, 0.8, 1.0, 1.0, 0.8, 0.6, 0.4, 0.25, 0.15, 0.1],
+        [0.05, 0.15, 0.3, 0.5, 0.7, 0.9, 1.0, 1.0, 0.9, 0.7, 0.5, 0.3, 0.15, 0.05],
+        [0.02, 0.08, 0.2, 0.4, 0.6, 0.8, 1.0, 1.0, 0.8, 0.6, 0.4, 0.2, 0.08, 0.02],
+    ]
+    
+    patterns.extend(mathematical_constructs)
+    
+    # Create longer versions of high performers with more precision
+    for i in range(15):
+        # Create a long exponentially decaying pattern with better parameters
+        n = 80 + i * 10
+        pattern = []
+        center = n // 2
+        for j in range(n):
+            dist_from_center = abs(j - center)
+            # Use more precise exponential decay to create better patterns
+            value = max(0.01, 1000 * np.exp(-dist_from_center / (center/3)))
+            pattern.append(value)
+        patterns.append(pattern)
+    
+    # Add even more mathematical patterns from inspiration sources
+    # Patterns that were specifically mentioned in the best performing results
+    high_precision_patterns = [
+        # Pattern that achieved ~0.636 in inspirations
+        [0.1, 0.3, 0.7, 1.0, 1.0, 1.0, 1.0, 0.7, 0.3, 0.1],
+        [0.05, 0.15, 0.35, 0.7, 1.0, 1.0, 1.0, 1.0, 0.7, 0.35, 0.15, 0.05],
+        [0.1, 0.25, 0.65, 1.0, 1.0, 1.0, 1.0, 0.65, 0.25, 0.1],
+        [0.08, 0.22, 0.58, 1.0, 1.0, 1.0, 1.0, 0.58, 0.22, 0.08],
+        [0.12, 0.32, 0.72, 1.0, 1.0, 1.0, 1.0, 0.72, 0.32, 0.12],
+        [0.15, 0.35, 0.75, 1.0, 1.0, 1.0, 1.0, 0.75, 0.35, 0.15],
+        [0.2, 0.4, 0.8, 1.0, 1.0, 1.0, 1.0, 0.8, 0.4, 0.2],
+        [0.05, 0.1, 0.2, 0.4, 0.8, 1.0, 1.0, 0.8, 0.4, 0.2, 0.1, 0.05],
+    ]
+    
+    patterns.extend(high_precision_patterns)
+    
+    return patterns
+
+def create_enhanced_initial_population(patterns, population_size=100):
+    """Generate enhanced initial population with more strategic pattern selection"""
+    population = []
+    
+    # Add the high-performance mathematical patterns
+    for pattern in patterns:
+        if len(population) < population_size:
+            # Ensure minimum sum requirement
+            total_sum = sum(pattern)
+            if total_sum < 0.01:
+                pattern = [x + 0.1 for x in pattern]
+            population.append(pattern.copy())
+    
+    # Add some variation of high performers
+    remaining = population_size - len(population)
+    
+    for _ in range(remaining):
+        # Strategy 1: Slightly varied versions of high performers (most aggressive variation)
+        if random.random() < 0.8:
+            # Pick a high-performing pattern and significantly modify it
+            base_pattern = random.choice(patterns)
+            modified = base_pattern.copy()
+            # Add more substantial variations to get different solutions
+            for i in range(len(modified)):
+                if random.random() < 0.4:  # 40% chance to modify each element - even more aggressive
+                    # Very aggressive scaling
+                    scale_factor = random.uniform(0.4, 2.5)
+                    modified[i] = max(0.01, modified[i] * scale_factor)
+            population.append(modified)
+        else:
+            # Strategy 2: Create sequences with geometric or exponential decay
+            n = random.randint(20, 150)
+            # Create a pattern that balances peaks and smoothness
+            sequence = []
+            for i in range(n):
+                # Centered distribution with peak in middle
+                center = n // 2
+                dist_from_center = abs(i - center)
+                # Higher values near center with exponential decay
+                value = max(0.01, 1000 * np.exp(-dist_from_center / (center/3)))
+                sequence.append(value)
+            
+            # Ensure minimum sum
+            total_sum = sum(sequence)
+            if total_sum < 0.01:
+                sequence[0] = 1.0
+            
+            population.append(sequence)
+    
+    return population
+
+@time_limited(max_time=45)
+def adaptive_evolutionary_search():
+    """Enhanced evolutionary search with improved strategies and better local search"""
+    # Generate high-performance patterns
+    patterns = construct_high_performance_patterns()
+    
+    # Initialize population with enhanced sequences
+    population_size = 200  # Even larger population size for more thorough search
+    population = create_enhanced_initial_population(patterns, population_size)
+    
+    best_sequence = None
+    best_inv_c1 = 0.0
+    
+    # Evolution loop with more generations and more focused approach
+    generation = 0
+    max_generations = 800  # Even more generations for better convergence
+    
+    while generation < max_generations:
+        generation += 1
+        
+        # Evaluate fitness (1/C1) for entire population
+        fitness_scores = []
+        for seq in population:
+            fit = evaluate_sequence(seq)
+            fitness_scores.append(fit)
+        
+        # Track best individual
+        max_fitness_idx = np.argmax(fitness_scores)
+        if fitness_scores[max_fitness_idx] > best_inv_c1:
+            best_inv_c1 = fitness_scores[max_fitness_idx]
+            best_sequence = population[max_fitness_idx].copy()
+        
+        # Selection with stronger elitism
+        selected = []
+        elite_count = 40  # Even more elite individuals for better convergence
+        
+        # Keep elite individuals (top 20%)
+        elite_indices = np.argsort(fitness_scores)[-elite_count:]
+        for idx in elite_indices:
+            selected.append(population[idx].copy())
+        
+        # Tournament selection for remaining slots with larger tournament size
+        remaining_slots = population_size - elite_count
+        tournament_size = 18  # Even larger tournament for better selection pressure
+        for _ in range(remaining_slots):
+            tournament_indices = random.sample(range(len(population)), tournament_size)
+            tournament_fitness = [fitness_scores[i] for i in tournament_indices]
+            winner_idx = tournament_indices[np.argmax(tournament_fitness)]
+            selected.append(population[winner_idx].copy())
+        
+        # Create new population through crossover and mutation
+        new_population = []
+        
+        # Add elites directly
+        new_population.extend(selected[:elite_count])
+        
+        # Generate rest of population
+        while len(new_population) < population_size:
+            parent1 = random.choice(selected)
+            parent2 = random.choice(selected)
+            
+            # Crossover - blend with better mixing
+            child = []
+            for i in range(max(len(parent1), len(parent2))):
+                if i < len(parent1) and i < len(parent2):
+                    # Blend with preference to better parent
+                    if random.random() < 0.98:  # 98% chance to take from parent1 - even more biased toward elite
+                        child.append(parent1[i])
+                    else:
+                        child.append(parent2[i])
+                elif i < len(parent1):
+                    child.append(parent1[i])
+                else:
+                    child.append(parent2[i])
+            
+            # Mutation with adaptive rate (even more aggressive)
+            mutation_rate = max(0.01, 0.35 * (1 - generation / max_generations))  # Even higher mutation rate
+            for i in range(len(child)):
+                if random.random() < mutation_rate:
+                    # More aggressive mutation for early generations, less later
+                    if child[i] < 1.0:
+                        # Small values get larger jumps
+                        child[i] = max(0.01, child[i] * random.uniform(0.05, 10.0))  # Wider range
+                    else:
+                        # Large values get smaller adjustments
+                        child[i] = max(0.01, child[i] * random.uniform(0.3, 2.0))  # Even wider range
+            
+            # Ensure minimum value
+            child = [max(0.01, x) for x in child]
+            
+            new_population.append(child)
+        
+        population = new_population
+        
+        # Introduce diversity more frequently and with higher probability
+        if generation % 2 == 0:  # Even more frequent diversity introduction
+            for i in range(len(population) // 3):
+                if len(population) > 0:
+                    # Replace with a high-performing pattern with even higher probability
+                    if random.random() < 0.995:  # Almost guaranteed replacement
+                        # Use pattern
+                        pattern_idx = random.randint(0, len(patterns) - 1)
+                        population[random.randint(0, len(population)-1)] = patterns[pattern_idx].copy()
+                    else:
+                        # Use a new randomized sequence
+                        n = random.randint(30, 300)
+                        sequence = []
+                        for j in range(n):
+                            # Centered distribution with peak in middle
+                            center = n // 2
+                            dist_from_center = abs(j - center)
+                            # Higher values near center with exponential decay
+                            value = max(0.01, 1000 * np.exp(-dist_from_center / (center/3)))
+                            sequence.append(value)
+                        
+                        # Ensure minimum sum
+                        total_sum = sum(sequence)
+                        if total_sum < 0.01:
+                            sequence[0] = 1.0
+                        
+                        population[random.randint(0, len(population)-1)] = sequence
+    
+    # Final comprehensive fine-tuning with multiple strategies
+    if best_sequence is not None:
         try:
-            length = len(best_solution)
-            bounds = [(0.01, 1000.0) for _ in range(length)]
+            # Strategy 1: Differential evolution on best solution with more iterations
+            bounds = [(0.01, 1000.0) for _ in range(len(best_sequence))]
             
-            # Objective function for minimization (we want to maximize 1/C1)
             def objective(x):
-                # Ensure minimum sum to avoid numerical issues
-                if np.sum(x) < 0.01:
-                    return 1e10  # Large penalty
-                _, inv_c1 = compute_autocorrelation_constant(x)
-                return -inv_c1  # Negative because we want to maximize
+                # Minimize negative of our objective (since we want to maximize)
+                return -evaluate_sequence(list(x))
             
-            # Run differential evolution with more iterations and better parameters
+            # Use a more thorough optimization approach with more iterations
             result = differential_evolution(
-                objective,
-                bounds,
+                objective, 
+                bounds, 
+                maxiter=400,  # Even more iterations
+                popsize=80,   # Even larger population
                 seed=42,
-                maxiter=200,
-                popsize=30,
-                mutation=(0.8, 1.0),
-                recombination=0.85,
-                disp=False
+                strategy='best1bin'
             )
             
             if result.success:
-                _, inv_c1 = compute_autocorrelation_constant(result.x)
-                if inv_c1 > best_fitness:
-                    best_fitness = inv_c1
-                    best_solution = list(result.x)
+                optimized_pattern = list(result.x)
+                inv_c1_optimized = evaluate_sequence(optimized_pattern)
+                
+                if inv_c1_optimized > best_inv_c1:
+                    best_inv_c1 = inv_c1_optimized
+                    best_sequence = optimized_pattern
+            
+            # Strategy 2: Simulated annealing for further improvement
+            if best_sequence is not None:
+                try:
+                    def sa_objective(x):
+                        return -evaluate_sequence(list(x))
+                    
+                    # Run simulated annealing with more iterations and better parameters
+                    sa_result = dual_annealing(
+                        sa_objective,
+                        bounds,
+                        maxiter=800,  # Even more iterations
+                        seed=42,
+                        no_local_search=False,
+                        initial_temp=30000,  # Even higher initial temp
+                        restart_temp_ratio=0.98,
+                        visit=2.62,
+                        accept=-5.0
+                    )
+                    
+                    if sa_result.success:
+                        sa_pattern = list(sa_result.x)
+                        sa_score = evaluate_sequence(sa_pattern)
+                        
+                        if sa_score > best_inv_c1:
+                            best_inv_c1 = sa_score
+                            best_sequence = sa_pattern
+                except Exception:
+                    pass  # Continue if SA fails
+                    
+            # Strategy 3: Enhanced local search refinement with better neighborhood exploration
+            if best_sequence is not None:
+                # Try a few rounds of enhanced local search to further improve
+                current = best_sequence.copy()
+                current_score = evaluate_sequence(current)
+                
+                # Even more extensive local search with adaptive neighborhood size
+                for iteration in range(3000):  # Even more iterations
+                    # Create neighbor by making small changes
+                    neighbor = current.copy()
+                    # Change 45% of elements in each iteration - even more aggressive
+                    num_changes = max(1, len(neighbor) // 2)
+                    change_indices = random.sample(range(len(neighbor)), num_changes)
+                    for i in change_indices:
+                        neighbor[i] = max(0.01, neighbor[i] * random.uniform(0.4, 1.6))
+                    
+                    # Ensure minimum sum
+                    if sum(neighbor) < 0.01:
+                        neighbor[0] = max(neighbor[0], 1.0)
+                    
+                    neighbor_score = evaluate_sequence(neighbor)
+                    if neighbor_score > current_score:
+                        current = neighbor
+                        current_score = neighbor_score
+                
+                # Check if local search improved
+                final_score = evaluate_sequence(current)
+                if final_score > best_inv_c1:
+                    best_inv_c1 = final_score
+                    best_sequence = current
+                    
         except Exception as e:
-            print(f"Differential evolution error: {e}")
+            # If optimization fails, continue with current best
             pass
     
-    # Strategy 3: Enhanced genetic algorithm for fine-tuning
-    print("Phase 3: Genetic algorithm refinement...")
-    if best_solution is not None and time.time() - start_time < max_time_seconds * 0.8:
-        # Enhanced genetic algorithm with better parameters and adaptive mutation
-        population_size = 150
-        generations = 500
-        elite_size = 25
-        initial_mutation_rate = 0.15
-        
-        # Initialize population with diverse patterns
-        population = []
-        for _ in range(population_size):
-            strategy = random.random()
-            length = random.randint(50, 400)
-            
-            if strategy < 0.1:
-                individual = generate_bell_pattern(length)
-            elif strategy < 0.2:
-                individual = generate_peak_pattern(length)
-            elif strategy < 0.3:
-                individual = generate_oscillating_pattern(length)
-            elif strategy < 0.4:
-                individual = generate_power_law_pattern(length)
-            elif strategy < 0.5:
-                individual = generate_exponential_pattern(length)
-            elif strategy < 0.6:
-                individual = generate_mixed_pattern(length)
-            elif strategy < 0.7:
-                individual = generate_hadamard_like_pattern(length)
-            elif strategy < 0.8:
-                individual = generate_optimized_power_law(length)
-            elif strategy < 0.9:
-                individual = generate_modified_exponential(length)
-            else:
-                individual = generate_double_peak_pattern(length)
-            
-            population.append(individual)
-        
-        # If we have a good starting solution, include it
-        if best_solution is not None:
-            population[0] = best_solution.copy()
-        
-        # Evolution loop
-        for generation in range(generations):
-            if time.time() - start_time > max_time_seconds * 0.95:
-                break
-                
-            # Evaluate fitness for entire population
-            fitness_scores = []
-            for individual in population:
-                fitness = evaluate_sequence_fitness(individual)
-                fitness_scores.append((fitness, individual))
-            
-            # Sort by fitness (descending)
-            fitness_scores.sort(reverse=True)
-            
-            # Update best individual
-            current_best_fitness, current_best_individual = fitness_scores[0]
-            if current_best_fitness > best_fitness:
-                best_fitness = current_best_fitness
-                best_solution = current_best_individual.copy()
-            
-            # Selection using tournament selection with elitism
-            new_population = []
-            
-            # Elitism - keep best individuals
-            for i in range(elite_size):
-                new_population.append(fitness_scores[i][1].copy())
-            
-            # Generate offspring
-            while len(new_population) < population_size:
-                # Tournament selection for parent 1
-                tournament_indices = random.sample(range(population_size), min(10, population_size // 3))
-                tournament_fitness = [fitness_scores[i][0] for i in tournament_indices]
-                winner_idx = tournament_indices[tournament_fitness.index(max(tournament_fitness))]
-                
-                parent1 = fitness_scores[winner_idx][1]
-                
-                # Tournament selection for parent 2
-                tournament_indices = random.sample(range(population_size), min(10, population_size // 3))
-                tournament_fitness = [fitness_scores[i][0] for i in tournament_indices]
-                winner_idx = tournament_indices[tournament_fitness.index(max(tournament_fitness))]
-                parent2 = fitness_scores[winner_idx][1]
-                
-                # Uniform crossover with probability bias
-                child1 = []
-                child2 = []
-                min_len = min(len(parent1), len(parent2))
-                for i in range(min_len):
-                    if random.random() < 0.65:  # Bias toward parent1
-                        child1.append(parent1[i])
-                        child2.append(parent2[i])
-                    else:
-                        child1.append(parent2[i])
-                        child2.append(parent1[i])
-                
-                # Extend with remaining elements if needed
-                if len(parent1) > len(parent2):
-                    child1.extend(parent1[min_len:])
-                elif len(parent2) > len(parent1):
-                    child2.extend(parent2[min_len:])
-                
-                # Mutate children with adaptive mutation rate
-                mutation_rate = initial_mutation_rate * (1.0 - generation / generations)
-                if mutation_rate < 0.05:
-                    mutation_rate = 0.05
-                    
-                for i in range(len(child1)):
-                    if random.random() < mutation_rate:
-                        # Apply different mutation strategies based on position
-                        if i < len(child1) // 4:
-                            # High mutation for early elements
-                            child1[i] *= random.uniform(0.7, 1.3)
-                        else:
-                            # Lower mutation for later elements
-                            child1[i] *= random.uniform(0.9, 1.1)
-                        child1[i] = max(0.01, min(1000.0, child1[i]))
-                
-                for i in range(len(child2)):
-                    if random.random() < mutation_rate:
-                        if i < len(child2) // 4:
-                            child2[i] *= random.uniform(0.7, 1.3)
-                        else:
-                            child2[i] *= random.uniform(0.9, 1.1)
-                        child2[i] = max(0.01, min(1000.0, child2[i]))
-                
-                new_population.extend([child1, child2])
-            
-            # Trim to exact population size
-            population = new_population[:population_size]
-    
-    # Final refinement with adaptive local search
-    if best_solution is not None and time.time() - start_time < max_time_seconds * 0.9:
-        print("Phase 4: Local search refinement...")
-        # More aggressive local search with adaptive strategies
-        best_solution = adaptive_local_search(best_solution, max_time_seconds * 0.1)
-    
-    # Return final solution or fallback
-    if best_solution is None:
-        best_solution = generate_bell_pattern(100)
-    
-    return best_solution
+    return best_sequence if best_sequence is not None else [1.0] * 10
 
-def search_for_best_sequence() -> List[float]:
-    """
-    Main function to search for the best coefficient sequence
-    Uses improved hybrid optimization approach
-    """
-    # Set seeds for reproducibility
-    random.seed(42)
-    np.random.seed(42)
-    
-    # Use the improved hybrid optimization approach
+@time_limited(max_time=45)
+def hybrid_approach():
+    """Hybrid approach combining multiple strategies."""
+    # Strategy 1: Enhanced evolutionary algorithm
     try:
-        sequence = improved_hybrid_optimization_approach()
+        sequence = adaptive_evolutionary_search()
+        return sequence
     except Exception as e:
-        print(f"Error in optimization: {e}")
-        # Fallback to simple approach
-        sequence = generate_bell_pattern(100)
+        print(f"Evolutionary algorithm failed: {e}")
     
-    # Ensure minimum sum constraint
-    if np.sum(sequence) < 0.01:
-        sequence = generate_bell_pattern(len(sequence))
+    # Fallback to pattern-based approach
+    try:
+        patterns = construct_high_performance_patterns()
+        best_score = 0.0
+        best_sequence = None
+        
+        for pattern in patterns:
+            # Normalize pattern
+            pattern_sum = sum(pattern)
+            if pattern_sum > 0:
+                pattern = [x * 100 / pattern_sum for x in pattern]
+            
+            score = evaluate_sequence(pattern)
+            if score > best_score:
+                best_score = score
+                best_sequence = pattern.copy()
+        
+        if best_sequence is not None:
+            return best_sequence
+    except Exception as e:
+        print(f"Pattern approach failed: {e}")
     
-    # Clip extreme values to maintain practical limits
-    sequence = [max(0.01, min(1000.0, x)) for x in sequence]
-    
-    return sequence
+    # Final fallback
+    return [1.0] * 100
+
+def search_for_best_sequence():
+    """
+    Main search function using advanced evolutionary approach.
+    """
+    try:
+        sequence = hybrid_approach()
+        return sequence
+    except Exception as e:
+        # Fallback to simple approach if something goes wrong
+        print(f"All approaches failed with error: {e}")
+        return [1.0] * 1000
 
 # EVOLVE-BLOCK-END
 

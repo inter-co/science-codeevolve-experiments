@@ -1,0 +1,47 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length). Consider exploring diverse algorithmic strategies including but not limited to: mathematical programming formulations, physical simulation approaches, combinatorial geometric constructions, symmetry-based analytical methods, constraint satisfaction techniques, or hybrid approaches that combine geometric insights with numerical optimization.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+- Strategy Consideration: Prioritize elegant mathematical constructions or geometric insights over purely numerical optimization. Consider analytical approaches that exploit the inherent symmetries of hexagonal tiling, potential rotational arrangements, or novel combinatorial constructions that might yield superior solutions more efficiently.
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Mathematical Programming**: 
+  * Consider using `cvxpy` or `pulp` for convex optimization formulations
+  * Explore `scipy.optimize` for specialized constrained optimization
+- **Physical Simulation**: 
+  * `pymunk` (2D rigid body physics with polygon shapes)
+  * Custom force-based simulation approaches
+- **Constraint Satisfaction**: 
+  * Consider using constraint solvers like `ortools` or custom SAT implementations
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
+- **Alternative Approaches**: Prioritize mathematically elegant constructions that might offer better scalability. Explore approaches that avoid extensive numerical optimization by leveraging known geometric principles or symmetry considerations.
+
+TECHNICAL REQUIREMENTS:
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly
+- **Reproducibility**: Fixed random seeds for stochastic methods when used
+- **Exploration Strategy**: The solution should demonstrate thoughtful exploration of different packing configurations, favoring mathematically principled approaches over brute-force optimization. Show evidence of leveraging geometric insights or symmetry properties to guide the search.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy Emphasis**: Solutions should demonstrate strategic exploration using principled mathematical or geometric approaches that may be more efficient than exhaustive numerical optimization. Prioritize solutions that exploit structural properties of the hexagonal packing problem.
+
+# PROMPT-BLOCK-END
+    

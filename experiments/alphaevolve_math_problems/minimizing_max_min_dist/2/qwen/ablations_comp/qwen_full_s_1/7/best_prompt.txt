@@ -1,0 +1,60 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider multiple algorithmic paradigms beyond traditional optimization:
+- Geometric construction approaches (sphere packing, Voronoi diagrams, Delaunay triangulation, kissing number configurations, lattice-based constructions)
+- Population-based evolutionary algorithms with diverse selection mechanisms (genetic algorithms with different crossover operators, particle swarm optimization, differential evolution with varied parameters)
+- Mathematical programming using Lagrangian relaxation or semidefinite programming (quadratic programming formulations, convex relaxations)
+- Direct geometric reasoning combined with symmetry considerations (regular polygon constructions, symmetric group actions, invariant theory, group representation theory)
+- Multi-start strategies with different initialization heuristics (random sampling, low-discrepancy sequences, systematic grid generation, quasi-crystal structures)
+- Alternative discrete approaches: combinatorial optimization, constraint satisfaction, or constructive algorithms based on graph theory, hypergraph constructions, or topological methods
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Global optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective), `dlib` (global optimization)
+- **Geometric constructions**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, Delaunay triangulation)
+  * `scipy.spatial.distance` (efficient distance computations)
+- **Mathematical programming**: `cvxpy`, `cvxopt` (convex optimization), `gurobipy` (mixed-integer programming)
+- **Symmetry-aware approaches**: `symengine` for symbolic computation, custom symmetry-breaking constraints
+- **Performance**: `numba` (JIT compilation), `joblib` (parallel processing)
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Alternative Approaches**: Consider non-gradient methods, global optimization techniques, combinatorial constructions, discrete geometric algorithms, or analytical geometric approaches
+- **Algorithmic Diversity**: Explore multiple solution pathways including:
+  * Geometric constructions (regular polygons, Platonic solids projections, symmetry groups, lattice point arrangements, crystallographic structures)
+  * Evolutionary strategies with different genetic operators and selection pressure, including multi-objective evolutionary algorithms
+  * Mathematical programming formulations with convex relaxations, Lagrangian duality, or semidefinite programming
+  * Discrete optimization approaches using integer programming, constraint satisfaction, or topological optimization
+  * Hybrid methods combining geometric insight with numerical optimization, or analytical geometric reasoning with computational verification
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Exploration Budget**: Allocate time to explore at least 3 distinct algorithmic approaches or initialization strategies, with emphasis on fundamentally different conceptual frameworks
+- **Diversity Requirement**: Prioritize novel algorithmic perspectives over fine-tuning existing methods; favor solutions that demonstrate fundamentally different reasoning paths such as:
+  * Analytical geometric constructions based on algebraic number fields or special functions
+  * Topological or combinatorial approaches using graph theory or simplicial complexes
+  * Physics-inspired methods like energy minimization with different potential functions or molecular dynamics simulations
+  * Spectral graph theory or harmonic analysis approaches on point configurations
+
+# PROMPT-BLOCK-END
+    

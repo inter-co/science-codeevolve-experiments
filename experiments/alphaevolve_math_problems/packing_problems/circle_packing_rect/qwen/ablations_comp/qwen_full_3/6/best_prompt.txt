@@ -1,0 +1,86 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II), `scipy.optimize` (various optimizers)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `cvxpy` (convex optimization)
+- **Physics engines**: `pymunk` (2D rigid body physics), `Box2D` (collision detection)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Physics-based Simulation**: Implement a soft physics simulation where circles repel each other with forces inversely proportional to distance, allowing them to settle into an optimal configuration through energy minimization. Consider using molecular dynamics or force-directed placement algorithms with adaptive time-stepping. Focus on implementing realistic collision dynamics and energy minimization strategies
+2. **Constraint Satisfaction Networks**: Formulate as a CSP with domain reduction techniques and backtracking search, using arc consistency or forward checking to prune invalid configurations early. Explore sophisticated constraint propagation techniques like AC-3 or MAC algorithms. Consider using constraint learning to improve search efficiency
+3. **Graph-Theoretic Methods**: Model the circle packing problem as a graph coloring or maximum independent set problem, then apply specialized graph algorithms to find valid placements. Consider using clique detection or vertex cover approximation algorithms. Explore how graph theory can inform spatial arrangement strategies
+4. **Multi-Agent Systems**: Implement a distributed algorithm where each circle acts as an autonomous agent that negotiates position with neighbors through iterative communication protocols, mimicking swarm intelligence behaviors. Emphasize decentralized decision making and emergent behavior patterns
+5. **Topological Data Analysis**: Apply persistent homology or Vietoris-Rips complexes to understand the topological structure of feasible placements and guide the search toward optimal configurations. Use topological features to identify promising regions of the search space
+6. **Combinatorial Optimization with Exact Methods**: Use branch-and-bound or integer programming formulations with cutting plane methods to find provably optimal solutions, even if computationally expensive. Consider exploiting problem structure for tighter formulations
+7. **Neural Network-Based Approximation**: Train a neural network to predict good circle placements based on training data, then refine with gradient-based methods or evolutionary algorithms. Explore architectures that can generalize across different container sizes and circle counts
+
+INNOVATIVE STRATEGIES TO PRIORITIZE:
+- **Hybrid Metaheuristics**: Combine multiple optimization paradigms (e.g., genetic algorithms with local search, or particle swarm with simulated annealing)
+- **Information-Theoretic Approaches**: Maximize spatial entropy or use mutual information criteria to achieve uniform distribution
+- **Geometric Construction Methods**: Leverage Voronoi diagrams, Delaunay triangulations, or other geometric constructs for initial placement strategies
+- **Learning-Based Initialization**: Use previous successful configurations as training data to initialize new searches
+- **Multi-Scale Optimization**: Begin with coarse-grained placement and progressively refine at finer scales
+- **Quantum Annealing Approaches**: Explore quantum-inspired optimization methods for combinatorial problems
+- **Game-Theoretic Models**: Model circle interactions as a non-cooperative game where each circle seeks to maximize its own utility subject to constraints
+- **Evolutionary Strategies with Novel Reproduction Operators**: Design custom genetic operators that specifically exploit the structure of circle packing solutions
+- **Adaptive Mesh Refinement Techniques**: Use dynamic resolution grids that adapt based on solution density and complexity
+- **Stochastic Geometry Methods**: Apply random geometric models and probabilistic approaches to understand optimal packing distributions
+
+INNOVATIVE STRATEGIES TO PRIORITIZE:
+- **Hybrid Metaheuristics**: Combine multiple optimization paradigms (e.g., genetic algorithms with local search, or particle swarm with simulated annealing)
+- **Information-Theoretic Approaches**: Maximize spatial entropy or use mutual information criteria to achieve uniform distribution
+- **Geometric Construction Methods**: Leverage Voronoi diagrams, Delaunay triangulations, or other geometric constructs for initial placement strategies
+- **Learning-Based Initialization**: Use previous successful configurations as training data to initialize new searches
+- **Multi-Scale Optimization**: Begin with coarse-grained placement and progressively refine at finer scales
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic Diversity**: Prioritize innovative methodological combinations that go beyond conventional optimization approaches. Explore unorthodox strategies such as:
+  * Physics-based energy minimization with force-directed placement algorithms and adaptive step sizes
+  * Constraint propagation techniques combined with backtracking search and advanced pruning rules
+  * Multi-agent systems where circles negotiate positions through distributed algorithms with communication protocols
+  * Topological data analysis to identify optimal spatial arrangements using persistent homology or simplicial complexes
+  * Hybrid approaches that combine discrete search with continuous optimization using novel metaheuristic frameworks
+  * Information-theoretic measures for spatial distribution maximization using entropy-based criteria
+  * Novel geometric constructions that leverage Voronoi diagrams or Delaunay triangulations for initial placement
+  * Machine learning approaches that learn placement heuristics from previous successful configurations
+  * Quantum-inspired optimization methods for combinatorial circle packing problems
+  * Game-theoretic modeling of circle interactions as strategic decision-making processes
+  * Custom evolutionary operators designed specifically for circle packing structure
+  * Adaptive mesh refinement techniques tailored to spatial distribution characteristics
+  * Stochastic geometry approaches for probabilistic understanding of optimal packing
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

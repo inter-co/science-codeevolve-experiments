@@ -1,0 +1,55 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Geometric Optimization**: Explore arrangements based on known optimal packings such as hexagonal lattices, triangular tilings, or sphere packing configurations in 2D
+2. **Mathematical Programming**: Formulate as a nonlinear optimization problem using Lagrangian methods or semidefinite programming
+3. **Evolutionary Approaches**: Implement genetic algorithms or particle swarm optimization with appropriate fitness functions
+4. **Energy-Based Models**: Model the point configuration as a system where points repel each other according to inverse distance laws
+5. **Hierarchical Methods**: Start with coarse grid placements and refine iteratively
+6. **Analytical Approximations**: Use known bounds and asymptotic results to guide construction
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE APPROACHES TO EXPLORE:
+- **Symmetric Configurations**: Consider regular polygonal arrangements, icosahedral symmetries, or other mathematically elegant distributions
+- **Numerical Optimization**: Employ gradient-based methods like L-BFGS or trust-region algorithms
+- **Monte Carlo Variants**: Use simulated annealing with carefully designed temperature schedules
+- **Machine Learning**: Apply neural network architectures trained on similar point placement problems
+- **Topological Constraints**: Incorporate topological considerations from graph theory or manifold learning
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Optimization Frameworks**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **Geometric Computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, ConvexHull)
+  * `shapely` (2D geometric operations), `matplotlib` (visualization)
+- **Advanced Algorithms**: 
+  * `cvxpy` for convex optimization formulations
+  * `scikit-learn` for clustering and dimensionality reduction approaches
+- **Performance**: `numba` (JIT compilation), `joblib` (parallel execution)
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

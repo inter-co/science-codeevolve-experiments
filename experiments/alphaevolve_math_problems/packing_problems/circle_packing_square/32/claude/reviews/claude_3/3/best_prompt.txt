@@ -1,0 +1,55 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in physics-based simulation and adaptive spatial algorithms for circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+STRATEGIC GUIDANCE:
+Consider this as a **dynamic relaxation problem** where circles can be initialized with candidate radii and positions, then allowed to naturally resolve overlaps through force-based repulsion or iterative adjustment. Think of approaches like:
+- **Physical simulation**: Treat circles as rigid bodies with repulsive forces that push overlapping circles apart
+- **Hierarchical subdivision**: Partition the unit square using quadtrees or adaptive grids, allocating circles to regions
+- **Growth-based methods**: Start with small circles and incrementally grow them while maintaining feasibility
+- **Hybrid strategies**: Combine multiple paradigms (e.g., rough placement via subdivision + refinement via physics simulation)
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALGORITHMIC INSPIRATION:
+- **Physics engines** (pymunk, pybullet): Model circles as colliding objects with elastic/inelastic collision properties
+- **Voronoi-based partitioning**: Use scipy.spatial.Voronoi to create natural territories for each circle
+- **Maximal packing theorems**: For 32 circles, consider patterns like hexagonal close-packing adapted to square boundaries
+- **Sequential addition**: Place circles one-by-one in positions that maximize remaining free space (largest-first or smallest-first strategies)
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds (e.g., `np.random.seed(42)`) if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; use spatial indexing (rtree, KDTree) for neighbor queries
+- **Iterative refinement**: Implement multi-stage approaches where initial configurations are progressively improved
+- **Validation**: Include explicit checks that final configuration satisfies all containment and non-overlap constraints
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,71 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic strategies including but not limited to:
+- Mathematical constructions based on known optimal point sets or sphere packing theory (e.g., kissing number configurations, optimal spherical codes)
+- Physics-inspired approaches using force fields or energy minimization (e.g., Coulomb repulsion models)
+- Constraint satisfaction or satisfiability-based methods for geometric constraints
+- Topological or graph-theoretic approaches modeling point relationships as graphs
+- Discrete mathematics approaches using combinatorial designs or finite geometries
+- Monte Carlo methods with specialized sampling strategies for high-dimensional spaces
+- Game theory or Nash equilibrium approaches to point placement
+- Differential geometry or variational methods for continuous optimization
+- Spectral graph theory or eigenvalue-based approaches for point distribution
+- Machine learning approaches using neural networks trained on known optimal configurations
+- Algebraic geometry constructions or polynomial root finding for symmetric arrangements
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider theoretical bounds and known optimal configurations such as:
+  * Regular polygonal arrangements (e.g., 16-point circle packing)
+  * Lattice-based constructions (e.g., hexagonal lattice)
+  * Optimization via gradient-based methods or evolutionary algorithms
+  * Geometric constructions derived from sphere packing theory
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Advanced optimization**: `deap`, `platypus`, `pymoo` (evolutionary algorithms), `scipy.optimize` (gradient-based)
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, ConvexHull)
+  * `scipy.spatial.distance` (efficient distance computations)
+- **Specialized algorithms**: 
+  * `spherical-geometry` for spherical arrangements (if applicable)
+  * `quaternion` package for 3D rotations (for potential extensions)
+- **Performance**: `numba` (JIT compilation), `joblib` (parallel processing)
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Implement and compare at least two fundamentally different approaches:
+  1. A mathematical construction approach using known optimal configurations, theoretical bounds, or algebraic methods (e.g., leveraging sphere packing theory, kissing number configurations, or finite geometries)
+  2. A non-traditional approach such as physics simulation (e.g., Coulomb repulsion model), constraint satisfaction, or combinatorial optimization (e.g., simulated annealing, genetic algorithms, or discrete optimization techniques)
+- **Validation**: Include verification that the resulting configuration achieves a significantly improved ratio over random placement
+- **Innovation Focus**: Prioritize novel geometric insights, mathematical optimizations, or unconventional algorithmic paradigms over routine implementations
+- **Alternative Paradigms**: Consider approaches beyond standard gradient-based optimization such as:
+  * Energy-based physical simulations (e.g., minimizing electrostatic potential or elastic energy)
+  * Graph-based or topological methods modeling point relationships as graphs
+  * Constraint programming or satisfiability solving for geometric constraints
+  * Spectral or harmonic analysis approaches using eigenvalues of distance matrices
+  * Information-theoretic or entropy-based optimization criteria
+  * Discrete mathematics approaches using combinatorial designs or finite geometries
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy Diversity**: Allocate time to explore multiple distinct algorithmic approaches rather than optimizing a single method
+
+# PROMPT-BLOCK-END
+    

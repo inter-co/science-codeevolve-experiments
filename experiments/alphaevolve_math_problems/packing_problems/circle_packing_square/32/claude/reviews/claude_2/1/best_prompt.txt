@@ -1,0 +1,64 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in discrete optimization and computational geometry with deep knowledge of spatial decomposition techniques.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+STRATEGIC GUIDANCE:
+Consider fundamentally discrete or hybrid approaches that differ from continuous gradient-based methods:
+- **Spatial decomposition**: Divide the unit square into regions (Voronoi diagrams, quadtrees, recursive subdivision) and pack circles optimally within each region
+- **Combinatorial search**: Use evolutionary algorithms (genetic algorithms, differential evolution), simulated annealing, or particle swarm optimization that explore discrete configuration spaces
+- **Graph-based methods**: Model the problem as a conflict graph where circles are nodes and edges represent spatial constraints, then use graph coloring or independent set algorithms
+- **Analytical construction**: Leverage mathematical properties like optimal packing patterns for specific geometries (hexagonal lattices with boundary adjustments, Apollonian gaskets, sunflower patterns)
+- **Hierarchical placement**: Place large circles first using analytical solutions, then recursively fill gaps with smaller circles
+- **Constraint satisfaction**: Frame as a CSP with discrete position quantization and use backtracking, arc consistency, or SAT solvers
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALGORITHMIC INSPIRATION:
+- **Medial axis transform**: Use the medial axis (skeleton) of the square to identify optimal placement zones
+- **Power diagrams**: Generalization of Voronoi diagrams with weighted sites (circle radii as weights)
+- **Maximal independent set**: In geometric intersection graphs, find configurations that maximize total radius
+- **Quasi-physical methods**: Discrete event simulation, collision detection with discrete time steps, cellular automata
+- **Divide-and-conquer**: Recursively partition space and solve subproblems independently, then merge solutions
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Evolutionary/metaheuristic**: `deap` (genetic algorithms, evolution strategies), `platypus`, `pyswarm` (particle swarm)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi, Delaunay, ConvexHull)
+- **Discrete optimization**: `python-constraint`, `ortools` (CP-SAT, graph algorithms), `pulp` (integer programming)
+- **Graph algorithms**: `networkx` (graph theory, independent sets, coloring)
+- **Spatial structures**: Custom quadtrees, R-trees, space-filling curves (Z-order, Hilbert)
+- **Performance**: `numba` (JIT compilation for discrete search), `joblib` (parallel evaluation of candidate solutions)
+
+**Recommended exploration priorities**:
+1. **DEAP genetic algorithm** with custom mutation/crossover operators for circle configurations
+2. **Scipy.spatial.Voronoi** for adaptive spatial partitioning and region-based packing
+3. **Simulated annealing** with discrete neighborhood operators (circle swaps, small discrete position shifts)
+4. **NetworkX** for modeling spatial conflict graphs and finding maximum weighted independent sets
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

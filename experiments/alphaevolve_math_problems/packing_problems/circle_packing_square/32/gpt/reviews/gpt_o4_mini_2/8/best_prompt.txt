@@ -1,0 +1,51 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to design and implement at least two fully operational and contrasting algorithmic strategies to solve the 32-circle packing problem within the unit square [0,1]×[0,1]. For each strategy, provide complete constructor functions, separate modules, and unified benchmarking scaffolding. For example:
+  - One approach using gradient-based continuous optimization (e.g., JAX or TensorFlow auto-differentiation with differentiable constraints and projection steps)
+  - Another using a discrete combinatorial or heuristic framework (e.g., genetic algorithms with DEAP, simulated annealing, or semidefinite programming via CVXOPT)  
+Clearly delineate and document each method side by side for direct comparison and analysis.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+  * Strategy diversity: structure and benchmark at least two contrasting paradigms, such as:
+      - Continuous gradient-based solvers (JAX/TensorFlow with differentiable projections)
+      - Discrete heuristic/metaheuristic methods (DEAP genetic algorithms, simulated annealing, or Bayesian optimization via scikit-optimize)
+      - Convex or semidefinite relaxations (CVXOPT or OR-Tools CP-SAT with rounding heuristics)
+      - Hierarchical spatial decomposition (quadtree, Apollonian gasket–inspired inversion, or space-filling curves)
+    Ensure each paradigm lives in its own module with dedicated setup, execution, and evaluation routines for transparent side-by-side benchmarking.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic diversity**: Organize the code to support and benchmark multiple methods side by side (e.g., different objective relaxations or solver backends) to avoid overfitting to a single heuristic.
+
+# PROMPT-BLOCK-END
+    

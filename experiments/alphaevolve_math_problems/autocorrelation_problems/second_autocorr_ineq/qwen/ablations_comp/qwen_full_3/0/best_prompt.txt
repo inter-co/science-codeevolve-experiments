@@ -1,0 +1,65 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your approach should combine mathematical insight with computational optimization techniques to systematically explore the space of possible step functions.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+- **Strategic Considerations**:
+  * Leverage mathematical properties of convolution and autocorrelation
+  * Consider structured approaches such as symmetric or periodic patterns
+  * Apply gradient-free optimization techniques or evolutionary algorithms
+  * Explore theoretical bounds and known extremal configurations
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+- **Specialized approaches**: Consider using mathematical programming libraries like `cvxpy` for convex optimization formulations or `pyomo` for more complex constraints
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Algorithmic sophistication**: Prefer methods that systematically explore the solution space rather than purely random approaches
+- **Theoretical grounding**: Incorporate mathematical insights about optimal structures and their expected performance characteristics
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+- Consider exploring known extremal functions or applying variational principles to understand the structure of optimal solutions
+- Investigate whether symmetry or specific pattern structures might yield better results than random or uniform distributions
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

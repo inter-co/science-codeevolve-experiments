@@ -1,0 +1,62 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider multiple algorithmic paradigms including:
+1. **Analytical geometric approaches**: Investigate known optimal configurations for 16 points in 2D, leverage symmetry properties, or apply spherical code theory
+2. **Alternative optimization frameworks**: Employ gradient-based methods, particle swarm optimization, genetic algorithms, or simulated annealing with custom neighborhood structures  
+3. **Novel geometric constructions**: Explore non-lattice arrangements, Voronoi-based partitioning, or fractal-inspired distributions
+4. **Multi-strategy hybridization**: Combine multiple initialization heuristics with adaptive optimization selection
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Mathematical optimization**: Apply Lagrangian relaxation, semidefinite programming, or convex optimization techniques
+2. **Multi-initialization approaches**: Generate several diverse starting configurations and select the best optimizer for each
+3. **Adaptive sampling methods**: Use quasi-Monte Carlo sequences or low-discrepancy sequences for initial placement
+4. **Topological constraints**: Incorporate constraints based on graph theory (e.g., maximizing graph connectivity) or topological invariants
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components, but allow for multiple independent runs
+- **Robustness**: Handle edge cases where optimization might converge poorly or get stuck in local optima
+- **Diversity of approaches**: Implement at least two distinct algorithmic strategies and return the best result
+- **Efficiency**: Balance exploration vs. exploitation in optimization strategies, but prioritize solution quality over speed
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy diversity**: Implement and compare at least two different algorithmic approaches (e.g., one analytical, one optimization-based)
+
+ADDITIONAL CONSIDERATIONS:
+- Implement multiple initialization strategies and select the best result from each
+- Evaluate both global and local optimization approaches, possibly combining them adaptively
+- Consider implementing a multi-start method with different geometric seed patterns
+- Implement proper convergence criteria for iterative methods and handle stagnation gracefully
+
+# PROMPT-BLOCK-END
+    

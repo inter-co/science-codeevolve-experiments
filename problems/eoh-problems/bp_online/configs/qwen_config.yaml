@@ -1,0 +1,112 @@
+# ===--------------------------------------------------------------------------------------===#
+#
+# Online Bin Packing - CodeEvolve Configuration (Qwen3 variant)
+#
+# Adapted from EoH (Evolution of Heuristics).
+# Uses Qwen3-Coder-30B for a cost-effective configuration.
+#
+# ===--------------------------------------------------------------------------------------===#
+
+SYS_MSG: |
+  # PROMPT-BLOCK-START
+  You are an expert in combinatorial optimization, heuristic design, and bin packing algorithms.
+  Your mission is to design a novel and high-performing scoring function for the Online Bin Packing problem.
+
+  PROBLEM CONTEXT:
+  - **Task**: Design a score function that assigns scores to bins for placing an item.
+    At each step, the item is assigned to the bin with the maximum score.
+    If a bin's remaining capacity equals the maximum capacity (i.e., it is unused), it will not be considered.
+    The final goal is to **minimize the number of used bins**.
+  - **Function signature**: `score(item: int, bins: np.ndarray) -> np.ndarray`
+  - **Inputs**:
+    * `item` (int): The size of the current item to be packed.
+    * `bins` (np.ndarray): The remaining capacities of feasible bins (bins where the item fits,
+      i.e., bins with remaining capacity >= item size).
+  - **Output**:
+    * `scores` (np.ndarray): A score for each feasible bin. The bin with the highest score
+      will be selected for placement.
+  - **Constraints**:
+    * `item` is of type int.
+    * `bins` and `scores` are NumPy arrays of the same shape.
+    * Only feasible bins are passed to the function (capacity >= item size).
+    * The function should be self-consistent and handle edge cases.
+  - **Bin packing setup**:
+    * Items arrive one at a time (online setting).
+    * Bin capacity is 100.
+    * Instances contain 5,000 items each drawn from a Weibull distribution.
+    * There are 5 test instances.
+
+  EVALUATION:
+  - **Fitness** (maximize): Negative of the excess ratio over the L1 lower bound.
+    A fitness of 0.0 means optimal packing matching the lower bound.
+    Higher values (closer to 0) are better.
+  - **excess_pct**: The percentage excess over the L1 lower bound (lower is better).
+  - **avg_num_bins**: Average number of bins used across instances (lower is better).
+  - **eval_time**: Execution time in seconds.
+
+  COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+  **Core packages**: numpy, scipy
+  - The function must be efficient: it is called once per item (5,000 times per instance, 25,000 total).
+  - Avoid heavy computation inside the score function; prefer vectorized NumPy operations.
+  - The function should be deterministic for reproducibility.
+
+  DESIGN TIPS:
+  - Classic heuristics: Best Fit (minimize remaining space), First Fit, Worst Fit, etc.
+  - Consider combining multiple signals: remaining capacity, item-to-bin ratio, distribution of gaps.
+  - Non-linear transformations (exponential, logarithmic) of remaining space can be effective.
+  - Penalizing bins that would leave very small residual capacity (unusable gaps) can help.
+  - The scoring function should be sufficiently complex to achieve good performance.
+  - Ensure self-consistency: the function must always return valid scores for the given bins.
+
+  COMPUTATIONAL BUDGET:
+  - **Time limit**: 30 seconds maximum execution time.
+  - **Memory limit**: 2 GB.
+
+  KNOWN BASELINES:
+  - Best Fit heuristic: ~2-3% excess over L1 bound.
+  - State-of-the-art evolved heuristics (EoH/FunSearch): <1% excess over L1 bound.
+  # PROMPT-BLOCK-END
+      
+CODEBASE_PATH: 'src/'
+INIT_FILE_DATA: {filename: 'init_program.py', language: 'python'}
+EVAL_FILE_NAME: 'evaluate.py'
+# EoH paper uses 20s eval timeout for bin packing.
+# We add a small buffer for CodeEvolve's sandbox overhead.
+EVAL_TIMEOUT: 30
+
+MAX_MEM_BYTES: 2000000000
+MEM_CHECK_INTERVAL_S: 0.1
+
+# Budget matching: EoH uses pop=20, gen=20, 4 operators → ~1,640 total evaluations.
+# CodeEvolve: 10 islands × 10 init + 10 islands × 154 epochs = 1,640 total evaluations.
+EVOLVE_CONFIG: {fitness_key: 'fitness',
+                num_epochs: 154,ckpt: 10,max_size: null,init_pop: 10,
+                exploration_rate: 0.3, 
+                selection_policy: 'roulette', selection_kwargs: {roulette_by_rank: True},
+                early_stopping_rounds: null,
+                num_islands: 10, migration_topology: 'ring', migration_interval: 30, migration_rate: 0.1,
+                meta_prompting: True, use_embedding: False, use_map_elites: True,
+                num_inspirations: 2,
+                max_chat_depth: 3,
+                mp_start_marker: "# PROMPT-BLOCK-START", mp_end_marker: "# PROMPT-BLOCK-END",
+                evolve_start_marker: "# EVOLVE-BLOCK-START", evolve_end_marker: "# EVOLVE-BLOCK-END",
+                use_scheduler: True, type: 'PlateauScheduler', scheduler_kwargs: {min_rate: 0.2, max_rate: 0.5, plateau_threshold: 5, increase_factor: 1.05, decrease_factor: 0.95}
+                }
+
+EXPLORATION_ENSEMBLE: [{model_name: 'AWS_QWEN-QWEN3-CODER-30B-INSTRUCT', temp: 0.7, top_p: 0.8, retries: 3, weight: 1, verify_ssl: False}]
+
+EXPLOITATION_ENSEMBLE: [{model_name: 'AWS_QWEN-QWEN3-CODER-30B-INSTRUCT', temp: 0.7, top_p: 0.8, retries: 3, weight: 1, verify_ssl: False}]
+
+SAMPLER_AUX_LM: {model_name: 'AWS_QWEN-QWEN3-CODER-30B-INSTRUCT', temp: 0.7, top_p: 0.8, retries: 3, weight: 1, verify_ssl: False}
+
+EMBEDDING: {model_name: 'AZURE_TEXT-EMBEDDING-3-SMALL', retries: 3, verify_ssl: False, dimensions: 128}
+
+MAP_ELITES: {elite_map_type: 'cvt',
+             features: [
+              {name: 'fitness', min_val: -0.5, max_val: 0.0},
+              {name: 'eval_time', min_val: 0, max_val: 30},
+             ],
+             elite_map_kwargs: {
+              num_centroids: 30, num_init_samples: 1000, max_iter: 300, tolerance: 0.0001
+             }
+}

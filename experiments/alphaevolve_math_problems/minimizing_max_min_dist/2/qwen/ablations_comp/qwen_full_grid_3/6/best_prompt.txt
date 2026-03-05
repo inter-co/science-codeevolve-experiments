@@ -1,0 +1,43 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Prioritize mathematical construction and analytical approaches over iterative optimization:
+1. **Mathematical Construction**: Explore known optimal or near-optimal configurations such as regular polygons, hexagonal lattices, or spherical codes projected onto 2D. Focus on constructions based on symmetry groups, algebraic number fields, or discrete geometry principles. Seek arrangements with provable geometric properties or theoretical guarantees.
+2. **Analytical Geometry Approaches**: Leverage geometric transformations, affine mappings, or projective geometry to derive point arrangements with provable properties. Consider constructions that exploit the inherent symmetries and mathematical relationships in the problem.
+3. **Combinatorial Geometry**: Consider exact mathematical constructions from combinatorial geometry that may yield optimal or near-optimal solutions through rigorous mathematical reasoning rather than numerical optimization.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Mathematical Construction**: `sympy` for symbolic computation, `gmpy2` for high-precision arithmetic
+- **Geometric Transformations**: `scipy.spatial` (distance matrices, Voronoi diagrams), `scipy.linalg` (affine transformations)
+- **Discrete Geometry**: `networkx` for graph-based representations of point configurations, `cvxpy` for convex optimization formulations
+- **Performance**: `numba` (JIT compilation), `joblib` for parallel execution
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Prefer solutions that demonstrate novel or non-trivial geometric constructions, mathematical proofs of optimality, or combinatorial insights over brute-force optimization or random sampling. Prioritize mathematical rigor and closed-form constructions.
+- **Efficiency Focus**: Solutions should complete within the time budget through analytical or structured approaches rather than iterative optimization. Favor elegant mathematical solutions that can be computed directly rather than relying on numerical procedures.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

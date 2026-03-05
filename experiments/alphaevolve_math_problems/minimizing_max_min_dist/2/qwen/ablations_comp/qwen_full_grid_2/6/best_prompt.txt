@@ -1,0 +1,79 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to develop a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs. Explore unconventional mathematical frameworks and computational paradigms beyond traditional optimization methods. Consider approaches such as:
+- Algebraic geometry methods for solving polynomial systems defining optimal configurations
+- Topological data analysis to understand the landscape of point arrangements  
+- Category theory approaches to identify symmetries and invariants in point configurations
+- Information-theoretic optimization using entropy maximization principles
+- Quantum computing approaches for continuous optimization problems
+- Combinatorial enumeration techniques for discrete geometric configurations
+- Game-theoretic equilibria where points act as strategic agents
+- Harmonic analysis and Fourier transform techniques for periodic arrangements
+- Constraint satisfaction problem solvers with specialized heuristics
+- Machine learning approaches that learn optimal geometric patterns directly
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Advanced considerations:
+  * Investigate analytical solutions using algebraic geometry and polynomial optimization
+  * Explore topological methods such as configuration spaces and homotopy continuation
+  * Apply quantum-inspired algorithms like quantum annealing or variational quantum eigensolvers
+  * Utilize tensor network methods for high-dimensional point arrangement problems
+  * Consider category theory approaches to point configuration symmetries
+  * Implement constraint satisfaction problem solvers with specialized heuristics
+  * Employ information-theoretic approaches using entropy maximization principles
+  * Investigate game-theoretic equilibria where points act as strategic agents
+  * Explore constructive methods from discrete mathematics and combinatorics
+  * Apply harmonic analysis and Fourier transform techniques for periodic point arrangements
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Mathematical Rigor**: Employ proven mathematical frameworks such as:
+  * Spherical codes and kissing number problems
+  * Semidefinite programming formulations
+  * Geometric optimization theory
+  * Topological constraints analysis
+- **Algorithmic Diversity**: Prioritize fundamentally different computational paradigms such as:
+  * Symbolic computation and exact algebraic methods for solving geometric constraints
+  * Constraint programming with specialized propagation techniques for discrete optimization
+  * Topological data analysis for understanding configuration space topology
+  * Machine learning approaches that learn optimal geometric patterns directly from examples
+  * Swarm intelligence with novel communication protocols between points
+  * Physical simulation with non-standard force laws or interaction potentials
+  * Combinatorial enumeration and backtracking for discrete geometric problems
+  * Information-theoretic optimization using mutual information measures and entropy principles
+  * Category-theoretic transformations of point configurations to exploit symmetry groups
+  * Quantum computing approaches for solving continuous optimization problems through quantum annealing
+  * Constructive methods from discrete mathematics and combinatorics for explicit geometric constructions
+  * Spectral graph theory and Laplacian eigenvalue methods for point arrangement optimization
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

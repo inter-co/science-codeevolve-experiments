@@ -1,0 +1,70 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction.
+Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
+You may employ any of the following algorithmic paradigms:
+- Mathematical optimization (convex programming, Lagrangian relaxation, semidefinite programming)
+- Physics-based simulation (force-directed placement, collision dynamics, molecular dynamics) 
+- Graph theory approaches (Voronoi diagrams, Delaunay triangulation, graph coloring)
+- Constraint satisfaction techniques (satisfiability modulo theories, integer programming)
+- Geometric constructions (inscribed patterns, tessellations, Apollonian gaskets)
+- Analytical approaches (packing density bounds, geometric inequalities, variational methods)
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+ALGORITHMIC DIVERSITY ENCOURAGEMENT:
+Instead of relying primarily on gradient-based optimization, consider these alternative mathematical frameworks:
+1. Employ deterministic geometric construction methods based on known optimal packings like hexagonal lattices, triangular tilings, or Apollonian gaskets
+2. Apply variational principles where the objective function represents a physical energy model with explicit geometric constraints
+3. Formulate the problem using analytical bounds and symmetry considerations to derive optimal configurations directly through mathematical proof
+4. Utilize combinatorial geometry approaches such as Voronoi diagrams or Delaunay triangulations to establish packing structures and derive geometric relationships
+5. Implement a multi-scale approach starting with mathematical insights about packing density limits and optimal lattice arrangements before local refinement
+6. Explore discrete geometric constructions using rational approximations, algebraic number fields, or exact symbolic computation for precise solutions
+7. Consider using mathematical programming formulations with convex relaxations or semidefinite programming to find provably optimal solutions
+
+Focus on demonstrating sophisticated mathematical reasoning, geometric insight, and analytical derivations through constructive proofs and exact mathematical constructions rather than iterative optimization methods. Prioritize approaches that leverage known mathematical results about circle packing density bounds and optimal configurations.
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Mathematical analysis**: `sympy` (symbolic computation), `mpmath` (arbitrary precision arithmetic)
+- **Geometric constructions**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi)
+- **Analytical optimization**: `cvxpy` (convex optimization), `cvxopt` (linear programming)
+- **Constraint solving**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Algebraic geometry**: `singular` (via python interface), `polys` (polynomial computations)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
+
+**Algorithmic Flexibility**: You are free to combine multiple approaches, such as using a physics engine for initial placement followed by mathematical optimization refinement, or employing geometric insights to guide evolutionary algorithms.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility; prioritize analytical solutions when possible
+- **Error handling**: Graceful handling of mathematical inconsistencies or geometric impossibilities
+- **Memory efficiency**: Avoid excessive memory allocation for symbolic computations or large matrix operations
+- **Scalability**: Design with potential extension to different circle counts in mind, leveraging mathematical generalizations
+- **Algorithmic Innovation**: Prefer approaches that demonstrate novel mathematical insights, geometric constructions, or exact analytical solutions over iterative optimization
+- **Mathematical Rigor**: Where applicable, provide theoretical guarantees or bounds on solution quality, and justify choices through mathematical reasoning rather than empirical testing
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Solution Quality**: Prioritize solutions that demonstrate clear algorithmic sophistication, mathematical rigor, and theoretical insights over brute-force or heuristic approaches
+- **Theoretical Contribution**: Where possible, include mathematical analysis or proofs that validate the optimality or near-optimality of the constructed solution
+
+# PROMPT-BLOCK-END
+    

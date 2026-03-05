@@ -1,0 +1,51 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii. Consider multiple algorithmic paradigms including but not limited to: mathematical programming formulations, geometric construction heuristics, evolutionary algorithms, simulated annealing, or hybrid approaches combining discrete and continuous optimization techniques. Focus particularly on leveraging known geometric insights such as optimal circle packings in rectangles, Apollonian gaskets, or Delaunay triangulations as starting points, and consider convex relaxation techniques for the non-convex constraint satisfaction problem.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II), `cvxpy` (convex optimization)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics engines**: `pymunk` (2D rigid body physics), `Box2D` (collision detection)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
+
+Consider leveraging mathematical programming formulations such as semidefinite programming relaxations for circle packing, or explore geometric constructions like Apollonian gaskets, hexagonal lattice arrangements, or Delaunay triangulations as starting points for your optimization strategy. Alternatively, consider using constraint satisfaction techniques or physics-based simulation approaches that naturally handle the geometric constraints.
+
+Consider leveraging mathematical programming formulations such as semidefinite programming relaxations for circle packing, or explore geometric constructions like Apollonian gaskets, hexagonal lattice arrangements, or Delaunay triangulations as starting points for your optimization strategy.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic diversity**: Prefer approaches that demonstrate novel combinations of optimization paradigms or geometric insights over simple brute-force or basic heuristic methods
+- **Robust constraint handling**: Implement rigorous validation that all circles remain fully within the rectangular container boundaries at all times
+- **Mathematical rigor**: Where possible, leverage known mathematical bounds and theoretical guarantees about circle packing density and optimal arrangements
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

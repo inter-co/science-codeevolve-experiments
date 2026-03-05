@@ -2,28 +2,12 @@
 SETTING:
 You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
 Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
-Explore diverse mathematical frameworks including but not limited to:
+Consider advanced mathematical approaches including:
 - Spherical codes and spherical designs for uniform point distributions
-- Discrete differential geometry for equiangular point sets  
-- Energy minimization principles (Thomson problem variant) with alternative potential functions
-- Semidefinite programming relaxations for global optimization
-- Quasi-Monte Carlo methods for low-discrepancy point sets
-- Algebraic geometry approaches for symmetric configurations
-- Group theory based constructions using finite subgroups of SO(3)
-- Topological methods for point distribution on surfaces
-- Variational principles and harmonic analysis on spheres
-- Combinatorial optimization using graph theory and network flows
-- Probabilistic methods and random matrix theory for point placement
-- Topological data analysis for understanding point configurations
-- Information theory and entropy maximization for point distributions
-- Category theory and abstract algebraic structures for point arrangements
-- Analytical geometric constructions using algebraic equations and constraint solving
-- Numerical linear algebra approaches with eigenvalue decompositions
-- Geometric programming and convex optimization techniques
-- Constructive algorithms based on known optimal configurations from mathematical tables
-- Differential geometric methods for smooth optimization landscapes
-- Fourier analysis and spectral methods for periodic point arrangements
-- Advanced optimization using Lagrangian duality and Karush-Kuhn-Tucker conditions
+- Global optimization techniques such as simulated annealing, genetic algorithms, or particle swarm optimization
+- Geometric constructions based on Platonic solids or their generalizations
+- Energy minimization approaches where points repel each other according to inverse power laws
+- Use of specialized libraries like `pymoo` for multi-objective optimization or `spherical-geometry` for spherical arrangements
 
 PROBLEM CONTEXT:
 - Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
@@ -33,13 +17,11 @@ PROBLEM CONTEXT:
   * Minimum distance: dmin = min{dij : i≠j}
   * Maximum distance: dmax = max{dij : i≠j}
   * Objective: maximize dmin/dmax subject to spatial constraints
-
-TECHNICAL REQUIREMENTS:
-- **Reproducibility**: Fixed random seeds for all stochastic components
-- **Mathematical rigor**: Leverage known bounds, symmetry considerations, and proven constructions where available
-- **Multi-method validation**: Consider multiple approaches (analytical, numerical, hybrid) to verify optimality
-- **Alternative paradigms**: Explore gradient-based optimization, analytical solutions, constructive geometric methods, and mathematical programming frameworks rather than evolutionary computation
-- **Innovation focus**: Prioritize novel mathematical approaches over heuristic methods, emphasizing rigorous theoretical foundations and exact solutions when possible
+- Consider using global optimization methods like:
+  * Nelder-Mead or Basin-hopping for continuous optimization
+  * Differential evolution or genetic algorithms for discrete search spaces
+  * Quasi-Newton methods for smooth objective functions
+  * Constrained optimization solvers from scipy.optimize
 
 PERFORMANCE METRICS:
 1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
@@ -49,29 +31,24 @@ PERFORMANCE METRICS:
 COMPUTATIONAL RESOURCES:
 **Core packages**: numpy, scipy, sympy, pandas
 **Additional useful packages**:
-- **3D optimization**: `scipy.optimize`, `cvxpy`, `cvxopt` (convex optimization)
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
 - **3D geometric computing**: 
   * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
   * `trimesh` (3D mesh operations), `open3d` (3D data processing)
 - **Specialized 3D algorithms**: 
   * `spherical-geometry` for spherical arrangements
   * `quaternion` package for 3D rotations
-  * `scipy.linalg` for matrix computations and eigenvalue problems
 - **Performance**: `numba` (3D JIT compilation), `joblib`
-- **Advanced frameworks**: 
-  * `sympy` for symbolic mathematics and exact solutions
-  * `scipy.integrate` for numerical integration in geometric contexts
-  * `networkx` for graph-based optimization
-  * `galois` for finite field computations in algebraic approaches
 
 TECHNICAL REQUIREMENTS:
 - **Reproducibility**: Fixed random seeds for all stochastic components
-- **Mathematical rigor**: Leverage known bounds, symmetry considerations, and proven constructions where available
-- **Multi-method validation**: Consider multiple approaches (analytical, numerical, hybrid) to verify optimality
+- **Mathematical Rigor**: Implement solutions based on proven geometric constructions or optimization theory
+- **Algorithmic Diversity**: Prefer methods that leverage geometric insights over purely heuristic approaches
+- **Performance**: Balance solution quality with computational budget; consider parallel evaluation of candidate solutions
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

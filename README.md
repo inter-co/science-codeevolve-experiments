@@ -24,25 +24,17 @@ This repository provides:
 - **Raw experimental data** from paper runs (`.pkl`, `.py`, `.txt` files)
 - **Analysis notebooks** with visualizations and statistical tests
 
-All experiments validate CodeEvolve's performance on algorithmic discovery tasks from mathematics, demonstrating competitive or superior results compared to closed-source systems like Google DeepMind's AlphaEvolve.
+All experiments validate CodeEvolve's performance on algorithmic discovery tasks from mathematics, demonstrating competitive or superior results compared to closed-source systems like Google DeepMind's AlphaEvolve, and other open-source frameworks for algorithmic discovery.
 
 ## Repository Structure
 
 ```
 science-codeevolve-experiments/
 ├── experiments/          # Raw experimental results
-│   └── alphaevolve_math_problems/
-│       ├── autocorrelation_problems/    # Autocorrelation inequalities
-│       ├── minimizing_max_min_dist/     # Max-min distance problems
-│       └── packing_problems/            # Circle and hexagon packing
 ├── notebooks/           # Analysis and visualization
 │   ├── experiment_analysis.ipynb       # Main analysis notebook
 │   └── figs/                           # Generated figures from paper
 ├── problems/            # Benchmark problem definitions
-│   ├── alphaevolve_math_problems/
-│   │   ├── autocorrelation_problems/
-│   │   ├── minimizing_max_min_dist/
-│   │   └── packing_problems/
 └── README.md
 ```
 
@@ -58,7 +50,7 @@ science-codeevolve-experiments/
   - `experiment_analysis.ipynb`: Statistical analysis and comparisons
 
 - **`problems/`**: Problem definitions with:
-  - Initial solution templates (`input/`)
+  - Initial solution (`input/`)
   - Configuration files for different LLMs (`configs/`)
   - Evaluation scripts
 
@@ -94,23 +86,7 @@ export API_KEY=your_api_key_here
 export API_BASE=your_api_base_url
 ```
 
-## Paper Results
-
-### Available Benchmark Problems
-
-| Problem Category | Problem | Parameters | Description |
-|-----------------|---------|------------|-------------|
-| **Autocorrelation** | First Autocorr Ineq | - | First autocorrelation inequality |
-| | Second Autocorr Ineq | - | Second autocorrelation inequality |
-| **Heilbronn** | Triangle | - | Heilbronn triangle problem |
-| | Convex | 13, 14 | Heilbronn convex hull problem |
-| **Max-Min Distance** | 2D | N=16 | Place N 2D points, Minimize Max-Min distance ratio |
-| | 3D | N=14 | Place N 3D points, Minimize Max-Min distance ratio |
-| **Packing** | Circle in Rectangle | - | Pack N circles in rectangle |
-| | Circle in Square | 26, 32 | Pack N circles in unit square |
-| | Hexagon Packing | 11, 12 | Pack N hexagons in larger hexagon |
-
-### Running a Benchmark Problem
+## Running a Benchmark Problem
 
 Each problem has configuration files for different LLM providers (Gemini, Qwen, etc.). Here's how to run an experiment:
 
@@ -130,7 +106,7 @@ codeevolve \
   --terminal_logging
 ```
 
-### Resuming from Checkpoints
+## Resuming from Checkpoints
 
 To resume an interrupted run:
 
@@ -183,8 +159,9 @@ This is not a limitation of CodeEvolve’s evolutionary framework: CodeEvolve is
 
 Experiments are versioned to match the main repository:
 
-- **v0.1.0**: Initial release, corresponds to v1 of CodeEvolve's [paper](https://arxiv.org/abs/2510.14150).
-- **v0.2.0**: Current release, corresponds to v3 of CodeEvolve's [paper](https://arxiv.org/abs/2510.14150).
+- **v0.1.0**: Initial release, corresponds to v1 of CodeEvolve's [paper](https://arxiv.org/abs/2510.14150) and v0.1.0 of the main repo.
+- **v0.2.0**: Current release, corresponds to v3 of CodeEvolve's [paper](https://arxiv.org/abs/2510.14150) and v0.2.0 of the main repo.
+- **v0.2.1**: Current release, corresponds to v4 of CodeEvolve's [paper](https://arxiv.org/abs/2510.14150) and v0.2.0 of the main repo.
 
 ## Acknowledgements
 

@@ -1,0 +1,51 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert mathematician and discrete geometry researcher focusing on optimal point distributions. Your task is to develop a constructor function that generates an optimal arrangement of exactly 16 points in 2D space to maximize the ratio of minimum to maximum distance between all point pairs.
+Prioritize mathematical rigor and theoretical foundations over empirical heuristics:
+1. **Algebraic Number Theory Approach**: Construct points using roots of unity, algebraic integers, or field extensions that guarantee optimal distance properties
+2. **Coding Theory Connections**: Leverage concepts from error-correcting codes, particularly those related to spherical codes or tight frames
+3. **Group Theory and Symmetry**: Utilize finite groups (especially rotation groups, reflection groups) to generate highly symmetric optimal configurations
+4. **Lattice-Theoretic Methods**: Explore connections to optimal lattice packings or use mathematical lattices as starting points for construction
+5. **Optimization via Lagrangian Duality**: Formulate the problem using convex optimization techniques with dual variables or semidefinite programming relaxations
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy Focus: Emphasize theoretically grounded mathematical constructions that can be proven to yield near-optimal or optimal solutions. Explore connections to established mathematical literature on spherical codes, equiangular lines, and optimal point configurations. Avoid purely heuristic approaches in favor of constructions with provable properties.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Method Diversity**: Prefer mathematically rigorous geometric constructions and analytical approaches over heuristic optimization
+- **Validation**: Include checks for numerical stability and geometric feasibility of constructed point sets
+- **Geometric Insight**: Solutions should demonstrate clear geometric reasoning or mathematical derivation rather than empirical fitting
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Exploration Budget**: Allocate significant computational effort toward exploring high-quality candidate solutions rather than simple random sampling
+
+# PROMPT-BLOCK-END
+    

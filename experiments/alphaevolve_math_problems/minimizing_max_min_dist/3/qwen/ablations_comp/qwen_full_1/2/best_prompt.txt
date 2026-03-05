@@ -2,26 +2,25 @@
 SETTING:
 You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
 Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider advanced mathematical approaches such as:
+- Spherical codes and spherical designs for uniform point distributions
+- Energy minimization principles (e.g., Thomson problem analogues)
+- Geometric optimization using convex relaxations
+- Multi-objective evolutionary algorithms
+- Gradient-based optimization with careful initialization
 
 PROBLEM CONTEXT:
 - Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
-- Constraint: Points must be placed in 3D Euclidean space (consider various domains like unit cube [0,1]³, unit sphere, or other manifolds)
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
 - Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
   * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
   * Minimum distance: dmin = min{dij : i≠j}
   * Maximum distance: dmax = max{dij : i≠j}
   * Objective: maximize dmin/dmax subject to spatial constraints
-
-ALTERNATIVE APPROACHES TO CONSIDER:
-- Explore analytical solutions or known mathematical configurations (e.g., regular polyhedra, spherical codes, or optimally packed arrangements)
-- Consider alternative geometric constraints such as points on a torus, hyperboloid, or other manifolds (not just unit sphere)
-- Investigate combinatorial approaches or discrete optimization methods rather than continuous optimization
-- Examine whether the problem can be reformulated using different mathematical frameworks (e.g., potential fields, energy minimization, or inverse distance weighting)
-- Consider symmetry-breaking strategies or group-theoretic approaches to reduce search space
-- Evaluate whether sampling-based or evolutionary algorithms might yield better results than gradient-based optimization
-- Think about physics-inspired approaches where points repel each other according to inverse power laws (potential field methods)
-- Consider lattice-based constructions or periodic arrangements that might offer better theoretical guarantees
-- Explore topological approaches where the point configuration is viewed as a graph or network with specific connectivity properties
+- Consider leveraging known mathematical structures like:
+  * Regular polyhedra or their deformations
+  * Optimal spherical codes (e.g., icosahedral symmetry)
+  * Discrete energy minimization frameworks
 
 PERFORMANCE METRICS:
 1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
@@ -42,10 +41,12 @@ COMPUTATIONAL RESOURCES:
 
 TECHNICAL REQUIREMENTS:
 - **Reproducibility**: Fixed random seeds for all stochastic components
+- **Advanced Methods**: Prioritize mathematically principled approaches over brute-force sampling
+- **Optimization Strategy**: Employ either gradient-based methods, evolutionary algorithms, or hybrid approaches
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

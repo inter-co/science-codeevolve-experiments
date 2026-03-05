@@ -1,0 +1,75 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and advanced optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to discover mathematically principled step function constructions that rigorously optimize the second autocorrelation inequality constant C₂ through sophisticated analytical and computational approaches.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+- **Mathematical principles to exploit**:
+  * Consider the dual nature of the optimization: maximizing ||g||₂² while minimizing ||g||₁ · ||g||∞
+  * Leverage the fact that g = f*f has specific structural properties that can be exploited analytically
+  * Explore symmetric constructions and their impact on the ratio
+  * Consider how to balance peak values vs. distribution uniformity in g
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Advanced mathematical approaches to consider**:
+- **Analytical optimization**: Derive conditions for optimality using calculus of variations or Lagrange multipliers
+- **Convex optimization**: Frame the problem as convex optimization when possible
+- **Multi-objective optimization**: Treat ||g||₂² and ||g||₁ · ||g||∞ as competing objectives
+- **Machine learning approaches**: Use neural networks to learn optimal step patterns or reinforcement learning to discover policies
+- **Symmetry exploitation**: Construct functions with specific symmetries that yield better C₂ values
+- **Gradient-based methods**: If applicable, use automatic differentiation through the convolution process
+- **Hybrid approaches**: Combine deterministic mathematical insights with stochastic global optimization
+
+**Optimization frameworks**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Specialized solvers**: Consider using `cvxpy` for convex formulations or `scipy.optimize` with appropriate constraints
+- **Multi-start strategies**: Implement systematic exploration of parameter spaces with multiple initializations
+
+**Signal processing and mathematical tools**:
+- `scipy.signal` (convolution operations) and `scipy.fft` (fast convolution via FFT) for efficient computation
+- `scipy.integrate` (quadrature methods) for rigorous norm computations
+- `sympy` for symbolic manipulation and derivation of mathematical relationships
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Mathematical rigor**: Ensure that any heuristic approaches are grounded in mathematical principles and can be validated
+- **Exploration-exploitation balance**: Implement strategies that can both explore novel solution spaces and efficiently exploit promising regions
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object with rich mathematical structure
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g, where maximizing this ratio requires careful balance
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster, suggesting optimal solutions may avoid extreme peaks
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞), but may not be optimal due to the interplay between norms
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+- Consider exploring constructions based on known extremal functions or applying principles from approximation theory
+- Think about the geometric interpretation of the convolution operation and how it transforms the input step function
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

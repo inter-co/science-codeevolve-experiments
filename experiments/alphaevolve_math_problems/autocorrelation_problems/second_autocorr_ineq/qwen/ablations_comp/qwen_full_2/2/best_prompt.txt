@@ -1,0 +1,86 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to evolve and optimize a function that discovers step function constructions to improve the lower bound on the second autocorrelation inequality constant C₂.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+ALGORITHMIC APPROACHES TO CONSIDER:
+1. **Analytical Optimization**: Derive first-order conditions or use variational principles to find critical points directly in the function space, treating the step heights as continuous variables and applying calculus of variations
+2. **Machine Learning Surrogate Modeling**: Train neural networks or Gaussian processes to approximate the C₂ landscape, then optimize the surrogate model to reduce expensive evaluations of the true objective
+3. **Tensor Network Optimization**: Represent the step function as a tensor network or hierarchical basis expansion and optimize the tensor coefficients using tensor train or MPS methods
+4. **Information-Theoretic Approaches**: Frame the optimization as entropy maximization or mutual information minimization subject to the convolution constraints, drawing from information theory and statistical mechanics
+5. **Algebraic Geometry Methods**: Use polynomial optimization techniques or semidefinite programming relaxations to solve the optimization problem in terms of moments or algebraic constraints
+6. **Topological Optimization**: Apply concepts from topology optimization where the step function is treated as a design variable field with topological constraints and regularizers
+7. **Quantum Annealing Inspired**: Use quantum-inspired optimization techniques or quantum approximate optimization algorithms (QAOA) to explore the discrete solution space
+8. **Multi-Objective Evolutionary Algorithms**: Instead of single-objective optimization, consider simultaneously optimizing multiple related quantities (e.g., ||g||₂², ||g||₁, ||g||∞ separately) to find Pareto-optimal solutions
+
+THEORETICAL FRAMEWORKS:
+- Consider connections to extremal problems in harmonic analysis and Banach space theory
+- Explore relationships with known optimal functions in related inequalities such as Beckner's inequality or Sobolev inequalities
+- Investigate whether certain symmetry properties or geometric constraints lead to optimal solutions, including reflection symmetry, rotational symmetry, or self-similarity
+- Examine how the structure of g = f*f affects the balance between ||g||₂², ||g||₁, and ||g||∞ through the lens of functional inequalities
+- Study connections to information theory and entropy-based optimization principles
+- Investigate whether the problem admits a convex relaxation or can be reformulated as a semi-definite program
+- Explore the role of moment problems and polynomial optimization in deriving optimal solutions
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+
+IMPLEMENTATION STRATEGY:
+Rather than relying on simple heuristic initialization, implement one of these sophisticated frameworks:
+1. A direct analytical approach using variational calculus to derive necessary conditions for optimality, then numerically solve the resulting differential equations
+2. A tensor-based optimization approach using hierarchical basis expansions or sparse tensor methods to represent the step function
+3. A moment-based approach using semidefinite programming to optimize over the space of possible autoconvolutions
+4. An information-theoretic optimization that maximizes entropy or minimizes relative entropy subject to convolution constraints
+5. A multi-modal optimization approach that combines local search with global exploration using basin-hopping or island models
+6. A quantum-inspired optimization framework that treats the discrete solution space as a quantum state space
+7. A multi-objective optimization approach that simultaneously considers ||g||₂², ||g||₁, and ||g||∞ as separate objectives with appropriate weighting
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Algorithmic Diversity**: Demonstrate different optimization strategies rather than just one approach
+- **Exploration vs Exploitation**: Balance between exploring new regions of the solution space and refining promising candidates
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g = f*f represents a fundamental operation in harmonic analysis with deep connections to convolution algebras and group theory
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) can be viewed as a generalized coherence measure that quantifies the trade-off between energy concentration and uniformity in the convolution result
+- The optimal configuration should balance the interplay between maximizing ||g||₂² (energy spread) while minimizing the product ||g||₁ · ||g||∞ (total mass and peak magnitude)
+- Consider the relationship to extremal problems in Banach spaces and operator theory, particularly how the structure of g = f*f influences the geometric properties of the resulting function space
+- The piecewise linear integration scheme suggests that the problem has a discrete geometric interpretation that could be exploited through combinatorial optimization or discrete differential geometry approaches
+- Investigate whether the optimal solution exhibits fractal-like self-similarity or follows specific scaling laws that emerge from the convolution structure
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,61 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Mathematical Optimization**: Formulate as a constrained optimization problem using Lagrange multipliers, gradient-based methods, or semidefinite programming
+2. **Geometric Construction**: Leverage known optimal configurations such as spherical codes, regular polyhedra, or Platonic solids
+3. **Analytical Approaches**: Derive mathematical bounds or use symmetry arguments to construct configurations directly
+4. **Combinatorial Geometry**: Exploit the relationship between point arrangements and graph theory (e.g., unit distance graphs, incidence structures)
+5. **Topological Methods**: Apply concepts from topology or differential geometry to understand the structure of optimal arrangements
+6. **Algebraic Geometry**: Use polynomial systems or algebraic varieties to describe optimal point configurations
+7. **Randomized Geometric Algorithms**: Employ probabilistic methods or random sampling in geometric spaces
+8. **Direct Construction Methods**: Build configurations systematically from basic geometric principles rather than optimization
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+- **Advanced mathematics**: `cvxpy` for convex optimization, `scipy.integrate` for complex integrals
+
+ALGORITHMIC APPROACHES TO EXPLORE:
+- Consider analytical geometric constructions based on known mathematical results
+- Explore direct combinatorial approaches using graph theory or incidence geometry
+- Investigate topological invariants or symmetry groups that characterize optimal arrangements
+- Apply algebraic methods to solve systems of polynomial equations describing point configurations
+- Use randomized algorithms with provable approximation guarantees
+- Implement greedy construction heuristics that build configurations incrementally
+- Try specialized algorithms from discrete geometry or computational topology
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Efficiency Focus**: Prioritize computationally efficient approaches over exhaustive searches
+- **Mathematical Rigor**: Where possible, provide theoretical bounds or proofs of optimality
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 15 seconds maximum execution time (to avoid timeouts)
+- **Memory limit**: 512 MB (more restrictive to encourage efficient algorithms)
+
+# PROMPT-BLOCK-END
+    

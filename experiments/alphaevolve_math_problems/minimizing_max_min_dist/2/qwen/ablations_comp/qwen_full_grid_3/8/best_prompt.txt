@@ -1,0 +1,52 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in mathematical optimization and geometric analysis. Your task is to develop a novel approach for arranging exactly 16 points in 2D space to maximize the ratio of minimum to maximum distance between all point pairs. Consider multiple algorithmic paradigms including analytical geometric constructions, graph-theoretic methods, physics-based simulations, or advanced mathematical optimization techniques beyond traditional numerical approaches.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Alternative approaches to consider:
+  * Analytical geometric constructions (e.g., using known optimal configurations or symmetry principles)
+  * Graph-based methods (constructing graphs with specific properties and embedding them in 2D)
+  * Physics-inspired methods (particle systems with repulsive forces, energy minimization)
+  * Advanced optimization techniques (semidefinite programming, convex relaxation, or specialized geometric optimization)
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Innovation Focus**: Prefer mathematically principled approaches over purely empirical optimization
+- **Algorithmic Diversity**: Explore non-traditional methods such as:
+  * Spectral graph theory for point placement
+  * Energy minimization frameworks
+  * Convex optimization formulations
+  * Symmetry-based constructions
+  * Topological/geometric constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

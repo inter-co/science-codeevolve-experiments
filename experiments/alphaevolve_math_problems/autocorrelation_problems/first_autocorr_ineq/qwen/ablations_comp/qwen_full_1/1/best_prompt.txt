@@ -15,14 +15,13 @@ PROBLEM CONTEXT:
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
-**Alternative algorithmic approaches**:
-- **Evolutionary algorithms**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
 - **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
-- **Direct search methods**: `scipy.optimize` (differential evolution, basin-hopping, Nelder-Mead)
-- **Monte Carlo approaches**: Random sampling with adaptive strategies
-- **Hybrid methods**: Combine multiple techniques (e.g., local search after global optimization)
-
-**Signal processing focus**: Consider using `scipy.fft` for fast convolution computations, or implement custom convolution kernels with `numba` for performance
+- **Convex optimization**: `cvxpy` (disciplined convex programming), `scipy.optimize` (linprog, minimize)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation), `cython`, `numexpr` (fast array operations)
 
 PERFORMANCE METRICS:
 1. **inv_c1**: 1/C₁ value (PRIMARY OBJECTIVE - maximize this, higher means better upper bound)
@@ -32,23 +31,27 @@ PERFORMANCE METRICS:
 TECHNICAL REQUIREMENTS:
 - **Determinism**: Use fixed random seeds for reproducibility across runs
 - **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability)
-- **Multiple approaches**: Implement at least two distinct algorithmic strategies and compare their performance
-- **Memory efficiency**: Use FFT-based convolution for large sequences (O(n log n) vs O(n²)) when applicable
-- **Scalability**: Consider that optimal n may vary; explore different sequence lengths systematically
+- **Memory efficiency**: Use FFT-based convolution for large sequences (O(n log n) vs O(n²))
+- **Scalability**: Consider that optimal n may vary; explore different sequence lengths
 - **Numerical stability**: Be mindful of division by small sums; evaluator rejects sum(a) < 0.01
-- **Strategy diversity**: The solution should demonstrate different algorithmic paradigms (e.g., evolutionary vs. gradient-free vs. direct search)
 
 MATHEMATICAL INSIGHTS:
 - The autoconvolution b[k] = Σᵢ a[i] · a[k-i] is central to the problem
 - To maximize 1/C₁ = (sum(a))² / (2n · max(b)), we want to minimize the ratio max(b)/(sum(a))² while accounting for sequence length n
 - This means: maximize total mass sum(a) relative to peak convolution max(b), while keeping n small
 - The trade-off between sequence length n and height distribution is crucial
-- Alternative formulations: Consider reformulating as a constrained optimization problem where you directly parameterize the convolution structure, or use Lagrangian relaxation techniques
-- Exploration strategy: Rather than relying solely on LP-based direction finding, consider stochastic search methods or population-based approaches that naturally explore the solution space
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+- **Evolutionary Computation**: Implement genetic algorithms or particle swarm optimization to search the space of possible step functions
+- **Bayesian Optimization**: Use probabilistic models to intelligently sample promising regions of the parameter space
+- **Simulated Annealing**: Employ stochastic hill-climbing with temperature-based acceptance criteria
+- **Gradient-Free Methods**: Explore Nelder-Mead, COBYLA, or other derivative-free optimization techniques
+- **Deep Learning Approaches**: Consider neural network architectures that learn to generate optimal sequences directly
+- **Hybrid Methods**: Combine multiple optimization strategies (e.g., use evolutionary algorithms to find good starting points for local optimization)
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

@@ -1,0 +1,62 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore **at least one fundamentally different** algorithmic paradigm from standard numerical optimization approaches. While you may use mathematical rigor and computational tools, prioritize **innovative and unconventional methods** that diverge from typical gradient-based optimization techniques.
+
+Consider these distinctive approaches:
+- **Analytical geometric constructions**: Leverage mathematical symmetries and known optimal configurations (e.g., 16-point spherical codes, lattice arrangements, or configurations derived from Platonic solids)
+- **Physics-inspired simulation**: Implement molecular dynamics with repulsive forces, or simulate physical systems with known optimal equilibria
+- **Swarm intelligence**: Deploy particle swarm optimization, ant colony optimization, or other population-based metaheuristics
+- **Discrete differential geometry**: Apply curvature-based optimization or geometric flow methods
+- **Information-theoretic optimization**: Maximize entropy or mutual information subject to geometric constraints
+- **Game-theoretic approaches**: Formulate as Nash equilibrium seeking or potential game optimization
+- **Quantum-inspired methods**: Use quantum annealing or quantum-inspired evolutionary algorithms
+- **Topological/geometric methods**: Apply topological data analysis or manifold learning techniques to discover optimal configurations
+
+The key requirement is to demonstrate a methodology that **fundamentally differs from standard gradient-based optimization**. Choose one approach that emphasizes mathematical elegance, physical intuition, or computational innovation over conventional numerical techniques.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, ConvexHull, Voronoi diagrams)
+  * `scipy.spatial.distance` for efficient distance computations
+- **Advanced techniques**: 
+  * `scipy.spatial.SphericalVoronoi` for spherical arrangements
+  * `quaternion` package for rotation-based optimizations
+  * `numba` for performance-critical distance calculations
+  * `torch` or `tensorflow` for neural network approaches
+  * `networkx` for spectral graph theory applications
+- **Performance**: `joblib` for parallel execution where applicable
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Robustness**: Implement multiple initialization strategies and validate convergence
+- **Mathematical rigor**: Consider both theoretical bounds and practical optimization approaches
+- **Innovation focus**: Demonstrate at least one **non-standard** approach that fundamentally differs from gradient-based optimization. This could include analytical constructions, physics simulations, swarm intelligence, or information-theoretic methods.
+- **Methodological distinctiveness**: The chosen approach must represent a clear departure from conventional numerical optimization techniques
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Innovation emphasis**: The solution must showcase a fundamentally different algorithmic philosophy compared to standard optimization approaches
+
+# PROMPT-BLOCK-END
+    

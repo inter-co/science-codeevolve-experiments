@@ -1,0 +1,72 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic approaches including:
+- Mathematical programming formulations (convex optimization, semidefinite programming, or integer programming) - particularly consider reformulating as a conic optimization problem or using Lagrangian relaxation
+- Global optimization techniques (simulated annealing, genetic algorithms, particle swarm optimization, or basin-hopping) - focus on population-based methods with adaptive parameters
+- Deterministic geometric constructions (equiangular tight frames, spherical codes, lattice-based arrangements, or circle packing principles) - investigate theoretical bounds and exact constructions
+- Alternative paradigms such as gradient-based methods with specialized initialization, or even machine learning-inspired approaches like neural network-based optimization
+- Multi-start strategies with different initial configurations and varying degrees of randomness - emphasize systematic exploration of configuration space
+- Novel hybrid approaches combining discrete and continuous optimization - consider branch-and-bound or decomposition methods
+- Reformulation as energy minimization problems or potential field models - explore different potential functions (inverse distance, logarithmic, or exponential decay)
+- Topological optimization techniques using Voronoi diagrams or Delaunay triangulations - leverage topological constraints and geometric dualities
+- Spectral graph theory approaches for point placement - use Laplacian eigenvalues and eigenvectors for geometric optimization
+- Algebraic geometry approaches - consider polynomial optimization or sum-of-squares relaxations
+- Differential geometric methods - apply concepts from Riemannian optimization or manifold learning
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Implement at least two different approaches - one deterministic geometric construction and one stochastic optimization method
+- **Mathematical Rigor**: Use proven geometric principles or optimization theory where applicable
+- **Alternative Perspectives**: Consider whether the problem might benefit from reformulation as a convex optimization problem, or if there are known theoretical bounds that could inform the search strategy
+- **Innovative Formulations**: Explore unconventional mathematical formulations such as:
+  * Energy-based models where points repel each other according to inverse distance laws with different potential functions
+  * Graph-theoretic approaches using adjacency matrices and spectral properties with focus on graph Laplacians
+  * Topological methods leveraging simplicial complexes or persistent homology applied to point configurations
+  * Information-theoretic formulations using entropy maximization principles or mutual information
+  * Polynomial optimization approaches using sum-of-squares relaxations or moment relaxations
+  * Manifold optimization techniques treating the constraint set as a Riemannian manifold
+  * Multi-objective optimization considering both minimum and maximum distance simultaneously
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Exploration Strategy**: Prioritize exploring fundamentally different algorithmic paradigms rather than fine-tuning a single approach; consider whether mathematical insights might enable a more direct geometric solution
+- **Strategy Diversity**: Encourage approaches that may not converge quickly but offer different theoretical guarantees or exploration capabilities, such as:
+  * Probabilistic methods with provable convergence rates including Markov chain Monte Carlo or stochastic approximation
+  * Methods based on differential geometry or manifold learning with Riemannian optimization techniques
+  * Approaches that leverage symmetry groups or group theory including permutation invariance or orthogonal group actions
+  * Techniques that exploit the problem's inherent structure through algebraic geometry or convex optimization duality
+  * Hierarchical optimization methods that decompose the problem into subproblems
+  * Learning-based approaches that use reinforcement learning or evolutionary computation
+
+# PROMPT-BLOCK-END
+    

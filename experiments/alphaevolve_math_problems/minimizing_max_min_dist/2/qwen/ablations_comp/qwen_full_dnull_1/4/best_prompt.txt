@@ -1,0 +1,74 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs. Consider diverse algorithmic approaches that transcend traditional geometric optimization, including but not limited to:
+- Topological methods based on knot theory, braid groups, or topological invariants that encode point arrangements
+- Spectral graph theory approaches using Laplacian eigenvalues or graph spectra to optimize point distributions  
+- Information geometry approaches using Fisher information or statistical manifolds to define optimal point configurations
+- Quantum-inspired optimization using quantum annealing or variational quantum eigensolvers
+- Dynamical systems approaches with chaotic maps or strange attractors for point placement
+- Combinatorial optimization via integer programming or semidefinite programming relaxations
+- Approximation algorithms using discrepancy theory or derandomization techniques
+- Topological data analysis with persistent homology or Mapper algorithms
+- Nature-inspired approaches that go beyond typical swarm intelligence paradigms
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy: Explore diverse algorithmic families that fundamentally rethink the problem structure:
+  * Algebraic/geometric constructions using polynomial optimization or algebraic varieties to define optimal configurations
+  * Topological methods based on knot theory, braid groups, or topological invariants that naturally encode point interactions
+  * Spectral graph theory approaches using Laplacian eigenvalues or graph spectra to identify optimal point arrangements
+  * Quantum-inspired optimization using quantum annealing or variational quantum eigensolvers that exploit quantum superposition
+  * Dynamical systems approaches with chaotic maps or strange attractors that generate complex, non-repeating point distributions
+  * Information geometry approaches using Fisher information or statistical manifolds to define optimal probability distributions over point locations
+  * Combinatorial optimization via integer programming or semidefinite programming relaxations that model the entire distance matrix structure
+  * Approximation algorithms using discrepancy theory or derandomization techniques that minimize point clustering
+  * Topological data analysis with persistent homology or Mapper algorithms that capture the shape of point distributions
+  * Novel nature-inspired algorithms that transcend conventional swarm intelligence (e.g., bacterial foraging, ant colony optimization with memory effects)
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Consider multiple fundamentally different algorithmic approaches that break from standard optimization frameworks:
+  * Algebraic optimization methods using Groebner bases, resultant theory, or elimination techniques to solve systems of polynomial equations defining optimal point positions
+  * Topological optimization using simplicial complexes, cellular automata, or discrete Morse theory to construct point configurations with desired topological properties
+  * Spectral methods leveraging eigenvalue decompositions or graph signal processing to identify point arrangements that optimize graph-related objectives
+  * Quantum computing approaches with quantum approximate optimization algorithms or quantum machine learning that exploit quantum parallelism
+  * Non-standard swarm intelligence with memory effects, self-organization principles, or collective behavior models that exhibit emergent complexity
+  * Geometric flow optimization with curvature-driven evolution or level set methods that evolve point configurations through differential equations
+  * Information geometry using statistical manifolds, exponential families, or information-theoretic metrics to define optimal probability distributions over point locations
+  * Multi-objective optimization with novel scalarization techniques or evolutionary algorithms that handle the multi-modal nature of the objective landscape
+  * Dynamical systems with chaotic behavior, strange attractors, or bifurcation theory applications that generate complex, non-periodic point arrangements
+  * Combinatorial optimization through semidefinite programming, integer programming, or polyhedral methods that leverage the full combinatorial structure
+  * Approximation theory with discrepancy bounds, Fourier analysis, or harmonic analysis approaches that minimize uniformity defects
+  * Topological data analysis with persistent homology, Vietoris-Rips complexes, or Mapper networks that extract topological features from point clouds
+  * Novel nature-inspired algorithms that transcend conventional swarm intelligence paradigms by incorporating memory, learning, or hierarchical organization
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

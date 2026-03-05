@@ -1,0 +1,71 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Prioritize mathematically rigorous approaches that leverage diverse algorithmic paradigms beyond traditional geometric constructions. Consider:
+- Combinatorial optimization frameworks using novel graph-theoretic formulations or hypergraph approaches
+- Probabilistic methods with carefully designed stochastic processes that converge to optimal configurations
+- Machine learning-inspired approaches using neural networks or reinforcement learning to discover point arrangements
+- Topological data analysis techniques applied to point cloud structures to identify optimal geometric patterns
+- Quantum-inspired algorithms or quantum annealing approaches to solve the discrete optimization problem
+- Information-theoretic optimization using entropy maximization or mutual information principles
+- Functional analytic approaches treating point configurations as elements in Banach or Hilbert spaces
+- Multi-objective evolutionary strategies that optimize simultaneously for multiple geometric criteria
+- Novel numerical methods such as homotopy continuation or continuation methods for geometric constraints
+- Algebraic topology approaches using persistent homology or simplicial complexes to understand point configurations
+- Category-theoretic formulations that model point arrangements as categorical limits or colimits
+- Causal inference or Bayesian optimization frameworks applied to high-dimensional geometric search spaces
+- Combinatorial game theory approaches treating point placement as strategic moves in a geometric game
+- Approximation algorithms with provable performance guarantees for NP-hard geometric optimization
+- Spectral clustering or manifold learning techniques to discover intrinsic geometric structures
+- Discrete optimization using integer programming or constraint satisfaction methods
+- Stochastic gradient-based approaches with custom loss functions that penalize close-point violations
+- Ensemble methods combining multiple heuristic strategies with adaptive weighting
+- Swarm intelligence approaches like particle swarm optimization or ant colony optimization
+- Information-theoretic approaches using mutual information or differential entropy for point distribution
+- Geometric flow methods that iteratively deform point sets toward optimal configurations
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+4. **geometric_structure_score**: Measures how well the arrangement exhibits known optimal symmetries or mathematical structures
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Mathematical rigor**: Prioritize solutions grounded in discrete mathematics, algebraic number theory, or combinatorial geometry rather than heuristic randomization or continuous optimization
+- **Discrete geometric insight**: Leverage exact constructions using regular polytopes, finite fields, or algebraic number rings
+- **Scalability consideration**: Solutions should demonstrate clear mathematical pathways for extension to other point counts or dimensions through systematic generalization
+- **Innovation emphasis**: Develop novel mathematical constructions that transcend conventional numerical approaches and exploit structural properties
+- **Multi-method integration**: Implement hybrid strategies that combine exact mathematical reasoning with combinatorial enumeration or algebraic computations
+- **Validation framework**: Include mathematical proofs or computational verifications that establish the optimality or near-optimality of your construction through rigorous criteria
+- **Alternative algorithmic paradigms**: Explore non-traditional approaches such as stochastic optimization, machine learning, or topological methods
+- **Computational exploration**: Embrace diverse computational strategies including discrete optimization, evolutionary algorithms, or geometric flows
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Quality focus**: Prioritize mathematical correctness and theoretical soundness over pure computational speed
+
+# PROMPT-BLOCK-END
+    

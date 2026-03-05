@@ -4,485 +4,316 @@
 # EVOLVE-BLOCK-START
 import numpy as np
 from scipy.optimize import minimize
-import math
+from scipy.spatial.distance import cdist
 import random
+from typing import Tuple
+import math
+from itertools import combinations
+import time
 
-# Set seeds for reproducibility
-random.seed(42)
-np.random.seed(42)
 
 def circle_packing21() -> np.ndarray:
     """
     Places 21 non-overlapping circles inside a rectangle of perimeter 4 in order to maximize the sum of their radii.
-    Uses a hybrid approach combining geometric initialization with advanced multi-stage optimization.
+    Uses a hybrid approach combining geometric initialization and mathematical optimization.
     
     Returns:
         circles: np.array of shape (21,3), where the i-th row (x,y,r) stores the (x,y) coordinates of the i-th circle of radius r.
     """
-    # Test multiple aspect ratios to find optimal configuration
-    best_ratio = 1.0
-    best_sum = 0.0
+    
+    # Rectangle dimensions (perimeter = 4, so width + height = 2)
+    # Try the most successful ratios from inspiration programs
+    best_sum = 0
     best_circles = None
     
-    # Focus on promising aspect ratios based on previous analysis and inspiration programs
-    ratios = [0.95, 1.0, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.65, 1.7, 1.75, 1.8, 1.85, 1.9, 1.95, 2.0]
+    # Focus on ratios that have shown success in circle packing literature
+    # Add some additional ratios around the most successful ones
+    ratios = [0.75, 0.8, 0.85, 0.9, 0.95, 1.0, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3]
     
-    # Add extra precision around promising values from previous experience
-    precise_ratios = [1.18, 1.22, 1.28, 1.32, 1.38, 1.42, 1.48, 1.52, 1.58, 1.62]
-    ratios = ratios + precise_ratios
+    # Track time to ensure we stay under limits
+    start_time = time.time()
     
     for ratio in ratios:
+        if time.time() - start_time > 55:  # Leave buffer for final processing
+            break
+            
         width = 2 * ratio / (1 + ratio)
         height = 2 / (1 + ratio)
         
-        # Initialize with better pattern that considers actual packing efficiency
-        circles = initialize_improved_pattern(21, width, height)
+        # Try both initialization strategies and compare results
+        # Strategy 1: Systematic placement
+        circles1 = initialize_systematic_placement(width, height, 21)
+        optimized_circles1 = optimize_mathematical_programming(circles1, width, height)
+        current_sum1 = np.sum(optimized_circles1[:, 2])
         
-        # Multi-stage optimization with increasing precision
-        optimized_circles = optimize_circles_multi_stage(circles, width, height)
+        # Strategy 2: Hexagonal pattern
+        circles2 = initialize_hexagonal_pattern(width, height, 21)
+        optimized_circles2 = optimize_mathematical_programming(circles2, width, height)
+        current_sum2 = np.sum(optimized_circles2[:, 2])
         
-        current_sum = np.sum(optimized_circles[:, 2])
+        # Select the better of the two strategies
+        if current_sum1 > current_sum2:
+            current_sum = current_sum1
+            optimized_circles = optimized_circles1
+        else:
+            current_sum = current_sum2
+            optimized_circles = optimized_circles2
+            
         if current_sum > best_sum:
             best_sum = current_sum
             best_circles = optimized_circles.copy()
-            best_ratio = ratio
     
-    # Final refinement with the best configuration
-    if best_circles is not None:
-        # Apply final optimization with extreme precision
-        final_circles = optimize_with_extreme_precision(best_circles, best_ratio)
-        return final_circles
-    else:
-        # Fallback to standard square configuration
-        width = 1.0
-        height = 1.0
-        circles = initialize_improved_pattern(21, width, height)
-        return optimize_with_extreme_precision(circles, 1.0)
+    # If nothing worked, fall back to a decent initialization
+    if best_circles is None:
+        width, height = 1.0, 1.0
+        circles = initialize_systematic_placement(width, height, 21)
+        best_circles = optimize_mathematical_programming(circles, width, height)
+    
+    return best_circles
 
 
-def initialize_improved_pattern(n, width, height):
-    """Initialize circles with better pattern that considers actual packing efficiency"""
+def initialize_systematic_placement(width: float, height: float, n: int) -> np.ndarray:
+    """Initialize circle positions using a systematic approach based on geometric packing principles."""
     circles = np.zeros((n, 3))
     
-    # Use a 5x4 grid pattern that's more suitable for 21 circles
+    # For 21 circles, arrange in approximately 4x5 grid with some spacing
+    rows = 4
+    cols = 5
+    
+    # Calculate grid spacing
+    cell_width = width / cols
+    cell_height = height / rows
+    
+    # Place circles in grid with slight offset to allow for optimization
+    for i in range(rows):
+        for j in range(cols):
+            if len(circles[circles[:, 2] > 0]) >= n:
+                break
+            # Position in cell
+            x = (j + 0.5) * cell_width
+            y = (i + 0.5) * cell_height
+            
+            # Add small random offset to prevent perfect alignment
+            x += random.uniform(-cell_width * 0.1, cell_width * 0.1)
+            y += random.uniform(-cell_height * 0.1, cell_height * 0.1)
+            
+            # Keep within bounds
+            x = max(cell_width * 0.2, min(width - cell_width * 0.2, x))
+            y = max(cell_height * 0.2, min(height - cell_height * 0.2, y))
+            
+            # Set initial radius based on available space
+            max_radius = min(x, width - x, y, height - y) * 0.4
+            radius = max(0.01, max_radius * random.uniform(0.6, 0.9))
+            
+            # Find next empty slot
+            idx = len(circles[circles[:, 2] > 0])
+            if idx < n:
+                circles[idx] = [x, y, radius]
+    
+    # Fill remaining slots with random placements
+    for i in range(len(circles[circles[:, 2] > 0]), n):
+        x = random.uniform(0.1, width - 0.1)
+        y = random.uniform(0.1, height - 0.1)
+        radius = random.uniform(0.01, min(width, height) * 0.1)
+        circles[i] = [x, y, radius]
+    
+    return circles
+
+
+def initialize_hexagonal_pattern(width: float, height: float, n: int) -> np.ndarray:
+    """Initialize circle positions using a hexagonal lattice pattern."""
+    circles = np.zeros((n, 3))
+    
+    # For 21 circles, arrange in roughly 5 rows x 4 columns with offset rows
     rows = 5
     cols = 4
     
-    # Calculate spacing based on area
-    area_per_circle = (width * height) / n
-    max_radius = np.sqrt(area_per_circle / np.pi) * 0.85  # Leave good margin
+    # Calculate spacing based on available space
+    spacing_x = width / (cols + 1)
+    spacing_y = height / (rows + 1)
     
-    # Hexagonal packing approach with better adjustment
-    spacing_x = 2 * max_radius
-    spacing_y = max_radius * np.sqrt(3)
+    # Adjust for hexagonal packing efficiency
+    spacing_y = spacing_x * np.sqrt(3) / 2
     
-    # Adjust to fit within bounds properly
-    actual_cols = max(1, int(width / spacing_x))
-    actual_rows = max(1, int(height / spacing_y))
-    
-    # If we can't fit the desired number, adjust spacing
-    if actual_cols * actual_rows < n:
-        spacing_x = width / actual_cols
-        spacing_y = height / actual_rows
-        max_radius = min(spacing_x, spacing_y) / 2 * 0.95
-    
-    # Fill with circles in hexagonal pattern
+    # Place circles in hexagonal pattern
     idx = 0
-    for row in range(actual_rows):
-        for col in range(actual_cols):
+    for row in range(rows):
+        for col in range(cols):
             if idx >= n:
                 break
                 
-            # Offset odd rows for hexagonal packing
-            x_offset = (row % 2) * spacing_x / 2
-            x = x_offset + col * spacing_x + max_radius
-            y = row * spacing_y + max_radius
+            # Offset every other row for hexagonal packing
+            offset = spacing_x * 0.5 if row % 2 == 1 else 0.0
             
-            # Ensure within bounds
-            x = np.clip(x, max_radius, width - max_radius)
-            y = np.clip(y, max_radius, height - max_radius)
+            x = (col + 1) * spacing_x + offset
+            y = (row + 1) * spacing_y
             
-            if x - max_radius >= 0 and x + max_radius <= width and \
-               y - max_radius >= 0 and y + max_radius <= height:
-                circles[idx] = [x, y, max_radius]
-                idx += 1
-                
+            # Ensure within bounds with safety margin
+            safe_margin = spacing_x * 0.2
+            x = max(safe_margin, min(width - safe_margin, x))
+            y = max(safe_margin, min(height - safe_margin, y))
+            
+            # Reasonable initial radius
+            r = min(spacing_x, spacing_y) * 0.4
+            
+            circles[idx] = [x, y, r]
+            idx += 1
+            
         if idx >= n:
             break
     
-    # Fill remaining slots with more intelligent random placement
-    if idx < n:
-        for i in range(idx, n):
-            # Try multiple random attempts with better rejection criteria
-            attempts = 0
-            while attempts < 200:
-                # Try to place in a way that maximizes utilization
-                x = np.random.uniform(max_radius, width - max_radius)
-                y = np.random.uniform(max_radius, height - max_radius)
-                
-                # Check if reasonably far from existing circles
-                valid = True
-                for j in range(i):
-                    existing_x, existing_y, existing_r = circles[j]
-                    dist = np.sqrt((x - existing_x)**2 + (y - existing_y)**2)
-                    if dist < (existing_r + max_radius) * 0.7:  # Stricter minimum distance
-                        valid = False
-                        break
-                        
-                if valid:
-                    circles[i] = [x, y, max_radius]
-                    break
-                attempts += 1
-            
-            # Last resort - place randomly with basic bounds
-            if attempts >= 200:
-                circles[i] = [
-                    np.random.uniform(max_radius, width - max_radius),
-                    np.random.uniform(max_radius, height - max_radius),
-                    max_radius
-                ]
+    # Fill remaining circles strategically
+    np.random.seed(42)
+    for i in range(idx, n):
+        # Better random positioning
+        x = random.uniform(spacing_x * 0.5, width - spacing_x * 0.5)
+        y = random.uniform(spacing_y * 0.5, height - spacing_y * 0.5)
+        r = random.uniform(0.01, min(spacing_x, spacing_y) * 0.3)
+        circles[i] = [x, y, r]
     
     return circles
 
 
-def optimize_circles_multi_stage(initial_circles, width, height):
-    """Multi-stage optimization for maximum convergence"""
-    circles = initial_circles.copy()
+def initialize_grid_pattern(width: float, height: float, n: int) -> np.ndarray:
+    """Initialize circle positions using a regular grid pattern."""
+    circles = np.zeros((n, 3))
     
-    # Stage 1: Coarse optimization with relaxed tolerances
-    circles = optimize_with_slsqp(circles, width, height, maxiter=100, ftol=1e-2)
+    # Use a 4x5 grid for 21 circles (4 rows, 5 columns)
+    rows = 4
+    cols = 5
     
-    # Stage 2: Medium precision optimization  
-    circles = optimize_with_slsqp(circles, width, height, maxiter=200, ftol=1e-4)
+    # Calculate spacing
+    spacing_x = width / (cols + 1)
+    spacing_y = height / (rows + 1)
     
-    # Stage 3: Fine optimization with tighter tolerances
-    circles = optimize_with_slsqp(circles, width, height, maxiter=300, ftol=1e-6)
+    # Calculate max radius based on spacing
+    max_radius = min(spacing_x, spacing_y) * 0.3
     
-    # Stage 4: Very fine optimization with even tighter tolerances
-    circles = optimize_with_slsqp(circles, width, height, maxiter=400, ftol=1e-8)
+    idx = 0
+    for i in range(rows):
+        for j in range(cols):
+            if idx >= n:
+                break
+            x = (j + 1) * spacing_x
+            y = (i + 1) * spacing_y
+            
+            # Ensure within bounds
+            safe_margin = max_radius * 1.2
+            x = max(safe_margin, min(width - safe_margin, x))
+            y = max(safe_margin, min(height - safe_margin, y))
+            
+            circles[idx] = [x, y, max_radius]
+            idx += 1
+            
+        if idx >= n:
+            break
     
-    # Stage 5: Extremely fine optimization with tightest tolerances
-    circles = optimize_with_slsqp(circles, width, height, maxiter=500, ftol=1e-10)
-    
-    # Stage 6: Aggressive overlap resolution with many passes
-    circles = aggressive_overlap_resolution(circles, width, height)
-    
-    # Stage 7: Enhanced local radius enhancement
-    circles = enhanced_local_radius_enhancement(circles, width, height)
-    
-    # Stage 8: Final boundary and overlap validation with ultra-strict checks
-    circles = ultra_strict_validation(circles, width, height)
+    # Fill remaining circles with random distribution
+    for i in range(idx, n):
+        x = random.uniform(max_radius * 1.2, width - max_radius * 1.2)
+        y = random.uniform(max_radius * 1.2, height - max_radius * 1.2)
+        radius = random.uniform(0.01, max_radius * 0.5)
+        circles[i] = [x, y, radius]
     
     return circles
 
 
-def aggressive_overlap_resolution(circles, width, height):
-    """Very aggressive overlap resolution with multiple passes"""
-    updated_circles = circles.copy()
-    
-    # Multiple rounds of aggressive overlap resolution with more iterations
-    for round_num in range(40):  # Even more rounds for better convergence
-        improved = False
-        # Check all pairs for overlaps
-        for i in range(len(updated_circles)):
-            for j in range(i+1, len(updated_circles)):
-                x1, y1, r1 = updated_circles[i]
-                x2, y2, r2 = updated_circles[j]
-                
-                dist = np.sqrt((x1 - x2)**2 + (y1 - y2)**2)
-                if dist < (r1 + r2):
-                    improved = True
-                    # Separate circles more aggressively with even higher factor
-                    if dist > 1e-10:
-                        dx = (x2 - x1) / dist
-                        dy = (y2 - y1) / dist
-                        overlap = (r1 + r2) - dist
-                        separation = overlap * 0.99  # Even more aggressive separation
-                        
-                        updated_circles[i][0] -= dx * separation
-                        updated_circles[i][1] -= dy * separation
-                        updated_circles[j][0] += dx * separation
-                        updated_circles[j][1] += dy * separation
-                    
-                    # Keep within bounds
-                    x1, y1, r1 = updated_circles[i]
-                    x2, y2, r2 = updated_circles[j]
-                    updated_circles[i][0] = np.clip(x1, r1, width - r1)
-                    updated_circles[i][1] = np.clip(y1, r1, height - r1)
-                    updated_circles[j][0] = np.clip(x2, r2, width - r2)
-                    updated_circles[j][1] = np.clip(y2, r2, height - r2)
-        
-        if not improved:
-            break
-    
-    return updated_circles
-
-
-def enhanced_local_radius_enhancement(circles, width, height):
-    """Enhanced local radius enhancement with more thorough searching"""
-    updated_circles = circles.copy()
-    
-    # Multiple passes of local enhancement with more iterations
-    for pass_num in range(70):  # Even more passes for better optimization
-        improved = False
-        # Try to increase each radius systematically
-        for i in range(len(updated_circles)):
-            x, y, r = updated_circles[i]
-            
-            # Calculate maximum possible radius for this circle
-            max_radius = min(
-                x, width - x,
-                y, height - y
-            )
-            
-            # Try to increase radius with even more aggressive steps
-            new_r = min(r * 1.15, max_radius)  # Even larger step size
-            
-            # Check if this radius works with neighbors with stricter criteria
-            valid = True
-            for j in range(len(updated_circles)):
-                if i != j:
-                    x1, y1, r1 = updated_circles[i]
-                    x2, y2, r2 = updated_circles[j]
-                    dist = np.sqrt((x1 - x2)**2 + (y1 - y2)**2)
-                    # Use stricter minimum distance to avoid near-overlaps
-                    if dist < (new_r + r2) * 0.985:  # Even stricter
-                        valid = False
-                        break
-            
-            if valid and new_r > r:
-                updated_circles[i][2] = new_r
-                improved = True
-        
-        if not improved:
-            break
-    
-    return updated_circles
-
-
-def ultra_strict_validation(circles, width, height):
-    """Ultra-strict final validation and correction"""
-    updated_circles = circles.copy()
-    
-    # Ensure all circles are within bounds
-    for i in range(len(updated_circles)):
-        x, y, r = updated_circles[i]
-        updated_circles[i][0] = np.clip(x, r, width - r)
-        updated_circles[i][1] = np.clip(y, r, height - r)
-    
-    # Final overlap check and correction with ultra-strict tolerance
-    for i in range(len(updated_circles)):
-        for j in range(i+1, len(updated_circles)):
-            x1, y1, r1 = updated_circles[i]
-            x2, y2, r2 = updated_circles[j]
-            
-            dist = np.sqrt((x1 - x2)**2 + (y1 - y2)**2)
-            if dist < (r1 + r2) * 0.9998:  # Slightly looser tolerance to allow for more aggressive adjustments
-                # Push apart more carefully
-                if dist > 1e-10:
-                    dx = (x2 - x1) / dist
-                    dy = (y2 - y1) / dist
-                    overlap = (r1 + r2) - dist
-                    separation = overlap * 0.92  # Even more aggressive
-                    
-                    updated_circles[i][0] -= dx * separation
-                    updated_circles[i][1] -= dy * separation
-                    updated_circles[j][0] += dx * separation
-                    updated_circles[j][1] += dy * separation
-                
-                # Ensure within bounds after adjustment
-                x1, y1, r1 = updated_circles[i]
-                x2, y2, r2 = updated_circles[j]
-                updated_circles[i][0] = np.clip(x1, r1, width - r1)
-                updated_circles[i][1] = np.clip(y1, r1, height - r1)
-                updated_circles[j][0] = np.clip(x2, r2, width - r2)
-                updated_circles[j][1] = np.clip(y2, r2, height - r2)
-    
-    return updated_circles
-
-
-def optimize_with_slsqp(initial_circles, width, height, maxiter=500, ftol=1e-8):
-    """SLSQP optimization with enhanced constraint handling"""
+def optimize_mathematical_programming(initial_circles: np.ndarray, width: float, height: float) -> np.ndarray:
+    """
+    Optimize using a mathematical programming approach with explicit constraints.
+    """
     n = len(initial_circles)
     
-    # Flatten initial configuration
-    initial_params = []
+    # Define parameter bounds: [x1, y1, r1, x2, y2, r2, ..., x21, y21, r21]
+    bounds = []
     for i in range(n):
-        initial_params.extend([initial_circles[i][0], initial_circles[i][1], initial_circles[i][2]])
+        # x bounds - more conservative to prevent numerical issues
+        bounds.append((initial_circles[i, 2] * 1.1, width - initial_circles[i, 2] * 1.1))
+        # y bounds  
+        bounds.append((initial_circles[i, 2] * 1.1, height - initial_circles[i, 2] * 1.1))
+        # r bounds - more conservative
+        bounds.append((0.001, min(width, height) * 0.4))
     
+    # Flatten initial solution
+    initial_solution = initial_circles.flatten()
+    
+    # Define the optimization objective
     def objective(params):
-        # Reconstruct circles from params
-        circles = []
-        for i in range(n):
-            x = params[3*i]
-            y = params[3*i+1]
-            r = params[3*i+2]
-            circles.append([x, y, r])
-        
-        # Sum of radii (negative for maximization)
-        return -sum(circle[2] for circle in circles)
+        # Reshape to circles array
+        circles = params.reshape(n, 3)
+        # Maximize sum of radii (minimize negative sum)
+        return -np.sum(circles[:, 2])
     
-    def constraint_func(params):
-        # Constraint function for optimization
-        circles = []
-        for i in range(n):
-            x = params[3*i]
-            y = params[3*i+1]
-            r = params[3*i+2]
-            circles.append([x, y, r])
+    # Define constraints with improved numerical stability
+    def constraint_function(params):
+        circles = params.reshape(n, 3)
         
         constraints = []
         
-        # Boundary constraints (all should be >= 0)
+        # Boundary constraints: each circle must be fully inside rectangle
         for i in range(n):
             x, y, r = circles[i]
-            constraints.append(x - r)  # Left boundary
-            constraints.append(y - r)  # Bottom boundary
-            constraints.append(width - x - r)  # Right boundary
-            constraints.append(height - y - r)  # Top boundary
+            constraints.extend([
+                x - r,           # Left boundary
+                width - x - r,   # Right boundary  
+                y - r,           # Bottom boundary
+                height - y - r   # Top boundary
+            ])
         
-        # Overlap constraints (distance >= sum of radii)
-        for i in range(n):
-            for j in range(i+1, n):
-                x1, y1, r1 = circles[i]
-                x2, y2, r2 = circles[j]
-                distance = np.sqrt((x1-x2)**2 + (y1-y2)**2)
-                constraints.append(distance - (r1 + r2))
+        # Non-overlap constraints: distance >= sum of radii
+        # Use more numerically stable approach
+        for i, j in combinations(range(n), 2):
+            x1, y1, r1 = circles[i]
+            x2, y2, r2 = circles[j]
+            # Use squared distance to avoid sqrt computation when possible
+            dx = x1 - x2
+            dy = y1 - y2
+            distance_squared = dx*dx + dy*dy
+            # Add small epsilon to prevent numerical issues
+            distance = math.sqrt(distance_squared + 1e-12)
+            # Constraint: distance >= r1 + r2 (or equivalently: distance - r1 - r2 >= 0)
+            constraints.append(distance - r1 - r2)
         
         return np.array(constraints)
     
-    # Define bounds
-    bounds = []
-    for i in range(n):
-        bounds.append((0.001, width - 0.001))      # x coordinates
-        bounds.append((0.001, height - 0.001))    # y coordinates
-        bounds.append((0.001, min(width, height) / 2 - 0.001))  # radii
+    # Create constraint dictionary
+    constraints = {'type': 'ineq', 'fun': constraint_function}
     
-    # Define constraints
-    cons = {
-        'type': 'ineq',
-        'fun': constraint_func
-    }
-    
+    # Run optimization with better parameters and robustness
     try:
-        # Perform optimization with more aggressive settings for better convergence
-        result = minimize(
-            objective,
-            initial_params,
-            method='SLSQP',
-            bounds=bounds,
-            constraints=cons,
-            options={'maxiter': maxiter, 'ftol': ftol, 'gtol': 1e-10, 'disp': False}
-        )
+        # Try multiple optimization methods for better results
+        methods = ['SLSQP', 'trust-constr']
+        best_result = None
+        best_objective = float('inf')
         
-        if result.success:
-            # Reconstruct final circles
-            circles = []
-            for i in range(n):
-                x = result.x[3*i]
-                y = result.x[3*i+1]
-                r = result.x[3*i+2]
-                circles.append([x, y, r])
-            return np.array(circles)
-        else:
-            return initial_circles
-            
-    except Exception:
-        return initial_circles
-
-
-def optimize_with_extreme_precision(initial_circles, ratio):
-    """Extreme precision optimization to push final results"""
-    n = len(initial_circles)
-    
-    # Try different rectangle dimensions to improve results
-    width = 2 * ratio / (1 + ratio)
-    height = 2 / (1 + ratio)
-    
-    # Flatten initial configuration
-    initial_params = []
-    for i in range(n):
-        initial_params.extend([initial_circles[i][0], initial_circles[i][1], initial_circles[i][2]])
-    
-    def objective(params):
-        # Reconstruct circles from params
-        circles = []
-        for i in range(n):
-            x = params[3*i]
-            y = params[3*i+1]
-            r = params[3*i+2]
-            circles.append([x, y, r])
+        for method in methods:
+            try:
+                result = minimize(
+                    objective,
+                    initial_solution,
+                    method=method,
+                    bounds=bounds,
+                    constraints=constraints,
+                    options={'maxiter': 500, 'ftol': 1e-12, 'gtol': 1e-12, 'disp': False}
+                )
+                
+                if result.success and result.fun < best_objective:
+                    best_objective = result.fun
+                    best_result = result
+            except Exception:
+                continue
         
-        # Sum of radii (negative for maximization)
-        return -sum(circle[2] for circle in circles)
+        if best_result is not None and best_result.success:
+            optimized_circles = best_result.x.reshape(n, 3)
+            # Ensure all radii are positive and within bounds
+            optimized_circles[:, 2] = np.maximum(optimized_circles[:, 2], 0.001)
+            optimized_circles[:, 2] = np.minimum(optimized_circles[:, 2], min(width, height) * 0.4)
+            return optimized_circles
+    except Exception as e:
+        # Fallback to original if optimization fails
+        pass
     
-    def constraint_func(params):
-        # Constraint function for optimization
-        circles = []
-        for i in range(n):
-            x = params[3*i]
-            y = params[3*i+1]
-            r = params[3*i+2]
-            circles.append([x, y, r])
-        
-        constraints = []
-        
-        # Boundary constraints (all should be >= 0)
-        for i in range(n):
-            x, y, r = circles[i]
-            constraints.append(x - r)  # Left boundary
-            constraints.append(y - r)  # Bottom boundary
-            constraints.append(width - x - r)  # Right boundary
-            constraints.append(height - y - r)  # Top boundary
-        
-        # Overlap constraints (distance >= sum of radii)
-        for i in range(n):
-            for j in range(i+1, n):
-                x1, y1, r1 = circles[i]
-                x2, y2, r2 = circles[j]
-                distance = np.sqrt((x1-x2)**2 + (y1-y2)**2)
-                constraints.append(distance - (r1 + r2))
-        
-        return np.array(constraints)
-    
-    # Define bounds
-    bounds = []
-    for i in range(n):
-        bounds.append((0.001, width - 0.001))      # x coordinates
-        bounds.append((0.001, height - 0.001))    # y coordinates
-        bounds.append((0.001, min(width, height) / 2 - 0.001))  # radii
-    
-    # Define constraints
-    cons = {
-        'type': 'ineq',
-        'fun': constraint_func
-    }
-    
-    try:
-        # Perform optimization with extreme precision
-        result = minimize(
-            objective,
-            initial_params,
-            method='SLSQP',
-            bounds=bounds,
-            constraints=cons,
-            options={'maxiter': 1000, 'ftol': 1e-14, 'gtol': 1e-14, 'disp': False}
-        )
-        
-        if result.success:
-            # Reconstruct final circles
-            circles = []
-            for i in range(n):
-                x = result.x[3*i]
-                y = result.x[3*i+1]
-                r = result.x[3*i+2]
-                circles.append([x, y, r])
-            return np.array(circles)
-        else:
-            return initial_circles
-            
-    except Exception:
-        return initial_circles
+    return initial_circles
 
 
 # EVOLVE-BLOCK-END

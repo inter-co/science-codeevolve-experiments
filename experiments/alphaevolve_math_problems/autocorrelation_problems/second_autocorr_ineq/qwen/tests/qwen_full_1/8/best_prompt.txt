@@ -1,0 +1,88 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your approach should combine mathematical rigor with advanced optimization techniques to discover optimal step function configurations.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+
+**Algorithmic Strategy**: Consider leveraging mathematical properties of the autoconvolution operator through diverse approaches, such as:
+- **Analytical mathematical frameworks**: Derive exact solutions using variational calculus, Lagrangian optimization, or differential equations rather than numerical approximation
+- **Moment problem formulations**: Reformulate as finding moments that maximize C₂ subject to constraints, potentially using orthogonal polynomial bases or Chebyshev expansions
+- **Measure-theoretic approaches**: Treat the step function as a discrete measure and work with its convolution using tools from measure theory and potential theory
+- **Combinatorial optimization**: Discretize the problem into combinatorial structures and apply integer programming, dynamic programming, or graph-based optimization techniques
+- **Deep learning approaches**: Use neural networks to learn optimal step function patterns, possibly with architectures designed for function approximation or reinforcement learning
+- **Spectral analysis**: Explore alternative spectral formulations beyond FFT, such as using different basis functions (Fourier, wavelets, spherical harmonics) or eigenvalue decompositions
+- **Information-theoretic formulations**: Interpret C₂ in terms of entropy, mutual information, or information divergence to find optimal step configurations
+- **Game-theoretic interpretations**: Frame the optimization as a strategic game where different norm components compete or cooperate
+- **Topological optimization**: Use topological methods to characterize the space of admissible step functions and identify optimal structures
+- **Stochastic optimization**: Employ Monte Carlo methods, stochastic gradient descent with variance reduction, or probabilistic optimization techniques
+- **Dynamical systems perspective**: Model the evolution of step functions under optimization flows or gradient dynamics
+- **Convex optimization frameworks**: Explore disciplined convex programming with novel formulations using CVXPY or similar tools
+- **Semidefinite programming**: Formulate as semidefinite programs that might capture the structure of the optimization problem more accurately
+- **Discrete variational methods**: Use discrete versions of variational principles or finite element methods for optimization
+- **Multi-objective optimization**: Consider optimizing multiple aspects of the convolution simultaneously rather than just maximizing C₂
+- **Symmetry-breaking approaches**: Investigate how breaking or preserving symmetries affects the optimal solution structure
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Mathematical rigor**: Implement solutions that respect the underlying mathematical structure of the problem
+- **Optimization sophistication**: Employ advanced optimization strategies including gradient-based methods, convex optimization, or analytical approaches rather than purely heuristic methods
+- **Alternative methodologies**: Consider implementing multiple distinct approaches (analytical, gradient-based, spectral, etc.) and compare their effectiveness
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+
+**Advanced Mathematical Approaches**:
+- Consider constructing step functions based on orthogonal polynomial expansions (Chebyshev, Legendre)
+- Explore connections to Fourier analysis and frequency domain optimization
+- Apply Lagrangian optimization with constraints on non-negativity and normalization
+- Investigate whether optimal solutions exhibit specific symmetry or periodic properties
+- Utilize duality theory in optimization to derive necessary conditions for optimality
+- Employ variational calculus to find extremal step functions
+- Apply convex optimization tools like CVXPY or SCS for disciplined convex programming
+- Explore gradient-free methods such as Nelder-Mead or simulated annealing for global optimization
+- Consider reformulating the problem as a moment problem or using measure theory
+- Investigate whether the optimal solution has a closed-form expression or special function representation
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,62 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider both mathematical rigor and computational efficiency. Explore diverse algorithmic strategies that go beyond conventional optimization frameworks:
+- **Algebraic Number Theory Approaches**: Construct points using roots of unity, algebraic integers, or cyclotomic fields to achieve optimal geometric arrangements
+- **Combinatorial Design Theory**: Apply concepts from block designs, Hadamard matrices, or orthogonal arrays to generate point sets with desirable distance properties
+- **Finite Geometry Constructions**: Utilize structures from projective spaces, affine geometries, or Galois fields to create point configurations with uniform spacing
+- **Group Theory and Symmetry**: Leverage rotation groups, permutation representations, or Coxeter groups to systematically construct symmetric point arrangements
+- **Analytical Geometry Methods**: Employ direct geometric constructions using conic sections, ruled surfaces, or implicit equations to define point positions
+- **Deterministic Chaos and Dynamical Systems**: Use iterated function systems, strange attractors, or chaotic maps to generate point distributions with optimal spacing properties
+- **Topological and Knot-Theoretic Approaches**: Model point configurations as embeddings in 3D space, considering linking numbers or knot invariants for optimization criteria
+- **Information-Theoretic and Coding Theory**: Frame the problem as constructing error-correcting codes or spherical codes with maximum minimum distance
+Investigate whether deterministic constructions based on algebraic integers, regular polytopes, or finite field geometries might outperform gradient-based methods in this specific case, or if unconventional paradigms like analog computing, memristive systems, or bio-inspired algorithms could yield superior results.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider theoretical bounds and known optimal configurations for 14 points in 3D space. Explore connections to spherical codes, Tammes problem solutions, and discrete geometry.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic diversity**: Consider multiple approaches including but not limited to: 
+  * Discrete mathematical constructions using finite geometries, algebraic number fields, or combinatorial designs
+  * Topological data analysis or simplicial complex methods for point distribution
+  * Quantum-inspired optimization algorithms or quantum annealing approaches
+  * Neural network architectures trained for point configuration generation
+  * Multi-scale geometric construction using fractals or hierarchical tessellations
+  * Information-theoretic approaches framing the problem as entropy maximization
+  * Symmetry-based construction using Coxeter groups or permutation groups
+  * Graph-theoretic formulations as embedding or partitioning problems
+  * Novel computational paradigms such as analog computing, memristive systems, or biomimetic algorithms
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy diversity**: Prefer solutions that demonstrate novel algorithmic thinking over merely improving upon existing approaches
+
+# PROMPT-BLOCK-END
+    

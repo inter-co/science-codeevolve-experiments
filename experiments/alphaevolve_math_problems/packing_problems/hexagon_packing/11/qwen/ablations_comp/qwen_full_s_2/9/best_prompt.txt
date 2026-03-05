@@ -1,0 +1,50 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length). Consider multiple algorithmic paradigms including evolutionary computation, simulated annealing, gradient-based optimization, geometric clustering methods, and hybrid metaheuristic approaches that combine discrete and continuous optimization techniques.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+- Exploration Strategy: Consider non-grid arrangements, symmetry-breaking optimizations, and heuristic search methods that might discover more efficient packings than regular lattice structures. Explore hybrid approaches combining local search with global exploration, or consider using constraint satisfaction methods with specialized pruning techniques.
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom operators)
+  * `platypus` (multi-objective optimization)
+  * `scipy.optimize.differential_evolution` or similar global optimizers
+  * `scipy.optimize.basinhopping` for global optimization with local refinement
+- **Collision detection**: 
+  * `pymunk` (2D rigid body physics with polygon shapes)
+  * Custom SAT (Separating Axis Theorem) implementations
+  * Spatial data structures like KD-trees for efficient collision detection
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
+- **Alternative Approaches**: Consider randomized initialization, swarm intelligence, or hybrid methods that combine geometric insights with numerical optimization. Explore methods like particle swarm optimization (PSO), genetic algorithms with specialized crossover operators for geometric arrangements, or even machine learning approaches trained on successful packing configurations.
+
+TECHNICAL REQUIREMENTS:
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly
+- **Reproducibility**: Fixed random seeds for stochastic optimization methods
+- **Exploration Focus**: Prioritize novel packing configurations over simple structured arrangements; consider that optimal solutions may not follow obvious symmetries or regular grids. Implement adaptive sampling strategies that dynamically adjust search parameters based on landscape characteristics.
+- **Robustness**: Include comprehensive validation checks and fallback mechanisms to ensure valid solutions are always produced, regardless of the chosen algorithmic path
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

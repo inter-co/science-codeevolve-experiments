@@ -1,0 +1,71 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider employing diverse algorithmic approaches including:
+- Mathematical programming approaches with convex relaxation techniques or semidefinite programming formulations
+- Topological optimization methods inspired by minimal surfaces or soap film configurations
+- Spectral graph theory approaches using adjacency matrices and eigenvalue optimization
+- Algebraic geometry methods leveraging polynomial optimization or Groebner basis techniques
+- Physics-inspired approaches using molecular dynamics with novel force fields or lattice Boltzmann methods
+- Discrete differential geometry techniques with curvature-based point placement
+- Information theory approaches using entropy maximization or mutual information criteria
+- Game theory inspired methods with Nash equilibrium concepts applied to point placement
+- Category theory inspired mappings between abstract structures and geometric arrangements
+- Quantum-inspired algorithms utilizing quantum annealing or variational quantum eigensolvers
+- Combinatorial optimization using integer programming or constraint satisfaction methods
+- Topological data analysis approaches using persistent homology or Mapper algorithms
+- Group theory based constructions exploiting symmetry groups and their representations
+- Numerical algebraic geometry using homotopy continuation methods
+- Stochastic geometry approaches with random tessellations or Poisson processes
+- Machine learning driven optimization using neural networks or reinforcement learning
+- Evolutionary computation with genetic algorithms or particle swarm optimization
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Advanced Considerations:
+  * Explore configurations derived from known optimal spherical codes or tight frames
+  * Investigate whether symmetry properties can be exploited for improved solutions
+  * Consider energy-based models where point interactions follow inverse power laws
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Prioritize exploration of fundamentally different algorithmic paradigms over variations of existing approaches
+- **Innovation Focus**: Encourage creative approaches that might not be immediately obvious but could yield superior results
+- **Mathematical Rigor**: Emphasize theoretically grounded mathematical frameworks rather than heuristic combinations
+- **Computational Efficiency**: Balance theoretical elegance with practical execution time constraints (target < 30 seconds)
+- **Alternative Mathematical Perspectives**: Explore connections between algebraic topology, spectral analysis, and geometric optimization
+- **Fundamental Approach Shift**: Prefer approaches that avoid iterative optimization when possible, favoring direct construction or analytical methods
+- **Symmetry Exploitation**: Prioritize methods that leverage known symmetries of optimal configurations
+- **Discrete vs Continuous**: Consider whether discrete combinatorial approaches or continuous geometric constructions might be more effective
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 30 seconds maximum execution time (prioritize efficient algorithms)
+- **Memory limit**: 512 MB (favor memory-efficient implementations)
+- **Scalability Focus**: Solutions should demonstrate clear scaling properties for similar problems
+
+# PROMPT-BLOCK-END
+    

@@ -1,254 +1,191 @@
 # EVOLVE-BLOCK-START
 import numpy as np
 from scipy.spatial.distance import pdist
-from scipy.optimize import minimize, differential_evolution
+from scipy.optimize import minimize
 import warnings
 warnings.filterwarnings('ignore')
 
 def min_max_dist_dim3_14() -> np.ndarray:
     """
-    Creates 14 points in 3 dimensions to maximize the ratio of minimum to maximum distance.
-    Uses a hybrid approach combining geometric initialization, global optimization, and 
-    multiple local refinement strategies for superior performance.
-
+    Creates 14 points in 3 dimensions in order to maximize the ratio of minimum to maximum distance.
+    Uses improved initialization and robust optimization strategy with better restarts.
+    
     Returns
         points: np.ndarray of shape (14,3) containing the (x,y,z) coordinates of the 14 points.
     """
     
-    def compute_min_max_ratio(points):
-        """Compute the ratio of minimum to maximum pairwise distances"""
+    def compute_distances(points):
+        """Compute pairwise distances and return min/max ratio"""
         if len(points) < 2:
-            return 0.0
+            return 0, 0
             
-        # Compute pairwise distances
         distances = pdist(points)
         if len(distances) == 0:
-            return 0.0
+            return 0, 0
             
         d_min = np.min(distances)
         d_max = np.max(distances)
-        
-        # Avoid division by zero
-        if d_max <= 0:
-            return 0.0
-            
-        return d_min / d_max
+        return d_min, d_max
     
-    def objective_function(x):
-        """Objective function to minimize (negative of ratio)"""
-        # Reshape x into points
-        points = x.reshape(-1, 3)
-        ratio = compute_min_max_ratio(points)
-        # Return negative because we want to maximize
+    def objective(x):
+        """Objective function to minimize (negative of min/max ratio)"""
+        points = x.reshape(14, 3)
+        d_min, d_max = compute_distances(points)
+        
+        # Avoid division by zero or invalid cases
+        if d_max <= 1e-12:
+            return 1e10  # Large penalty for invalid configurations
+            
+        # Return negative ratio (since we want to maximize)
+        ratio = d_min / d_max
         return -ratio
     
-    def normalize_to_sphere(points):
-        """Normalize points to lie on unit sphere"""
-        norms = np.linalg.norm(points, axis=1, keepdims=True)
-        # Avoid division by zero
-        norms = np.where(norms == 0, 1, norms)
-        return points / norms
-    
-    def generate_icosahedral_points():
-        """Generate points based on icosahedral symmetry"""
-        # Vertices of regular icosahedron scaled to unit sphere
-        phi = (1 + np.sqrt(5)) / 2  # golden ratio
-        vertices = []
-        
-        # Generate the 12 vertices of icosahedron
-        for i in range(12):
-            if i < 4:
-                x, y, z = [(-1)**i * 1, 0, phi]
-            elif i < 8:
-                x, y, z = [0, (-1)**(i-4) * phi, (-1)**(i-4) * 1]
-            else:
-                x, y, z = [(-1)**(i-8) * phi, (-1)**(i-8) * 1, 0]
-            norm = np.sqrt(x*x + y*y + z*z)
-            vertices.append([x/norm, y/norm, z/norm])
-        
-        return np.array(vertices)
-    
-    def generate_fibonacci_points(n=14):
-        """Generate points using Fibonacci spiral method"""
+    # Fibonacci spiral initialization (very good distribution)
+    def fibonacci_spiral():
         points = []
-        phi = (1 + np.sqrt(5)) / 2  # golden ratio
-        
-        for i in range(n):
-            y = 1 - (i / (n - 1)) * 2  # y goes from 1 to -1
-            radius = np.sqrt(1 - y * y)  # radius at y
-            theta = i * 2 * np.pi / phi  # spiral angle
-            x = radius * np.cos(theta)
-            z = radius * np.sin(theta)
+        golden_ratio = (1 + np.sqrt(5)) / 2
+        for i in range(14):
+            theta = np.arccos(1 - 2 * i / 13)  # 14 points from 0 to 13
+            phi = 2 * np.pi * i / golden_ratio
+            x = np.sin(theta) * np.cos(phi)
+            y = np.sin(theta) * np.sin(phi)
+            z = np.cos(theta)
             points.append([x, y, z])
-        
         return np.array(points)
     
-    # Multi-stage initialization with diverse geometric configurations
-    strategies = []
-    
-    # Strategy 1: Known good configuration (from inspiration 1)
-    try:
-        points = np.array([
-            [0.000000, 0.000000, 1.000000],
-            [0.000000, 0.000000, -1.000000],
-            [0.951057, 0.000000, 0.309017],
-            [-0.951057, 0.000000, 0.309017],
-            [0.000000, 0.951057, 0.309017],
-            [0.000000, -0.951057, 0.309017],
-            [0.951057, 0.000000, -0.309017],
-            [-0.951057, 0.000000, -0.309017],
-            [0.000000, 0.951057, -0.309017],
-            [0.000000, -0.951057, -0.309017],
-            [0.587785, 0.809017, 0.000000],
-            [-0.587785, 0.809017, 0.000000],
-            [0.587785, -0.809017, 0.000000],
-            [-0.587785, -0.809017, 0.000000]
+    # Better cube-based initialization with diagonals (from inspiration programs)
+    def cube_diagonal_initialization():
+        # Start with vertices of a cube (8 points) 
+        points = []
+        for i in [-1, 1]:
+            for j in [-1, 1]:
+                for k in [-1, 1]:
+                    points.append([i, j, k])
+        
+        # Add points along axes and diagonals for better distribution
+        points.extend([
+            [1.5, 0, 0], [-1.5, 0, 0],  # x-axis
+            [0, 1.5, 0], [0, -1.5, 0],  # y-axis  
+            [0, 0, 1.5], [0, 0, -1.5],  # z-axis
+            [0.707, 0.707, 0.707], [-0.707, -0.707, -0.707],  # diagonals
+            [0.707, -0.707, 0.707], [-0.707, 0.707, -0.707]   # more diagonals
         ])
-        strategies.append(("known_good", normalize_to_sphere(points)))
-    except Exception:
-        pass
+        
+        # Keep only first 14 points and normalize
+        points = np.array(points[:14], dtype=float)
+        
+        # Normalize to unit sphere
+        norms = np.linalg.norm(points, axis=1, keepdims=True)
+        points = points / norms
+        
+        return points
     
-    # Strategy 2: Icosahedral approach (from inspiration 2)
-    try:
-        ico_points = generate_icosahedral_points()
-        # Add two more points to make 14 (north/south poles)
-        additional = np.array([[0, 0, 0.98], [0, 0, -0.98]])
-        ico_points = np.vstack([ico_points, additional])
-        strategies.append(("icosahedral", normalize_to_sphere(ico_points)))
-    except Exception:
-        pass
+    # Icosahedral-based initialization (structured and symmetric)
+    def icosahedral_initialization():
+        # Correct icosahedron vertices
+        phi = (1 + np.sqrt(5)) / 2
+        vertices = np.array([
+            [0, 1, phi], [0, -1, phi], [0, 1, -phi], [0, -1, -phi],
+            [1, phi, 0], [-1, phi, 0], [1, -phi, 0], [-1, -phi, 0],
+            [phi, 0, 1], [phi, 0, -1], [-phi, 0, 1], [-phi, 0, -1]
+        ])
+        
+        # Normalize to unit sphere
+        vertices = vertices / np.linalg.norm(vertices[0])
+        
+        # Add 2 more points for 14 total - place strategically along z-axis
+        additional_points = np.array([
+            [0, 0, 0.9],   # Near north pole
+            [0, 0, -0.9]   # Near south pole
+        ])
+        
+        points = np.vstack([vertices, additional_points])
+        return points
     
-    # Strategy 3: Fibonacci spiral approach (from inspiration 2)
-    try:
-        fib_points = generate_fibonacci_points(14)
-        strategies.append(("fibonacci", normalize_to_sphere(fib_points)))
-    except Exception:
-        pass
+    # Generate multiple initial configurations
+    initial_strategies = [
+        ("fibonacci", fibonacci_spiral()),
+        ("cube_diagonal", cube_diagonal_initialization()),
+        ("icosahedral", icosahedral_initialization()),
+    ]
     
     best_points = None
-    best_ratio = -float('inf')
+    best_ratio = -np.inf
     
-    # Try each strategy with optimization
-    for strategy_name, initial_points in strategies:
-        # Multiple optimization attempts with different restarts
-        restart_configs = [
-            (123, 0.01),   # Very small perturbation for fine-tuning
-            (456, 0.02),   # Small perturbation
-            (789, 0.03),   # Medium perturbation
-            (999, 0.05),   # Larger perturbation for exploration
-        ]
-        
-        for seed, perturb_scale in restart_configs:
-            try:
-                np.random.seed(seed)
-                # Create perturbed version with adaptive scaling
-                perturbation = np.random.normal(0, perturb_scale, initial_points.shape)
-                perturbed_points = initial_points + perturbation
-                
-                # Project back to sphere
-                perturbed_points = normalize_to_sphere(perturbed_points)
-                
-                # Try multiple optimization methods for robustness
-                methods = ['L-BFGS-B', 'SLSQP']  # Try both methods
-                for method in methods:
-                    try:
-                        result = minimize(
-                            objective_function,
-                            perturbed_points.flatten(),
-                            method=method,
-                            options={'maxiter': 500, 'ftol': 1e-12, 'gtol': 1e-12},
-                            tol=1e-12
-                        )
-                        
-                        if result.success:
-                            optimized_points = result.x.reshape(-1, 3)
-                            ratio = compute_min_max_ratio(optimized_points)
-                            if ratio > best_ratio:
-                                best_ratio = ratio
-                                best_points = optimized_points.copy()
-                                # Early exit if we found a significantly good solution
-                                if ratio > 0.25:  # Early stopping for very good solutions
-                                    return best_points
-                    except Exception:
-                        continue
-                        
-            except Exception:
-                continue
-    
-    # Enhanced global search with differential evolution (inspiration 1)
-    if best_points is not None:
-        try:
-            # Use differential evolution with parameters similar to best inspirations
-            bounds = [(-1.5, 1.5) for _ in range(42)]
-            de_result = differential_evolution(
-                objective_function,
-                bounds,
-                maxiter=50,   # Increased iterations for better search
-                popsize=15,   # Moderate population size
-                tol=1e-12,    # Tighter tolerance
-                seed=42,
-                recombination=0.8,  # Good recombination rate
-                disp=False
-            )
+    # Run optimization for each initialization strategy
+    for strategy_name, initial_points in initial_strategies:
+        # Try 4 restarts per strategy (more thorough exploration)
+        for restart in range(4):
+            # Slight perturbation for restart
+            if restart > 0:
+                np.random.seed(42 + restart)
+                perturbed = initial_points + np.random.normal(0, 0.03, initial_points.shape)
+                # Normalize again to unit sphere
+                norms = np.linalg.norm(perturbed, axis=1, keepdims=True)
+                norms = np.where(norms == 0, 1, norms)
+                perturbed = perturbed / norms
+            else:
+                perturbed = initial_points.copy()
             
-            if de_result.success:
-                de_points = de_result.x.reshape(-1, 3)
-                de_points = normalize_to_sphere(de_points)
-                de_ratio = compute_min_max_ratio(de_points)
-                if de_ratio > best_ratio:
-                    best_ratio = de_ratio
-                    best_points = de_points.copy()
-        except Exception:
-            pass
-    
-    # Final comprehensive refinement with multiple methods
-    if best_points is not None:
-        try:
-            # Try with multiple methods using aggressive settings
-            methods = ['L-BFGS-B', 'SLSQP']
-            for method in methods:
+            # Flatten for optimization
+            x0 = perturbed.flatten()
+            
+            # Use multiple optimization methods for robustness
+            methods_to_try = ['L-BFGS-B', 'SLSQP', 'trust-constr']
+            
+            for method in methods_to_try:
                 try:
+                    # Early exit if we're close to benchmark
+                    if best_ratio > 0.48:
+                        return best_points
+                    
                     result = minimize(
-                        objective_function,
-                        best_points.flatten(),
+                        objective,
+                        x0,
                         method=method,
-                        options={'maxiter': 600, 'ftol': 1e-14, 'gtol': 1e-14},
-                        tol=1e-14
+                        options={'maxiter': 800, 'ftol': 1e-12, 'gtol': 1e-12},
+                        tol=1e-12
                     )
                     
                     if result.success:
-                        final_points = result.x.reshape(-1, 3)
-                        final_points = normalize_to_sphere(final_points)
-                        ratio = compute_min_max_ratio(final_points)
-                        if ratio > best_ratio:
-                            best_ratio = ratio
-                            best_points = final_points.copy()
+                        optimized_points = result.x.reshape(14, 3)
+                        d_min, d_max = compute_distances(optimized_points)
+                        
+                        if d_max > 1e-12:
+                            ratio = d_min / d_max
+                            if ratio > best_ratio:
+                                best_ratio = ratio
+                                best_points = optimized_points.copy()
+                                
                 except Exception:
                     continue
-                    
+    
+    # Final refinement with highest precision
+    if best_points is not None:
+        try:
+            # One final high-precision optimization
+            final_result = minimize(
+                objective,
+                best_points.flatten(),
+                method='L-BFGS-B',
+                options={'maxiter': 1000, 'ftol': 1e-14, 'gtol': 1e-14},
+                tol=1e-14
+            )
+            
+            if final_result.success:
+                final_points = final_result.x.reshape(14, 3)
+                d_min, d_max = compute_distances(final_points)
+                if d_max > 1e-12:
+                    ratio = d_min / d_max
+                    if ratio > best_ratio:
+                        best_points = final_points.copy()
         except Exception:
             pass
     
-    # Fallback to default if nothing worked
+    # If no optimization worked, return the best initial configuration
     if best_points is None:
-        # Use the Fibonacci spiral configuration as fallback
-        points = []
-        phi = np.pi * (3 - np.sqrt(5))  # Golden angle
-        
-        for i in range(14):
-            y = 1 - (i / 13) * 2  # y goes from 1 to -1
-            radius = np.sqrt(1 - y * y)  # radius at y
-            
-            theta = phi * i  # golden angle increment
-            
-            x = np.cos(theta) * radius
-            z = np.sin(theta) * radius
-            
-            points.append([x, y, z])
-        
-        best_points = np.array(points)
-        # Normalize to unit sphere
-        best_points = normalize_to_sphere(best_points)
+        # Return fibonacci spiral as the most reliable fallback
+        return fibonacci_spiral()
     
     return best_points
 

@@ -2,6 +2,11 @@
 SETTING:
 You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
 Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider multiple algorithmic paradigms including:
+- Structured geometric arrangements (e.g., Platonic solids, spherical codes, lattice structures)
+- Advanced optimization methods (e.g., simulated annealing, genetic algorithms, gradient-based optimization)
+- Mathematical programming approaches (e.g., semidefinite programming relaxations for spherical codes)
+- Hybrid methods combining discrete geometry with continuous optimization
 
 PROBLEM CONTEXT:
 - Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
@@ -11,16 +16,10 @@ PROBLEM CONTEXT:
   * Minimum distance: dmin = min{dij : i≠j}
   * Maximum distance: dmax = max{dij : i≠j}
   * Objective: maximize dmin/dmax subject to spatial constraints
-
-ALTERNATIVE APPROACHES TO CONSIDER:
-1. **Purely Geometric Constructions**: Focus on mathematical constructions using symmetry groups, regular polytopes, or known optimal spherical codes without iterative optimization
-2. **Algebraic Optimization**: Employ Lagrangian relaxation, semidefinite programming, or other mathematical programming techniques
-3. **Convex Optimization Frameworks**: Utilize tools like CVXPY or similar for formulating this as a convex optimization problem
-4. **Topological Methods**: Explore arrangements based on graph theory, Voronoi diagrams, or Delaunay triangulations
-5. **Analytical Approaches**: Derive conditions for optimality using calculus of variations or variational principles
-
-ENCOURAGED DIVERSITY:
-Move beyond traditional numerical optimization methods. Consider mathematically rigorous approaches that leverage the inherent symmetries of the problem, or explore whether this can be framed as a constrained optimization problem with analytical solutions. Focus on strategies that might offer provable bounds or theoretical guarantees rather than empirical optimization.
+- Alternative formulations to consider:
+  * Energy minimization approaches where points repel each other
+  * Spherical code constructions for uniform distribution on sphere
+  * Discrete optimization with constraints on pairwise distances
 
 PERFORMANCE METRICS:
 1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
@@ -41,10 +40,12 @@ COMPUTATIONAL RESOURCES:
 
 TECHNICAL REQUIREMENTS:
 - **Reproducibility**: Fixed random seeds for all stochastic components
+- **Approach Diversity**: Explore at least two distinct algorithmic strategies from different domains (geometric, optimization, mathematical programming)
+- **Validation**: Include multiple candidate solutions and report performance comparison
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

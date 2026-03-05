@@ -1,0 +1,63 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic paradigms including: 
+- Analytical geometric constructions (regular polygons, tilings, symmetry-based arrangements)
+- Energy minimization principles (electrostatic repulsion, potential field models)
+- Evolutionary computation (genetic algorithms, differential evolution, particle swarm optimization)
+- Hybrid approaches combining geometric insight with numerical optimization
+- Advanced optimization techniques beyond simple gradient methods
+- Alternative mathematical frameworks such as semidefinite programming relaxations, topological constraints, or graph-theoretic approaches
+- Non-traditional methods like simulated annealing with adaptive cooling schedules, physics-based simulations, or constraint satisfaction techniques
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider mathematical approaches including:
+  * Regular polygonal arrangements and their deformations
+  * Voronoi diagrams and their dual structures
+  * Energy minimization principles (e.g., electrostatic repulsion, spring systems)
+  * Semidefinite programming relaxations for distance geometry
+  * Topological constraints and graph-theoretic approaches
+  * Constrained optimization using Lagrange multipliers or penalty methods
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Consider multiple approaches such as:
+  * Gradient-based optimization using scipy.optimize.minimize (but explore different methods beyond L-BFGS-B)
+  * Evolutionary algorithms like differential evolution or genetic algorithms with custom crossover/mutation operators
+  * Simulated annealing with adaptive cooling schedules
+  * Geometric constructions based on regular polygons or tilings with systematic perturbations
+  * Physics-based simulation approaches (particle systems, force-directed layouts)
+  * Multi-start local optimization with diverse initializations
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

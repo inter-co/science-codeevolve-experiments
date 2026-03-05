@@ -1,0 +1,65 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+ALTERNATIVE COMPUTATIONAL APPROACHES TO CONSIDER:
+- **Analytical Geometric Construction**: Derive mathematical formulas for optimal hexagon arrangements based on symmetry principles and known packing theory
+- **Lattice-Based Packing Strategies**: Exploit the hexagonal lattice structure to generate initial configurations that are inherently close to optimal
+- **Deterministic Greedy Placement**: Use a greedy algorithm that places hexagons one-by-one in positions that maintain maximum free space
+- **Symmetry-Driven Search**: Leverage the inherent symmetries of hexagonal packing to reduce search space dimensionality
+- **Multi-Scale Optimization**: Begin with coarse-grained placement, then refine at finer scales using efficient local search techniques
+- **Geometric Programming Approaches**: Formulate the problem using geometric constraints and solve using specialized convex optimization methods
+- **Pattern Recognition and Template Matching**: Identify proven packing templates and adapt them to the 11-hexagon case through transformation and refinement
+
+IMPLEMENTATION STRATEGY GUIDELINES:
+- **Efficient Initialization**: Prioritize fast, mathematically sound initial configurations over random sampling to quickly reach feasible solutions
+- **Symmetry-Aware Optimization**: Exploit rotational and translational symmetries to reduce the effective dimensionality of the optimization problem
+- **Hybrid Fast-Slow Strategy**: Implement rapid prototype generation using deterministic methods, followed by targeted refinement of promising candidates
+- **Constraint-Aware Search**: Design search algorithms that naturally respect geometric constraints rather than penalizing violations post-hoc
+- **Geometric Insight Integration**: Incorporate known results from hexagonal packing theory and mathematical optimizations directly into the algorithmic framework
+- **Resource-Efficient Multi-Strategy**: Balance exploration vs exploitation using methods that scale well within the 60-second time constraint
+- **Template-Based Construction**: Build upon established packing patterns and systematically modify them to accommodate the 11-hexagon requirement
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `scipy.optimize.minimize` with various algorithms (BFGS, Nelder-Mead, etc.)
+  * `scipy.optimize.least_squares` for constrained least-squares problems
+- **Collision detection**: 
+  * `shapely` for efficient polygon operations
+  * Custom SAT (Separating Axis Theorem) implementations for performance-critical parts
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`, `multiprocessing` for parallel exploration
+
+TECHNICAL REQUIREMENTS:
+- **Robust Geometric Computation**: Implement numerically stable algorithms for polygon intersection, containment, and distance calculations
+- **Multi-method Constraint Validation**: Use redundant constraint checking (Shapely + custom SAT + distance-based methods) to ensure correctness
+- **Adaptive Precision Control**: Dynamically adjust numerical precision based on solution quality and convergence
+- **Parallel Solution Generation**: Implement concurrent execution of different algorithmic approaches to speed up exploration
+- **Solution Quality Assurance**: Include comprehensive validation routines that detect and correct geometric inconsistencies early in the process
+- **Flexible Parameter Representations**: Support multiple internal representations (cartesian coordinates, polar coordinates, lattice indices) to enable algorithm switching
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

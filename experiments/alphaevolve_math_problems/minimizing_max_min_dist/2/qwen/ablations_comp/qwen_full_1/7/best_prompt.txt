@@ -1,0 +1,48 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider both mathematical rigor and computational efficiency. Explore configurations that leverage geometric principles such as:
+- Symmetric arrangements (e.g., regular polygons, lattice structures)
+- Optimality conditions derived from potential theory or electrostatic analogies
+- Advanced numerical optimization techniques including gradient-based methods or evolutionary algorithms
+- Theoretical bounds and known constructions for similar problems
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **2D optimization**: `scipy.optimize`, `scipy.spatial`, `deap`, `pymoo` (multi-objective)
+- **2D geometric computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, Delaunay triangulation)
+  * `matplotlib` (visualization of point configurations)
+- **Specialized 2D algorithms**: 
+  * `cvxpy` for convex optimization formulations
+  * `scikit-learn` for clustering and nearest neighbor computations
+- **Performance**: `numba` (JIT compilation), `joblib` (parallel processing)
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Robustness**: Implement safeguards against degenerate cases where points may coincide or become collinear
+- **Scalability**: Design the solution to potentially extend to other numbers of points or dimensions
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

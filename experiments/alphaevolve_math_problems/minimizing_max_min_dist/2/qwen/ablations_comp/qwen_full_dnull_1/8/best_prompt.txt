@@ -1,0 +1,66 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs. Consider diverse algorithmic approaches emphasizing rigorous mathematical foundations and theoretical optimality.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy considerations:
+  * Prioritize analytical solutions derived from symmetry principles, optimal spherical codes, or known mathematical configurations from discrete geometry
+  * Explore mathematical programming formulations such as semidefinite programming or convex optimization for rigorous theoretical approaches
+  * Investigate exact geometric constructions using algebraic number fields, special lattice structures, or crystalline arrangements with proven optimality properties
+  * Consider combinatorial optimization methods including branch-and-bound or integer programming for structured search when mathematically tractable
+  * Emphasize theoretical foundations and mathematical rigor, with computational verification where appropriate
+  * Leverage known results from discrete geometry, sphere packing, or coding theory for initial configurations
+  * Explore potential field methods or energy minimization frameworks with clear physical interpretations as supplementary approaches
+  * Focus on constructions that demonstrate provable optimality conditions or near-optimal theoretical bounds rather than heuristic approximations
+  * Investigate mathematical frameworks based on algebraic geometry, group theory applications, or discrete mathematics that might yield exact solutions
+  * Consider constructions using special point sets like the vertices of regular polytopes or configurations related to finite fields
+  * Explore the use of symmetry groups and their actions on point sets to reduce search space and identify optimal arrangements
+  * Examine known optimal configurations from the literature, particularly those arising from sphere packing problems or extremal graph theory
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Consider multiple approaches including:
+  * Analytical geometric solutions derived from mathematical principles such as regular polygons, optimal spherical codes, or known optimal configurations from discrete geometry
+  * Mathematical programming formulations (e.g., semidefinite programming, convex optimization) with emphasis on rigorous theoretical foundations and provable bounds
+  * Exact geometric constructions using algebraic number fields, special lattice structures, or crystalline arrangements with mathematical proofs of optimality
+  * Combinatorial optimization methods (e.g., branch-and-bound, integer programming) for structured search procedures when mathematically tractable
+  * Potential field methods or energy minimization frameworks with clear physical interpretations as supplementary approaches
+  * Alternative mathematical frameworks such as algebraic geometry, group theory applications, or discrete mathematics
+  * Explicit consideration of symmetries and their implications for optimal point arrangements, particularly those with high symmetry groups
+  * Focus on solutions that leverage known mathematical classifications or theoretical constructions rather than empirical optimization heuristics
+  * Investigate constructions based on finite geometries, error-correcting codes, or harmonic analysis techniques
+  * Consider configurations that arise from the representation theory of finite groups or crystallographic symmetry groups
+  * Explore mathematical connections to extremal problems in combinatorics or approximation theory
+  * Employ constructive methods from computational algebra or symbolic computation for deriving exact solutions
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

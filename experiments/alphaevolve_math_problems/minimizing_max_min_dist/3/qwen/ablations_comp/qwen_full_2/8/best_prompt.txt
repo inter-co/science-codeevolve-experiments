@@ -1,0 +1,70 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore unconventional mathematical frameworks and algorithmic paradigms that go beyond traditional optimization approaches:
+- **Categorical and abstract mathematical structures**: Functorial constructions, higher category theory, topos theory applications to geometric configurations
+- **Non-Euclidean geometric approaches**: Hyperbolic space embeddings, spherical geometry with exotic metrics, projective geometry constructions
+- **Algebraic topology**: Persistent homology of point clouds, simplicial complex optimizations, topological data analysis for point distributions
+- **Information-theoretic extremes**: Extreme value distributions for point spacings, information-theoretic measures beyond Shannon entropy
+- **Quantum and exotic computing**: Topological quantum computing approaches, adiabatic quantum optimization, quantum error correction inspired point placements
+- **Biological and natural phenomena**: Morphogenetic field theories, developmental biology-inspired point arrangements, evolutionary algorithms with fitness landscapes from natural selection
+- **Synthetic mathematical objects**: Quasi-crystalline structures, Penrose tiling generalizations, exotic lattice constructions in 3D
+- **Emergent computation**: Cellular automata rules that self-organize into optimal point configurations, emergent geometric patterns from simple local rules
+- **Abstract algebraic constructions**: Group representations for symmetric point arrangements, Galois theory applications to point symmetries
+- **Complex analysis and Riemann surfaces**: Holomorphic functions for point placement, conformal mappings to optimal distributions
+- **Measure theory and fractal constructions**: Hausdorff dimension considerations, fractal interpolation for point distributions
+- **Logic and proof theory**: Proof nets, categorical logic approaches to geometric optimization, type theory inspired constructions
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components where applicable
+- **Mathematical rigor**: Employ proven geometric constructions or well-established optimization frameworks, but prioritize theoretical innovation
+- **Alternative strategies**: Consider purely theoretical constructions, abstract mathematical entities, and non-computational approaches when they offer superior insight
+- **Algorithmic diversity**: Explore approaches that transcend conventional numerical optimization including:
+  - Abstract categorical constructions that define point configurations through universal properties
+  - Topological invariants that characterize optimal arrangements without explicit computation
+  - Algebraic structures that naturally encode geometric optimality conditions
+  - Information-theoretic approaches that characterize extremal point distributions through entropy maximization principles
+- **Innovation focus**: Prioritize fundamentally novel mathematical approaches that challenge conventional wisdom about point distribution optimization
+- **Conceptual breadth**: Embrace approaches from abstract mathematics, theoretical physics, computational biology, and foundational mathematics
+- **Theoretical grounding**: Base solutions on rigorous mathematical theory rather than empirical heuristics alone, even when it requires abandoning computational shortcuts
+- **Cross-disciplinary synthesis**: Combine insights from pure mathematics, theoretical physics, computational biology, and philosophical foundations of mathematics
+- **Novel paradigm exploration**: Seek conceptual frameworks that fundamentally change how we think about geometric optimization problems through entirely new mathematical perspectives
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy diversity**: Encourage exploration of truly unconventional algorithmic pathways that depart from standard computational approaches
+- **Innovation emphasis**: Reward approaches that demonstrate breakthrough mathematical insights rather than computational efficiency improvements
+- **Methodological creativity**: Prioritize approaches that represent fundamental shifts in conceptual understanding over minor refinements of existing methods
+- **Mathematical elegance**: Value solutions that reveal profound mathematical relationships through elegant theoretical constructions
+- **Paradigm shift encouragement**: Explicitly reward approaches that offer entirely new ways of conceiving geometric optimization problems through revolutionary mathematical frameworks
+
+# PROMPT-BLOCK-END
+    

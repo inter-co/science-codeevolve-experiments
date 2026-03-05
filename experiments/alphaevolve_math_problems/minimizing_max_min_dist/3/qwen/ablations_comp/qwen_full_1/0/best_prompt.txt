@@ -2,34 +2,57 @@
 SETTING:
 You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
 Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
-Explore diverse algorithmic paradigms including:
-- **Mathematical construction approaches**: Direct analytical methods using known optimal configurations (such as icosahedral symmetry, E8 lattice projections, or specific spherical codes). Consider leveraging the theory of spherical designs and optimal point distributions on spheres.
-- **Energy-based methods**: Modeling point distribution as electrostatic repulsion with specialized force functions or potential energy minimization. Explore different potential functions like inverse power laws or logarithmic potentials that may yield better convergence properties.
-- **Combinatorial geometry**: Using Voronoi diagrams, Delaunay triangulations, or other discrete geometric structures to guide placement. Consider how the dual structure of these arrangements might inform optimal point placement.
-- **Multi-scale approaches**: Combining coarse-grained global optimization with fine-tuned local refinement strategies. Investigate hierarchical methods that start with coarser approximations and refine locally.
-- **Non-gradient methods**: Trust-region methods, Nelder-Mead, or derivative-free optimization techniques. Focus on methods that can handle discontinuous or non-smooth objective landscapes effectively.
-- **Geometric transformation strategies**: Employ systematic geometric transformations such as rotations, reflections, and stereographic projections to generate new candidate configurations from known optimal sets.
-- **Symmetry-guided construction**: Explicitly leverage high symmetry groups (tetrahedral, octahedral, icosahedral) and their associated invariant subspaces to reduce the dimensionality of the search space.
+Prioritize mathematical elegance and deep structural insights over numerical optimization approaches. Explore diverse mathematical frameworks including:
+- Algebraic number theory constructions (Gaussians, Eisenstein integers, cyclotomic fields) - construct points using explicit algebraic number field embeddings
+- Group-theoretic approaches using symmetry groups and their representations - leverage finite subgroups of SO(3) such as tetrahedral, octahedral, or icosahedral groups for symmetric point distributions
+- Spherical code theory and optimal spherical designs with explicit constructions - utilize known explicit constructions of spherical t-designs or equiangular lines
+- Equiangular lines and tight frames from finite group representations - build point sets from the representation theory of finite groups
+- Spectral graph theory applications to point placement through eigenvalue optimization - use the connection between distance matrices and graph Laplacians to derive optimal configurations
+
+Focus on constructing explicit mathematical solutions rather than numerical optimization. Avoid iterative procedures, gradient-based methods, or any form of optimization algorithm. Instead, develop solutions that:
+1. Leverage known mathematical theorems and constructions
+2. Use exact symbolic computations when possible
+3. Employ algebraic number fields and their embeddings
+4. Utilize finite group representations and symmetry properties
+5. Apply explicit constructions from spherical design theory
+6. Demonstrate clear mathematical reasoning and derivation steps
 
 PROBLEM CONTEXT:
 - Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
-- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit sphere)
 - Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
   * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
   * Minimum distance: dmin = min{dij : i≠j}
   * Maximum distance: dmax = max{dij : i≠j}
   * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider exploring:
+  * Explicit algebraic constructions using number fields (Q(√2), Q(√3), Q(ζ₃), etc.)
+  * Symmetry-based approaches using finite subgroups of SO(3) such as the tetrahedral, octahedral, or icosahedral groups
+  * Spherical t-designs with known explicit constructions
+  * Equiangular lines arising from finite group representations
+  * Spectral methods that leverage the connection between distance matrices and graph Laplacians
+
+TECHNICAL REQUIREMENTS:
+- **Mathematical Elegance**: Prioritize constructions that leverage deep mathematical structures rather than purely numerical optimization
+- **Algorithmic Diversity**: Prefer methods that demonstrate mathematical insight over brute-force sampling or gradient-based optimization
+- **Scalability Awareness**: Solutions should ideally generalize to similar problems with different numbers of points
+- **Reproducibility**: Fixed random seeds for all stochastic components (when applicable)
+- **Computational Efficiency**: Balance mathematical sophistication with practical runtime constraints (target < 60 seconds)
+- **Explicit Construction Focus**: When possible, use explicit mathematical formulas or constructions rather than iterative optimization procedures
+- **Theoretical Foundation**: Each construction must have a clear mathematical justification drawn from established theorems or known constructions in algebra, geometry, or group theory
+- **Non-Iterative Approach**: Avoid any form of iterative optimization, gradient descent, or numerical approximation methods
 
 PERFORMANCE METRICS:
 1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
 2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
 3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
-Additionally, consider the geometric structure and symmetry properties of your solution - highly symmetric arrangements often yield superior dispersion ratios.
+4. **mathematical_elegance_score**: A qualitative assessment of how well the solution leverages deep mathematical structures (symmetry groups, algebraic constructions, etc.)
 
 COMPUTATIONAL RESOURCES:
 **Core packages**: numpy, scipy, sympy, pandas
 **Additional useful packages**:
-- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **Algebraic computations**: `sympy` for exact symbolic computations and algebraic number handling
+- **Group theory**: `galois` or similar packages for finite field computations if needed
 - **3D geometric computing**: 
   * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
   * `trimesh` (3D mesh operations), `open3d` (3D data processing)
@@ -40,15 +63,14 @@ COMPUTATIONAL RESOURCES:
 
 TECHNICAL REQUIREMENTS:
 - **Reproducibility**: Fixed random seeds for all stochastic components
-- **Algorithmic diversity**: Consider multiple distinct optimization paradigms rather than relying primarily on gradient-based methods. Prioritize mathematical construction approaches alongside computational optimization.
-- **Mathematical rigor**: Prefer solutions derived from known mathematical constructions or proven optimization methods over purely heuristic approaches. Emphasize theoretical foundations when possible.
-- **Exploration vs Exploitation**: Balance between exploring new geometric configurations and exploiting promising regions of the search space. Consider using hybrid approaches that combine mathematical insights with numerical methods.
-- **Geometric insight**: Leverage deep geometric understanding of point distributions on spheres, including concepts from algebraic geometry, group theory, and discrete mathematics.
+- **Algorithmic Diversity**: Prefer methods that demonstrate mathematical insight over brute-force sampling
+- **Scalability Awareness**: Solutions should ideally generalize to similar problems with different numbers of points
+- **Mathematical Elegance**: Prioritize constructions that leverage deep mathematical structures rather than purely numerical optimization
+- **Computational Efficiency**: Balance mathematical sophistication with practical runtime constraints (target < 60 seconds)
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
-- **Diversity emphasis**: Allocate computational resources to explore multiple distinct algorithmic pathways rather than optimizing a single approach
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

@@ -1,7 +1,7 @@
 # PROMPT-BLOCK-START
 
 SETTING:
-You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to evolve and optimize a function that discovers step function constructions to improve the lower bound on the second autocorrelation inequality constant C₂. Consider both deterministic and stochastic optimization strategies, including gradient-based methods, evolutionary algorithms, and mathematical programming approaches.
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to discover and construct optimal step function configurations that maximize the second autocorrelation inequality constant C₂ through mathematical reasoning and principled optimization strategies.
 
 PROBLEM CONTEXT:
 - **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
@@ -17,6 +17,17 @@ PROBLEM CONTEXT:
   * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
   * Steps are equally-spaced on the interval [-1/4, 1/4]
 
+MATHEMATICAL INSIGHTS TO CONSIDER:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] represents the correlation structure
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) balances the energy distribution against peak concentration
+- To maximize C₂, consider how to balance: (1) total energy (||g||₂²), (2) uniformity of distribution (small ||g||₁), and (3) avoiding overly peaked profiles (large ||g||∞)
+- Consider constructing functions where the autoconvolution has minimal peaks and maximal energy concentration
+- Think about what mathematical properties of f would lead to favorable g behavior
+- Explore the connection between step function shapes and their convolution properties
+- Consider using orthogonal polynomials or trigonometric basis functions for construction
+- Investigate how continuous functions with known Fourier transforms might translate to optimal discrete configurations
+- Examine the relationship between entropy of the step function and its autocorrelation properties
+
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
@@ -28,15 +39,18 @@ COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 - **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
 - **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
 - **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
-- **Advanced optimization**: Consider using `cvxpy` for convex optimization formulations or `scipy.optimize` with various algorithms (L-BFGS, Nelder-Mead, etc.)
 
-**Algorithmic Approaches to Explore**:
-1. Gradient-based optimization (using automatic differentiation where applicable)
-2. Evolutionary algorithms with custom fitness functions
-3. Simulated annealing with carefully designed cooling schedules
-4. Multi-start local optimization strategies
-5. Mathematical programming approaches (linear/convex relaxation techniques)
-6. Hybrid methods combining multiple optimization paradigms
+STRATEGIES TO EXPLORE:
+1. **Analytical Construction**: Build step functions based on mathematical principles rather than random sampling
+   - Consider using mathematical functions like sinc, Gaussian, or other smooth functions that can be discretized optimally
+   - Explore connections to classical problems in signal processing or probability theory
+   - Investigate how to construct functions that naturally lead to flat or low-peak autoconvolutions
+2. **Transform Domain Approaches**: Work in frequency domain or other mathematical spaces where optimization might be more tractable
+3. **Variational Methods**: Formulate this as a variational problem or use calculus of variations techniques
+4. **Randomized Construction**: Generate random functions with specific statistical properties and analyze their autocorrelation characteristics
+5. **Combinatorial Optimization**: Consider the discrete optimization as a combinatorial problem with specific structural constraints
+6. **Continuous Relaxation**: First solve a continuous version of the problem, then discretize optimally
+7. **Multi-objective Optimization**: Instead of maximizing C₂ directly, consider optimizing multiple related quantities simultaneously
 
 PERFORMANCE METRICS:
 1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
@@ -47,8 +61,8 @@ TECHNICAL REQUIREMENTS:
 - **Determinism**: Use fixed random seeds for reproducibility across runs
 - **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
 - **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
-- **Strategy diversity**: Implement at least two distinct optimization approaches (e.g., one evolutionary and one gradient-based) and compare their performance
-- **Exploration-exploitation balance**: Design your approach to effectively balance exploration of the search space with exploitation of promising regions
+- **Mathematical Rigor**: Ensure that any constructed function satisfies the theoretical constraints and optimality conditions
+- **Computational Efficiency**: Balance exploration of complex solutions with meeting the 60-second time constraint
 
 MATHEMATICAL INSIGHTS:
 - The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
@@ -57,13 +71,10 @@ MATHEMATICAL INSIGHTS:
 - Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
 - More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
 - The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
-- Consider exploring mathematical structures like symmetric functions, sparse representations, or functions with specific symmetry properties that might naturally lead to higher C₂ values
-- Think about the geometric interpretation: what shapes of step functions create autoconvolutions with desirable properties?
-- Investigate whether there are theoretical bounds or conjectures about optimal configurations that could guide your search strategy
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

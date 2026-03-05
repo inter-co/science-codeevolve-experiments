@@ -1,0 +1,76 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider diverse algorithmic paradigms including:
+- Energy-based optimization with inverse distance potentials (like Thomson problem but with different energy functions)
+- Semidefinite programming relaxations for global optimization (exploiting the positive semidefinite structure) - IMPLEMENT THIS APPROACH WITH MATHEMATICAL FORMULATION
+- Topological approaches using Voronoi diagrams or Delaunay triangulations to constrain point placement - USE TO DEFINE GEOMETRIC CONSTRAINTS
+- Mathematical frameworks based on spherical codes, kissing number configurations, or group theory - EXPLORE SYMMETRIC GROUP ACTIONS OR REPRESENTATION THEORY
+- Population-based metaheuristics (genetic algorithms, particle swarm optimization) with specialized crossover operators - DESIGN CUSTOM OPERATORS FOR 3D POINT ARRANGEMENTS
+- Gradient-free optimization techniques specifically designed for non-smooth distance landscapes - EMPHASIZE DISCRETE OPTIMIZATION METHODS
+- Hybrid approaches that combine discrete optimization with continuous relaxation methods - PRIORITIZE ALGEBRAIC APPROACHES OVER PURE NUMERICAL METHODS
+
+Your solution must demonstrate at least one approach that fundamentally differs from standard distance-based optimization by incorporating mathematical structures such as:
+1. Group theory applications to point symmetries
+2. Algebraic number fields for exact coordinate representations
+3. Convex optimization relaxations with certificate verification
+4. Topological invariants to constrain valid configurations
+5. Spectral graph theory for point interaction modeling
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Alternative formulations to consider:
+  * Energy-based models where points repel each other inversely proportional to distance squared
+  * Constrained optimization using Lagrange multipliers
+  * Topological approaches using Voronoi diagrams or Delaunay triangulations
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+4. **mathematical_approach_diversity**: Score representing how different the mathematical formulation is from standard distance-based optimization (lower is better for diversity, but still achieving good performance)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Alternative optimization methods**: 
+  * `cvxpy` for semidefinite programming formulations - PRIORITIZE THIS FOR MATHEMATICALLY RIGOROUS APPROACHES
+  * `gurobipy` for commercial solvers with advanced global optimization capabilities  
+  * `pyomo` for algebraic modeling of mathematical programs - FOCUS ON ALGEBRAIC FORMULATIONS
+  * `blackboxopt` for modern black-box optimization frameworks
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations - USE FOR SYMMETRY OPERATIONS
+- **Population-based methods**: `deap`, `pymoo`, `platypus` for evolutionary approaches - IMPLEMENT CUSTOM OPERATORS
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+- **Mathematical computation**: 
+  * `sympy` for exact symbolic computations and algebraic number handling
+  * `gmpy2` for high-precision arithmetic when needed
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Robustness**: Implement multiple initialization strategies and combine results
+- **Validation**: Include geometric checks for point distribution quality and mathematical consistency
+- **Mathematical Innovation**: Explore at least one non-standard mathematical formulation beyond traditional distance optimization - DEMONSTRATE DEEP MATHEMATICAL INSIGHTS
+- **Scalability**: Design approach that could extend to other point counts or dimensions
+- **Theoretical Soundness**: Where applicable, provide mathematical certificates of optimality or near-optimality
+- **Algebraic Rigor**: Use exact symbolic computation when possible to validate geometric constructions
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time (allowing longer exploration for diverse methods)
+- **Memory limit**: 1 GB
+- **Iteration limit**: Limit optimization iterations to prevent infinite loops
+- **Exploration requirement**: At least one approach must demonstrate significantly different mathematical formulation from standard distance optimization
+
+# PROMPT-BLOCK-END
+    

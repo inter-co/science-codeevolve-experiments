@@ -1,0 +1,61 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop a sophisticated constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+KEY MATHEMATICAL INSIGHTS:
+- Hexagonal packing exhibits unique geometric properties that can be exploited through symmetry groups
+- The optimal configuration likely involves a combination of central hexagons and radial layers
+- Consider using the concept of "kissing numbers" and "covering radius" from discrete geometry
+- Investigate whether the optimal solution respects certain discrete symmetries (D6, C6, etc.)
+
+ALGORITHMIC APPROACHES TO CONSIDER:
+1. **Direct Geometric Construction**: Explore constructive approaches that build the packing step-by-step using geometric rules and constraints, rather than optimization. Consider using cellular automata or tiling-based methods to generate valid configurations.
+2. **Constraint Satisfaction Networks**: Frame this as a CSP where hexagon placements are variables with domain constraints. Use backtracking, arc consistency, or message passing algorithms to find valid solutions. Explore whether the problem can be decomposed into smaller subproblems.
+3. **Evolutionary Programming with Novel Operators**: Implement evolutionary algorithms using custom genetic operators designed specifically for hexagonal geometry, such as crossover operators that preserve hexagonal symmetries or mutation operators that maintain geometric feasibility.
+4. **Monte Carlo Methods with Importance Sampling**: Use randomized sampling techniques with carefully chosen probability distributions to explore the configuration space efficiently. Consider using Markov Chain Monte Carlo or simulated annealing with geometric cooling schedules.
+5. **Graph-Theoretic Approaches**: Model the problem as finding a maximum clique or independent set in a conflict graph, where nodes represent hexagons and edges represent conflicts. Alternatively, consider using graph coloring or network flow methods.
+6. **Machine Learning Guided Search**: Train neural networks or reinforcement learning agents to predict good hexagon placements or identify promising regions of the search space, then use these predictions to guide traditional optimization methods.
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+  * `cvxpy` (convex optimization for geometric constraints)
+  * `cvxopt` (quadratic programming for geometric optimization)
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+  * Consider `cython` for critical geometric computations
+- **Specialized Tools**:
+  * `gurobipy` or `cplex` for high-performance mathematical programming
+  * `qhull` for convex hull computations
+  * `networkx` for graph-based representations of hexagon arrangements
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

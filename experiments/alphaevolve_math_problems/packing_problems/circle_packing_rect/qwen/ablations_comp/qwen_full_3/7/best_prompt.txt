@@ -1,0 +1,78 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational mathematician and optimization theorist with deep expertise in constrained optimization, convex programming, and global search algorithms. Your mission is to develop an innovative constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii. Focus on mathematical programming approaches and novel optimization strategies rather than geometric constructions.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You must determine the optimal width/height ratio that maximizes the total radius sum
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries (x ± r ≤ width, y ± r ≤ height)
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Convex Optimization Formulation**: Model this as a semidefinite programming problem using the fact that circle packing constraints can be expressed through positive semidefinite matrices
+2. **Lagrangian Relaxation**: Decompose the problem by relaxing overlap constraints and solving the resulting subproblems using dual ascent methods
+3. **Integer Programming**: Formulate as mixed-integer program where binary variables indicate circle positions, using branch-and-bound techniques
+4. **Multi-objective Optimization**: Consider simultaneously optimizing for both sum of radii and packing density as secondary objectives
+5. **Geometric Programming**: Reformulate using logarithmic transformations to convert the non-convex constraints into geometrically convex forms
+6. **Decomposition Methods**: Separate the optimization of rectangle dimensions from circle placement using alternating optimization
+7. **Machine Learning Enhanced Optimization**: Use neural networks to learn good initial configurations or surrogate models for expensive constraint evaluations
+
+THEORETICAL INSIGHTS:
+- The optimal rectangle dimensions are unknown and should be part of the optimization
+- Circle packing problems have known theoretical bounds and asymptotic behavior
+- Consider using known packing patterns (hexagonal, square) as starting points but optimize the parameters rigorously
+- The constraint that circles must fit within the rectangle creates a fundamental bound on the maximum possible sum of radii
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Alternative algorithmic approaches to consider**:
+- **Mathematical Programming**: Formulate as convex optimization problem using `cvxpy` or `scip` for Lagrangian relaxation or semidefinite programming
+- **Global Optimization**: Employ derivative-free methods like `nevergrad` or `optuna` with custom objective functions, ensuring proper constraint handling
+- **Constraint Programming**: Utilize `ortools` or `python-constraint` with sophisticated constraint propagation, paying special attention to boundary constraints
+- **Hybrid Metaheuristics**: Combine evolutionary algorithms with mathematical programming techniques or use multi-start local search
+- **Multi-objective Optimization**: Explore NSGA-II with secondary objectives like circle uniformity or packing density
+- **Lagrangian Relaxation**: Decompose the problem into subproblems and solve using dual ascent methods
+- **Sequential Quadratic Programming**: Use `scipy.optimize.minimize` with SQP methods for constrained optimization, ensuring all constraints are properly satisfied
+
+**Special emphasis on constraint handling**:
+- The rectangle perimeter constraint (width + height = 2) must be maintained throughout optimization
+- Boundary constraints must be strictly enforced: for each circle (x,y,r): x-r ≥ 0, x+r ≤ width, y-r ≥ 0, y+r ≤ height
+- Overlap constraints must be checked rigorously without numerical tolerance errors
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II), `nevergrad` (gradient-free optimization)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `optuna` (hyperparameter optimization)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Mathematical optimization**: `cvxpy` (convex optimization), `scip` (mixed-integer programming)
+- **Advanced optimization**: `pyomo` (algebraic modeling), `gurobipy` (commercial solvers)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations, particularly for boundary constraint violations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic diversity**: Prefer mathematical programming approaches, Lagrangian methods, or novel decomposition strategies over geometric constructions
+- **Constraint satisfaction**: Ensure rigorous validation of all constraints including overlap and boundary conditions, with explicit verification that all circles fit within the rectangle perimeter constraint
+- **Numerical stability**: Use robust numerical methods that handle ill-conditioned optimization problems
+- **Correctness guarantee**: The final solution must satisfy the rectangle perimeter constraint exactly and all circle containment requirements
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy diversity**: Aim to demonstrate at least one unconventional optimization approach beyond standard gradient-based methods
+
+# PROMPT-BLOCK-END
+    

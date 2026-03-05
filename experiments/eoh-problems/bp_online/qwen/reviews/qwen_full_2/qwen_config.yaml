@@ -1,0 +1,118 @@
+CODEBASE_PATH: src/
+EMBEDDING:
+  dimensions: 128
+  model_name: AZURE_TEXT-EMBEDDING-3-SMALL
+  retries: 3
+  verify_ssl: false
+EVAL_FILE_NAME: evaluate.py
+EVAL_TIMEOUT: 30
+EVOLVE_CONFIG:
+  ckpt: 10
+  early_stopping_rounds: null
+  evolve_end_marker: '# EVOLVE-BLOCK-END'
+  evolve_start_marker: '# EVOLVE-BLOCK-START'
+  exploration_rate: 0.3
+  fitness_key: fitness
+  init_pop: 10
+  max_chat_depth: 3
+  max_size: null
+  meta_prompting: true
+  migration_interval: 30
+  migration_rate: 0.1
+  migration_topology: ring
+  mp_end_marker: '# PROMPT-BLOCK-END'
+  mp_start_marker: '# PROMPT-BLOCK-START'
+  num_epochs: 154
+  num_inspirations: 2
+  num_islands: 10
+  scheduler_kwargs:
+    decrease_factor: 0.95
+    increase_factor: 1.05
+    max_rate: 0.5
+    min_rate: 0.2
+    plateau_threshold: 5
+  selection_kwargs:
+    roulette_by_rank: true
+  selection_policy: roulette
+  type: PlateauScheduler
+  use_embedding: false
+  use_map_elites: true
+  use_scheduler: true
+EXPLOITATION_ENSEMBLE:
+- model_name: AWS_QWEN-QWEN3-CODER-30B-INSTRUCT
+  retries: 3
+  temp: 0.7
+  top_p: 0.8
+  verify_ssl: false
+  weight: 1
+EXPLORATION_ENSEMBLE:
+- model_name: AWS_QWEN-QWEN3-CODER-30B-INSTRUCT
+  retries: 3
+  temp: 0.7
+  top_p: 0.8
+  verify_ssl: false
+  weight: 1
+INIT_FILE_DATA:
+  filename: init_program.py
+  language: python
+MAP_ELITES:
+  elite_map_kwargs:
+    max_iter: 300
+    num_centroids: 30
+    num_init_samples: 1000
+    tolerance: 0.0001
+  elite_map_type: cvt
+  features:
+  - max_val: 0.0
+    min_val: -0.5
+    name: fitness
+  - max_val: 30
+    min_val: 0
+    name: eval_time
+MAX_MEM_BYTES: 2000000000
+MEM_CHECK_INTERVAL_S: 0.1
+SAMPLER_AUX_LM:
+  model_name: AWS_QWEN-QWEN3-CODER-30B-INSTRUCT
+  retries: 3
+  temp: 0.7
+  top_p: 0.8
+  verify_ssl: false
+  weight: 1
+SYS_MSG: "# PROMPT-BLOCK-START\nYou are an expert in combinatorial optimization, heuristic\
+  \ design, and bin packing algorithms.\nYour mission is to design a novel and high-performing\
+  \ scoring function for the Online Bin Packing problem.\n\nPROBLEM CONTEXT:\n- **Task**:\
+  \ Design a score function that assigns scores to bins for placing an item.\n  At\
+  \ each step, the item is assigned to the bin with the maximum score.\n  If a bin's\
+  \ remaining capacity equals the maximum capacity (i.e., it is unused), it will not\
+  \ be considered.\n  The final goal is to **minimize the number of used bins**.\n\
+  - **Function signature**: `score(item: int, bins: np.ndarray) -> np.ndarray`\n-\
+  \ **Inputs**:\n  * `item` (int): The size of the current item to be packed.\n  *\
+  \ `bins` (np.ndarray): The remaining capacities of feasible bins (bins where the\
+  \ item fits,\n    i.e., bins with remaining capacity >= item size).\n- **Output**:\n\
+  \  * `scores` (np.ndarray): A score for each feasible bin. The bin with the highest\
+  \ score\n    will be selected for placement.\n- **Constraints**:\n  * `item` is\
+  \ of type int.\n  * `bins` and `scores` are NumPy arrays of the same shape.\n  *\
+  \ Only feasible bins are passed to the function (capacity >= item size).\n  * The\
+  \ function should be self-consistent and handle edge cases.\n- **Bin packing setup**:\n\
+  \  * Items arrive one at a time (online setting).\n  * Bin capacity is 100.\n  *\
+  \ Instances contain 5,000 items each drawn from a Weibull distribution.\n  * There\
+  \ are 5 test instances.\n\nEVALUATION:\n- **Fitness** (maximize): Negative of the\
+  \ excess ratio over the L1 lower bound.\n  A fitness of 0.0 means optimal packing\
+  \ matching the lower bound.\n  Higher values (closer to 0) are better.\n- **excess_pct**:\
+  \ The percentage excess over the L1 lower bound (lower is better).\n- **avg_num_bins**:\
+  \ Average number of bins used across instances (lower is better).\n- **eval_time**:\
+  \ Execution time in seconds.\n\nCOMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:\n\
+  **Core packages**: numpy, scipy\n- The function must be efficient: it is called\
+  \ once per item (5,000 times per instance, 25,000 total).\n- Avoid heavy computation\
+  \ inside the score function; prefer vectorized NumPy operations.\n- The function\
+  \ should be deterministic for reproducibility.\n\nDESIGN TIPS:\n- Classic heuristics:\
+  \ Best Fit (minimize remaining space), First Fit, Worst Fit, etc.\n- Consider combining\
+  \ multiple signals: remaining capacity, item-to-bin ratio, distribution of gaps.\n\
+  - Non-linear transformations (exponential, logarithmic) of remaining space can be\
+  \ effective.\n- Penalizing bins that would leave very small residual capacity (unusable\
+  \ gaps) can help.\n- The scoring function should be sufficiently complex to achieve\
+  \ good performance.\n- Ensure self-consistency: the function must always return\
+  \ valid scores for the given bins.\n\nCOMPUTATIONAL BUDGET:\n- **Time limit**: 30\
+  \ seconds maximum execution time.\n- **Memory limit**: 2 GB.\n\nKNOWN BASELINES:\n\
+  - Best Fit heuristic: ~2-3% excess over L1 bound.\n- State-of-the-art evolved heuristics\
+  \ (EoH/FunSearch): <1% excess over L1 bound.\n# PROMPT-BLOCK-END\n    \n"

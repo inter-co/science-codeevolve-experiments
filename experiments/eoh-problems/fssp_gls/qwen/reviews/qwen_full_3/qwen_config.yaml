@@ -1,0 +1,121 @@
+CODEBASE_PATH: src/
+EMBEDDING:
+  dimensions: 128
+  model_name: AZURE_TEXT-EMBEDDING-3-SMALL
+  retries: 3
+  verify_ssl: false
+EVAL_FILE_NAME: evaluate.py
+EVAL_TIMEOUT: 120
+EVOLVE_CONFIG:
+  ckpt: 10
+  early_stopping_rounds: 80
+  evolve_end_marker: '# EVOLVE-BLOCK-END'
+  evolve_start_marker: '# EVOLVE-BLOCK-START'
+  exploration_rate: 0.3
+  fitness_key: fitness
+  init_pop: 10
+  max_chat_depth: 3
+  max_size: null
+  meta_prompting: true
+  migration_interval: 30
+  migration_rate: 0.1
+  migration_topology: ring
+  mp_end_marker: '# PROMPT-BLOCK-END'
+  mp_start_marker: '# PROMPT-BLOCK-START'
+  num_epochs: 152
+  num_inspirations: 2
+  num_islands: 10
+  scheduler_kwargs:
+    decrease_factor: 0.95
+    increase_factor: 1.05
+    max_rate: 0.5
+    min_rate: 0.2
+    plateau_threshold: 5
+  selection_kwargs:
+    roulette_by_rank: true
+  selection_policy: roulette
+  type: PlateauScheduler
+  use_embedding: false
+  use_map_elites: true
+  use_scheduler: true
+EXPLOITATION_ENSEMBLE:
+- model_name: AWS_QWEN-QWEN3-CODER-30B-INSTRUCT
+  retries: 3
+  temp: 0.7
+  top_p: 0.8
+  verify_ssl: false
+  weight: 1
+EXPLORATION_ENSEMBLE:
+- model_name: AWS_QWEN-QWEN3-CODER-30B-INSTRUCT
+  retries: 3
+  temp: 0.7
+  top_p: 0.8
+  verify_ssl: false
+  weight: 1
+INIT_FILE_DATA:
+  filename: init_program.py
+  language: python
+MAP_ELITES:
+  elite_map_kwargs:
+    max_iter: 300
+    num_centroids: 30
+    num_init_samples: 1000
+    tolerance: 0.0001
+  elite_map_type: cvt
+  features:
+  - max_val: -2000.0
+    min_val: -5000.0
+    name: fitness
+  - max_val: 120
+    min_val: 0
+    name: eval_time
+MAX_MEM_BYTES: 2000000000
+MEM_CHECK_INTERVAL_S: 0.1
+SAMPLER_AUX_LM:
+  model_name: AWS_QWEN-QWEN3-CODER-30B-INSTRUCT
+  retries: 3
+  temp: 0.7
+  top_p: 0.8
+  verify_ssl: false
+  weight: 1
+SYS_MSG: "# PROMPT-BLOCK-START\nYou are an expert in combinatorial optimization, scheduling,\
+  \ and metaheuristics.\nYour mission is to design a novel and high-performing perturbation\
+  \ strategy for\nGuided Local Search (GLS) applied to the Flow Shop Scheduling Problem\
+  \ (FSSP).\n\nPROBLEM CONTEXT:\n- **Task**: Design a function that updates the execution\
+  \ time matrix and selects\n  top jobs to perturb in order to escape local optima\
+  \ in GLS for FSSP.\n  The GLS framework alternates between local search (swap +\
+  \ relocate) and\n  perturbation guided by your function. After perturbation, a focused\
+  \ local search\n  is applied only to the selected jobs.\n- **Function signature**:\
+  \ `get_matrix_and_jobs(current_sequence, time_matrix, m, n) -> (new_matrix, perturb_jobs)`\n\
+  - **Inputs**:\n  * `current_sequence` (list): Current sequence of job indices.\n\
+  \  * `time_matrix` (np.ndarray, shape (n, m)): Execution time of each job on each\
+  \ machine.\n  * `m` (int): Number of machines.\n  * `n` (int): Number of jobs.\n\
+  - **Outputs**:\n  * `new_matrix` (np.ndarray, shape (n, m)): Updated execution time\
+  \ matrix used for\n    the perturbation local search step.\n  * `perturb_jobs` (list):\
+  \ Indices of jobs to focus perturbation on.\n    Must have length > 1 (at most 5\
+  \ jobs will be used).\n- **FSSP setup**:\n  * 64 training instances with 50 jobs\
+  \ and 20 machines each.\n  * Instance data contains processing times for each job-machine\
+  \ pair.\n  * During evolution, 3 instances are used for evaluation (for speed).\n\
+  \  * GLS runs for up to 30 seconds per instance with max 1000 iterations.\n  * Initial\
+  \ solution constructed using the NEH heuristic.\n\nEVALUATION:\n- **Fitness** (maximize):\
+  \ Negative of the average makespan across evaluation instances.\n  Higher values\
+  \ (closer to 0) indicate shorter schedules.\n- **avg_makespan**: Average makespan\
+  \ across instances (lower is better).\n- **eval_time**: Total execution time in\
+  \ seconds.\n\nCOMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:\n**Core packages**:\
+  \ numpy\n- The function is called once per GLS iteration (up to 1000 times per instance).\n\
+  - Avoid expensive operations; prefer vectorized NumPy operations.\n- The function\
+  \ should be deterministic for reproducibility.\n- The returned job list must have\
+  \ length > 1 or evaluation fails.\n- If more than 5 jobs are returned, only the\
+  \ first 5 will be used.\n\nDESIGN TIPS:\n- Consider which jobs contribute most to\
+  \ the makespan (critical path analysis).\n- Modifying processing times of bottleneck\
+  \ jobs can help the search explore new schedules.\n- Random perturbation alone is\
+  \ weak; use problem structure to guide perturbation.\n- Consider the relationship\
+  \ between consecutive jobs and machine idle times.\n- Selecting jobs that are adjacent\
+  \ on the critical path for perturbation can be effective.\n- The new_matrix should\
+  \ be meaningfully different from the original; small changes\n  may not provide\
+  \ enough landscape perturbation.\n\nCOMPUTATIONAL BUDGET:\n- **Time limit**: 120\
+  \ seconds maximum total execution time.\n- **Memory limit**: 2 GB.\n\nKNOWN BASELINES:\n\
+  - NEH + local search (no GLS): high makespan, easily trapped in local optima.\n\
+  - Standard GLS with random perturbation: moderate improvement.\n- State-of-the-art\
+  \ EoH heuristics: significant makespan reduction through intelligent perturbation.\n\
+  # PROMPT-BLOCK-END\n"

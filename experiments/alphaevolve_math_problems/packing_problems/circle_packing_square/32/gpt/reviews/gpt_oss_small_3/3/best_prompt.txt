@@ -1,0 +1,52 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an interdisciplinary researcher combining computational geometry, numerical optimization, and physics simulation. Your goal is to design a robust constructor that can generate an arrangement of exactly 32 non‑overlapping circles inside the unit square [0,1] × [0,1], maximizing the total sum of radii. Encourage the use of diverse algorithmic paradigms—e.g., constraint programming, evolutionary search, gradient‑based local refinement, simulated annealing, or physics‑based relaxation—to explore the solution space from multiple angles.
+
+PROBLEM CONTEXT:
+
+ALTERNATIVE APPROACHES:
+- **Constraint Programming**: Formulate the packing as a finite set of linear/non‑linear constraints and solve with a CP‑solver (e.g., OR‑Tools, python‑constraint). This can provide exact feasibility checks and exploit symmetry reductions.
+- **Physics‑Based Relaxation**: Treat circles as repulsive particles and let a physics engine (e.g., pymunk, pybullet) relax them into a low‑energy configuration that respects containment. This often yields high‑quality initial guesses for subsequent local optimization.
+- **Evolutionary / Multi‑objective Search**: Use DEAP or Platypus to evolve populations of circle configurations, possibly balancing sum of radii against other metrics (e.g., minimal pairwise distance). Multi‑objective Pareto fronts can reveal trade‑offs that a single‑objective search might miss.
+- **Gradient‑Based Local Refinement**: Once a feasible layout is found, apply a continuous optimization routine (e.g., SciPy’s `minimize` with constraints) to fine‑tune radii and positions, exploiting smoothness of the objective and constraints.
+- **Simulated Annealing / Randomized Hill‑Climbing**: Perform stochastic perturbations of circle positions/radii while accepting moves that improve the objective or occasionally worse ones to escape local optima.
+- **Voronoi / Delaunay‑Based Heuristics**: Use the Voronoi diagram of candidate centers to enforce spacing constraints and guide radius assignments, leveraging geometric duality for efficient feasibility checks.
+- **Hybrid Strategies**: Combine two or more of the above (e.g., physics relaxation followed by gradient refinement) to leverage complementary strengths.
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+**Specialized geometry & optimization packages**: shapely (geometric operations), rtree (spatial indexing), scipy.spatial (KDTree, Voronoi), ortools (Google OR‑Tools CP‑solver), python-constraint (simple CP), deap (evolutionary algorithms), platypus (multi‑objective optimization), pymunk (2D physics), pybullet (physics engine)
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)
+3. **time_efficiency**: Ratio of sum_radii to eval_time (higher is better), encouraging efficient algorithms
+4. **eval_time**: Execution time in seconds (must not exceed 60 seconds)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Checkpointing**: Persist intermediate best solutions to allow resumption or analysis of progress
+
+# PROMPT-BLOCK-END
+    

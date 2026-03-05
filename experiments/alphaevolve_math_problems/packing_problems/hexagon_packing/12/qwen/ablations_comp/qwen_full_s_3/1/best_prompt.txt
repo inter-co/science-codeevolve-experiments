@@ -1,0 +1,83 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length). Consider both structured and unconventional geometric approaches, including those leveraging group theory, symmetry groups, and mathematical optimization techniques.
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+- Strategy: Explore diverse algorithmic paradigms including:
+  * Mathematical programming formulations with convex relaxations or semidefinite programming
+  * Combinatorial optimization approaches that consider discrete arrangements and graph theory
+  * Symmetry-aware evolutionary algorithms that exploit the 6-fold rotational symmetry of the hexagonal lattice
+  * Global optimization methods such as simulated annealing, particle swarm optimization, or genetic algorithms with specialized crossover operators
+  * Geometric constraint satisfaction techniques that build solutions incrementally with constraint propagation
+  * Hybrid approaches combining analytical geometry with numerical optimization, including machine learning-enhanced search strategies
+  * Alternative geometric constructions such as Voronoi diagrams, Delaunay triangulations, or circle packing analogies
+  * Novel approaches that might not rely on traditional continuous optimization but instead use discrete search, lattice-based methods, or abstract mathematical reasoning about hexagonal arrangements
+  * Completely different paradigms: Consider treating this as a combinatorial optimization problem over discrete configurations, a constraint satisfaction problem with sophisticated constraint propagation, or even a quantum-inspired optimization approach
+  * Discrete geometric reasoning: Explore approaches that work with fundamental geometric relationships rather than continuous parameter optimization
+  * Graph-based representations: Model the problem as finding an optimal embedding of a graph into the hexagonal tiling space
+  * Topological methods: Investigate approaches that preserve topological constraints while optimizing geometric parameters
+  * Abstract algebraic approaches: Consider group actions on hexagon configurations or equivalence classes under symmetry transformations
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+  * Consider using evolutionary algorithms that exploit symmetries of the hexagonal lattice
+  * Consider using `cvxpy` or similar for convex optimization formulations
+  * Consider implementing specialized solvers for hexagon packing constraints
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+- **Advanced approaches**: Consider mathematical programming formulations, convex optimization relaxations, combinatorial optimization techniques, or even quantum-inspired optimization methods that can handle the complex constraints of hexagon packing.
+- **Alternative paradigms**: Consider approaches that treat this as a constraint satisfaction problem, a graph coloring problem, or a discrete optimization problem with novel objective functions that might reveal previously unexplored solution spaces.
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+  * Consider using evolutionary algorithms that exploit symmetries of the hexagonal lattice
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+- **Advanced approaches**: Consider mathematical programming formulations, convex optimization relaxations, or combinatorial optimization techniques that can handle the complex constraints of hexagon packing.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

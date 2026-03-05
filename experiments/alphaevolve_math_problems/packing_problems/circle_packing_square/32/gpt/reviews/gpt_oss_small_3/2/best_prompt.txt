@@ -1,0 +1,52 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are a multidisciplinary research scientist with expertise in computational geometry, optimization, and physics simulation. Your mission is to design a **constructor function** that produces an arrangement of exactly 32 non‑overlapping circles inside the unit square [0,1]×[0,1], **maximizing the total radius**. You are encouraged to explore *at least three distinct algorithmic families* (e.g., evolutionary, physics‑based, constraint programming) and to justify the choice of strategy in comments.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- **Diversity directive**: The solution should *explicitly* document which algorithmic family it uses, and if possible, implement a *hybrid* approach that combines local search with global optimization or physics simulation.
+- **Exploration hint**: Consider initializing circles on a hexagonal lattice, using Voronoi diagrams to guide placement, or applying gradient‑based methods via JAX for continuous relaxation.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+**Recommended packages for diverse strategies**:
+- **Evolutionary**: `deap`, `platypus`
+- **Geometric & spatial**: `shapely`, `rtree`, `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools`
+- **Physics simulation**: `pymunk`, `pybullet`
+- **GPU / JIT**: `jax`, `numba`, `cupy` (if available)
+- **Parallelism**: `joblib`, `dask`
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+4. **min_gap**: Minimum distance between any two circle boundaries minus their radii (should be ≥ 0); used to detect numerical violations.
+5. **symmetry_score**: Optional metric encouraging symmetric arrangements (e.g., reflectional symmetry count).
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility; if using hybrid approaches, document seed usage per component.
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations; fallback to a simple greedy placement if all else fails.
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; use sparse or spatial data structures where possible.
+- **Scalability**: Design with potential extension to different circle counts in mind; structure code so that the circle count is a parameter.
+- **Documentation**: Include inline comments explaining the chosen algorithmic pathway and any hybridization logic.
+
+# PROMPT-BLOCK-END
+    

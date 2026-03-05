@@ -2,20 +2,29 @@
 SETTING:
 You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
 Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
-Consider both deterministic and stochastic optimization approaches, including:
-- Mathematical programming with constraints
-- Evolutionary algorithms for global search
-- Physics-based simulation with collision detection
-- Gradient-free optimization methods
+Consider novel geometric configurations beyond regular grids, such as:
+- Hexagonal lattice arrangements with non-uniform spacing
+- Spiral or radial packing patterns
+- Fractal-like hierarchical arrangements
+- Exploiting symmetry groups of the hexagonal tiling
+- Combining different packing densities in local regions
+- Analytical geometric constructions based on optimal packing theory
+- Graph-theoretic approaches modeling hexagon interactions as constraint satisfaction problems
+- Topological optimization using dual graphs of hexagonal tilings
+- Energy minimization approaches treating hexagons as charged particles with repulsive forces
+- Geometric programming formulations leveraging convex relaxations
+- **Alternative algorithmic paradigms**: Consider evolutionary computation, simulated annealing, or genetic algorithms that can explore the discrete configuration space more effectively
+- **Discrete geometry approaches**: Leverage known results from discrete geometry and combinatorial optimization rather than continuous optimization
+- **Constraint satisfaction networks**: Model the problem as a CSP where variables represent hexagon placements and constraints enforce non-overlap and containment
+- **Physical simulation-based methods**: Implement molecular dynamics or force-directed placement algorithms that naturally handle complex geometric constraints
 
 PROBLEM CONTEXT:
 - Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
 - Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
 - Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
-  * Non-overlap: All pairs of inner hexagons must be disjoint (use SAT or polygon intersection tests)
-  * Containment: All vertices of inner hexagons must lie within the outer hexagon (use point-in-polygon tests)
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
   * Objective: maximize 1/R where R is the outer hexagon side length
-  * Consider using geometric constraints: distance between centers, angular relationships, symmetry properties
 
 PERFORMANCE METRICS:
 1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
@@ -29,25 +38,33 @@ COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
   * `shapely` (polygon operations, intersection testing, containment checks)
   * `scipy.spatial` (distance calculations, geometric queries)
 - **Optimization**: 
-  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
+  * `scipy.optimize` (constrained optimization, global methods)
   * `deap` (evolutionary algorithms with custom operators)
   * `platypus` (multi-objective optimization)
+  * `scipy.optimize.differential_evolution` (global optimization for discrete spaces)
 - **Collision detection**: 
   * `pymunk` (2D rigid body physics with polygon shapes)
   * Custom SAT (Separating Axis Theorem) implementations
 - **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
-- **Advanced techniques**: 
-  * Use mathematical programming (e.g., nonlinear constrained optimization)
-  * Implement local search heuristics
-  * Apply simulated annealing or genetic algorithms
+- **Advanced techniques**:
+  * Consider analytical geometric constructions rather than purely numerical optimization
+  * Leverage known results from hexagonal packing theory and sphere packing analogies
+  * Explore convex optimization approaches using geometric programming
+  * Implement constraint satisfaction methods using graph theory
+  * Apply topological optimization with dual graph representations
+  * Utilize energy-based models with physical simulation for initial configurations
+  * **Alternative approaches**: Implement discrete search strategies or hybrid methods that combine multiple algorithmic paradigms
 
 TECHNICAL REQUIREMENTS:
 - **Numerical stability**: Handle hexagon intersection and containment calculations robustly
 - **Reproducibility**: Fixed random seeds for stochastic optimization methods
+- **Computational efficiency**: Prioritize solutions that can be computed within 10 seconds
+- **Analytical foundations**: Where possible, use established geometric principles and known optimal configurations as starting points
+- **Multi-scale thinking**: Consider both global geometric constraints and local packing optimizations
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 10 seconds maximum execution time (prioritize efficiency over exhaustive search)
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

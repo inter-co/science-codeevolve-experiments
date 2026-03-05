@@ -1,0 +1,57 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Mathematical Optimization**: Employ gradient-based methods like L-BFGS or trust-region algorithms from scipy.optimize to directly optimize the objective function
+2. **Geometric Construction**: Utilize known optimal configurations such as the regular 16-point arrangement on a sphere projected to 2D, or use spherical codes and spherical designs
+3. **Evolutionary Approaches**: Implement genetic algorithms or particle swarm optimization using libraries like DEAP or pymoo to search the configuration space
+4. **Energy Minimization**: Model the point distribution as a system where points repel each other according to inverse distance laws, then minimize the total energy
+5. **Lattice-Based Approaches**: Consider structured arrangements like hexagonal lattices or other periodic tilings that can be adapted for bounded domains
+6. **Multi-Start Methods**: Use multiple random initializations combined with local optimization to escape local optima
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+SOLUTION APPROACHES:
+1. **Direct Optimization**: Formulate as a constrained optimization problem where you directly optimize the ratio using scipy.optimize
+2. **Geometric Principles**: Leverage known mathematical results about optimal point distributions on spheres and their projections
+3. **Hybrid Methods**: Combine global search strategies (like simulated annealing) with local refinement techniques
+4. **Symmetry Exploitation**: Consider arrangements with high symmetry that often yield good approximations to optimal solutions
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Optimization**: `scipy.optimize` (for direct optimization), `deap` or `pymoo` (evolutionary algorithms)
+- **Geometric Computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, Delaunay triangulation)
+  * `scipy.spatial.distance` (efficient distance computations)
+- **Specialized Algorithms**: 
+  * `spherical-geometry` for spherical arrangements (can be adapted to 2D via stereographic projection)
+  * `quaternion` package for 3D rotations (useful for understanding symmetries)
+- **Performance**: `numba` (JIT compilation), `joblib` (parallelization)
+- **Advanced Techniques**: Consider `cvxpy` for convex optimization formulations or `nlopt` for specialized nonlinear optimization
+
+NOTE: Focus on either mathematical rigor or computational efficiency, but not both at the expense of solution quality. The key is to find a principled approach that goes beyond simple random placement.
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

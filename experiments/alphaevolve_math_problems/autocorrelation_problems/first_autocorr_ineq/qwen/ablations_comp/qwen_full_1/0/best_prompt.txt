@@ -23,14 +23,6 @@ COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 - **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
 - **Performance**: `numba` (@jit compilation), `cython`, `numexpr` (fast array operations)
 
-ALTERNATIVE APPROACHES TO CONSIDER:
-- **Evolutionary Algorithms**: Implement genetic algorithms with custom crossover and mutation operators designed for step function sequences
-- **Particle Swarm Optimization**: Use PSO to search the space of possible step function configurations
-- **Simulated Annealing**: Apply annealing techniques to escape local optima in the discrete configuration space
-- **Bayesian Optimization**: Use probabilistic models to intelligently sample promising regions of the parameter space
-- **Direct Search Methods**: Implement pattern search or Nelder-Mead style direct search without gradient information
-- **Hybrid Approaches**: Combine multiple methodologies (e.g., use evolutionary algorithm to find good starting points for local optimization)
-
 PERFORMANCE METRICS:
 1. **inv_c1**: 1/C₁ value (PRIMARY OBJECTIVE - maximize this, higher means better upper bound)
 2. **benchmark_ratio**: 1.5031/C₁ (success indicator - values > 1.0 mean you've beaten the benchmark)
@@ -42,18 +34,39 @@ TECHNICAL REQUIREMENTS:
 - **Memory efficiency**: Use FFT-based convolution for large sequences (O(n log n) vs O(n²))
 - **Scalability**: Consider that optimal n may vary; explore different sequence lengths
 - **Numerical stability**: Be mindful of division by small sums; evaluator rejects sum(a) < 0.01
-- **Algorithmic Diversity**: Implement at least one approach from the alternative methodologies listed above, not limited to gradient-based methods
 
 MATHEMATICAL INSIGHTS:
 - The autoconvolution b[k] = Σᵢ a[i] · a[k-i] is central to the problem
 - To maximize 1/C₁ = (sum(a))² / (2n · max(b)), we want to minimize the ratio max(b)/(sum(a))² while accounting for sequence length n
 - This means: maximize total mass sum(a) relative to peak convolution max(b), while keeping n small
 - The trade-off between sequence length n and height distribution is crucial
-- Consider exploring discrete optimization landscapes where traditional gradient methods may be inefficient or inappropriate
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+Instead of the iterative optimization-based approach, consider these fundamentally different algorithmic paradigms:
+
+1. **Combinatorial Search & Enumeration**: Treat this as a discrete optimization problem and explore systematic enumeration or branch-and-bound techniques tailored to step function structures. Consider exploring small sequences exhaustively and building up from optimal solutions of smaller instances. Focus on exploring mathematical structures like Sidon sets or difference sets that naturally satisfy autocorrelation constraints.
+
+2. **Fourier Domain Analysis**: Leverage the FFT-based convolution to optimize in frequency domain representations where certain constraints might be easier to satisfy. Explore how spectral properties relate to autocorrelation bounds and optimize directly in the frequency domain. Consider using spectral clustering or Fourier coefficient manipulation to construct optimal sequences.
+
+3. **Learning-based Construction**: Train simple neural networks or decision trees to predict good starting configurations or identify promising regions of the search space. Use reinforcement learning to discover effective pattern construction rules. Implement a policy gradient approach that learns to generate sequences with desirable autocorrelation properties.
+
+4. **Multi-objective Evolutionary Algorithms**: Instead of single objective, consider optimizing both the autocorrelation peak and total energy simultaneously using Pareto optimization techniques. Explore evolutionary approaches that maintain diverse solutions throughout the search process. Implement niching techniques to avoid premature convergence to local optima.
+
+5. **Constraint Satisfaction with Structure Exploitation**: Formulate this as a constraint satisfaction problem exploiting the mathematical structure of autocorrelation functions. Use specialized constraint propagation techniques to prune the search space effectively. Implement backtracking with intelligent variable ordering based on mathematical properties.
+
+6. **Graph-based Optimization**: Model the sequence construction as a graph problem where nodes represent possible step heights and edges encode constraints. Use graph algorithms to find optimal paths through the solution space. Apply graph partitioning or community detection methods to identify promising substructures.
+
+7. **Multi-scale Discrete Optimization**: Employ multi-resolution approaches where you first optimize coarse approximations and then refine details, but use discrete optimization techniques rather than continuous ones. Consider hierarchical optimization where you build solutions from basic components with known good properties.
+
+8. **Information-Theoretic Approaches**: Frame this in terms of information theory concepts, considering entropy or mutual information measures related to the step function construction and its autocorrelation properties. Use entropy maximization principles or information bottleneck methods to construct optimal sequences.
+
+9. **Algebraic Number Theory Approach**: Explore connections to algebraic structures or number theory concepts that might provide new insights into optimal step function constructions. Investigate finite field constructions or cyclotomic polynomials that could yield sequences with favorable autocorrelation properties.
+
+10. **Symmetry Breaking & Group Theory**: Utilize symmetry properties of the autocorrelation function to reduce the search space systematically, applying group theory concepts to identify equivalent solutions. Implement orbit-stabilizer methods to efficiently enumerate unique solutions under permutation groups.
 
 # PROMPT-BLOCK-END
     

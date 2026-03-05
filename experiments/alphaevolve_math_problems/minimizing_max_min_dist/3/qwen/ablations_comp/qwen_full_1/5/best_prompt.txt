@@ -2,12 +2,7 @@
 SETTING:
 You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
 Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
-Consider exploring:
-1. **Alternative geometric constructions**: Explore non-symmetric arrangements, fractal-based distributions, or irregular polyhedral configurations
-2. **Stochastic and population-based methods**: Implement particle swarm optimization, genetic algorithms, or differential evolution approaches
-3. **Multi-scale optimization strategies**: Combine coarse-grained global search with fine-grained local refinement techniques
-4. **Physics-inspired methodologies**: Model as molecular dynamics simulations, electrostatic repulsion systems, or energy minimization problems with novel potential functions
-5. **Topological and combinatorial approaches**: Use Voronoi diagrams, Delaunay triangulations, or graph-theoretic representations for point placement
+Explore diverse algorithmic strategies including: direct geometric construction based on known optimal packings, physics-inspired particle systems, evolutionary computation approaches, and mathematical programming formulations. Focus on practical implementations that work within the given computational budget.
 
 PROBLEM CONTEXT:
 - Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
@@ -17,11 +12,7 @@ PROBLEM CONTEXT:
   * Minimum distance: dmin = min{dij : i≠j}
   * Maximum distance: dmax = max{dij : i≠j}
   * Objective: maximize dmin/dmax subject to spatial constraints
-- Consider leveraging:
-  * **Non-uniform distributions**: Explore irregular spacing patterns that may outperform symmetric arrangements
-  * **Multi-objective optimization**: Balance distance maximization against other criteria like point uniformity or packing density
-  * **Hierarchical approaches**: Begin with coarser approximations before refining to fine details
-  * **Hybrid methodologies**: Combine deterministic geometric insights with randomized search strategies
+- Consider exploring configurations based on known optimal packings, Platonic solids, spherical codes, or other mathematical structures as potential starting points. Focus on approaches that don't require external dependencies beyond core scientific Python libraries.
 
 PERFORMANCE METRICS:
 1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
@@ -31,7 +22,7 @@ PERFORMANCE METRICS:
 COMPUTATIONAL RESOURCES:
 **Core packages**: numpy, scipy, sympy, pandas
 **Additional useful packages**:
-- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D optimization**: `scipy.optimize`, `scipy.optimize.differential_evolution`, `scipy.optimize.basinhopping`
 - **3D geometric computing**: 
   * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
   * `trimesh` (3D mesh operations), `open3d` (3D data processing)
@@ -39,16 +30,17 @@ COMPUTATIONAL RESOURCES:
   * `spherical-geometry` for spherical arrangements
   * `quaternion` package for 3D rotations
 - **Performance**: `numba` (3D JIT compilation), `joblib`
+- **Physics-based approaches**: Consider libraries for molecular dynamics or particle system simulations
 
 TECHNICAL REQUIREMENTS:
-- **Reproducibility**: Fixed random seeds for all stochastic components
-- **Innovation Focus**: Prioritize approaches that demonstrate novel algorithmic insights rather than standard optimization techniques
-- **Computational Creativity**: Explore unconventional combinations of mathematical concepts, such as applying number theory to point placement or using topological invariants
-- **Robustness**: Solutions should handle edge cases gracefully and avoid local optima traps common in distance-based optimization
+- **Reproducibility**: Fixed random seeds for all stochastic components  
+- **Exploration Strategy**: Employ diverse approaches including deterministic geometric constructions, gradient-free optimization methods, and hybrid techniques to escape local optima. Prioritize methods that can be implemented without external dependencies.
+- **Alternative Techniques**: Consider non-gradient methods like differential evolution, basin-hopping, or simulated annealing. Explore mathematical programming formulations or direct construction from known optimal configurations. Prefer methods that can be implemented with pure scipy/numpy stack.
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Efficiency focus**: Prioritize algorithms with lower computational complexity where possible, favoring methods that can quickly converge to promising regions rather than exhaustive searches. Avoid complex libraries that introduce dependencies.
 
 # PROMPT-BLOCK-END
     

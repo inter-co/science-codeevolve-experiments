@@ -1,0 +1,63 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Purely Population-Based Evolutionary Methods**: Implement genetic algorithms, particle swarm optimization, or differential evolution without any deterministic initialization. Focus on exploring the entire solution space through stochastic processes
+2. **Physics-Inspired Monte Carlo Approaches**: Develop methods using Markov Chain Monte Carlo sampling, simulated annealing with custom cooling schedules, or molecular dynamics-inspired optimization where points repel each other according to physical laws
+3. **Mathematical Construction-Based Solutions**: Explore known optimal configurations from discrete geometry, such as arrangements based on algebraic number fields, spherical codes, or configurations derived from symmetry groups. Consider constructions related to the 16-cell in 4D or other highly symmetric point sets that project to 2D
+4. **Hybrid Stochastic-Deterministic Methods**: Combine random search with mathematical insights - for example, start with random configurations but apply geometric constraints or symmetry considerations during evolution
+5. **Constraint Satisfaction and Search Methods**: Approach this as a combinatorial optimization problem using techniques like simulated annealing, tabu search, or constraint propagation methods that directly work with the geometric constraints
+
+ENHANCED CONCEPTUAL APPROACHES:
+- **Symmetry-Driven Construction**: Leverage known symmetries in optimal point distributions, such as D4 lattice structures or other Coxeter groups that yield uniform point arrangements
+- **Energy Minimization Framework**: Model the point placement as a physical system where points repel each other with inverse distance potential, then use numerical methods to find equilibrium configurations
+- **Algebraic Number Field Constructions**: Utilize roots of unity or other algebraic constructions that naturally produce well-separated point sets
+- **Spectral Graph Theory Applications**: Apply graph-theoretic approaches to optimize point distribution through adjacency relationships and eigenvalue analysis
+- **Topological Optimization**: Consider this problem from a topological perspective, optimizing the arrangement to maximize certain topological invariants
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Evolutionary optimization**: `deap`, `pymoo`, `platypus` (population-based methods)
+- **Advanced optimization**: `scipy.optimize` (various gradient-free methods), `scipy.optimize.differential_evolution`
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, Delaunay triangulation)
+  * `sklearn.metrics.pairwise` for efficient distance computations
+- **Specialized geometric algorithms**: 
+  * `spherical-geometry` for spherical arrangements (if applicable)
+  * `quaternion` package for 3D rotations (if extending to 3D)
+- **Performance**: `numba` (JIT compilation), `joblib` (parallel processing)
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Demonstrate at least two fundamentally different approaches - one that relies on population-based stochastic search and one that uses mathematical construction or physics-inspired methods
+- **Robustness**: Handle edge cases gracefully and provide fallback mechanisms
+- **Theoretical grounding**: Where possible, justify choices based on mathematical principles or known optimal configurations from discrete geometry, optimization theory, or statistical physics
+- **Mathematical Innovation**: Prioritize approaches that leverage deep mathematical insights rather than brute-force optimization, particularly those connecting to known optimal configurations in discrete geometry or algebraic number theory
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Algorithmic Diversity**: Demonstrate at least two distinct algorithmic paradigms - one that uses stochastic population-based methods (like pure evolutionary algorithms) and another that employs either mathematical construction techniques or physics-inspired approaches
+- **Exploration vs. Exploitation**: Balance between exploring novel stochastic approaches and leveraging mathematical insights about optimal point distributions
+- **Mathematical Depth**: Prioritize solutions that demonstrate deeper mathematical understanding over simple optimization heuristics
+
+# PROMPT-BLOCK-END
+    

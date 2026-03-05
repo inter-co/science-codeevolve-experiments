@@ -1,0 +1,74 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Emphasize theoretical mathematical frameworks and novel algorithmic paradigms rather than conventional optimization heuristics. Develop solutions that demonstrate deep understanding of geometric and optimization theory.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Prioritize mathematical rigor and theoretical foundations over empirical approaches. Consider:
+  * Semidefinite programming relaxations for distance geometry with novel constraint formulations
+  * Energy minimization using exotic interaction potentials (inverse power laws, logarithmic, or fractional potentials)
+  * Discrete differential geometry approaches with curvature constraints on point configurations
+  * Algebraic geometry techniques for polynomial optimization over point configurations with Groebner basis methods
+  * Topological optimization methods treating point configurations as manifolds with prescribed topological invariants
+  * Information-theoretic formulations using Renyi entropy or mutual information as primary objectives
+  * Spectral graph theory applied to point configuration graphs with non-standard Laplacian definitions
+  * Applications of algebraic topology to understand point cloud connectivity and persistent homology
+  * Manifold optimization using PyManOpt with custom Riemannian metrics adapted to distance constraints
+  * Harmonic analysis approaches utilizing Fourier transforms of point distributions
+  * Combinatorial optimization with novel neighborhood structures and constraint satisfaction methods
+  * Dynamical systems approaches with non-gradient flow dynamics and exotic Lyapunov functions
+=======
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (mesh operations), `open3d` (data processing)
+- **Specialized algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+  * `galois` for finite field computations if applicable
+  * `pymanopt` for manifold optimization
+- **Performance**: `numba` (JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Explore at least two distinct algorithmic paradigms:
+  1. A deterministic geometric construction method that leverages symmetry groups, algebraic number fields, topological invariants, or representation theory (avoiding spectral graph theory and icosahedral projections)
+  2. A stochastic optimization approach that incorporates non-gradient methods, population-based strategies with innovative selection mechanisms, or evolutionary algorithms with specialized genetic operators
+- **Mathematical Rigor**: Justify your approach with relevant geometric or optimization theory, emphasizing theoretical guarantees, convergence properties, or optimality conditions
+- **Alternative Approaches**: Consider unconventional methods such as:
+  * Optimization via convex relaxations or semidefinite programming with novel constraints derived from distance geometry theory
+  * Approaches inspired by physics simulations with exotic interaction potentials (e.g., inverse power laws, logarithmic potentials, or long-range interactions)
+  * Methods based on discrete differential geometry or mesh optimization with curvature constraints and geometric flows
+  * Combinatorial optimization techniques for point placement with novel neighborhood structures and constraint satisfaction using constraint programming
+  * Information-theoretic formulations using Renyi entropy, mutual information, or other generalized information measures as objectives
+  * Spectral graph theory applied to point configuration graphs with non-standard Laplacian definitions or graph signal processing
+  * Applications of algebraic topology to understand point cloud connectivity and persistent homology with topological data analysis
+  * Manifold optimization with PyManOpt using custom Riemannian metrics and geometric constraints
+  * Harmonic analysis approaches utilizing Fourier transforms, wavelets, or spherical harmonics of point distributions
+  * Dynamical systems approaches with non-gradient flow dynamics and exotic Lyapunov functions or energy landscapes
+=======
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

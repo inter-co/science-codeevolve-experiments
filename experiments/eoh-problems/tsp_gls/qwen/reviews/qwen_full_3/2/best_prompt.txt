@@ -1,0 +1,62 @@
+# PROMPT-BLOCK-START
+You are an expert in combinatorial optimization, metaheuristics, and the Travelling Salesman Problem (TSP).
+Your mission is to design a novel and high-performing edge distance update strategy for
+Guided Local Search (GLS) applied to TSP.
+
+PROBLEM CONTEXT:
+- **Task**: Design a function that updates the edge distance matrix to guide the local
+  search away from the current local optimum. The GLS framework iteratively applies 2-opt
+  and relocate local search operators, using your modified distance matrix to escape local
+  optima and explore new regions of the solution space.
+- **Function signature**: `update_edge_distance(edge_distance, local_opt_tour, edge_n_used) -> updated_edge_distance`
+- **Inputs**:
+  * `edge_distance` (np.ndarray, shape (n, n)): The original symmetric distance matrix between cities.
+  * `local_opt_tour` (np.ndarray): Array of node IDs representing the current locally optimal tour.
+  * `edge_n_used` (np.ndarray, shape (n, n)): Matrix counting how many times each edge has been
+    used during past perturbation steps (penalty history).
+- **Output**:
+  * `updated_edge_distance` (np.ndarray, shape (n, n)): The modified distance matrix used by
+    the local search operators. By increasing distances on frequently-used or tour edges,
+    the search is encouraged to explore different tour structures.
+- **TSP setup**:
+  * 64 TSP instances with 100 cities each (TSP100).
+  * City coordinates randomly sampled from [0, 1]^2.
+  * Optimal tour costs are known (computed by Concorde).
+  * During evolution, 3 instances are used for evaluation (for speed).
+  * GLS runs for up to 10 seconds per instance with max 1000 iterations.
+
+EVALUATION:
+- **Fitness** (maximize): Negative of the average gap (%) to the optimal tour cost.
+  A fitness of 0.0 means optimal tours are found on all evaluation instances.
+  Higher values (closer to 0) are better.
+- **avg_gap_pct**: Average percentage gap to optimal across instances (lower is better).
+- **eval_time**: Total execution time in seconds across all instances.
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy
+- The function is called once per GLS iteration (up to 1000 times per instance).
+- Avoid expensive operations; prefer vectorized NumPy operations.
+- The function should be deterministic for reproducibility.
+- The output matrix need not be symmetric, but keeping it symmetric is recommended.
+- Consider using advanced mathematical functions like exp(), log(), sqrt() to create non-linear penalty landscapes.
+- Explore matrix operations that can simultaneously update multiple edges at once.
+
+DESIGN TIPS:
+- Explore non-linear penalty mechanisms beyond simple multiplication: consider exponential, logarithmic, or polynomial transformations.
+- Investigate penalty functions that incorporate edge weights directly (e.g., scale penalties by original edge cost).
+- Consider dynamic penalty adjustment based on tour quality or convergence rate.
+- Think about incorporating global statistics (mean, variance) of edge usage rather than just individual counts.
+- Experiment with penalty functions that create "valleys" or "plateaus" in the distance landscape to encourage exploration.
+- The penalty mechanism should ideally create a more complex landscape that allows for both exploitation and exploration.
+- Consider penalty schemes inspired by reinforcement learning concepts or game theory.
+- The function should make meaningful modifications; returning the original matrix unchanged
+  will cause the search to stagnate.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum total execution time.
+- **Memory limit**: 2 GB.
+
+KNOWN BASELINES:
+- Standard GLS with linear penalty: ~0.1-0.5% gap to optimal on TSP100.
+- State-of-the-art EoH heuristics: ~0.00% gap on many TSP100 instances.
+# PROMPT-BLOCK-END

@@ -1,7 +1,7 @@
 # PROMPT-BLOCK-START
 
 SETTING:
-You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to evolve and optimize a function that discovers step function constructions to improve the lower bound on the second autocorrelation inequality constant C₂. Consider both analytical and computational approaches.
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your approach should combine analytical insights with advanced optimization strategies.
 
 PROBLEM CONTEXT:
 - **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
@@ -12,7 +12,6 @@ PROBLEM CONTEXT:
   * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
   * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
   * ||g||∞: Infinity-norm, computed as max(|g|)
-- **Alternative mathematical perspectives**: Consider convex optimization formulations, Lagrangian duality, or variational principles for maximizing C₂. Think about how to construct functions that create flat autoconvolutions while maintaining high L2 norm relative to the product of L1 and L-infinity norms.
 - **Constraints**:
   * All step heights must be non-negative (negative values clipped to 0)
   * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
@@ -21,15 +20,15 @@ PROBLEM CONTEXT:
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
-**Additional useful packages**:
-- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
-- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
-- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
-- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
-- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
-- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
-- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
-- **Advanced optimization**: Consider gradient-based methods (if applicable), or explore convex relaxation techniques for the optimization problem
+**Advanced Optimization Strategies**:
+- **Alternative Initialization**: Explore unconventional starting configurations such as sparse patterns, fractal-like structures, or random geometric distributions rather than smooth analytical forms
+- **Population-Based Methods**: Implement genetic algorithms, particle swarm optimization, or differential evolution without relying on gradient information
+- **Bayesian Optimization**: Utilize `optuna` or `scikit-optimize` to model the black-box C₂ landscape and intelligently sample promising regions
+- **Direct Search Methods**: Employ Nelder-Mead, simulated annealing, or other derivative-free optimization techniques
+- **Multi-Objective Optimization**: Consider simultaneously optimizing for multiple criteria beyond just C₂, such as sparsity or regularity of the resulting step function
+- **Deep Learning Approaches**: Train neural networks to predict good step function configurations or use reinforcement learning to discover optimal patterns
+- **Combinatorial Search**: Enumerate or sample from discrete classes of step functions (e.g., binary patterns, piecewise constant with specific constraints)
+- **Multi-Scale Analysis**: Begin optimization at coarse resolution and progressively refine the solution, or vice versa
 
 PERFORMANCE METRICS:
 1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
@@ -40,21 +39,27 @@ TECHNICAL REQUIREMENTS:
 - **Determinism**: Use fixed random seeds for reproducibility across runs
 - **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
 - **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
-- **Algorithmic diversity**: Explore multiple strategies such as gradient-based optimization, evolutionary algorithms, or hybrid approaches rather than simple random sampling
+- **Exploration Strategy**: Implement a multi-method approach that systematically explores different algorithmic families (analytical construction, evolutionary, Bayesian, direct search)
+- **Convergence Criteria**: Define clear stopping conditions based on both objective improvement and computational budget
+- **Diversity Promotion**: Ensure the solution approach does not favor one specific algorithmic pathway over others; test at least 3 fundamentally different optimization strategies
+- **Cross-validation**: Validate results using multiple independent optimization runs with different random seeds
 
 MATHEMATICAL INSIGHTS:
-- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object representing the convolution of step function with itself
 - C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
 - To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
 - Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
 - More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
 - The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
-- Consider constructing functions with specific geometric patterns or known mathematical forms that have been shown to yield good bounds in similar problems
-- Think about whether there might be analytical solutions or near-analytical approximations to this optimization problem
+- Alternative mathematical frameworks: Consider reformulating the problem using measure theory, functional derivatives, or convex optimization duality
+- Discrete vs Continuous: Explore whether the optimal solution has special discrete properties or if continuous relaxations yield insights
+- Symmetry considerations: While symmetric functions often work well, consider whether asymmetric solutions might achieve better performance
+- Phase transitions: Investigate how small changes in function shape dramatically affect C₂ values
+- Information-theoretic interpretations: Could the problem be understood through entropy or information-theoretic lenses?
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

@@ -1,0 +1,72 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+STRATEGIC APPROACHES TO CONSIDER:
+1. **Global Optimization**: Explore evolutionary algorithms, simulated annealing, or particle swarm optimization for exploring the entire solution space
+2. **Constraint Satisfaction**: Formulate as a constraint satisfaction problem using interval arithmetic or satisfiability solvers
+3. **Topological Methods**: Utilize concepts from algebraic topology or persistent homology to understand point configurations
+4. **Machine Learning Approaches**: Consider neural network architectures trained on known good configurations or reinforcement learning agents
+5. **Alternative Mathematical Frameworks**: Explore arrangements using complex analysis, harmonic analysis, or group theory representations
+
+ALTERNATIVE ALGORITHMIC PERSPECTIVES TO PRIORITIZE:
+- **Evolutionary Computation**: Focus on evolutionary algorithms with custom crossover and mutation operators designed for continuous spaces, such as genetic algorithms or differential evolution
+- **Multi-Modal Optimization**: Implement strategies that simultaneously explore multiple promising regions of the solution space using techniques like multi-start methods or basin-hopping
+- **Constructive Geometric Approaches**: Explore algorithms that build point configurations through geometric reasoning (e.g., Voronoi diagrams, Delaunay triangulations, or tessellation principles) rather than direct optimization
+- **Hybrid Metaheuristics**: Combine discrete and continuous optimization techniques, or integrate local search with global exploration mechanisms such as memetic algorithms
+- **Stochastic Global Search**: Prioritize population-based methods like genetic algorithms, differential evolution, or particle swarm optimization over gradient-based approaches
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE FORMULATIONS TO EXPLORE:
+1. **Graph-Theoretic Approach**: Model as a graph where nodes represent points and edges represent distance constraints
+2. **Measure Theory Framework**: Consider the problem in terms of optimal measures or distributions
+3. **Algebraic Geometry**: Formulate using polynomial optimization or Groebner basis methods
+4. **Information Theory**: Frame as maximizing entropy or information content of the point distribution
+5. **Game-Theoretic Perspective**: Model as a non-cooperative game where each point tries to maximize its minimum distance
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Implement at least one non-trivial optimization method beyond basic random sampling and gradient-based approaches, preferably a population-based or stochastic global optimization technique such as genetic algorithms or differential evolution
+- **Validation**: Include verification that the resulting configuration satisfies all geometric constraints
+- **Alternative Method Exploration**: Demonstrate understanding of multiple solution paradigms (global vs local, deterministic vs stochastic) through implementation of at least two distinct algorithmic approaches
+- **Methodological Innovation**: Prefer approaches that showcase novel combinations of techniques rather than standard implementations, particularly emphasizing evolutionary computation, swarm intelligence, or constructive geometric methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+ADVANCED TECHNIQUES TO CONSIDER:
+1. **Population-Based Global Optimization**: Use genetic algorithms, differential evolution, or particle swarm optimization with adaptive parameters and diverse initialization strategies
+2. **Multi-Modal Search**: Implement techniques like multi-start methods, basin-hopping, or island models to escape local optima
+3. **Constructive Geometric Algorithms**: Develop algorithms that build point configurations through geometric principles such as Delaunay triangulation, Voronoi diagrams, or tessellation-based constructions
+4. **Multi-Objective Optimization**: Formulate as multi-objective problem considering both minimum and maximum distances simultaneously, possibly using NSGA-II or similar algorithms
+5. **Hybrid Evolutionary Strategies**: Combine evolutionary algorithms with local search heuristics or specialized geometric operators for improved convergence
+
+# PROMPT-BLOCK-END
+    

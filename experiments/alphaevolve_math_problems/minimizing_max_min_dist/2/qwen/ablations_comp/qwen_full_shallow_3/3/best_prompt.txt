@@ -1,0 +1,67 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs. Consider exploring mathematical constructions that might yield provably optimal or near-optimal solutions rather than relying primarily on numerical optimization.
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Analytical Geometric Construction**: Derive the optimal configuration using principles from discrete geometry, spherical codes, or known optimal point distributions on spheres projected to 2D. Consider whether the problem has known mathematical solutions or constructions that can be adapted from related problems.
+2. **Direct Geometric Constructions**: Explore constructions based on regular polygons, lattices, or symmetric arrangements that might provide good approximations or exact solutions.
+3. **Global Optimization with Different Paradigms**: Instead of gradient-based methods, consider evolutionary algorithms, genetic algorithms, or swarm intelligence approaches that explore the solution space differently.
+4. **Mathematical Programming Approaches**: Formulate as a mixed-integer program or use algebraic methods to find exact solutions through symbolic computation.
+5. **Topological and Variational Approaches**: Consider how topological constraints or variational principles might characterize the optimal configuration without direct optimization.
+=======
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE APPROACHES:
+Consider these mathematical frameworks for solving this optimization problem:
+1. **Discrete Geometry & Spherical Codes**: Leverage known mathematical constructions from the theory of optimal point distributions on spheres and their 2D projections
+2. **Physical Simulation Methods**: Model the point configuration as a particle system with repulsive forces, using molecular dynamics or gradient-based physics simulation
+3. **Algebraic Geometry Approaches**: Explore polynomial optimization or algebraic methods that can characterize optimal configurations analytically
+4. **Topological Optimization**: Use concepts from topology to understand constraints and possible configurations without explicit optimization
+5. **Variational Principles**: Formulate the problem using variational calculus or extremal principles that characterize optimal point arrangements
+=======
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Analytical Mathematics**: `sympy` for symbolic mathematics and exact solutions
+- **Global Optimization**: `pymoo`, `scikit-optimize`, or `DEAP` for evolutionary algorithms
+- **Geometric Computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, Delaunay triangulation)
+  * `scipy.spatial.distance` for efficient distance computations
+- **Specialized Algorithms**: 
+  * `spherical-geometry` for spherical arrangements (even though 2D, can project from sphere)
+  * `quaternion` package for rotation-based optimizations
+  * `gurobipy` or `cvxpy` for mathematical programming approaches
+- **Performance**: `numba` (JIT compilation), `joblib` (parallelization)
+
+SPECIALIZED TECHNIQUES TO EXPLORE:
+1. **Symmetry Exploitation**: Use group theory and symmetry reduction to simplify the optimization landscape, or construct symmetric configurations that might be optimal
+2. **Exact Mathematical Construction**: Seek constructions that leverage known optimal configurations from discrete geometry or spherical codes, potentially yielding exact solutions rather than approximations
+3. **Deterministic Global Search**: Implement methods like branch-and-bound, interval arithmetic, or exhaustive search over discrete parameter spaces
+4. **Algebraic and Number-Theoretic Approaches**: Use algebraic number fields or Diophantine approximation to construct configurations with desirable distance properties
+5. **Pattern Recognition and Known Solutions**: Research if similar problems have been solved in the mathematical literature, particularly for small numbers of points in low dimensions
+=======
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

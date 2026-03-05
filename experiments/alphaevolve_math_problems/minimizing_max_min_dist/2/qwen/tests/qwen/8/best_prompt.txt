@@ -1,0 +1,58 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic paradigms including but not limited to traditional geometric constructions, energy minimization approaches, and combinatorial optimization strategies.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Alternative approaches to consider:
+  * Regular polygon-based constructions (e.g., 16-point circle packing)
+  * Lattice-based arrangements (hexagonal close packing)
+  * Energy minimization approaches where points repel each other according to inverse distance laws (e.g., Coulomb-like potentials)
+  * Topological or combinatorial constructions based on graph theory (e.g., constructing points on surfaces with specific connectivity)
+  * Combinatorial optimization using integer programming or constraint satisfaction methods
+  * Physics-based simulation approaches with molecular dynamics or Monte Carlo methods
+  * Spectral graph theory applications for point placement
+  * Constructive geometric algorithms inspired by Delaunay triangulations or Voronoi diagrams
+  * Multi-start optimization with different initialization strategies
+  * Hybrid approaches combining multiple paradigms
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Stochastic optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, ConvexHull, Voronoi diagrams)
+  * `trimesh` (mesh operations), `open3d` (data processing)
+- **Specialized algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+  * `numba` (JIT compilation), `joblib` (parallel processing)
+- **Advanced optimization**: `scipy.optimize.differential_evolution`, `scipy.optimize.basinhopping`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Approach diversity**: Consider at least two distinct algorithmic paradigms:
+  1. A deterministic geometric construction method (consider non-traditional arrangements like those derived from algebraic curves or fractal patterns)
+  2. An energy-based physical simulation approach (such as particle systems with repulsive forces or molecular dynamics)
+- **Validation**: Ensure final solution satisfies the 2D constraint and produces valid coordinates
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

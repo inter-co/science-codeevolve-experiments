@@ -1,0 +1,54 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- **Alternative algorithmic pathways**:  
+  * Continuous optimization: formulate as a smooth problem with penalty terms for overlaps and boundary violations, then use gradient‑based solvers (e.g., `scipy.optimize.minimize` with SLSQP or L-BFGS).  
+  * Physics‑based simulation: model circles as soft bodies with repulsive forces and let the system settle into a low‑energy state.  
+  * Constraint programming: encode the placement constraints in a CP‑SAT solver (`ortools.sat`) and search for feasible solutions that maximize the objective.  
+  * Evolutionary / swarm methods: use custom crossover that preserves non‑overlap, or particle swarm optimization with position‑based constraints.  
+  * Voronoi‑guided placement: iteratively refine positions by moving circles towards the centroids of their Voronoi cells while maintaining separation.  
+  * Divide‑and‑conquer: partition the square into sub‑regions, solve smaller packing problems, then merge while resolving boundary conflicts.  
+  * Machine‑learning heuristics: train a surrogate model to predict good initial radii and positions, then refine with local search.  
+  * Hybrid pipelines: combine any of the above, e.g., start with a CP‑SAT solution, then perform gradient refinement.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `cvxpy` (convex optimization), `pyomo` (algebraic modeling), `pulp` (linear programming)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `networkx` (graph-based heuristics)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `ortools.sat` (CP‑SAT), `cpmpy` (constraint programming in Python)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `pymatgen` (for material packing analogies)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just‑in‑time compilation), `jax` (automatic differentiation & GPU acceleration)
+- **Visualization & debugging**: `matplotlib`, `plotly`, `seaborn` for visualizing intermediate states
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic diversity**: Encourage the exploration of multiple distinct solution strategies (e.g., continuous, discrete, hybrid) and allow the model to switch or combine them dynamically.  
+- **Modular design**: Structure the implementation into interchangeable components (placement, feasibility check, objective evaluation) so that new methods can be plugged in with minimal friction.  
+- **Performance trade‑offs**: Explicitly balance accuracy and speed; allow the model to report the cost of each algorithmic choice.
+
+# PROMPT-BLOCK-END
+    

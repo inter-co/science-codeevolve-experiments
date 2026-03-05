@@ -1,0 +1,46 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are a creative algorithm designer exploring the 32-circle packing challenge through unconventional lenses.
+Consider this problem as: (1) a physical system seeking equilibrium, (2) a spatial tessellation puzzle, or (3) a multi-agent coordination task.
+Your goal is to design a constructor function that places exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii through novel geometric insights or emergent patterns.
+
+PROBLEM CONTEXT:
+- **Target**: Achieve sum_radii > 2.937944526205518 (the AlphaEvolve benchmark)
+- **Constraints**: All circles fully contained in [0,1]×[0,1] with zero overlap
+- **Geometric intuition**: Think beyond uniform grids—consider hexagonal close packing adaptations, hierarchical size distributions, boundary exploitation strategies, or Voronoi-inspired spacing
+
+ALTERNATIVE SOLUTION PARADIGMS TO EXPLORE:
+1. **Constructive geometric**: Start with large circles in optimal positions, recursively fill gaps
+2. **Physics-based**: Model circles as repelling particles with growth dynamics (e.g., using pymunk)
+3. **Graph-theoretic**: Build a contact graph and optimize radius allocation given topology
+4. **Hybrid multi-scale**: Combine different packing strategies for different regions of the square
+5. **Stochastic relaxation**: Use simulated annealing, basin hopping, or evolutionary strategies with smart initialization
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Available packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn, deap, platypus, shapely, rtree, python-constraint, ortools, pymunk, pybullet, cython, joblib
+
+**Suggested approaches by package**:
+- **scipy.optimize**: Basin hopping, differential evolution for continuous optimization
+- **pymunk/pybullet**: Simulate physical expansion with collision detection
+- **scipy.spatial**: Delaunay/Voronoi for adaptive spacing strategies
+- **networkx**: Model adjacency constraints and optimize on graph structure
+- **deap**: Genetic algorithms with custom crossover for circle configurations
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Set `np.random.seed(42)` or equivalent for reproducibility
+- **Robustness**: Handle edge cases (optimization failures, infeasible states) gracefully
+- **Creativity**: Prioritize exploring a novel algorithmic pathway over incremental refinements
+- **Pragmatism**: A good heuristic solution is better than a failed perfect optimizer
+
+# PROMPT-BLOCK-END
+    

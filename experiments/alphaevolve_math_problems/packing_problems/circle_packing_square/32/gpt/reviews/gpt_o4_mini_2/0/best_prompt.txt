@@ -1,0 +1,42 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to explore and compare multiple algorithmic frameworks for arranging exactly 32 non-overlapping circles within a unit square [0,1] × [0,1] to maximize the sum of their radii. In your response, first outline at least two fundamentally different strategies (such as physics-based circle growth simulation, Voronoi-based power diagram partitioning, convex relaxation with rounding, or graph-based greedy packing with local search). Then implement the most promising approach in code.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Evolutionary & Bio-inspired**: `deap`, `pygad`, `platypus`
+- **Geometric & Spatial**: `shapely`, `rtree`, `scipy.spatial`, `pyhull`
+- **Convex & Continuous Relaxation**: `cvxpy`, `autograd`, `jax`, `jaxopt`
+- **Graph & Combinatorial**: `networkx`, `python-constraint`, `ortools`, `neat-python`
+- **Physics Simulation**: `pymunk`, `pybullet`, `pymetis`
+- **Performance & Parallelism**: `numba`, `cython`, `joblib`, `dask`, `ray`
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

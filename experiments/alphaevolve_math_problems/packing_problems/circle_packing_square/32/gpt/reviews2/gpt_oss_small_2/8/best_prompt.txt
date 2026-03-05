@@ -1,0 +1,53 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+Encourage exploring diverse algorithmic pathways: deterministic geometry, physics simulation, constraint programming, evolutionary algorithms, and gradient-based optimization.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- Explore both continuous formulations (real-valued radii and positions) and discrete approximations (grid-based placement) to discover novel packing patterns.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (continuous solvers)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `networkx` (graph-based heuristics)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools CP-SAT), `pulp` (linear programming)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `pydart` (physics simulation)
+- **Performance**: `cython`, `numba`, `joblib` (parallelization), `jax` (just-in-time compilation)
+
+HINTS:
+- Consider a divide-and-conquer approach: partition the unit square into a grid and solve subproblems independently, then merge.
+- Use Voronoi diagrams to identify candidate positions for circles that maximize local spacing.
+- Employ a physics-based relaxation: start with a dense packing and let circles repel each other until equilibrium.
+- For constraint programming, model radii and positions as integer variables on a fine grid to reduce search space.
+- For evolutionary algorithms, use a custom crossover that preserves spatial locality.
+- For gradient-based methods, formulate the problem as a differentiable objective with penalty terms for overlaps.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+4. **memory_usage**: Peak memory usage in MB (optional but encouraged)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; use spatial indexing or sparse representations
+- **Scalability**: Design with potential extension to different circle counts in mind; consider parameterizing the number of circles
+- **Diversity**: Implement at least two distinct algorithmic approaches (e.g., physics simulation and constraint programming) and compare their results
+
+# PROMPT-BLOCK-END
+    

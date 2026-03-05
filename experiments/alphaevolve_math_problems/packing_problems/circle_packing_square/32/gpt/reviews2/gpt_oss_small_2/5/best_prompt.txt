@@ -1,0 +1,49 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are a seasoned computational geometer and optimization architect with a profound mastery of geometric packing, constraint programming, and algorithmic design. Your mission is to engineer a constructor that yields an optimal arrangement of exactly 32 non‑overlapping circles within the unit square [0,1] × [0,1], maximizing the total sum of radii. You are encouraged to **experiment with diverse algorithmic paradigms**—including but not limited to evolutionary meta‑heuristics, constraint‑programming solvers, spatial decomposition, physics‑based simulation, and hybrid multi‑objective approaches—and to document the rationale behind the chosen strategy. Emphasize reproducibility, scalability, and a clear trade‑off analysis between solution quality and computational effort.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- Alternative formulations: explore a spectrum of reformulations such as (i) a weighted objective Σwi·ri with a decaying weight schedule to promote uniformity, (ii) a Lagrangian relaxation that maximizes Σri − λ·Σoverlap_penalties with adaptive λ, (iii) a two‑stage pipeline where radii are initially assigned a common value and subsequently refined via local search, (iv) a penalty‑based continuous relaxation using differentiable distance functions and gradient‑descent, (v) a multi‑objective framework that jointly optimizes sum of radii and radius variance, (vi) a constraint‑programming formulation using CP‑SAT or OR‑Tools where circle centers are decision variables with binary overlap constraints, (vii) a graph‑theoretic approach modeling circles as nodes in a conflict graph and solving a maximum weighted independent set, (viii) a physics‑based simulation with pymunk or box2d that iteratively expands radii while resolving overlaps, and (ix) a hybrid branch‑and‑bound strategy that discretizes the unit square into a fine grid and prunes infeasible placements. Each formulation invites distinct algorithmic tools—from linear programming and convex optimization to simulated annealing, evolutionary strategies, constraint programming, graph algorithms, and physics simulation.
+- Geometric guidance: explore hexagonal lattice truncation, Voronoi-based placement, incremental radius expansion from a central seed, grid‑based placement with integer variables, and a multi‑scale hierarchical approach that first places a coarse lattice and then refines locally. Consider using Delaunay triangulation to guide radius adjustments and to detect potential overlap zones efficiently.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `optuna` (hyperparameter tuning), `cvxpy` (convex optimization), `pulp` (linear programming), `scipy.optimize` (global solvers)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `networkx.algorithms.approximation` (graph heuristics)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR‑Tools CP‑SAT), `pulp` (LP solver), `pyscipopt` (SCIP solver)
+- **Hybrid CP‑Gradient**: use CP‑SAT to fix circle centers on a discretized grid, then apply gradient‑based continuous optimization (e.g., using `jax` or `scipy.optimize`) to adjust radii while maintaining feasibility.
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `box2d` (rigid‑body dynamics)
+- **Performance**: `cython`, `numba`, `joblib` (parallelization), `multiprocessing` (process pool)
+- **Experimental / Advanced**: `gurobipy` (commercial solver), `pyscipopt` (SCIP solver), `jax` (just‑in‑time compiled autodiff), `tensorflow_probability` (probabilistic models)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE – maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+4. **average_radius**: Mean radius of the 32 circles
+5. **max_radius**: Largest radius achieved
+6. **radius_variance**: Variance of the radii (lower variance indicates more uniform packing)
+7. **feasibility**: Boolean indicating whether all constraints are satisfied
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Documentation**: Provide a concise explanation (≤200 words) of the algorithmic strategy chosen and why it is expected to yield a high sum_radii.
+
+# PROMPT-BLOCK-END
+    

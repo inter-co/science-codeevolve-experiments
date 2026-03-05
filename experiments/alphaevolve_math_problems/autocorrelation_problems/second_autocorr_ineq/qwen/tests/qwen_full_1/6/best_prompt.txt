@@ -1,0 +1,93 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to discover and optimize step function constructions that maximize the second autocorrelation inequality constant C₂ by leveraging mathematical insights into convolution properties and norm relationships.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+MATHEMATICAL INSIGHTS TO CONSIDER:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] represents a convolution operation where peaks in f create broader, smoother peaks in g
+- To maximize C₂ = ||g||₂² / (||g||₁ · ||g||∞), consider how to balance:
+  * Maximizing ||g||₂² (which favors spread-out, high-variance g values)
+  * Minimizing ||g||₁ (which favors concentrated mass in g)
+  * Minimizing ||g||∞ (which avoids very large single values that penalize the ratio)
+- Consider the structure of optimal solutions: what does it mean geometrically for a step function to produce a favorable autoconvolution profile?
+- Think about the trade-off: increasing ||g||₂² typically requires more spread in g, but this might also increase ||g||₁ and ||g||∞
+- Explore whether certain patterns (like symmetric distributions, exponential decay, or piecewise structures) naturally lead to better C₂ values
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+
+ALGORITHMIC APPROACHES TO EXPLORE:
+1. **Analytical construction with variational principles**: Derive optimal step function patterns through direct mathematical analysis and variational calculus. Instead of numerical optimization, attempt to construct functions that satisfy necessary conditions for optimality by solving Euler-Lagrange equations or applying Lagrange multiplier techniques directly to the C₂ functional.
+
+2. **Tensor network methods with tensor contractions**: Represent step functions as tensors and utilize tensor network algorithms to efficiently compute and optimize the autoconvolution structure. Exploit the tensor nature of convolution operations to find optimal solutions through tensor decompositions and contraction schemes.
+
+3. **Quantum-inspired optimization algorithms**: Apply quantum annealing or quantum approximate optimization algorithms (QAOA) to search the discrete space of step function configurations. Model the problem as a quantum spin system where each step height corresponds to a quantum state, and use quantum fluctuations to escape local minima.
+
+4. **Swarm intelligence with bio-inspired mechanisms**: Implement artificial bee colony, ant colony optimization, or firefly algorithms that simulate natural swarm behaviors. These methods can explore the solution space through collective intelligence without requiring gradient information.
+
+5. **Physics-based simulation with molecular dynamics**: Model the step function heights as particles in a potential field where the C₂ value represents a physical energy. Simulate the system's evolution using molecular dynamics or Monte Carlo methods to reach equilibrium configurations that maximize C₂.
+
+6. **Graph-based optimization with spectral methods**: Formulate the problem as a graph optimization task where nodes represent step locations and edges encode convolution interactions. Use spectral graph theory, eigendecomposition, or graph neural networks to identify optimal configurations through the spectrum of the convolution operator.
+
+7. **Information-theoretic approaches with entropy maximization**: Frame the optimization as maximizing information-theoretic quantities such as entropy or mutual information in the convolution domain. Use concepts from information theory to derive optimal step function structures that maximize the information content of the autoconvolution.
+
+8. **Machine learning with reinforcement learning**: Train a reinforcement learning agent to sequentially construct step functions by receiving rewards based on the C₂ value. Use policy gradient methods or Q-learning to learn optimal construction strategies without explicit gradient computation.
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Algorithmic sophistication**: Avoid simple random approaches. Instead, employ principled methods that consider the mathematical structure of the problem
+- **Exploration vs exploitation**: Balance between exploring novel patterns and refining known good solutions
+- **Mathematical rigor**: Where applicable, ensure that any constructed solutions satisfy necessary mathematical conditions for optimality
+- **Computational efficiency**: While pursuing sophisticated approaches, maintain practical execution times within the 60-second limit
+- **Cross-validation**: Validate solutions using multiple independent computational methods when possible
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g = f*f transforms the problem into a convolution analysis challenge where optimal f creates g with specific structural properties
+- Consider the Fourier transform perspective: if F(ω) is the Fourier transform of f, then G(ω) = |F(ω)|², so C₂ relates to the ratio of L2 norm of |F|² to the product of L1 and L-infinity norms of |F|²
+- Optimal solutions may exhibit specific symmetry properties in both spatial and frequency domains
+- The relationship between the shape of f and the smoothness/peakiness of g provides geometric intuition for maximizing C₂
+- Investigate whether there exist extremal functions in the space of step functions that achieve theoretical bounds
+- The constraint that all step heights are non-negative creates a convex optimization problem in the positive orthant
+- Consider using variational methods or Lagrange multiplier techniques to characterize optimal solutions analytically
+- Explore connections to information theory where maximizing C₂ might relate to entropy or information-theoretic measures of the distribution
+- Think about topological properties of the space of step functions and how they affect the optimization landscape
+- Consider homotopy methods that continuously deform simple solutions into optimal ones
+- Examine the problem through the lens of functional analysis, particularly in Banach spaces and their duals
+- Investigate whether optimal solutions correspond to eigenfunctions of certain integral operators
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

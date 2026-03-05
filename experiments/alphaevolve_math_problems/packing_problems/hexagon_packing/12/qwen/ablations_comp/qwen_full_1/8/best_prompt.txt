@@ -1,27 +1,15 @@
 # PROMPT-BLOCK-START
 SETTING:
-You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop a novel construction method that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
 
 PROBLEM CONTEXT:
 - Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
 - Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
 - Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
-  * Non-overlap: All pairs of inner hexagons must be disjoint
-  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Non-overlap: All pairs of inner hexagons must be disjoint (minimum distance > 2)
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon boundaries
   * Objective: maximize 1/R where R is the outer hexagon side length
-
-CRITICAL CONSTRAINTS ON APPROACH:
-1. Avoid simple grid arrangements - seek more sophisticated geometric constructions
-2. Leverage symmetry groups and group theory for constraint satisfaction
-3. Employ mathematical optimization rather than heuristic positioning
-4. Consider both continuous optimization and discrete combinatorial approaches
-
-ALTERNATIVE STRATEGIES TO CONSIDER:
-- **Mathematical programming**: Formulate as nonlinear optimization problem with geometric constraints using scipy.optimize or similar tools
-- **Symmetry-aware construction**: Use fundamental domains and group actions to generate valid configurations, leveraging rotational and reflectional symmetries
-- **Energy minimization**: Model as a physical system with repulsive forces between hexagons, using potential energy functions that penalize overlap and encourage spacing
-- **Evolutionary algorithms**: Implement genetic operators specifically designed for hexagonal symmetry, evolving populations of candidate configurations
-- **Hierarchical clustering**: Group hexagons into clusters based on geometric relationships, then optimize cluster arrangements independently before combining
 
 PERFORMANCE METRICS:
 1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
@@ -32,7 +20,7 @@ COMPUTATIONAL RESOURCES:
 **Core packages**: numpy, scipy, matplotlib, shapely
 **Additional useful packages**:
 - **Geometric computing**: 
-  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `shapely` (polygon operations, intersection testing, containment checks) - USE THIS FOR PROPER CONTAINMENT VERIFICATION
   * `scipy.spatial` (distance calculations, geometric queries)
   * `matplotlib.patches` (hexagon visualization and symmetry analysis)
 - **Symmetry handling**:
@@ -46,8 +34,46 @@ COMPUTATIONAL RESOURCES:
 - **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Analytical geometric construction**: Derive exact mathematical relationships for optimal symmetric arrangements
+2. **Constraint satisfaction networks**: Model the problem as a CSP with geometric constraints
+3. **Hierarchical optimization**: First determine valid geometric arrangements, then optimize for size
+4. **Convex relaxation techniques**: Relax non-convex constraints to obtain initial feasible solutions
+5. **Multi-start local search**: Run multiple local optimizations from different starting points
+6. **Discrete-continuous hybrid**: Use discrete choices for symmetries and continuous optimization for positions
+7. **Gradient-free optimization**: Leverage derivative-free methods specifically designed for geometric problems
+
+THE KEY CHALLENGE IS PROPERLY IMPLEMENTING THE CONTAINMENT CHECK - ALL VERTICES OF EACH INNER HEXAGON MUST BE INSIDE THE OUTER HEXAGON'S BOUNDARIES, NOT JUST THEIR CENTERS. CONSIDER USING SHAPELY LIBRARY FOR ROBUST POLYGON OPERATIONS.
+
+INSTEAD OF ITERATIVE OR ANALYTICAL APPROACHES, EXPLORE THESE FUNDAMENTALLY DIFFERENT STRATEGIES:
+
+1. **Combinatorial Geometry Approach**: Enumerate possible combinatorial arrangements of hexagon placements and use mathematical optimization to find the best configuration among them. Consider the dual graph of hexagon contact patterns.
+
+2. **Energy Minimization Framework**: Model the system as particles interacting via geometric potentials (repulsion for overlaps, attraction to maintain packing density) and simulate physical relaxation to reach optimal configurations.
+
+3. **Algebraic Geometric Method**: Formulate the problem using polynomial equations representing geometric constraints and solve using algebraic geometry techniques or Gröbner basis methods.
+
+4. **Topological Data Analysis**: Apply persistent homology or similar techniques to understand the shape of the valid configuration space and sample from it effectively.
+
+5. **Machine Learning Geometric Search**: Train neural networks to predict good hexagon configurations or use reinforcement learning to discover optimal packing policies through trial and error.
+
+6. **Probabilistic Reasoning**: Use Bayesian inference or Markov Chain Monte Carlo methods to sample from the posterior distribution of valid configurations conditioned on the geometric constraints.
+
+7. **Category Theory Approach**: View hexagon arrangements as objects in a category where morphisms represent valid transformations, and use categorical constructions to generate new solutions.
+
+ENSURE THAT YOUR IMPLEMENTATION:
+1. Uses shapely's proper polygon intersection and containment operations
+2. Validates that ALL vertices of every inner hexagon are contained within the outer hexagon
+3. Implements robust non-overlap detection using proper geometric operations (minimum distance > 2)
+4. Achieves at least the benchmark ratio of 1.0 (or better) within the time budget
+5. Handles edge cases where hexagon configurations might be invalid due to improper containment or overlap
+6. Avoids hardcoding specific coordinate values that may cause overlaps
+7. Employs a search strategy that explores diverse solution paths rather than relying on predetermined patterns
+8. Incorporates rigorous error checking and early termination for invalid configurations
+9. Uses mathematically sound approaches for determining optimal geometric arrangements
 
 # PROMPT-BLOCK-END
     

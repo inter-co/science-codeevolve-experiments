@@ -1,0 +1,104 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic paradigms including but not limited to:
+- Physics-based simulations with repulsive force fields or gradient descent methods
+- Randomized search strategies with adaptive sampling
+- Mathematical programming approaches using convex relaxations or semidefinite programming
+- Novel clustering techniques or partitioning methods for spatial distribution
+- Combinatorial optimization with constraint satisfaction
+- Machine learning-inspired approaches such as neural network optimization or reinforcement learning
+- Hybrid methods combining multiple paradigms for enhanced exploration
+- **UNCONVENTIONAL APPROACHES**: Consider non-traditional geometric constructions, topological methods, or information-theoretic formulations
+- **THEORETICAL FOUNDATIONS**: Draw from discrete geometry, algebraic topology, or harmonic analysis rather than standard optimization. Consider using concepts like:
+  * Topological data analysis for point distribution
+  * Spectral graph theory for optimal point placement
+  * Information-theoretic measures (entropy, mutual information) for uniformity
+  * Algebraic topology invariants for spatial arrangements
+  * Harmonic analysis on spheres for optimal distributions
+  * **UNCONVENTIONAL MATHEMATICAL FRAMEWORKS**: Explore approaches that don't rely on known optimal configurations or lattice constructions. Consider:
+    * Category theory applied to point arrangements
+    * Non-commutative geometry for spatial discretization
+    * Measure theory for optimal point distributions
+    * Functional analysis for infinite-dimensional optimization
+    * Categorical methods for geometric reasoning
+- **META-HEURISTIC INNOVATION**: Design completely novel meta-heuristics that don't follow typical evolutionary or swarm patterns. Explore:
+  * Quantum-inspired algorithms using superposition states
+  * Annealing processes based on thermodynamic principles beyond temperature
+  * Information-theoretic cooling schedules
+  * Topological optimization through persistent homology
+  * Game-theoretic approaches where points "compete" for optimal positions
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Mathematical rigor**: Employ proven geometric principles and optimization theory
+- **Algorithmic diversity**: Prioritize novel approaches over conventional methods; favor creative combinations of paradigms. Consider:
+  * Topological methods that preserve connectivity while optimizing distances
+  * Information-theoretic approaches that maximize entropy of point distributions
+  * Algebraic approaches using polynomial optimization or Groebner bases
+  * Geometric flows that evolve point sets according to curvature-based dynamics
+  * Combinatorial constructions inspired by finite geometries or design theory
+  * **NON-PREDICTABLE ALGORITHMS**: Avoid approaches that simply construct known optimal configurations. Instead:
+    * Develop entirely new computational frameworks for point dispersion
+    * Implement stochastic methods that don't rely on mathematical guarantees
+    * Use emergent behaviors from complex systems rather than prescribed rules
+    * Apply machine learning to discover novel point arrangements
+    * Explore quantum algorithms or quantum-inspired computation
+- **Exploration emphasis**: Seek unorthodox strategies that may yield superior results over traditional geometric constructions. Focus on:
+  * Non-Euclidean geometric frameworks (hyperbolic, spherical, or discrete manifolds)
+  * Dynamical systems approaches with chaotic or ergodic behavior
+  * Optimization through symmetry-breaking mechanisms
+  * Multi-scale approaches that consider both local and global constraints simultaneously
+- **INNOVATIVE CONSTRAINT HANDLING**: Avoid standard penalty functions or barrier methods; develop new constraint satisfaction techniques. Instead:
+  * Use topological constraints to enforce valid configurations
+  * Apply information-theoretic penalties that measure distribution quality
+  * Implement constraint satisfaction via algebraic varieties or geometric invariants
+  * Employ probabilistic methods that sample from constrained spaces naturally
+  * **UNCONVENTIONAL CONSTRAINT APPROACHES**: Don't just satisfy constraints - create entirely new ways to think about what constitutes a valid solution:
+    * Treat constraints as dynamic entities that evolve during optimization
+    * Use game-theoretic approaches where constraints emerge from competitive interactions
+    * Apply category-theoretic methods to reframe constraint satisfaction
+    * Develop methods where constraints are learned rather than predefined
+- **STRUCTURAL INTEGRITY**: Ensure solutions maintain fundamental geometric properties without relying on gradient-based refinement
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Exploration emphasis**: Prioritize novel algorithmic strategies over brute-force methods
+- **EXPLORATION BIAS**: Favor approaches that fundamentally differ from standard gradient-based or evolutionary algorithms. Specifically:
+  * Avoid deterministic mathematical constructions that produce known optimal arrangements
+  * Reject approaches that start with fixed geometric patterns or lattice structures
+  * Disfavor any method that relies on precomputed or catalogued solutions
+  * Embrace truly exploratory methods that discover solutions through interaction with the problem space
+- **RISK TOLERANCE**: Encourage strategies that might be computationally expensive but theoretically promising
+
+# PROMPT-BLOCK-END
+    

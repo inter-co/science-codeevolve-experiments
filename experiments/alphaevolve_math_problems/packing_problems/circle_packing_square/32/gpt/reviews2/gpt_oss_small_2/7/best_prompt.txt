@@ -1,0 +1,65 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+Additionally, you should explore a diverse set of algorithmic strategies, including but not limited to:
+- Evolutionary algorithms (e.g., genetic algorithms, differential evolution)
+- Constraint programming (e.g., CP-SAT, OR-Tools)
+- Physics-based simulation (e.g., force-directed placement, pymunk)
+- Gradient-based optimization using differentiable programming (e.g., JAX, autograd)
+- Geometric heuristics (e.g., Voronoi-based placement, circle inversion)
+- Multi-start and parallel search to escape local optima
+Your solution should be modular, allowing easy swapping of these strategies for experimentation.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- Note: The problem is highly non-convex and combinatorial; small changes in radii can drastically alter feasibility.
+- Guidance: Consider both global search (e.g., evolutionary) and local refinement (e.g., gradient descent) to balance exploration and exploitation.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Parallelism**: Up to 4 CPU cores for parallel evaluation
+- **Determinism**: Use fixed random seeds for reproducibility
+- **Scalability**: Design should support varying circle counts (e.g., 16, 64) with minimal code changes
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pyswarm` (particle swarm), `pyevolve` (genetic)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `matplotlib` (visualization)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `cp-sat` (CP-SAT solver)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `pymatgen` (materials simulation)
+- **Performance**: `cython`, `numba`, `joblib` (parallelization), `dask` (distributed computing)
+- **Differentiable programming**: `jax`, `autograd`, `torch.autograd`
+
+**ALTERNATIVE APPROACHES**:
+- **Evolutionary algorithms**: Genetic Algorithm, Differential Evolution, Particle Swarm Optimization
+- **Constraint programming**: CP-SAT, Mixed Integer Programming (MIP) formulations
+- **Physics simulation**: Force-directed placement, collision resolution, energy minimization
+- **Gradient-based methods**: Automatic differentiation of constraints, projected gradient descent
+- **Geometric heuristics**: Voronoi-based placement, circle inversion, greedy insertion with local search
+- **Hybrid strategies**: Combine global search with local refinement, multi-start, parallel evaluation
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+4. **feasibility_rate**: Proportion of trials that produce a feasible configuration
+5. **runtime_variance**: Standard deviation of eval_time across multiple runs (measure stability)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

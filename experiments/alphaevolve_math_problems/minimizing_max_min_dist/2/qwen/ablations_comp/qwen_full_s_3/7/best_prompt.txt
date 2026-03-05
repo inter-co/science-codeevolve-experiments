@@ -1,0 +1,62 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider mathematical principles such as:
+- Optimal point configurations (e.g., regular polygons, hexagonal lattices, spherical codes, kissing number configurations)
+- Symmetry considerations and group theory applications  
+- Advanced optimization frameworks like simulated annealing, genetic algorithms, particle swarm optimization, or evolutionary strategies
+- Geometric insights from sphere packing and covering problems
+- Alternative mathematical approaches including:
+  * Analytical constructions based on known optimal arrangements in 2D (e.g., 16-point spherical codes)
+  * Algebraic number field constructions (e.g., using roots of unity or algebraic integers)
+  * Topological approaches inspired by minimal surfaces or discrete differential geometry
+  * Multi-objective optimization considering both minimum and maximum distances separately
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic sophistication**: Prefer mathematically principled approaches over naive random sampling
+- **Exploration of multiple strategies**: Consider at least two distinct algorithmic paradigms including:
+  * Analytical or closed-form mathematical constructions (not just heuristic initialization)
+  * Population-based evolutionary methods with diverse selection/crossover operators
+  * Gradient-free optimization with adaptive parameters
+  * Hybrid approaches that combine exact mathematical solutions with local refinement
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy diversity**: Demonstrate understanding of multiple solution pathways including:
+  * Exact mathematical constructions derived from known optimal point sets
+  * Nature-inspired metaheuristics with non-standard parameter adaptation
+  * Multi-start optimization with diverse initialization strategies
+  * Hierarchical optimization where global search is followed by specialized local refinement
+
+# PROMPT-BLOCK-END
+    

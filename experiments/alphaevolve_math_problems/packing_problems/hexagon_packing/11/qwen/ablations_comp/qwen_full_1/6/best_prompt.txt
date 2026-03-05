@@ -1,6 +1,6 @@
 # PROMPT-BLOCK-START
 SETTING:
-You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your approach should integrate advanced mathematical insights, geometric constructions, and diverse algorithmic strategies for packing 11 unit regular hexagons optimally within a larger regular hexagon.
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop a novel construction method that leverages advanced geometric principles and optimization strategies to arrange exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length). Consider both traditional and unconventional geometric approaches that might offer computational advantages.
 
 PROBLEM CONTEXT:
 - Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
@@ -9,24 +9,13 @@ PROBLEM CONTEXT:
   * Non-overlap: All pairs of inner hexagons must be disjoint
   * Containment: All vertices of inner hexagons must lie within the outer hexagon
   * Objective: maximize 1/R where R is the outer hexagon side length
-
-STRATEGIC APPROACHES TO CONSIDER:
-1. **Symmetric geometric constructions**: Leverage known optimal symmetries in hexagonal packings - consider both rotational and reflective symmetries
-2. **Analytical geometric methods**: Derive exact geometric relationships and use mathematical proofs to establish optimal configurations
-3. **Graph theory and combinatorial approaches**: Model packing as graph coloring or constraint satisfaction problems
-4. **Lattice-based constructions**: Explore hexagonal lattice point arrangements and their packing properties
-5. **Variational methods**: Use calculus of variations or energy minimization principles for hexagon placement
-6. **Machine learning geometric reasoning**: Employ neural networks trained on known hexagon packing configurations to predict optimal layouts
-7. **Topological approaches**: Consider how different topological arrangements of hexagons might lead to better packings
-8. **Hybrid deterministic-stochastic methods**: Combine exact geometric constructions with probabilistic sampling techniques
-
-ADVANCED TECHNIQUES:
-- Consider using simulated annealing, particle swarm optimization, or genetic algorithms for global search
-- Explore mathematical programming formulations with constraints and Lagrangian multipliers
-- Implement efficient collision detection using spatial data structures like quadtrees or spatial hash tables
-- Utilize geometric transformations, symmetry groups, and group theory to reduce search space
-- Investigate convex optimization relaxations and semidefinite programming approaches
-- Apply machine learning techniques such as reinforcement learning or neural architecture search for packing configurations
+- Exploration Strategy: Consider unconventional geometric constructions including but not limited to: 
+  1. Symmetric arrangements with rotational invariance properties
+  2. Fractal-like self-similar packings
+  3. Analytical geometric constructions based on known optimal packings
+  4. Geometric transformations that exploit the duality between hexagonal and triangular lattices
+  5. Mathematical programming approaches that leverage known bounds and symmetries
+  6. Exhaustive search strategies over discrete parameter spaces
 
 PERFORMANCE METRICS:
 1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
@@ -39,26 +28,29 @@ COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 - **Geometric computing**: 
   * `shapely` (polygon operations, intersection testing, containment checks)
   * `scipy.spatial` (distance calculations, geometric queries)
-  * `networkx` (graph-based modeling of packing constraints)
 - **Optimization**: 
   * `scipy.optimize` (constrained optimization, global methods)
   * `deap` (evolutionary algorithms with custom operators)
   * `platypus` (multi-objective optimization)
-  * `cvxpy` (convex optimization framework)
 - **Collision detection**: 
   * `pymunk` (2D rigid body physics with polygon shapes)
   * Custom SAT (Separating Axis Theorem) implementations
-  * Spatial indexing libraries like `rtree` or `scipy.spatial.KDTree`
-- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`, `multiprocessing`
-- **Advanced mathematics**: `sympy` (symbolic mathematics for exact geometric computations)
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
+- **Advanced Techniques**: Consider implementing hybrid approaches combining:
+  1. Mathematical programming with geometric constraints
+  2. Machine learning-inspired optimization with learned heuristics
+  3. Multi-scale optimization that simultaneously considers local and global arrangements
+  4. Fast geometric algorithms that avoid expensive numerical optimization
+  5. Analytical solutions or approximations based on known mathematical results
 
 TECHNICAL REQUIREMENTS:
 - **Numerical stability**: Handle hexagon intersection and containment calculations robustly
 - **Reproducibility**: Fixed random seeds for stochastic optimization methods
+- **Efficiency focus**: Prioritize solutions that complete within the time budget
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

@@ -1,0 +1,50 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Pure geometric constructions**: Develop configurations based on known optimal point arrangements in 2D, such as the 16-point configuration from the 2D kissing number problem or specific circle packing solutions. Focus on mathematical constructions derived from symmetry groups or discrete geometry.
+2. **Analytical geometric methods**: Derive necessary conditions for optimality using variational principles or constrained optimization theory. Consider using Lagrange multipliers to characterize the optimal point distribution mathematically before numerical verification.
+3. **Symmetry-driven approaches**: Exploit the full symmetry group of the problem to construct configurations with high symmetry (e.g., dihedral symmetry) that may yield optimal or near-optimal solutions. Consider how the optimal configuration might inherit symmetries from related problems.
+4. **Discrete geometric optimization**: Instead of continuous optimization, consider combinatorial approaches where you enumerate possible geometric structures or use discrete search methods like simulated annealing with carefully designed neighborhood structures.
+5. **Topological/geometric insight approaches**: Apply concepts from topology or discrete geometry to constrain the search space, such as considering the Delaunay triangulation properties or Voronoi diagram characteristics that would be optimal for the distance ratio.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Geometric optimization**: `scipy.optimize` (for smooth optimization), `cvxpy` (for convex optimization), `cvxopt` (for conic optimization)
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, Delaunay triangulation)
+  * `sympy.geometry` (symbolic geometric computations)
+- **Advanced mathematical tools**: 
+  * `scipy.linalg` (matrix operations, eigenvalues)
+  * `numpy.linalg` (linear algebra operations)
+- **Performance**: `numba` (JIT compilation), `joblib` (parallel processing)
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic diversity**: Consider at least two distinct algorithmic approaches (e.g., one analytical geometric construction and one discrete combinatorial method)
+- **Mathematical rigor**: Where applicable, provide analytical justification for key geometric choices or optimization steps, including proofs of optimality conditions or derivation of necessary constraints
+- **Theoretical grounding**: Prioritize mathematical derivations, geometric constructions, and theoretical insights over purely heuristic or numerical approaches. Emphasize principled construction methods that can be justified theoretically.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

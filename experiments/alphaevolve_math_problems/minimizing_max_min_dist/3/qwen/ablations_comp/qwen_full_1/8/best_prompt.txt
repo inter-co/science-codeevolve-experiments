@@ -2,14 +2,16 @@
 SETTING:
 You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
 Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
-Explore diverse mathematical frameworks including algebraic geometry, group theory applications to symmetry groups, and novel combinatorial optimization paradigms beyond traditional gradient-based methods. Consider unconventional approaches such as:
-- Topological data analysis and persistent homology for understanding point distributions
-- Quantum-inspired optimization algorithms and quantum annealing frameworks
-- Bio-inspired swarm intelligence and evolutionary computation beyond standard genetic algorithms
-- Finite field constructions and algebraic number theory for point placement
-- Projective geometry and inversive geometry transformations
-- Information-theoretic approaches using entropy maximization principles
-- Category theory applications to point configuration spaces
+Consider diverse mathematical and algorithmic approaches including:
+- Spherical codes and spherical designs for uniform point distributions
+- Rigorous optimization using constrained nonlinear programming (e.g., scipy.optimize.minimize)
+- Geometric constructions based on Platonic solids or their generalizations
+- Multi-start strategies with different initial configurations
+- Gradient-based methods with careful handling of boundary constraints
+- Alternative optimization paradigms such as simulated annealing, particle swarm optimization, or genetic algorithms with custom crossover/mutation operators
+- Symmetry-based approaches leveraging group theory and invariant properties
+- Spectral methods or eigenvalue-based constructions for point placement
+- Direct geometric reasoning using known optimal configurations from discrete geometry
 
 PROBLEM CONTEXT:
 - Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
@@ -19,12 +21,6 @@ PROBLEM CONTEXT:
   * Minimum distance: dmin = min{dij : i≠j}
   * Maximum distance: dmax = max{dij : i≠j}
   * Objective: maximize dmin/dmax subject to spatial constraints
-- Consider using spherical codes, Platonic solids, or other known optimal configurations as starting points, but also explore unconventional approaches such as:
-  * Algebraic number theory constructions (e.g., using roots of unity in higher-dimensional spaces)
-  * Group-theoretic approaches leveraging symmetry groups like the icosahedral group
-  * Combinatorial designs and finite geometries
-  * Topological methods for point distribution on manifolds
-  * Machine learning-inspired approaches for high-dimensional optimization
 
 PERFORMANCE METRICS:
 1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
@@ -42,16 +38,34 @@ COMPUTATIONAL RESOURCES:
   * `spherical-geometry` for spherical arrangements
   * `quaternion` package for 3D rotations
 - **Performance**: `numba` (3D JIT compilation), `joblib`
+- **Advanced Techniques**: 
+  * Implement simulated annealing, particle swarm optimization, or genetic algorithms for global search
+  * Utilize geometric constraints and symmetry considerations with group theory applications
+  * Apply Lagrangian relaxation for constrained optimization or barrier methods
+  * Consider algebraic methods, semidefinite programming relaxations, or sum-of-squares optimizations
+  * Explore direct construction methods from discrete mathematics including finite geometries
+  * Investigate topological methods such as persistent homology for understanding point configurations
+  * Consider tensor-based approaches for high-dimensional optimization or manifold learning
+  * Implement physics-based simulations with custom force models or molecular dynamics approaches
 
 TECHNICAL REQUIREMENTS:
 - **Reproducibility**: Fixed random seeds for all stochastic components
-- **Alternative approaches**: Consider deterministic geometric constructions, evolutionary algorithms, quantum-inspired optimization, or novel metaheuristic frameworks
-- **Multi-start strategy**: Implement multiple initialization strategies to avoid local optima, including non-random seeding based on mathematical principles
-- **Mathematical elegance**: Prioritize solutions that demonstrate clear mathematical reasoning or theoretical foundations over purely empirical approaches
+- **Mathematical Rigor**: Employ formal optimization theory and geometric proofs where applicable
+- **Algorithmic Diversity**: Explore at least two distinct algorithmic approaches (e.g., one deterministic, one stochastic) - consider non-traditional methods like:
+  * Constraint satisfaction with geometric reasoning or satisfiability modulo theories (SMT)
+  * Physics-based simulation approaches (e.g., repulsive force models with adaptive step sizes)
+  * Algebraic geometry methods or polynomial optimization with Groebner bases
+  * Topological or combinatorial constructions such as simplicial complexes or cell decompositions
+  * Evolutionary algorithms with custom fitness landscapes or multi-modal selection pressure
+  * Monte Carlo methods with importance sampling or variance reduction techniques
+  * Quantum-inspired optimization or quantum annealing approaches (even if simulated)
+  * Game-theoretic approaches where points compete for optimal positions
+  * Machine learning based approaches using neural networks trained on known good configurations
+- **Validation**: Include verification that the solution satisfies theoretical bounds or known optimal configurations
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

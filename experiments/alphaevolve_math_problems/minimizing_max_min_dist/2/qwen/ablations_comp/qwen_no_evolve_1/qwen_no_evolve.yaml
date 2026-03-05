@@ -1,0 +1,104 @@
+CODEBASE_PATH: src/
+EMBEDDING:
+  dimensions: 128
+  model_name: AZURE_TEXT-EMBEDDING-3-SMALL
+  retries: 3
+  verify_ssl: false
+EVAL_FILE_NAME: evaluate.py
+EVAL_TIMEOUT: 60
+EVOLVE_CONFIG:
+  ckpt: 10
+  early_stopping_rounds: null
+  evolve_end_marker: '# EVOLVE-BLOCK-END'
+  evolve_start_marker: '# EVOLVE-BLOCK-START'
+  exploration_rate: 0.2
+  fitness_key: benchmark_ratio
+  init_pop: 300
+  max_chat_depth: 0
+  max_size: null
+  meta_prompting: false
+  migration_interval: 300
+  migration_rate: 0
+  migration_topology: empty
+  mp_end_marker: '# PROMPT-BLOCK-END'
+  mp_start_marker: '# PROMPT-BLOCK-START'
+  num_epochs: 300
+  num_inspirations: 0
+  num_islands: 10
+  scheduler_kwargs:
+    decrease_factor: 0.95
+    increase_factor: 1.05
+    max_rate: 0.5
+    min_rate: 0.2
+    plateau_threshold: 5
+  selection_kwargs:
+    roulette_by_rank: true
+  selection_policy: roulette
+  type: PlateauScheduler
+  use_embedding: false
+  use_map_elites: false
+  use_scheduler: false
+EXPLOITATION_ENSEMBLE:
+- model_name: AWS_QWEN-QWEN3-CODER-30B-INSTRUCT
+  retries: 3
+  temp: 0.7
+  top_p: 0.8
+  verify_ssl: false
+  weight: 1
+EXPLORATION_ENSEMBLE:
+- model_name: AWS_QWEN-QWEN3-CODER-30B-INSTRUCT
+  retries: 3
+  temp: 0.7
+  top_p: 0.8
+  verify_ssl: false
+  weight: 1
+INIT_FILE_DATA:
+  filename: init_program.py
+  language: python
+MAP_ELITES:
+  elite_map_kwargs:
+    max_iter: 300
+    num_centroids: 30
+    num_init_samples: 1000
+    tolerance: 0.0001
+  elite_map_type: cvt
+  features:
+  - max_val: 1.1
+    min_val: 0
+    name: benchmark_ratio
+  - max_val: 60
+    min_val: 0
+    name: eval_time
+MAX_MEM_BYTES: 1000000000
+MEM_CHECK_INTERVAL_S: 0.1
+SAMPLER_AUX_LM:
+  model_name: AWS_QWEN-QWEN3-CODER-30B-INSTRUCT
+  retries: 3
+  temp: 0.7
+  top_p: 0.8
+  verify_ssl: false
+  weight: 1
+SYS_MSG: "# PROMPT-BLOCK-START\n\nSETTING:\nYou are an expert computational geometer\
+  \ and optimization specialist focusing on point dispersion problems.\nYour task\
+  \ is to evolve a constructor function that generates an optimal arrangement of exactly\
+  \ 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance\
+  \ between all point pairs.\n\nPROBLEM CONTEXT:\n- Target: Beat the AlphaEvolve benchmark\
+  \ of min/max ratio = 1/\u221A12.889266112 \u2248 0.2786\n- Constraint: Points must\
+  \ be placed in 2D Euclidean space (typically normalized to unit square [0,1] \xD7\
+  \ [0,1])\n- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:\n\
+  \  * Distance matrix: dij = \u221A[(xi-xj)\xB2 + (yi-yj)\xB2] for all i\u2260j\n\
+  \  * Minimum distance: dmin = min{dij : i\u2260j}\n  * Maximum distance: dmax =\
+  \ max{dij : i\u2260j}\n  * Objective: maximize dmin/dmax subject to spatial constraints\n\
+  \nPERFORMANCE METRICS:\n1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE\
+  \ - maximize)\n2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating\
+  \ AlphaEvolve benchmark)\n3. **eval_time**: Execution time in seconds (balance accuracy\
+  \ vs. efficiency)\n\nCOMPUTATIONAL RESOURCES:\n**Core packages**: numpy, scipy,\
+  \ sympy, pandas\n**Additional useful packages**:\n- **3D optimization**: `scipy.optimize`,\
+  \ `deap`, `platypus`, `pymoo` (multi-objective)\n- **3D geometric computing**: \n\
+  \  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)\n  * `trimesh`\
+  \ (3D mesh operations), `open3d` (3D data processing)\n- **Specialized 3D algorithms**:\
+  \ \n  * `spherical-geometry` for spherical arrangements\n  * `quaternion` package\
+  \ for 3D rotations\n- **Performance**: `numba` (3D JIT compilation), `joblib`\n\n\
+  TECHNICAL REQUIREMENTS:\n- **Reproducibility**: Fixed random seeds for all stochastic\
+  \ components\n\nCOMPUTATIONAL BUDGET:\n- **Time limit**: 60 seconds maximum execution\
+  \ time\n- **Memory limit**: 1 GB\n\n# PROMPT-BLOCK-END\n    \n"

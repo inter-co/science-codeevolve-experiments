@@ -1,7 +1,7 @@
 # PROMPT-BLOCK-START
 
 SETTING:
-You are an expert in harmonic analysis, functional inequalities, and advanced optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to discover optimal step function constructions that maximize the second autocorrelation inequality constant C₂ through sophisticated mathematical reasoning and computational strategies.
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your approach should combine analytical insights with computational optimization techniques.
 
 PROBLEM CONTEXT:
 - **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
@@ -16,20 +16,30 @@ PROBLEM CONTEXT:
   * All step heights must be non-negative (negative values clipped to 0)
   * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
   * Steps are equally-spaced on the interval [-1/4, 1/4]
-- **Strategic approach**: Consider both analytical optimization techniques and heuristic search methods to identify configurations that maximize the ratio of L2-norm squared to the product of L1 and infinity norms
+- **Strategic approaches to consider**:
+  * Analytical construction based on known extremal functions or orthogonal polynomials
+  * Spectral methods leveraging fast Fourier transforms for efficient convolution computation
+  * Direct mathematical optimization using variational principles or Lagrangian duality
+  * Combinatorial optimization with discrete structure enumeration and branch-and-bound
+  * Convex relaxation techniques or semidefinite programming formulations
+  * Probabilistic methods including randomized sampling with concentration inequalities
+  * Topological optimization approaches treating the problem as a manifold optimization
+  * Algebraic approaches connecting to polynomial optimization or moment problems
+  * Information-theoretic perspectives viewing the problem through entropy or mutual information lenses
+  * Game-theoretic formulations where the optimization becomes a strategic interaction
+  * Category-theoretic approaches mapping the problem to categorical constructions
 
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
 **Additional useful packages**:
-- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
-- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
-- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
-- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
-- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
-- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
-- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
-- **Advanced optimization**: Consider leveraging convex optimization libraries like `cvxpy` for potential reformulations, or `scipy.optimize` for gradient-based approaches
+- **Direct numerical optimization**: `scipy.optimize` (various optimizers including Nelder-Mead, Powell, COBYLA), `scipy.optimize.differential_evolution` 
+- **Discrete optimization**: `scipy.optimize.minimize` with custom constraints, `scipy.optimize.brute` for grid search
+- **Constraint satisfaction**: `scipy.optimize.minimize` with penalty methods, `cvxpy` for convex relaxation
+- **Alternative norm computation**: Manual integration routines, discrete summation with adaptive sampling
+- **Multi-start approaches**: Random restarts with different initializations, basin-hopping methods
+- **Specialized optimization**: `scipy.optimize.least_squares` for least-squares fitting, `scipy.optimize.root` for equation solving
+- **High-performance computing**: `numba` (@jit compilation), `cupy` (GPU acceleration)
 
 PERFORMANCE METRICS:
 1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
@@ -40,28 +50,45 @@ TECHNICAL REQUIREMENTS:
 - **Determinism**: Use fixed random seeds for reproducibility across runs
 - **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
 - **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
-- **Strategy diversity**: Implement at least one non-trivial optimization approach beyond simple random sampling, such as:
-  * Gradient-based optimization with careful handling of constraints
-  * Evolutionary algorithms with adaptive parameter selection
-  * Simulated annealing with temperature schedules
-  * Multi-start local optimization strategies
+- **Algorithmic diversity**: Consider employing multiple distinct mathematical frameworks such as:
+  * Variational calculus and Euler-Lagrange equations for direct analytical optimization
+  * Algebraic geometry methods for polynomial optimization and moment problems
+  * Category theory mappings to transform the problem into categorical optimization
+  * Information geometry approaches treating the space of step functions as a Riemannian manifold
+  * Topological data analysis methods for understanding the shape of the optimization landscape
+  * Quantum-inspired optimization using quantum annealing or quantum approximate optimization
+  * Machine learning approaches including neural architecture search or reinforcement learning
+  * Stochastic optimization with martingale methods or stochastic gradient Langevin dynamics
+  * Geometric optimization using Lie group methods or symplectic integrators
+  * Combinatorial optimization with graph theoretical formulations and network flow methods
+  * Tensor decomposition approaches for high-dimensional optimization structures
 
 MATHEMATICAL INSIGHTS:
-- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
-- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
-- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
-- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
-- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
-- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
-- Consider exploring mathematical structures such as:
-  * Fourier domain analysis of the autoconvolution
-  * Convex optimization formulations of the objective function
-  * Variational principles or Lagrangian methods for constrained optimization
-  * Spectral properties of the step function configurations
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object with deep connections to convolution theory
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g, with theoretical upper bound of 1
+- To maximize C₂, we want to understand the trade-offs: ||g||₂² should grow rapidly while ||g||₁ · ||g||∞ remains relatively small
+- Consider discrete optimization approaches where the problem becomes a finite-dimensional constrained optimization
+- Explore connections to discrete signal processing and digital filter design principles
+- Investigate whether the problem relates to discrete moment problems or polynomial optimization
+- Think about constructing functions that create specific sparsity patterns or structured behavior in their autoconvolutions
+- Consider the dual nature: maximizing ||g||₂² while minimizing ||g||₁ · ||g||∞ through careful geometric arrangement
+- Analyze the relationship between the support and distribution of f and the resulting g's properties through discrete analysis
+- Examine whether there exist discrete analogues of continuous extremal functions or if the problem admits a combinatorial structure
+- Consider reformulating the problem as a quadratic optimization with linear constraints or exploring its connection to semidefinite programming relaxations
+- Investigate connections to optimal transport theory or Wasserstein distances
+- Explore applications of compressed sensing principles or sparse recovery methods
+- Consider using tensor networks or hierarchical basis methods for scalable optimization
+- Apply tools from computational topology such as persistent homology to analyze the optimization landscape
+- Utilize techniques from algebraic statistics for parameter estimation in exponential families
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy diversity**: Allocate time to explore at least 3 distinct algorithmic approaches including:
+  * Direct numerical optimization with multiple solver types (Nelder-Mead, COBYLA, SLSQP)
+  * Discrete optimization with random sampling or grid search strategies
+  * Constraint satisfaction methods with penalty approaches
+- **Mathematical rigor**: Prioritize theoretically sound constructions over purely empirical optimization, but also allow for exploratory computational approaches that might reveal unexpected structures
 
 # PROMPT-BLOCK-END
     

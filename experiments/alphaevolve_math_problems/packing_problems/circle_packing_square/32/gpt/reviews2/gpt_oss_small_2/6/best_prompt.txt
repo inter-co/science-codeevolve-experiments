@@ -1,0 +1,56 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+You must avoid trivial, static grid placements; instead, the solution should compute positions dynamically and justify each algorithmic choice.
+Additionally, you are encouraged to explore a diverse set of algorithmic strategies beyond conventional evolutionary approaches, including but not limited to constraint programming, physics-based simulation, gradient-based continuous optimization, analytical geometry, and hybrid metaheuristics. The solution should be modular enough to allow swapping of optimization backends and should aim to discover novel packing configurations that may surpass existing benchmarks.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- The algorithm must dynamically compute positions; reliance on a static grid layout is disallowed.
+- All containment checks must be performed before final output; any circle violating the unit square boundaries must be corrected or discarded.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time, but solutions may leverage parallelism or just-in-time compilation to stay within limits.
+- **Memory limit**: 1 GB; algorithms should monitor memory usage and avoid large dense matrices when possible.
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap`, `platypus`, `pymoo`, `cma`, `scipy.optimize` (gradient methods), `optuna` (hyperparameter tuning)
+- **Geometric computing**: `shapely`, `rtree`, `scipy.spatial` (KDTree, Voronoi, Delaunay), `networkx`
+- **Constraint programming**: `python-constraint`, `ortools`, `pulp`, `cvxpy`, `pyomo`
+- **Physics simulation**: `pymunk`, `pybullet`, `matter-js`, `pysim`
+- **Performance**: `cython`, `numba`, `joblib`, `jax`, `dask` (parallel computing)
+
+## ALTERNATIVE APPROACHES
+The solution must explore **at least two** distinct algorithmic families. For example:
+- **Physics-based simulation** (e.g., spring–repulsion dynamics or granular packing) combined with a **constraint programming** layer to enforce non-overlap.
+- **Gradient-based continuous optimization** (e.g., L‑BFGS or Adam on a smooth penalty formulation) coupled with a **metaheuristic** (e.g., simulated annealing or differential evolution) for global search.
+Additionally, the design should incorporate **analytical geometry** primitives such as Voronoi diagrams, Delaunay triangulation, or hexagonal lattice seeding to initialize candidate configurations. The rationale for choosing each family and how they interact should be clearly documented.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)
+3. **eval_time**: Execution time in seconds (must not exceed the time limit)
+4. **iteration_count**: Number of optimization iterations performed
+5. **convergence_metric**: Quantitative measure of objective improvement per iteration (e.g., Δsum_radii)
+6. **feasibility_rate**: Percentage of candidate solutions that satisfy all constraints during the search
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for all stochastic components to ensure reproducibility.
+- **Error handling**: The implementation must detect and gracefully recover from infeasible intermediate states, providing informative diagnostics.
+- **Memory efficiency**: Optimize distance computations (e.g., via spatial indexing or sparse representations) to keep memory usage below 1 GB.
+- **Scalability**: The codebase should be parameterized to handle arbitrary circle counts, with clear abstraction layers for geometry, optimization, and simulation modules.
+- **Modularity & Extensibility**: Provide a clean plugin architecture where new optimization backends can be swapped in without altering the core logic.
+- **Algorithmic Diversity**: The solution must demonstrate at least two distinct algorithmic families, as specified in the ALTERNATIVE APPROACHES section, and include a concise rationale for each chosen strategy.
+
+# PROMPT-BLOCK-END
+    

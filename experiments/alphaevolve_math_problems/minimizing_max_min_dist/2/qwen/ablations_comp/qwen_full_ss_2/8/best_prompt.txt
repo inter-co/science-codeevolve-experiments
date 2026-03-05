@@ -1,0 +1,47 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Focus on developing a robust solution that combines mathematical insight with computational efficiency. Consider multiple algorithmic paradigms including:
+
+1. **Deterministic geometric constructions**: Explore regular polygonal arrangements, lattice structures, and known optimal configurations from discrete geometry (such as the 16-point spherical code or optimal packing arrangements)
+2. **Hybrid optimization approaches**: Combine geometric intuition with numerical optimization techniques like gradient-based methods or local search
+3. **Multi-start strategies**: Implement systematic exploration using multiple initialization strategies to avoid local optima
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Optimization**: `scipy.optimize` (for gradient-based methods), `scipy.spatial` (distance computations)
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams)
+  * `numpy.linalg` (matrix operations for geometric calculations)
+- **Performance**: `numba` (JIT compilation), `joblib` (parallel processing)
+
+TECHNICAL REQUIREMENTS:
+- **Robustness**: Handle edge cases and numerical stability without crashing
+- **Reproducibility**: Fixed random seeds for all stochastic components  
+- **Algorithmic Diversity**: Implement at least two distinct approaches from different algorithmic paradigms
+- **Code Quality**: Proper error handling and validation of inputs/outputs
+- **Efficiency**: Design for the 60-second time constraint with memory under 1GB
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

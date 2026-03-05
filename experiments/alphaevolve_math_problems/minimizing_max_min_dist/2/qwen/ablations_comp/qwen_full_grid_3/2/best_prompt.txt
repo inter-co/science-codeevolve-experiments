@@ -1,0 +1,54 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Mathematical Construction**: Leverage known geometric principles such as the kissing number problem, optimal sphere packing, or lattice-based constructions (e.g., hexagonal lattice, face-centered cubic)
+2. **Population-Based Evolutionary Strategies**: Implement genetic algorithms, differential evolution, or evolution strategies that maintain diverse candidate solutions and evolve them through selection, crossover, and mutation operators
+3. **Deterministic Geometric Algorithms**: Design algorithms that construct configurations based on mathematical optimality conditions, symmetry groups, or combinatorial designs rather than iterative optimization
+4. **Stochastic Sampling with Constraint Satisfaction**: Use probabilistic methods like Markov Chain Monte Carlo or Gibbs sampling to explore the feasible region of valid point arrangements
+5. **Multi-Objective Optimization Frameworks**: Approach this as a constrained multi-objective problem where you simultaneously optimize both minimum and maximum distances using Pareto-based methods
+6. **Hybrid Discrete-Continuous Architectures**: Combine discrete mathematical insights (like symmetry-breaking) with continuous optimization only where beneficial
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Evolutionary Computation**: `deap`, `pymoo`, `gplearn` for genetic programming approaches
+- **Advanced Optimization**: `scipy.optimize`, `scipy.spatial` for geometric computations
+- **Geometric Algorithms**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, Delaunay triangulation)
+  * `spherical-geometry` for spherical arrangements (if applicable)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing) 
+- **Performance**: `numba` (JIT compilation), `joblib` for parallelization
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Demonstrate understanding of multiple paradigm shifts including non-gradient approaches, discrete mathematics, and combinatorial optimization
+- **Mathematical Insight**: Prioritize approaches that leverage deep geometric properties, symmetry groups, or mathematical constructions rather than heuristic optimization
+- **Robustness**: Solutions should be robust to different initialization strategies and demonstrate resilience across various algorithmic approaches
+- **Innovation Focus**: Prefer novel construction methods that exploit mathematical structures, discrete geometry, or evolutionary computation paradigms over standard gradient-based local search
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Method Diversity**: Prioritize solutions that showcase unconventional algorithmic thinking including geometric constructions, evolutionary approaches, or mathematical programming methods
+- **Conceptual Depth**: Solutions should reflect deep understanding of geometric principles, discrete mathematics, or combinatorial optimization rather than routine numerical optimization
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,64 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider diverse mathematical frameworks and algorithmic approaches including but not limited to:
+- Spherical codes and spherical designs for uniform point distributions
+- Optimization via gradient-based methods (scipy.optimize) or evolutionary algorithms (DEAP, pymoo)
+- Geometric constructions based on Platonic solids or their refinements
+- Numerical methods for global optimization with guaranteed convergence properties
+- Alternative mathematical formulations such as energy minimization problems (Fekete points, Riesz energy)
+- Topological approaches using simplicial complexes or graph theory for point placement
+- Probabilistic methods like Markov Chain Monte Carlo or Gibbs sampling for point configurations
+- Algebraic geometry approaches for polynomial optimization over spheres
+- Machine learning-inspired approaches such as neural network optimization or reinforcement learning for geometric layouts
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy: Employ mathematical optimization techniques including but not limited to:
+  * Global optimization algorithms (particle swarm, genetic algorithms, simulated annealing)
+  * Gradient-free optimization methods (Nelder-Mead, COBYLA)
+  * Geometric constructions inspired by symmetry groups and regular polyhedra
+  * Alternative formulations such as minimizing potential energy functions or maximizing Riesz s-energy
+  * Topological optimization using simplicial or cellular decompositions
+  * Stochastic approaches like Monte Carlo methods or Bayesian optimization
+  * Algebraic approaches leveraging polynomial optimization or semidefinite programming
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Advanced optimization**: `cvxpy` (convex optimization), `scikit-optimize` (Bayesian optimization)
+- **Alternative representations**: `networkx` (graph-based approaches), `gurobipy` (mixed-integer programming)
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Sophistication**: Prefer mathematically principled approaches over brute force sampling
+- **Approach Diversity**: Consider multiple distinct algorithmic paradigms beyond the standard optimization toolbox
+- **Alternative Formulations**: Explore whether the problem can be reformulated as energy minimization, polynomial optimization, or topological optimization
+- **Framework Flexibility**: Demonstrate capability to adapt to different mathematical formalisms rather than sticking to one fixed methodology
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

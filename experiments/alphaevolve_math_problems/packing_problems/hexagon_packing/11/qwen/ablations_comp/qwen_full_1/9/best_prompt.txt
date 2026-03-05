@@ -1,8 +1,15 @@
 # PROMPT-BLOCK-START
 SETTING:
 You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
-Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
-Consider mathematical optimality and geometric constraints rigorously. Explore configurations that might utilize symmetry groups, Voronoi diagrams, or other advanced geometric principles rather than simple grid layouts.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length). 
+Explore diverse algorithmic approaches beyond conventional optimization, including but not limited to:
+- Geometric construction heuristics based on symmetry and tiling principles
+- Mathematical programming with constraints on containment and non-overlap
+- Physics-based simulation with collision detection using Separating Axis Theorem
+- Gradient-free optimization methods tailored for discrete geometric arrangements
+- Multi-start local optimization with diverse initial configurations
+- Combinatorial approaches leveraging graph theory or constraint satisfaction
+- Hybrid methods combining analytical geometric constructions with stochastic refinement
 
 PROBLEM CONTEXT:
 - Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
@@ -33,12 +40,22 @@ COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 - **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
 
 TECHNICAL REQUIREMENTS:
-- **Numerical stability**: Handle hexagon intersection and containment calculations robustly
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly using geometric libraries like shapely or custom SAT implementations
 - **Reproducibility**: Fixed random seeds for stochastic optimization methods
+- **Algorithmic diversity**: Consider multiple approaches such as:
+  * Constrained nonlinear optimization using scipy.optimize.minimize
+  * Population-based evolutionary algorithms with custom crossover/mutation operators
+  * Simulated annealing or particle swarm optimization adapted for hexagon packing
+  * Hybrid methods combining deterministic placement with stochastic refinement
+  * Geometric construction algorithms based on Voronoi diagrams or Delaunay triangulations
+  * Analytical approaches leveraging known mathematical bounds and symmetry properties
+  * Constraint satisfaction problem solvers with custom hexagon-specific constraints
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy diversity**: Explore at least two distinct algorithmic approaches to arrive at the optimal configuration
+- **Innovation focus**: Prioritize novel geometric insights or unconventional algorithmic paradigms over standard optimization techniques
 
 # PROMPT-BLOCK-END
     

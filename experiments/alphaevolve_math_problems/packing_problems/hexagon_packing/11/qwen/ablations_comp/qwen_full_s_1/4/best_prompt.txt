@@ -1,0 +1,68 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Constraint Satisfaction Programming**: Formulate the problem as a CSP with spatial constraints and use specialized solvers
+2. **Monte Carlo Methods**: Use random sampling with rejection criteria for valid configurations
+3. **Hierarchical Clustering**: Group hexagons into clusters first, then optimize cluster placements
+4. **Machine Learning Approaches**: Train neural networks to predict good initial configurations or learn optimization policies
+5. **Topological Optimization**: Use graph-based representations where nodes represent hexagons and edges represent constraints
+6. **Hybrid Geometric Algorithms**: Combine exact geometric computations with approximate methods for efficiency
+
+ENCOURAGEMENT FOR DIVERSITY:
+Rather than starting with fixed geometric patterns, consider exploring:
+- Exact geometric computation approaches using robust computational geometry libraries
+- Deterministic construction methods based on mathematical tiling principles
+- Probabilistic methods with guaranteed validity checks
+- Decomposition strategies that break the problem into smaller subproblems
+- Symmetry-aware approaches that exploit inherent symmetries in hexagonal packing
+- Direct enumeration of promising geometric arrangements rather than continuous optimization
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom operators)
+  * `platypus` (multi-objective optimization)
+- **Collision detection**: 
+  * `pymunk` (2D rigid body physics with polygon shapes)
+  * Custom SAT (Separating Axis Theorem) implementations
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
+
+ALGORITHMIC DIVERSITY ENCOURAGEMENT:
+- Consider exact geometric algorithms using robust predicates for intersection tests
+- Explore constructive approaches that build valid configurations step-by-step
+- Implement constraint propagation techniques to reduce search space early
+- Try combinatorial optimization methods that enumerate valid topologies
+- Investigate methods that start with perfect lattice arrangements and perturb them
+- Consider using specialized libraries like CGAL or custom SAT implementations for robust geometric reasoning
+
+TECHNICAL REQUIREMENTS:
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly
+- **Reproducibility**: Fixed random seeds for stochastic optimization methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,53 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems. Encourage open-ended algorithmic creativity across a broad spectrum of fundamentally different paradigms—such as deterministic hexagonal or lattice seeding with both derivative-free and gradient-based local refinement, physics-based repulsive or potential-field simulations with adaptive damping and growth, geometric inversion approaches (including Apollonian gaskets and multi-scale circle inversions), convex or semidefinite relaxations (SDP, sum-of-squares and moment hierarchies) for global bounds and approximations, Voronoi or medial-axis iterative schemes, metaheuristic global search (simulated annealing, genetic/evolutionary algorithms, taboo search), event-driven random sequential adsorption, constraint programming formulations (CP-SAT), quadtree or multiresolution partitioning, and hybrid ensemble or multi-stage pipelines for cross-paradigm synergy.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- Diverse strategies guidance:
+  * Deterministic hexagonal or lattice seeding with both derivative-free and gradient-based local refinement
+  * Physics-based repulsive or potential-field simulations with adaptive damping and radius growth
+  * Geometric inversion schemes (Apollonian gaskets, multi-scale circle inversions) for hierarchical packings
+  * Semidefinite or convex relaxations (SDP hierarchies, sum-of-squares, moment-based) for global bounds
+  * Voronoi or medial-axis based iterative schemes with Lloyd, cell splitting, merging, and graph optimization
+  * Metaheuristic global searches (simulated annealing, genetic/evolutionary algorithms with problem-specific operators, taboo search)
+  * Event-driven random sequential adsorption with dynamic exclusion zone updates
+  * Constraint programming or CP-SAT solver formulations with branching heuristics and global constraints
+  * Quadtree or multiresolution partitioning with hierarchical local packing and merging
+  * Hybrid ensembles or multi-stage pipelines that combine and cross-validate different paradigms
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Diversity focus**: Implement and evaluate at least three fully independent algorithmic paradigms (e.g., physics-based potential fields, semidefinite relaxations, Apollonian inversion, metaheuristics, random sequential adsorption) and explore hybrid ensembles or multi-stage pipelines to further diversify and cross-validate the solution search space
+
+# PROMPT-BLOCK-END
+    

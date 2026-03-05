@@ -1,0 +1,66 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to discover and implement sophisticated optimization strategies to find step function constructions that maximize the second autocorrelation inequality constant C₂. Consider multiple algorithmic paradigms including but not limited to evolutionary computation, gradient-based optimization, analytical approaches, and variational methods. Explore novel mathematical formulations that might reveal structural properties of optimal solutions. Focus particularly on leveraging the underlying mathematical structure of the problem through direct analytical derivation, convex optimization formulations, or spectral analysis approaches rather than purely heuristic methods.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+- **Advanced optimization**: Consider `cvxpy` for convex optimization formulations, `scipy.optimize` for gradient-based methods, or `torch.optim` for automatic differentiation approaches
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Alternative approaches**: Prioritize analytical methods and mathematical derivations that could reveal structural properties of optimal solutions, such as variational principles, Lagrangian optimization, or convex optimization reformulations. Consider spectral methods or Fourier domain analysis to exploit the convolution structure directly.
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+- Consider using Fourier domain analysis: convolution becomes multiplication, which might reveal structural properties - explore whether the optimal solution has specific frequency characteristics
+- Investigate whether optimal solutions have specific symmetry properties or follow known mathematical patterns - consider symmetric or anti-symmetric configurations
+- Apply variational principles or Lagrangian optimization techniques to derive necessary conditions for optimality - think about what the first-order conditions would look like for this constrained optimization problem
+- Consider convex optimization approaches if the problem can be reformulated as a convex program - explore whether there exist convex relaxations or equivalent formulations
+- Examine whether the problem exhibits properties amenable to semidefinite programming or other advanced optimization frameworks - consider whether the constraint structure allows such formulations
+- Think about using alternating direction methods or proximal gradient techniques for constrained optimization - especially if reformulating as a constrained optimization problem
+- Consider exploring gradient-free methods such as Nelder-Mead, genetic algorithms, or Bayesian optimization for potentially superior exploration of the solution landscape, but also prioritize mathematical insight-driven approaches
+- Investigate whether the continuous relaxation of the discrete problem might yield insights into the optimal structure - consider what happens if we allow continuous functions instead of discrete steps
+- Explore whether there are known analytical solutions or bounds for similar problems that might suggest the structure of optimal solutions
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

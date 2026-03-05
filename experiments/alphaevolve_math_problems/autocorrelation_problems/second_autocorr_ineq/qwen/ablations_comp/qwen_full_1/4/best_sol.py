@@ -1,310 +1,381 @@
-# You can define functions outside the main function below.
-# Remember that any function used in parallel computation must be defined globally and not locally.
-
 # EVOLVE-BLOCK-START
 
 import numpy as np
-from scipy import signal
-import random
-import warnings
-from typing import List
 import jax
 import jax.numpy as jnp
 from jax import jit, grad
-import optax
+from scipy import signal
+from scipy.optimize import differential_evolution
+import time
+import random
 
-# Enable X64 for higher precision
-jax.config.update("jax_enable_x64", True)
-
-# Set seeds for reproducibility
-random.seed(42)
+# Set seed for reproducibility
 np.random.seed(42)
+random.seed(42)
+jax.config.update('jax_enable_x64', True)
 
-def compute_autoconvolution_norms(f_values: List[float]) -> tuple[float, float, float]:
-    """
-    Compute the three norms needed for C2 calculation.
-    Uses the exact piecewise linear integration method as specified in problem description.
-    """
-    # Convert to numpy array
-    f = np.array(f_values)
+def compute_autoconvolution_jax(f):
+    """Compute autoconvolution using JAX for better performance"""
+    # Ensure f is a JAX array
+    f = jnp.array(f)
     
+    # Compute autoconvolution g = f * f
+    g = jnp.convolve(f, f, mode='full')
+    
+    # Extract the central portion corresponding to [-1/4, 1/4]
+    # For a function of n points, the autoconvolution has 2*n-1 points
+    # The central portion of length n corresponds to the valid range
+    center = len(g) // 2
+    half_len = len(f) - 1
+    g_trimmed = g[center - half_len:center + half_len + 1]
+    
+    return g_trimmed
+
+def compute_c2_jax(f):
+    """Compute C2 using JAX for automatic differentiation"""
     # Ensure non-negative values
-    f = np.maximum(f, 0)
+    f = jnp.maximum(f, 0.0)
     
-    # Create step function on [-1/4, 1/4] with equal spacing
-    n_steps = len(f)
-    if n_steps == 0:
-        return 0.0, 0.0, 0.0
+    # Compute autoconvolution
+    g = compute_autoconvolution_jax(f)
     
-    # Step width (interval [-1/4, 1/4] divided into n_steps)
-    dx = 0.5 / n_steps
+    # Compute norms
+    l2_squared = jnp.sum(g**2)
+    l1_norm = jnp.sum(jnp.abs(g))
+    l_inf_norm = jnp.max(jnp.abs(g))
     
-    # Compute autoconvolution g = f * f using discrete convolution
-    g = signal.convolve(f, f, mode='full')
+    # Avoid division by zero
+    epsilon = 1e-12
+    l1_norm = jnp.maximum(l1_norm, epsilon)
+    l_inf_norm = jnp.maximum(l_inf_norm, epsilon)
     
-    # Extract central portion of the convolution result
-    mid = len(g) // 2
-    g_centered = g[mid-(n_steps-1):mid+n_steps-1]
+    # Compute C2
+    c2 = l2_squared / (l1_norm * l_inf_norm)
     
-    # Compute ||g||₂² using the specified piecewise linear integration
-    g2_norm_squared = 0.0
-    if len(g_centered) > 1:
-        for i in range(len(g_centered) - 1):
-            h = dx
-            y1 = g_centered[i]
-            y2 = g_centered[i + 1]
-            contribution = (h/3) * (y1**2 + y1*y2 + y2**2)
-            g2_norm_squared += contribution
-    else:
-        g2_norm_squared = g_centered[0]**2 if len(g_centered) > 0 else 0.0
-    
-    # ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
-    g_abs = np.abs(g_centered)
-    g1_norm = np.sum(g_abs) / (len(g_centered) + 1) if len(g_centered) > 0 else 0.0
-    
-    # ||g||∞: Infinity-norm, computed as max(|g|)
-    g_infty_norm = np.max(g_abs) if len(g_abs) > 0 else 0.0
-    
-    return g2_norm_squared, g1_norm, g_infty_norm
+    return c2
 
 @jit
-def compute_C2_jax(f_values: jnp.ndarray) -> jnp.ndarray:
-    """Compute C2 value for given step function values using JAX with corrected logic"""
-    try:
-        # Compute autoconvolution using numpy (more accurate for this specific problem)
-        f = jnp.array(f_values)
-        n_steps = len(f)
-        if n_steps == 0:
-            return jnp.array(0.0)
-        
-        # Compute dx correctly
-        dx = 0.5 / n_steps
-        
-        # Compute autoconvolution
-        g = jnp.convolve(f, f, mode='full')
-        
-        # Extract the central portion
-        center_idx = len(g) // 2
-        g_centered = g[center_idx - (n_steps - 1):center_idx + n_steps - 1]
-        
-        # Compute ||g||₂² using correct piecewise linear integration
-        if len(g_centered) < 2:
-            g2_norm_sq = 0.0
-        else:
-            # Vectorized computation of the piecewise integration
-            g_vals = g_centered[:-1]
-            g_next_vals = g_centered[1:]
-            g2_norm_sq = jnp.sum((g_vals**2 + g_vals * g_next_vals + g_next_vals**2) * dx / 3.0)
-        
-        # L1 norm = sum(|g|) / (len(g) + 1)
-        g1_norm = jnp.sum(jnp.abs(g_centered)) / (len(g_centered) + 1)
-        
-        # L-infinity norm = max(|g|)
-        ginf_norm = jnp.max(jnp.abs(g_centered))
-        
-        # Avoid division by zero
-        epsilon = 1e-12
-        g1_norm = jnp.maximum(g1_norm, epsilon)
-        ginf_norm = jnp.maximum(ginf_norm, epsilon)
-        
-        # Compute C2
-        c2 = g2_norm_sq / (g1_norm * ginf_norm)
-        return c2
-    except Exception:
-        return jnp.array(0.0)
+def compute_c2_grad(f):
+    """Compute C2 and its gradient using JAX"""
+    c2 = compute_c2_jax(f)
+    grad_c2 = grad(compute_c2_jax)(f)
+    return c2, grad_c2
 
-def compute_c2(f_values: List[float]) -> float:
-    """Compute C2 value for given step function."""
-    try:
-        g2_norm_sq, g1_norm, g_infty_norm = compute_autoconvolution_norms(f_values)
-        
-        # Avoid division by zero
-        if g1_norm <= 1e-15 or g_infty_norm <= 1e-15:
-            return 0.0
-            
-        c2 = g2_norm_sq / (g1_norm * g_infty_norm)
-        return c2
-    except Exception as e:
-        warnings.warn(f"Error computing C2: {e}")
-        return 0.0
+def create_ultimate_pattern(n: int) -> np.ndarray:
+    """Create ultimate pattern with very aggressive parameters for maximum C2"""
+    x = np.linspace(-0.25, 0.25, n)
+    
+    # Ultimate pattern designed specifically for maximum convolution efficiency
+    f_init = np.zeros(n)
+    
+    # Very strong central peak
+    f_init += 2.2 * np.exp(-x**2 / (2 * 0.01**2))
+    
+    # Precisely positioned symmetric peaks with exact spacing
+    f_init += 1.0 * np.exp(-((x - 0.12)**2) / (2 * 0.03**2))
+    f_init += 1.0 * np.exp(-((x + 0.12)**2) / (2 * 0.03**2))
+    
+    # Additional structure for better convolution properties
+    f_init += 0.4 * np.exp(-((x - 0.18)**2) / (2 * 0.025**2))
+    f_init += 0.4 * np.exp(-((x + 0.18)**2) / (2 * 0.025**2))
+    
+    # High frequency oscillation for maximum structural complexity
+    oscillation = 0.25 * np.sin(40 * np.pi * x)
+    
+    f_init = f_init + oscillation
+    
+    # Normalize
+    if np.max(f_init) > 0:
+        f_init = f_init / np.max(f_init) * 0.85
+    
+    # Add very small noise for exploration
+    noise = np.random.normal(0, 0.001, n)
+    f_init = np.maximum(f_init + noise, 0)
+    
+    return f_init
 
-def create_optimized_pattern(n_steps: int) -> List[float]:
-    """
-    Create an optimized mathematical pattern based on the best practices from inspirations.
-    This pattern is designed to achieve high C2 values.
-    """
-    # Create position array
-    x = np.linspace(-0.25, 0.25, n_steps)
+def create_super_optimized_pattern(n: int) -> np.ndarray:
+    """Create a super optimized pattern based on advanced mathematical insights"""
+    x = np.linspace(-0.25, 0.25, n)
     
-    # Create a highly optimized pattern that achieves superior C2 values
-    # Based on the most successful approaches from inspirations
+    # Highly strategic multi-peak arrangement with precise amplitudes and positions
+    # Based on mathematical analysis of optimal convolution structures
     
-    # Main central component with strong peak - inspired by Program 3
-    main_peak = 1.0 * np.exp(-20 * x**2)
+    # Central strong peak with very high amplitude
+    central = 1.5 * np.exp(-x**2 / (2 * 0.02**2))
     
-    # First oscillatory component - creates constructive interference
-    osc1 = 0.4 * np.sin(15 * np.pi * x) * np.exp(-10 * x**2)
+    # Two symmetric peaks with precise positioning
+    left_peak = 0.8 * np.exp(-((x + 0.14)**2) / (2 * 0.04**2))
+    right_peak = 0.8 * np.exp(-((x - 0.14)**2) / (2 * 0.04**2))
     
-    # Second oscillatory component - adds additional structure  
-    osc2 = 0.3 * np.cos(20 * np.pi * x) * np.exp(-8 * x**2)
+    # Additional peaks for better convolution structure
+    left_secondary = 0.4 * np.exp(-((x + 0.18)**2) / (2 * 0.03**2))
+    right_secondary = 0.4 * np.exp(-((x - 0.18)**2) / (2 * 0.03**2))
     
-    # Third oscillatory component - fine structure for enhanced performance
-    osc3 = 0.2 * np.sin(25 * np.pi * x) * np.exp(-6 * x**2)
+    # Add oscillation for better structure
+    oscillation = 0.15 * np.sin(25 * np.pi * x)
     
-    # Polynomial tail adjustment for smooth edges
-    tail = 0.1 * (1 - 3 * x**2) * np.exp(-4 * x**2)
-    
-    # Combine all components
-    values = main_peak + osc1 + osc2 + osc3 + tail
-    
-    # Ensure non-negativity and normalize appropriately
-    values = np.clip(values, 0, None)
-    if np.max(values) > 0:
-        values = values / np.max(values) * 1.1  # Slightly lower normalization to maintain peak
-    
-    return values.tolist()
-
-def create_multipeak_optimized(n_steps: int) -> List[float]:
-    """
-    Create an optimized multi-peak pattern that has shown excellent performance.
-    """
-    x = np.linspace(-0.25, 0.25, n_steps)
-    
-    # Optimized multi-peak construction with precise parameters
-    f_vals = np.zeros(n_steps)
-    
-    # Central peak (most important) - sharper than previous versions
-    f_vals += 1.3 * np.exp(-((x - 0.0)**2) / (2 * 0.06**2))
-    
-    # Left side peak - slightly smaller but positioned optimally
-    f_vals += 0.7 * np.exp(-((x - (-0.12))**2) / (2 * 0.055**2))
-    
-    # Right side peak - balanced with left peak
-    f_vals += 0.6 * np.exp(-((x - 0.12)**2) / (2 * 0.05**2))
-    
-    # Add additional structure to encourage good convolution properties
-    # Smooth transitions to reduce sharp edges that might hurt the optimization
-    for i in range(n_steps):
-        if abs(x[i]) > 0.18:
-            # Reduce values at the edges to create smoother boundaries
-            f_vals[i] *= (1.0 - 0.3 * min(1.0, abs(x[i]) - 0.18) / 0.07)
-    
-    # Ensure non-negativity
-    f_vals = np.clip(f_vals, 0, None)
+    f_init = central + left_peak + right_peak + left_secondary + right_secondary + oscillation
     
     # Normalize to reasonable scale
-    if np.max(f_vals) > 0:
-        f_vals = f_vals / np.max(f_vals) * 0.9
+    if np.max(f_init) > 0:
+        f_init = f_init / np.max(f_init) * 0.95
     
-    return f_vals.tolist()
+    # Add noise for exploration
+    noise = np.random.normal(0, 0.003, n)
+    f_init = np.maximum(f_init + noise, 0)
+    
+    return f_init
 
-def create_diverse_patterns(n_steps: int) -> List[List[float]]:
-    """
-    Create a set of diverse high-quality patterns for initialization.
-    """
-    patterns = []
+def create_concentrated_peak_pattern(n: int) -> np.ndarray:
+    """Create a highly concentrated peak pattern for maximum convolution efficiency"""
+    x = np.linspace(-0.25, 0.25, n)
     
-    # High-quality optimized pattern (most important)
-    patterns.append(create_optimized_pattern(n_steps))
+    # Create a highly concentrated pattern that focuses mass efficiently
+    f_init = 1.8 * np.exp(-x**2 / (2 * 0.015**2))
     
-    # Multi-peak pattern
-    patterns.append(create_multipeak_optimized(n_steps))
+    # Add secondary peaks for better structure
+    f_init += 0.5 * np.exp(-((x - 0.12)**2) / (2 * 0.03**2))
+    f_init += 0.5 * np.exp(-((x + 0.12)**2) / (2 * 0.03**2))
     
-    # Alternative mathematical pattern
-    x = np.linspace(-0.25, 0.25, n_steps)
-    alt_pattern = 0.8 * np.exp(-15 * x**2) + 0.3 * np.sin(12 * np.pi * x) * np.exp(-8 * x**2)
-    alt_pattern = np.clip(alt_pattern, 0, None)
-    if np.max(alt_pattern) > 0:
-        alt_pattern = alt_pattern / np.max(alt_pattern) * 1.2
-    patterns.append(alt_pattern.tolist())
+    # Add oscillation for constructive interference
+    oscillation = 0.1 * np.sin(30 * np.pi * x)
     
-    # Another mathematical pattern
-    x = np.linspace(-0.25, 0.25, n_steps)
-    alt_pattern2 = 0.9 * np.exp(-10 * x**2) + 0.2 * np.cos(18 * np.pi * x) * np.exp(-6 * x**2)
-    alt_pattern2 = np.clip(alt_pattern2, 0, None)
-    if np.max(alt_pattern2) > 0:
-        alt_pattern2 = alt_pattern2 / np.max(alt_pattern2) * 1.1
-    patterns.append(alt_pattern2.tolist())
+    f_init = f_init + oscillation
     
-    return patterns
+    # Normalize
+    if np.max(f_init) > 0:
+        f_init = f_init / np.max(f_init) * 0.85
+    
+    # Add noise
+    noise = np.random.normal(0, 0.002, n)
+    f_init = np.maximum(f_init + noise, 0)
+    
+    return f_init
 
-def hybrid_optimization_approach() -> List[float]:
-    """
-    Hybrid approach combining gradient-based optimization with evolutionary refinement.
-    This combines the best of both worlds from the inspirations.
-    """
-    # Parameters optimized for performance and quality
-    n_steps = 2500  # Higher resolution for better optimization (from inspirations)
-    learning_rate = 0.05  # Optimal from inspirations
-    num_iterations = 2000  # More iterations for convergence (from inspirations)
+def create_balanced_asymmetric_pattern(n: int) -> np.ndarray:
+    """Create a balanced asymmetric pattern for optimal convolution"""
+    x = np.linspace(-0.25, 0.25, n)
     
-    # Start with the best mathematical pattern
-    initial_pattern = create_optimized_pattern(n_steps)
+    # Asymmetric pattern with balanced structure for optimal convolution
+    f_init = np.zeros(n)
     
-    # Convert to JAX array for gradient-based optimization
-    f_initial = jnp.array(initial_pattern)
+    # Strong central peak
+    f_init += 1.3 * np.exp(-x**2 / (2 * 0.025**2))
     
-    # Create optimizer with optimal settings
-    optimizer = optax.adam(learning_rate)
-    opt_state = optimizer.init(f_initial)
+    # Left side with larger peak
+    f_init += 0.7 * np.exp(-((x + 0.1)**2) / (2 * 0.04**2))
     
-    @jit
-    def loss_fn(params):
-        """Compute negative C2 (since we want to maximize C2)"""
-        c2_val = compute_C2_jax(params)
-        return -c2_val
+    # Right side with smaller peak
+    f_init += 0.5 * np.exp(-((x - 0.12)**2) / (2 * 0.035**2))
     
-    @jit
-    def update_step(params, opt_state):
-        """Perform one optimization step"""
-        grad_val = grad(loss_fn)(params)
-        updates, opt_state = optimizer.update(grad_val, opt_state)
-        params = optax.apply_updates(params, updates)
-        # Ensure non-negativity
-        params = jnp.maximum(params, 0.0)
-        return params, opt_state
+    # Add oscillation for structure
+    oscillation = 0.1 * np.sin(20 * np.pi * x)
     
-    # Run gradient-based optimization
-    current_params = f_initial
-    current_opt_state = opt_state
+    f_init = f_init + oscillation
     
-    for iteration in range(num_iterations):
-        current_params, current_opt_state = update_step(current_params, current_opt_state)
+    # Normalize
+    if np.max(f_init) > 0:
+        f_init = f_init / np.max(f_init) * 0.9
     
-    # Final refinement with local search
-    final_result = current_params.tolist()
-    final_c2 = compute_c2(final_result)
+    # Add noise
+    noise = np.random.normal(0, 0.005, n)
+    f_init = np.maximum(f_init + noise, 0)
     
-    # Local search refinement with more aggressive perturbations
-    for iteration in range(500):
-        # Make more aggressive perturbations to escape local optima
-        neighbor = final_result.copy()
-        # Perturb many elements with larger variance
-        num_perturb = max(1, len(neighbor) // 20)
-        indices_to_perturb = random.sample(range(len(neighbor)), num_perturb)
-        for idx in indices_to_perturb:
-            neighbor[idx] = max(0, neighbor[idx] + random.gauss(0, 0.03))
+    return f_init
+
+def create_multi_peak_structure(n: int) -> np.ndarray:
+    """Create a multi-peak structure for maximum convolution efficiency"""
+    x = np.linspace(-0.25, 0.25, n)
+    
+    # Multi-peak structure designed for excellent convolution properties
+    f_init = np.zeros(n)
+    
+    # Central strong peak
+    f_init += 1.2 * np.exp(-x**2 / (2 * 0.02**2))
+    
+    # Multiple strategically placed peaks
+    f_init += 0.6 * np.exp(-((x - 0.1)**2) / (2 * 0.03**2))
+    f_init += 0.6 * np.exp(-((x + 0.1)**2) / (2 * 0.03**2))
+    f_init += 0.4 * np.exp(-((x - 0.18)**2) / (2 * 0.025**2))
+    f_init += 0.4 * np.exp(-((x + 0.18)**2) / (2 * 0.025**2))
+    
+    # Add oscillation for better structure
+    oscillation = 0.12 * np.sin(25 * np.pi * x)
+    
+    f_init = f_init + oscillation
+    
+    # Normalize
+    if np.max(f_init) > 0:
+        f_init = f_init / np.max(f_init) * 0.88
+    
+    # Add noise
+    noise = np.random.normal(0, 0.003, n)
+    f_init = np.maximum(f_init + noise, 0)
+    
+    return f_init
+
+def ultimate_aggressive_gradient_optimization(f_init, max_iter=7000, patience=50):
+    """Ultimate aggressive gradient optimization with maximum parameters"""
+    f_opt = jnp.array(f_init)
+    
+    # ULTIMATE AGGRESSIVE Adam parameters for maximum speed and exploration
+    learning_rate = 0.4  # Extremely high learning rate
+    beta1 = 0.998        # Very high momentum
+    beta2 = 0.999999     # Nearly perfect momentum  
+    epsilon = 1e-8
+    
+    # Initialize Adam moments
+    m = jnp.zeros_like(f_opt)
+    v = jnp.zeros_like(f_opt)
+    
+    best_c2 = -float('inf')
+    best_f = f_opt
+    patience_counter = 0
+    last_improvement_iter = 0
+    
+    # Optimization loop with ultimate aggressive convergence tracking
+    for i in range(max_iter):
+        # Compute C2 and gradient
+        c2_val, grad_f = compute_c2_grad(f_opt)
         
-        neighbor_c2 = compute_c2(neighbor)
-        if neighbor_c2 > final_c2:
-            final_result = neighbor
-            final_c2 = neighbor_c2
+        # Update Adam moments
+        m = beta1 * m + (1 - beta1) * grad_f
+        v = beta2 * v + (1 - beta2) * grad_f**2
+        
+        # Bias correction
+        m_hat = m / (1 - beta1**(i+1))
+        v_hat = v / (1 - beta2**(i+1))
+        
+        # Update parameters
+        f_opt = f_opt + learning_rate * m_hat / (jnp.sqrt(v_hat) + epsilon)
+        
+        # Ensure non-negativity
+        f_opt = jnp.maximum(f_opt, 0.0)
+        
+        # Track best solution with ultimate aggressive criteria
+        if c2_val > best_c2:
+            best_c2 = c2_val
+            best_f = f_opt
+            patience_counter = 0
+            last_improvement_iter = i
+        else:
+            patience_counter += 1
+            
+        # Ultimate aggressive early stopping
+        if patience_counter >= patience and i - last_improvement_iter > 100:
+            # Ultimate aggressive learning rate reduction
+            if i > 500:
+                learning_rate *= 0.96
+            if patience_counter >= patience * 4:
+                break
     
-    return final_result
+    return best_f, best_c2
 
-def construct_function() -> List[float]:
+def construct_function() -> list[float]:
     """
-    Main function to construct step-function with high C2 value.
-    Uses the most successful hybrid approach from inspirations.
+    Ultimate aggressive hybrid optimization approach that maximizes C2 effectively within time constraints.
+    Uses ultimate aggressive optimization and comprehensive search strategies to exceed benchmark.
     """
-    try:
-        # Use the hybrid optimization approach that achieved best results in inspirations
-        result = hybrid_optimization_approach()
-        return result
-    except Exception as e:
-        # Fallback to mathematical pattern if everything fails
-        warnings.warn(f"Fallback due to error: {e}")
-        return create_optimized_pattern(2500)
+    
+    start_time = time.time()
+    
+    # Problem parameters - using maximum resolution possible within time limits
+    n_steps = 2500  # MAXIMUM resolution for better optimization
+    
+    best_solution = None
+    best_c2 = -float('inf')
+    
+    # Strategy 1: Ultimate aggressive multiple restarts with diverse initialization patterns
+    init_strategies = [
+        ("ultimate", create_ultimate_pattern),
+        ("super_optimized", create_super_optimized_pattern),
+        ("concentrated_peak", create_concentrated_peak_pattern),
+        ("balanced_asymmetric", create_balanced_asymmetric_pattern),
+        ("multi_peak_structure", create_multi_peak_structure),
+        ("random", lambda n: np.abs(np.random.normal(0.5, 0.2, n))),
+        ("gaussian", lambda n: np.exp(-((np.linspace(-0.25, 0.25, n))**2) / (2 * 0.05**2))),
+    ]
+    
+    # Try EVEN MORE restarts with different strategies - ultimate aggressive exploration
+    num_restarts = 60  # Even more restarts for better chance of global optimum
+    for restart in range(num_restarts):
+        if time.time() - start_time > 35:  # Leave more buffer time
+            break
+            
+        # Choose initialization strategy
+        strategy_name, init_func = init_strategies[restart % len(init_strategies)]
+        f_init = init_func(n_steps)
+        
+        # Run ultimate aggressive gradient optimization
+        f_opt, c2_val = ultimate_aggressive_gradient_optimization(f_init, max_iter=6000, patience=40)
+        
+        if c2_val > best_c2:
+            best_c2 = c2_val
+            best_solution = f_opt
+    
+    # Strategy 2: Ultimate aggressive differential evolution as final refinement
+    if best_solution is None or best_c2 < 0.97:
+        try:
+            # Use the best solution found so far or a mathematically-informed initialization
+            if best_solution is not None:
+                f_init = np.array(best_solution)
+            else:
+                f_init = create_ultimate_pattern(n_steps)
+            
+            def objective(f_vals):
+                f_vals = np.maximum(f_vals, 0)
+                c2 = compute_c2_jax(f_vals)
+                return -c2  # Minimize negative to maximize C2
+            
+            # Bounds for each parameter (non-negative)
+            bounds = [(0, 5.0) for _ in range(len(f_init))]
+            
+            # Run ultimate aggressive differential evolution with maximum effort
+            result = differential_evolution(
+                objective,
+                bounds,
+                maxiter=120,  # MANY more iterations for thorough search
+                popsize=50,   # VERY large population for better exploration
+                mutation=(0.99, 1.0),  # Extremely high mutation rate for maximum exploration
+                recombination=0.995,   # Very high recombination for maximum mixing
+                seed=42,
+                disp=False,
+                atol=1e-13,  # Extremely tight tolerance
+                rtol=1e-13
+            )
+            
+            if result.success:
+                final_f = np.maximum(result.x, 0)
+                de_c2 = compute_c2_jax(final_f)
+                if de_c2 > best_c2:
+                    best_c2 = de_c2
+                    best_solution = jnp.array(final_f)
+        except Exception:
+            pass
+    
+    # Strategy 3: Final ultimate intense gradient optimization if time allows
+    if best_solution is not None and time.time() - start_time < 55:
+        try:
+            f_init = np.array(best_solution)
+            f_opt, c2_val = ultimate_aggressive_gradient_optimization(f_init, max_iter=4000, patience=30)
+            
+            if c2_val > best_c2:
+                best_c2 = c2_val
+                best_solution = f_opt
+        except Exception:
+            pass
+    
+    # Final fallback: return the best solution found
+    if best_solution is None:
+        # Create a robust default solution
+        f_default = np.ones(n_steps) * 0.5
+        best_solution = jnp.array(f_default)
+    
+    # Final evaluation and conversion to list
+    final_c2 = compute_c2_jax(best_solution)
+    
+    return list(best_solution)
 
 # EVOLVE-BLOCK-END
 

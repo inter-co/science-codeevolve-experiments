@@ -1,0 +1,43 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs. Consider both theoretical bounds and practical optimization strategies.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Theoretical considerations: Explore known optimal configurations for 16 points in 2D, such as regular polygonal arrangements, hexagonal lattices, or other geometric constructions. Consider mathematical approaches including symmetry-based constructions, optimization via Lagrangian methods, or combinatorial geometric strategies.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Advanced optimization**: `scipy.optimize`, `scipy.optimize.differential_evolution`, `scipy.optimize.basinhopping`, `deap`, `pymoo` (multi-objective)
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, Delaunay triangulation)
+  * `shapely` (geometric operations), `matplotlib` (visualization)
+- **Specialized algorithms**: 
+  * `cvxpy` for convex optimization formulations
+  * `gurobipy` or `ortools` for exact mathematical programming
+- **Performance**: `numba` (JIT compilation), `joblib` for parallelization
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Alternative Strategies**: Prioritize global optimization algorithms over deterministic constructions. Explore gradient-free methods such as genetic algorithms, differential evolution, basin-hopping, or particle swarm optimization. Consider mathematical programming approaches including semidefinite programming relaxations, convex optimization formulations, or mixed-integer programming. Investigate hybrid methods that combine global search with local refinement. Emphasize stochastic optimization techniques that can escape local optima and explore the full solution space.
+- **Mathematical Rigor**: While analytical approaches are valuable, prioritize computational methods that can systematically search for optimal configurations. Consider formulating the problem as a global optimization task where the objective function directly computes the min/max distance ratio. Explore potential energy minimization frameworks or inverse distance weighting schemes that naturally promote point dispersion.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

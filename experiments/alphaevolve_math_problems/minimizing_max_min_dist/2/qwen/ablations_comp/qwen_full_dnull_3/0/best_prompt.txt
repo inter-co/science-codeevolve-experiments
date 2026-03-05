@@ -1,0 +1,65 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+- **Evolutionary computation**: Employ genetic algorithms, differential evolution, or particle swarm optimization to evolve point configurations iteratively
+- **Stochastic optimization**: Implement simulated annealing, tabu search, or memetic algorithms with adaptive neighborhood structures
+- **Direct sampling methods**: Use random sampling with importance weighting or stratified sampling to explore the configuration space
+- **Geometric construction**: Explore constructive algorithms that build point sets through geometric rules (e.g., Delaunay triangulation, Voronoi diagrams, or spherical codes)
+- **Multi-scale approaches**: Combine global exploration with local refinement using coarse-to-fine strategies or nested optimization
+- **Constraint programming**: Formulate the problem as a constraint satisfaction problem and use specialized solvers
+- **Ensemble methods**: Combine multiple diverse strategies (e.g., run several independent optimizations with different initializations and select the best result)
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic diversity**: Consider multiple distinct algorithmic approaches including but not limited to: 
+  * Evolutionary and population-based methods (genetic algorithms, differential evolution)
+  * Stochastic and heuristic optimization (simulated annealing, particle swarm optimization)
+  * Constructive geometric approaches (building configurations through geometric rules)
+  * Multi-scale and ensemble methods (combining global and local search strategies)
+  * Constraint-based and combinatorial optimization techniques
+- **Mathematical rigor**: Where possible, employ analytical or closed-form solutions, but also consider approximate methods when exact solutions are computationally prohibitive. The chosen approach should demonstrate clear reasoning about why it's appropriate for this specific point dispersion problem
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+ALTERNATIVE FRAMEWORKS TO EXPLORE:
+- **Population-based optimization**: Implement evolutionary algorithms using DEAP, Platypus, or Pymoo frameworks
+- **Stochastic global optimization**: Use simulated annealing libraries or tabu search implementations
+- **Constructive geometric algorithms**: Develop algorithms that build point sets through geometric constructions like spherical codes or Delaunay refinement
+- **Multi-objective optimization**: Formulate as multi-objective problem optimizing both minimum and maximum distances simultaneously
+- **Constraint satisfaction**: Use specialized constraint solvers or satisfiability modulo theories (SMT) approaches
+- **Hybrid frameworks**: Combine evolutionary search with local optimization or incorporate domain-specific heuristics
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,46 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with a broad repertoire of algorithmic techniques for circle packing. Your task is to design a constructor function that produces an arrangement of exactly 32 non‑overlapping circles inside the unit square [0,1] × [0,1] while maximizing the total sum of radii. Encourage the exploration of diverse algorithmic families (e.g., evolutionary, constraint programming, physics simulation, gradient‑based, greedy, or hybrid approaches) rather than a single canonical method.
+
+PROBLEM CONTEXT:
+- Goal: Surpass the AlphaEvolve benchmark of sum_radii = 2.937944526205518.
+- Constraints: Circles must lie entirely inside the unit square and must not overlap.
+- Formulation: For circle i at (xi, yi) with radius ri:
+  * Containment: 0 + ri ≤ xi ≤ 1 – ri, 0 + ri ≤ yi ≤ 1 – ri
+  * Non‑overlap: distance((xi, yi), (xj, yj)) ≥ ri + rj for all i ≠ j
+  * Objective: maximize Σ ri.
+- Encourage exploring non‑linear, discrete, and continuous formulations, including but not limited to mixed‑integer linear programming, non‑linear programming with penalty terms, and geometric heuristics.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pulp` (linear programming), `cvxpy` (convex optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `pyhull` (convex hulls)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `pydcop` (distributed constraint optimization)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `pymatgen` (material geometry)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just‑in‑time), `dask` (distributed computing)
+- **Visualization**: `matplotlib`, `plotly`, `bokeh` for interactive exploration
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize).
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark).
+3. **eval_time**: Execution time in seconds (balance accuracy and speed).
+4. **feasibility_rate**: Proportion of generated solutions that satisfy all constraints (useful for stochastic methods).
+5. **convergence_history**: Record of objective values across iterations to assess algorithmic progress.
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for stochastic methods to ensure reproducibility, but allow optional random restarts for exploration.
+- **Error handling**: Graceful handling of optimization failures, infeasible configurations, and numerical instabilities.
+- **Memory efficiency**: Avoid large dense distance matrices; prefer sparse or on‑the‑fly distance calculations.
+- **Scalability**: Structure the solution to support varying numbers of circles (e.g., 16, 32, 64) with minimal code changes.
+- **Algorithmic diversity**: Implement at least two distinct algorithmic strategies (e.g., one evolutionary and one constraint‑based) and compare their results.
+- **Extensibility**: Provide clear interfaces for plugging in new optimization back‑ends or heuristics.
+
+# PROMPT-BLOCK-END
+    

@@ -1,25 +1,24 @@
 # EVOLVE-BLOCK-START
 import numpy as np
-from scipy.optimize import differential_evolution, minimize
 from scipy.spatial.distance import pdist
+from scipy.optimize import minimize
 import warnings
 warnings.filterwarnings('ignore')
 
 def min_max_dist_dim3_14() -> np.ndarray:
     """
-    Creates 14 points in 3 dimensions to maximize the ratio of minimum to maximum distance.
-    Uses a hybrid approach combining geometric initialization, global optimization, and 
-    multiple local refinement strategies for superior results.
-
+    Creates 14 points in 3 dimensions in order to maximize the ratio of minimum to maximum distance.
+    Uses a robust hybrid approach combining multiple initialization strategies, 
+    force-based optimization, and smart restart mechanisms.
+    
     Returns
         points: np.ndarray of shape (14,3) containing the (x,y,z) coordinates of the 14 points.
     """
     
-    # Set seed for reproducibility
     np.random.seed(42)
     
     def compute_min_max_ratio(points):
-        """Compute the ratio of minimum to maximum pairwise distances"""
+        """Compute the ratio of minimum to maximum pairwise distances."""
         if len(points) < 2:
             return 0.0
             
@@ -28,290 +27,273 @@ def min_max_dist_dim3_14() -> np.ndarray:
         if len(distances) == 0:
             return 0.0
             
-        d_min = np.min(distances)
-        d_max = np.max(distances)
+        dmin = np.min(distances)
+        dmax = np.max(distances)
         
         # Avoid division by zero
-        if d_max <= 0:
+        if dmax <= 0:
             return 0.0
             
-        return d_min / d_max
+        return dmin / dmax
     
-    def objective_function(x):
-        """Objective function to minimize (negative of ratio)"""
-        # Reshape x into points
-        points = x.reshape(-1, 3)
-        ratio = compute_min_max_ratio(points)
-        # Return negative because we want to maximize
-        return -ratio
-    
-    def project_to_unit_sphere(points):
-        """Project points to unit sphere"""
-        norms = np.linalg.norm(points, axis=1, keepdims=True)
-        # Avoid division by zero
-        norms = np.where(norms == 0, 1, norms)
-        return points / norms
-    
-    def generate_icosahedral_points():
-        """Generate points based on icosahedral symmetry"""
-        # Vertices of regular icosahedron scaled to unit sphere
-        phi = (1 + np.sqrt(5)) / 2  # golden ratio
-        vertices = []
-        
-        # Generate the 12 vertices of icosahedron using standard formula
-        # These are the exact coordinates of an icosahedron with circumradius 1
-        for i in range(12):
-            if i < 4:
-                x, y, z = [(-1)**i * 1, 0, phi]
-            elif i < 8:
-                x, y, z = [0, (-1)**(i-4) * phi, (-1)**(i-4) * 1]
-            else:
-                x, y, z = [(-1)**(i-8) * phi, (-1)**(i-8) * 1, 0]
-            norm = np.sqrt(x*x + y*y + z*z)
-            vertices.append([x/norm, y/norm, z/norm])
-        
-        return np.array(vertices)
-    
-    def generate_fibonacci_points(n=14):
-        """Generate points using Fibonacci spiral method"""
+    def generate_fibonacci_spiral(n):
+        """Generate points using Fibonacci spiral on sphere"""
         points = []
         phi = (1 + np.sqrt(5)) / 2  # golden ratio
         
         for i in range(n):
-            y = 1 - (i / (n - 1)) * 2  # y goes from 1 to -1
-            radius = np.sqrt(1 - y * y)  # radius at y
-            theta = i * 2 * np.pi / phi  # spiral angle
-            x = radius * np.cos(theta)
-            z = radius * np.sin(theta)
-            points.append([x, y, z])
-        
-        return np.array(points)
-    
-    def generate_spherical_code_points():
-        """Generate points based on known spherical code configurations"""
-        # This is a known good configuration from mathematical literature
-        # Based on icosahedral symmetries with additional strategic points
-        points = np.array([
-            [0.000000, 0.000000, 1.000000],
-            [0.000000, 0.000000, -1.000000],
-            [0.951057, 0.000000, 0.309017],
-            [-0.951057, 0.000000, 0.309017],
-            [0.000000, 0.951057, 0.309017],
-            [0.000000, -0.951057, 0.309017],
-            [0.951057, 0.000000, -0.309017],
-            [-0.951057, 0.000000, -0.309017],
-            [0.000000, 0.951057, -0.309017],
-            [0.000000, -0.951057, -0.309017],
-            [0.587785, 0.809017, 0.000000],
-            [-0.587785, 0.809017, 0.000000],
-            [0.587785, -0.809017, 0.000000],
-            [-0.587785, -0.809017, 0.000000]
-        ])
-        return points
-    
-    # Enhanced multi-stage initialization with better geometric configurations
-    best_points = None
-    best_ratio = -float('inf')
-    
-    # Strategy 1: Known good configuration from mathematical literature
-    try:
-        points = generate_spherical_code_points()
-        points = project_to_unit_sphere(points)
-        ratio = compute_min_max_ratio(points)
-        if ratio > best_ratio:
-            best_ratio = ratio
-            best_points = points.copy()
-    except Exception as e:
-        pass
-    
-    # Strategy 2: Icosahedral approach with better configuration
-    try:
-        ico_points = generate_icosahedral_points()
-        # Add 2 more points strategically to make 14 (north/south poles)
-        additional = np.array([[0, 0, 1.0], [0, 0, -1.0]])
-        ico_points = np.vstack([ico_points, additional])
-        ico_points = project_to_unit_sphere(ico_points)
-        
-        ratio = compute_min_max_ratio(ico_points)
-        if ratio > best_ratio:
-            best_ratio = ratio
-            best_points = ico_points.copy()
-    except Exception as e:
-        pass
-    
-    # Strategy 3: Fibonacci spiral approach with better parameters
-    try:
-        fib_points = generate_fibonacci_points(14)
-        fib_points = project_to_unit_sphere(fib_points)
-        
-        ratio = compute_min_max_ratio(fib_points)
-        if ratio > best_ratio:
-            best_ratio = ratio
-            best_points = fib_points.copy()
-    except Exception as e:
-        pass
-    
-    # Strategy 4: Enhanced global optimization with differential evolution
-    if best_points is not None:
-        try:
-            # Use more robust global optimization with higher iteration count and better settings
-            bounds = [(-1.5, 1.5) for _ in range(42)]
-            de_result = differential_evolution(
-                objective_function,
-                bounds,
-                maxiter=150,   # More iterations for better search
-                popsize=25,    # Even larger population
-                tol=1e-12,     # Much tighter tolerance
-                seed=42,
-                recombination=0.9,  # Higher recombination rate
-                disp=False
-            )
-            
-            if de_result.success:
-                de_points = de_result.x.reshape(-1, 3)
-                de_points = project_to_unit_sphere(de_points)
-                de_ratio = compute_min_max_ratio(de_points)
-                
-                if de_ratio > best_ratio:
-                    best_ratio = de_ratio
-                    best_points = de_points.copy()
-        except Exception as e:
-            pass
-    
-    # Strategy 5: Multiple local optimizations with diverse restart strategies
-    if best_points is not None:
-        # Use more aggressive restart strategies with varied perturbations
-        restart_seeds = [123, 456, 789, 999, 1001, 2002, 3003, 5555, 7777, 9999, 11111]
-        for seed in restart_seeds:
-            try:
-                np.random.seed(seed)
-                # Create perturbation strategy with varying scales - more aggressive
-                scale_factor = 0.02 + (seed % 1000) * 0.0005
-                perturbation = np.random.normal(0, scale_factor, best_points.shape)
-                
-                perturbed_points = best_points + perturbation
-                perturbed_points = project_to_unit_sphere(perturbed_points)
-                
-                # Try multiple optimization methods for robustness
-                methods = ['L-BFGS-B', 'SLSQP', 'TNC']
-                for method in methods:
-                    try:
-                        result = minimize(
-                            objective_function,
-                            perturbed_points.flatten(),
-                            method=method,
-                            options={'maxiter': 800, 'ftol': 1e-13, 'gtol': 1e-13},
-                            tol=1e-13
-                        )
-                        
-                        if result.success:
-                            optimized_points = result.x.reshape(-1, 3)
-                            ratio = compute_min_max_ratio(optimized_points)
-                            if ratio > best_ratio:
-                                best_ratio = ratio
-                                best_points = optimized_points.copy()
-                                break  # Found a better solution, move to next seed
-                    except:
-                        continue
-                        
-            except Exception as e:
-                continue
-    
-    # Strategy 6: Final comprehensive optimization with even tighter tolerances
-    if best_points is not None:
-        try:
-            # Try with multiple methods to ensure robust optimization
-            methods = ['L-BFGS-B', 'SLSQP', 'TNC']
-            for method in methods:
-                try:
-                    result = minimize(
-                        objective_function,
-                        best_points.flatten(),
-                        method=method,
-                        options={'maxiter': 1000, 'ftol': 1e-14, 'gtol': 1e-14},
-                        tol=1e-14
-                    )
-                    
-                    if result.success:
-                        final_points = result.x.reshape(-1, 3)
-                        final_points = project_to_unit_sphere(final_points)
-                        ratio = compute_min_max_ratio(final_points)
-                        if ratio > best_ratio:
-                            best_ratio = ratio
-                            best_points = final_points.copy()
-                            break  # Found a better solution
-                except:
-                    continue
-                    
-        except Exception as e:
-            pass
-    
-    # Strategy 7: Additional refinement using COBYLA method with better parameters
-    if best_points is not None:
-        try:
-            # Try using COBYLA method with more iterations and tighter tolerance
-            result = minimize(
-                objective_function,
-                best_points.flatten(),
-                method='COBYLA',
-                options={'maxiter': 1500, 'tol': 1e-10},
-                tol=1e-10
-            )
-            
-            if result.success:
-                final_points = result.x.reshape(-1, 3)
-                final_points = project_to_unit_sphere(final_points)
-                ratio = compute_min_max_ratio(final_points)
-                if ratio > best_ratio:
-                    best_ratio = ratio
-                    best_points = final_points.copy()
-                    
-        except Exception as e:
-            pass
-    
-    # Strategy 8: Last resort - try with more aggressive optimization
-    if best_points is not None:
-        try:
-            # Try with even more aggressive settings for any remaining improvement
-            result = minimize(
-                objective_function,
-                best_points.flatten(),
-                method='L-BFGS-B',
-                options={'maxiter': 1500, 'ftol': 1e-15, 'gtol': 1e-15},
-                tol=1e-15
-            )
-            
-            if result.success:
-                final_points = result.x.reshape(-1, 3)
-                final_points = project_to_unit_sphere(final_points)
-                ratio = compute_min_max_ratio(final_points)
-                if ratio > best_ratio:
-                    best_ratio = ratio
-                    best_points = final_points.copy()
-                    
-        except Exception as e:
-            pass
-    
-    # Fallback to default if nothing worked
-    if best_points is None:
-        # Use the Fibonacci spiral configuration as fallback
-        points = []
-        phi = np.pi * (3 - np.sqrt(5))  # Golden angle
-        
-        for i in range(14):
-            y = 1 - (i / 13) * 2  # y goes from 1 to -1
-            radius = np.sqrt(1 - y * y)  # radius at y
-            
-            theta = phi * i  # golden angle increment
+            # y goes from 1 to -1
+            y = 1 - (i / float(n - 1)) * 2
+            # radius at y
+            radius = np.sqrt(1 - y * y)
+            # golden angle increment
+            theta = i * 2.399963229728653  # approximately 4π/(φ+1) 
             
             x = np.cos(theta) * radius
             z = np.sin(theta) * radius
             
             points.append([x, y, z])
         
-        best_points = np.array(points)
+        return np.array(points)
+    
+    def generate_icosahedral_points():
+        """Generate points based on icosahedral symmetry with better distribution"""
+        # Vertices of regular icosahedron
+        phi = (1 + np.sqrt(5)) / 2
+        vertices = [
+            (0, 1, phi), (0, -1, phi), (0, -1, -phi), (0, 1, -phi),
+            (1, phi, 0), (-1, phi, 0), (-1, -phi, 0), (1, -phi, 0),
+            (phi, 0, 1), (-phi, 0, 1), (-phi, 0, -1), (phi, 0, -1)
+        ]
+        
+        points = np.array(vertices)
         # Normalize to unit sphere
-        best_points = project_to_unit_sphere(best_points)
+        norms = np.linalg.norm(points, axis=1, keepdims=True)
+        points = points / norms
+        
+        # Add two more points for 14 total (north and south poles)
+        points = np.vstack([points, [[0, 0, 1], [0, 0, -1]]])
+        
+        return points
+    
+    def generate_cube_plus_axes():
+        """Generate points using cube vertices plus axis points"""
+        # Start with vertices of a cube (8 points) 
+        points = []
+        for i in [-1, 1]:
+            for j in [-1, 1]:
+                for k in [-1, 1]:
+                    points.append([i, j, k])
+        
+        # Add 6 more points along axes for better distribution
+        points.extend([
+            [2, 0, 0], [-2, 0, 0],  # x-axis
+            [0, 2, 0], [0, -2, 0],  # y-axis  
+            [0, 0, 2], [0, 0, -2]   # z-axis
+        ])
+        
+        # Keep only first 14 points and normalize
+        points = np.array(points[:14], dtype=float)
+        
+        # Normalize to unit sphere
+        norms = np.linalg.norm(points, axis=1, keepdims=True)
+        points = points / norms
+        
+        return points
+    
+    def generate_random_on_sphere(n):
+        """Generate random points uniformly distributed on sphere"""
+        points = []
+        for _ in range(n):
+            point = np.random.rand(3) * 2 - 1  # [-1, 1]^3
+            norm = np.linalg.norm(point)
+            if norm > 0:
+                point = point / norm  # Project to unit sphere
+            points.append(point)
+        return np.array(points)
+    
+    def force_based_optimization(initial_points, max_iter=400):
+        """Force-based optimization with improved convergence and early stopping"""
+        points = initial_points.copy()
+        best_points = points.copy()
+        best_ratio = 0
+        
+        # Track improvements for early stopping
+        improvements = []
+        
+        for iteration in range(max_iter):
+            # Compute current ratio
+            ratio = compute_min_max_ratio(points)
+            if ratio > best_ratio:
+                best_ratio = ratio
+                best_points = points.copy()
+                improvements = []  # Reset when we improve
+            else:
+                improvements.append(ratio)
+                
+                # Early stopping if no improvement in last 50 iterations
+                if len(improvements) > 50:
+                    improvements.pop(0)
+                    if len(improvements) >= 2:
+                        if abs(improvements[-1] - improvements[0]) < 1e-12:
+                            break
+            
+            # Compute forces between all pairs
+            forces = np.zeros_like(points)
+            
+            # Calculate pairwise forces (repulsive with damping)
+            for i in range(len(points)):
+                for j in range(i+1, len(points)):
+                    diff = points[i] - points[j]
+                    dist_sq = np.sum(diff**2)
+                    
+                    if dist_sq > 1e-12:  # Avoid division by zero
+                        # Repulsive force with damping factor
+                        force_magnitude = 1.0 / (dist_sq**2.0 + 1e-15)
+                        force_vector = force_magnitude * diff
+                        
+                        forces[i] += force_vector
+                        forces[j] -= force_vector
+            
+            # Update positions with adaptive learning rate
+            learning_rate = 0.01 * (1.0 - iteration/max_iter * 0.5)
+            points += learning_rate * forces
+            
+            # Project back to unit sphere
+            norms = np.linalg.norm(points, axis=1)
+            norms = np.maximum(norms, 1e-12)
+            points = points / norms[:, np.newaxis]
+            
+        return best_points
+    
+    def objective_function(x):
+        """Objective function to minimize (negative of ratio)"""
+        points = x.reshape(-1, 3)
+        distances = pdist(points)
+        d_min = np.min(distances)
+        d_max = np.max(distances)
+        
+        # Avoid division by zero or invalid cases
+        if d_max <= 1e-12:
+            return 1e10
+            
+        ratio = d_min / d_max
+        return -ratio  # Negative because we want to maximize ratio
+    
+    def sphere_constraint(x):
+        """Constraint function for unit sphere"""
+        points = x.reshape(-1, 3)
+        norms = np.linalg.norm(points, axis=1)
+        return norms - 1.0
+    
+    # Generate multiple diverse initial configurations
+    initial_configs = []
+    
+    # Strategy 1: Fibonacci spiral (good uniform distribution)
+    fib_points = generate_fibonacci_spiral(14)
+    initial_configs.append(('fibonacci', fib_points))
+    
+    # Strategy 2: Icosahedral points (highly symmetric)
+    ico_points = generate_icosahedral_points()
+    initial_configs.append(('icosahedral', ico_points))
+    
+    # Strategy 3: Cube + axes (structured and balanced)
+    cube_points = generate_cube_plus_axes()
+    initial_configs.append(('cube_axes', cube_points))
+    
+    # Strategy 4: Random points on sphere (diversity)
+    random_points = generate_random_on_sphere(14)
+    initial_configs.append(('random', random_points))
+    
+    best_points = None
+    best_ratio = -np.inf
+    
+    # Multi-start optimization with intelligent restarts
+    total_restarts = 0
+    max_total_restarts = 20  # To stay within time budget
+    
+    for strategy_name, init_config in initial_configs:
+        if total_restarts >= max_total_restarts:
+            break
+            
+        # Try multiple restarts for each strategy with varying perturbations
+        for restart in range(6):  # Increased from 5 to 6 for better exploration
+            if total_restarts >= max_total_restarts:
+                break
+                
+            total_restarts += 1
+            
+            # Add small random perturbation to initialization
+            if restart > 0:
+                # Vary perturbation scales for better exploration
+                if restart <= 2:
+                    perturbation_scale = 0.08
+                elif restart <= 4:
+                    perturbation_scale = 0.04
+                else:
+                    perturbation_scale = 0.02
+                
+                perturbed = init_config + np.random.normal(0, perturbation_scale, init_config.shape)
+                # Normalize again to keep on unit sphere
+                norms = np.linalg.norm(perturbed, axis=1, keepdims=True)
+                perturbed = perturbed / norms
+            else:
+                perturbed = init_config.copy()
+            
+            # Flatten for optimization
+            x0 = perturbed.flatten()
+            
+            # Set optimization parameters for better balance of speed and quality
+            if restart < 2:
+                max_iter = 800
+                method = 'L-BFGS-B'
+            elif restart < 4:
+                max_iter = 600
+                method = 'SLSQP'
+            else:
+                max_iter = 400
+                method = 'L-BFGS-B'
+            
+            try:
+                result = minimize(
+                    objective_function,
+                    x0,
+                    method=method,
+                    options={'maxiter': max_iter, 'ftol': 1e-12, 'gtol': 1e-12},
+                    tol=1e-12
+                )
+                
+                if result.success:
+                    optimized_points = result.x.reshape(-1, 3)
+                    # Evaluate the result
+                    ratio = compute_min_max_ratio(optimized_points)
+                    
+                    if ratio > best_ratio:
+                        best_ratio = ratio
+                        best_points = optimized_points.copy()
+                        # Early exit if we're close to the benchmark
+                        if ratio > 0.45:
+                            return best_points
+                                
+            except Exception:
+                continue
+    
+    # Final force-based refinement if we have a solution
+    if best_points is not None:
+        try:
+            # Apply force-based optimization for final improvement
+            final_refinement = force_based_optimization(best_points, max_iter=300)
+            final_ratio = compute_min_max_ratio(final_refinement)
+            
+            if final_ratio > best_ratio:
+                best_points = final_refinement
+        except Exception:
+            pass
+    
+    # If no good solution found, return the best initial configuration
+    if best_points is None:
+        # Return the fibonacci spiral as the fallback since it's generally good
+        return generate_fibonacci_spiral(14)
     
     return best_points
 

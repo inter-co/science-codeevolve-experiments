@@ -1,0 +1,60 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic strategies including: 
+- Purely geometric constructions based on known optimal configurations from discrete geometry, such as the 16-point Thomson problem, regular polytopes, or sphere packing arrangements
+- Mathematical approaches using algebraic number theory, group theory, or spectral graph theory for point arrangements  
+- Constructive methods based on algebraic number fields, finite geometries, or symmetric group actions
+- Geometric constructions derived from tessellations, combinatorial designs, or crystallographic structures
+- Analytical approaches using optimization theory, Lagrangian mechanics, or variational principles
+- Methods exploiting symmetry groups, invariant theory, or transformational geometry
+- Approaches that leverage exact mathematical constructions over numerical approximations, such as those based on roots of unity, algebraic integers, or geometric progressions
+- Combinatorial arrangements inspired by finite projective planes, Hadamard matrices, or orthogonal arrays
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider leveraging known optimal configurations from mathematical literature (such as the 16-point Thomson problem, regular polytopes, or sphere packing arrangements) or applying novel mathematical constructions that exploit symmetry, algebraic relationships, or topological properties rather than purely numerical optimization approaches.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Symbolic mathematics**: `sympy` for exact symbolic computations and algebraic manipulations
+- **Advanced optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective) 
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, ConvexHull, Voronoi diagrams)
+  * `trimesh` (geometric operations), `open3d` (geometric data processing)
+- **Specialized algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components where applicable
+- **Algorithmic Diversity**: Explore at least two distinct algorithmic approaches that differ fundamentally in their philosophical underpinnings - for example, one approach could be based on mathematical optimality conditions and symmetry groups, while another could use completely different paradigms like constructive geometric methods, algebraic field constructions, or combinatorial arrangements
+- **Mathematical Rigor**: Where applicable, utilize mathematical principles from discrete geometry, optimization theory, or algebraic number theory to inform your approach. Prioritize exact mathematical constructions over numerical approximations when possible.
+- **Alternative Paradigms**: Consider approaches that avoid traditional numerical optimization frameworks entirely, such as:
+  * Constructive geometric methods based on regular polygons, star polygons, or uniform tilings
+  * Algebraic field constructions using roots of unity, cyclotomic fields, or algebraic integers
+  * Combinatorial arrangements based on finite geometries, orthogonal arrays, or design theory
+  * Symmetry-based approaches using crystallographic groups, rotation groups, or permutation representations
+  * Variational principles from physics or mechanics applied to geometric optimization
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

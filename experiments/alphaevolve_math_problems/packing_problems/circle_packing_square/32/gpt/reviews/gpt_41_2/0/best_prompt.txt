@@ -1,0 +1,43 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in computational geometry, optimization, and mathematical modeling. Your task is to devise a constructor function that generates a diverse arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. 
+Explore alternative algorithmic paradigms beyond conventional direct optimization: consider geometric tilings, lattice-based placements, physical simulation (repulsion forces), sequential greedy heuristics, constraint programming, or hybrid/metaheuristic strategies. Leverage literature on circle packing, sphere arrangements, and combinatorial geometry to inspire novel approaches. Your solution should prioritize algorithmic diversity and originality in the packing strategy.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- For diversity: Consider not only optimization routines, but also geometric, physical, and combinatorial frameworks (e.g., hexagonal close packing, simulated annealing, random sequential addition, Voronoi-based heuristics, lattice perturbation, or graph coloring analogies) for generating arrangements.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic diversity**: Propose and implement at least one distinctly different packing approach from prior solutions, possibly combining several methods or incorporating geometric theory.
+
+# PROMPT-BLOCK-END
+    

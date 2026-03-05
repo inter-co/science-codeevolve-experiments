@@ -1,0 +1,53 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your approach should blend mathematical rigor with computational sophistication to discover novel geometric arrangements.
+
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Symmetry-based construction**: Explore group theory applications to generate symmetric arrangements that might yield better packings
+2. **Geometric programming**: Formulate as a constrained optimization problem using convex relaxation techniques
+3. **Discrete geometry methods**: Employ lattice-based approaches or Voronoi diagrams to understand optimal spacing
+4. **Multi-scale geometric reasoning**: Combine local geometric constraints with global optimization strategies
+5. **Analytical geometry**: Derive closed-form solutions for specific symmetric configurations rather than relying on heuristic arrangements
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Advanced Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+  * `cvxpy` (convex optimization framework for geometric constraints)
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+- **Mathematical Libraries**: 
+  * `sympy` (symbolic computation for deriving geometric relationships)
+  * `scipy.optimize.minimize` with specialized constraints for geometric optimization
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

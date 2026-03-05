@@ -1,0 +1,63 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to discover mathematically principled step function constructions that maximize the second autocorrelation inequality constant C₂ through systematic optimization approaches.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+COMPUTATIONAL APPROACHES TO CONSIDER:
+1. **Discrete Optimization Strategies**: Explore combinatorial methods including evolutionary algorithms (genetic algorithms, differential evolution, particle swarm optimization), simulated annealing, or tabu search to navigate the discrete parameter space of step function configurations. These methods can escape local optima and explore diverse solution landscapes
+2. **Multi-scale and Multi-resolution Techniques**: Begin with coarse discretizations and systematically refine, or employ hierarchical optimization where solutions are constructed at multiple resolutions before refinement. This approach can efficiently explore the vast parameter space
+3. **Mathematical Construction Methods**: Develop step functions based on known extremal properties of autoconvolutions, leveraging symmetry arguments, orthogonal polynomials, or other mathematical structures that naturally satisfy the optimization criteria. Consider constructions inspired by extremal problems in harmonic analysis
+4. **Alternative Numerical Approaches**: Consider direct search methods, Bayesian optimization, or quasi-Newton methods that don't rely on gradient information, or even heuristic approaches inspired by physical systems like swarm intelligence. Emphasize exploring unconventional mathematical constructions that might yield superior C₂ values
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Exploration diversity**: Prioritize approaches that can demonstrate varied search strategies and algorithmic paradigms rather than converging to a single optimization path
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞ while avoiding excessive ||g||∞ that would reduce the ratio
+- Consider mathematical constructions that inherently produce favorable g profiles: functions with controlled oscillations, symmetric structures, or those derived from extremal principles. Think about whether optimal solutions might exhibit fractal-like behavior, self-similarity, or other exotic mathematical properties
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+- Explore connections to known extremal problems in harmonic analysis or functional inequalities. Consider if there are connections to optimal transport theory, information theory, or other areas where similar optimization problems arise
+- Rather than focusing solely on gradient-based approaches, consider how the structure of the optimization landscape might benefit from stochastic search methods or population-based approaches that can simultaneously evaluate multiple candidate solutions
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

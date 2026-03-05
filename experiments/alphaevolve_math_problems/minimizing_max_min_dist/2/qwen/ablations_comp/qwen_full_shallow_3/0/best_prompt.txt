@@ -1,0 +1,56 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Analytical/Geometric Approaches**: Consider using known optimal configurations from sphere packing theory or Voronoi diagrams for point distributions. Explore configurations like the 16-point spherical code or regular polygonal arrangements.
+2. **Multi-Objective Optimization**: Formulate as multi-objective problem where you simultaneously optimize both minimum and maximum distances rather than their ratio. Consider using evolutionary algorithms like NSGA-II or SPEA2.
+3. **Stochastic Methods**: Implement simulated annealing, genetic algorithms, or particle swarm optimization with appropriate fitness functions. Consider using population-based methods that can escape local optima more effectively.
+4. **Graph-Theoretic Methods**: Model as graph partitioning or clique optimization problems where nodes represent points and edges represent distance constraints. Explore spectral graph theory approaches or graph coloring techniques.
+5. **Energy-Based Models**: Formulate as minimizing potential energy functions where points repel each other according to inverse distance laws. Consider using physical simulation approaches like molecular dynamics or force-directed layouts.
+6. **Direct Search Methods**: Implement direct search algorithms such as Nelder-Mead simplex or pattern search that don't rely on gradient information. These can be particularly effective for discrete or non-smooth optimization landscapes.
+7. **Bayesian Optimization**: Use probabilistic models to guide the search for optimal point configurations, especially effective when function evaluations are expensive.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Multi-objective optimization**: `pymoo`, `platypus`, `deap` 
+- **Advanced geometric computing**: 
+  * `scipy.spatial` (distance matrices, convex hulls, Delaunay triangulation)
+  * `sklearn.metrics.pairwise` for efficient distance computations
+- **Stochastic optimization**: `simanneal`, `pyomo`, `optuna` for hyperparameter tuning
+- **Alternative representations**: `networkx` for graph-based formulations
+- **Performance**: `numba` (JIT compilation), `joblib` for parallel execution
+- **Direct search methods**: `scipy.optimize.direct` or custom implementations
+- **Bayesian optimization**: `scikit-optimize`, `gpflow`, `bokeh` for visualization
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Robustness**: Handle edge cases where distance computations might be ill-conditioned
+- **Scalability**: Code should be adaptable to different numbers of points (not just 16)
+- **Exploration vs Exploitation**: Balance between exploring new solution spaces and refining promising areas
+- **Solution Diversity**: Generate multiple distinct valid solutions rather than converging to a single local optimum
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Algorithmic diversity**: Prefer approaches that can demonstrate multiple valid solution paths
+
+# PROMPT-BLOCK-END
+    

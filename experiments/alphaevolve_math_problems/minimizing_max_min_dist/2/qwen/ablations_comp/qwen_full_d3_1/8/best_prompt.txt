@@ -1,0 +1,65 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs. Explore unconventional algorithmic pathways beyond traditional geometric constructions and optimization methods.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy considerations: Consider novel approaches such as:
+  * Topological optimization using Voronoi diagrams and Delaunay triangulations
+  * Physics-based simulation with repulsive forces and constrained dynamics
+  * Spectral graph theory approaches for point placement
+  * Machine learning-inspired methods like neural network optimization
+  * Multi-scale optimization that combines global and local search strategies
+  * Information-theoretic approaches to maximize entropy of point distributions
+  * Combinatorial optimization using evolutionary algorithms or genetic programming
+  * Geometric constraint satisfaction using SAT solvers or constraint programming
+  * Algebraic geometry methods for polynomial optimization formulations
+  * Stochastic sampling techniques with importance weighting
+  * Swarm intelligence approaches like particle swarm optimization or ant colony optimization
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Advanced optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective), `optuna`
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, ConvexHull, SphericalVoronoi)
+  * `scikit-learn` (clustering, manifold learning)
+  * `triangle` (2D mesh generation)
+- **Specialized algorithms**: 
+  * `gurobipy` or `cvxpy` for convex optimization formulations
+  * `networkx` for graph-based approaches
+  * `pyomo` for mathematical programming
+  * `z3` or `ortools` for constraint programming
+- **Performance**: `numba` (JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic diversity**: Consider multiple approaches including but not limited to: 
+  * Topological/geometric optimization (Voronoi/Delaunay-based)
+  * Physics-based simulations (repulsion models, molecular dynamics)
+  * Spectral methods (graph Laplacians, eigenvalue optimization)
+  * Machine learning approaches (neural networks, reinforcement learning)
+  * Multi-scale hybrid methods combining different paradigms
+  * Novel mathematical formulations using convex optimization or variational principles
+  * Combinatorial approaches (evolutionary algorithms, simulated annealing)
+  * Constraint satisfaction and satisfiability-based methods
+  * Algebraic and geometric optimization techniques
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

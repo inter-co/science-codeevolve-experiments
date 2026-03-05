@@ -1,0 +1,56 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your goal is to develop innovative approaches for arranging exactly 12 unit regular hexagons within a larger regular hexagon to maximize 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint (use precise geometric intersection tests)
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon (implement robust containment checking)
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Constraint satisfaction and geometric reasoning**: Formulate the problem as a constraint satisfaction problem using interval arithmetic and geometric reasoning. Employ specialized solvers that can handle non-linear geometric constraints directly. Consider using symbolic computation to derive analytical relationships between hexagon positions and containment conditions
+2. **Topological and graph-based methods**: Model the packing problem as a graph coloring or clique problem where nodes represent hexagons and edges represent overlap constraints. Use graph theory algorithms to find valid configurations and then apply geometric optimization to refine positions. Explore topological invariants that characterize valid packings
+3. **Machine learning and neural geometric reasoning**: Train neural networks to predict valid hexagon placements based on learned geometric patterns from large datasets of known solutions. Use differentiable rendering techniques to optimize neural representations of hexagon configurations. Implement reinforcement learning agents that learn to discover new packing strategies through trial and error
+4. **Discrete mathematics and combinatorial approaches**: Leverage combinatorial designs and finite geometries to construct valid packings. Explore connections to tiling theory, incidence structures, and combinatorial arrangements that naturally satisfy geometric constraints
+5. **Physical simulation and dynamics-based approaches**: Simulate physical systems where hexagons interact via forces that repel when overlapping and attract when properly spaced. Use molecular dynamics or physics-based simulation to discover stable configurations through energy minimization
+6. **Mathematical programming with geometric cuts**: Formulate as a mixed-integer nonlinear program using geometric cutting planes that dynamically add constraints based on geometric insights. Apply branch-and-cut methods with specialized geometric branching rules and cutting planes derived from the geometry of hexagons
+
+STRATEGIC DIVERSITY ENCOURAGEMENT:
+Rather than relying on deterministic geometric constructions or traditional optimization methods, explore fundamentally different paradigms for solving this packing problem. Focus on discovering novel mathematical relationships, leveraging abstract algebraic structures, or employing unconventional computational approaches. Consider arrangements that may not follow intuitive geometric patterns but could theoretically achieve superior packing efficiency through unexpected symmetries or topological properties. Emphasize theoretical exploration over empirical optimization to potentially uncover mathematical insights that could lead to breakthrough solutions rather than incremental improvements.
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely, cvxpy
+**Additional useful packages**:
+- **Advanced geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks) - Use robust geometric predicates for reliable intersection detection
+  * `scipy.spatial` (distance calculations, geometric queries) - Leverage spatial data structures for efficient neighbor searches
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis) - Implement visualization tools for debugging complex arrangements
+  * `cvxpy` (convex optimization for geometric constraints) - Apply convex relaxations for computationally tractable approximations
+- **Specialized constraint solvers**:
+  * Custom geometric constraint satisfaction solvers - Implement domain-specific solvers with geometric reasoning capabilities
+  * Interval arithmetic libraries for robust geometric computations - Ensure numerical stability in geometric operations
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations - Exploit symmetries to reduce search space complexity
+  * Group theory utilities for constraint enforcement - Use mathematical group theory to identify equivalent configurations
+  * Symmetry-aware optimization operators - Design operators that preserve symmetry properties throughout optimization
+- **Advanced optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods) - Apply global optimization methods like differential evolution or basin hopping
+  * `deap` (evolutionary algorithms with custom symmetry operators) - Implement custom genetic operators that respect geometric constraints
+  * `platypus` (multi-objective optimization) - Consider multi-objective formulations including both packing density and geometric regularity
+  * `cvxpy` (convex optimization frameworks) - Use convex relaxations to solve subproblems efficiently
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`, `multiprocessing` - Parallelize geometric computations and constraint evaluations
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,54 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore **fundamentally novel algorithmic approaches** that diverge significantly from standard optimization methodologies. Focus exclusively on the following paradigmatic approaches:
+- **Pure evolutionary computation**: Implement genetic algorithms, particle swarm optimization, or differential evolution from scratch without relying on existing libraries like scipy.optimize
+- **Topological and combinatorial methods**: Use abstract simplicial complexes, graph theory approaches, or discrete optimization frameworks to model the point placement problem without numerical optimization
+- **Monte Carlo with adaptive sampling**: Develop sophisticated importance sampling techniques or Markov Chain Monte Carlo methods that intelligently sample the configuration space through probabilistic reasoning rather than gradient-based methods
+- **Symmetry-based constructions**: Derive arrangements from finite group theory, crystallographic groups, or tiling symmetries rather than direct geometric construction or numerical optimization
+- **Multi-scale optimization**: Combine coarse-grained exploration with fine-grained local search in a hierarchical manner using entirely custom implementations
+- **Physics-inspired methods**: Implement simulated annealing with novel cooling schedules, or agent-based models where points interact according to physical laws through custom rule engines
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Advanced optimization**: `deap` (evolutionary computation), `pymoo` (multi-objective), `scipy.optimize` (classical optimization)
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, Delaunay triangulation)
+  * `networkx` (graph-based approaches)
+  * `shapely` (geometric operations)
+- **Specialized algorithms**: 
+  * `gurobipy` or `cvxpy` for mathematical programming formulations
+  * `numba` for performance-critical code sections
+- **Performance**: `joblib` for parallel execution
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Mathematical rigor**: Consider analytical bounds and geometric constraints
+- **Novelty emphasis**: Prioritize algorithmically distinct approaches that are conceptually different from standard optimization routines (e.g., avoid any use of scipy.optimize, deap, or pymoo)
+- **Multi-method exploration**: Consider implementing at least two fundamentally different algorithmic strategies, each representing a distinct paradigm from the list above
+- **Implementation purity**: All core algorithms must be implemented from scratch without leveraging existing optimization library functions
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Algorithm diversity**: Reward truly novel approaches that diverge significantly from standard optimization heuristics
+
+# PROMPT-BLOCK-END
+    

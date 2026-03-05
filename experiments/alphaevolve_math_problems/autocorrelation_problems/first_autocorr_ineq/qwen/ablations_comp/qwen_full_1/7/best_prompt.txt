@@ -12,17 +12,27 @@ PROBLEM CONTEXT:
   * At least one height must be positive (sum > 0.01)
   * Practical limits: heights clipped to [0, 1000]
   * Sequence length n can vary
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Analytical Mathematical Construction**: Derive sequences directly from theoretical bounds and extremal principles in additive combinatorics
+2. **Lattice-Based Search**: Explore structured grids in the space of possible sequences using lattice point enumeration
+3. **Dynamic Programming Approaches**: Formulate the problem as a sequential decision process where each step builds upon previous optimal choices
+4. **Machine Learning Interpolation**: Train neural networks or kernel methods to interpolate between known good constructions
+5. **Topological Optimization**: Use concepts from topology optimization to iteratively reshape the sequence landscape
+6. **Quantum-Inspired Algorithms**: Leverage quantum annealing or quantum-inspired optimization techniques for global search
+7. **Information-Theoretic Methods**: Frame the optimization in terms of information entropy or mutual information maximization
+8. **Algebraic Number Theory Approaches**: Construct sequences based on properties of algebraic integers or cyclotomic fields
+
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
 **Additional useful packages**:
-- **Global optimization**: `cvxpy` (convex optimization), `scipy.optimize` (minimize, linprog), `scipy.spatial` (geometric optimization)
-- **Advanced optimization**: `cvxpy`, `ecos` (cone programming), `gurobipy` (commercial solvers), `cplex` (mathematical programming)
-- **Specialized methods**: `gpytorch` (Gaussian processes), `sklearn.gaussian_process` (GP regression), `pyomo` (optimization modeling)
-- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT), `pyfftw` (fast Fourier transforms)
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Convex optimization**: `cvxpy` (disciplined convex programming), `scipy.optimize` (linprog, minimize)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
 - **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
-- **Performance**: `numba` (@jit compilation), `cython`, `numexpr` (fast array operations), `cupy` (GPU acceleration)
-- **Mathematical libraries**: `sympy` (symbolic computation), `mpmath` (arbitrary precision arithmetic), `gmpy2` (GNU Multiple Precision Arithmetic)
+- **Performance**: `numba` (@jit compilation), `cython`, `numexpr` (fast array operations)
 
 PERFORMANCE METRICS:
 1. **inv_c1**: 1/C₁ value (PRIMARY OBJECTIVE - maximize this, higher means better upper bound)
@@ -37,29 +47,14 @@ TECHNICAL REQUIREMENTS:
 - **Numerical stability**: Be mindful of division by small sums; evaluator rejects sum(a) < 0.01
 
 MATHEMATICAL INSIGHTS:
-- The autoconvolution b[k] = Σᵢ a[i] · a[k-i] is central to the problem and relates to the structure of Sidon sets
+- The autoconvolution b[k] = Σᵢ a[i] · a[k-i] is central to the problem
 - To maximize 1/C₁ = (sum(a))² / (2n · max(b)), we want to minimize the ratio max(b)/(sum(a))² while accounting for sequence length n
 - This means: maximize total mass sum(a) relative to peak convolution max(b), while keeping n small
-- The trade-off between sequence length n and height distribution is crucial - longer sequences can achieve better constants but require more computational resources
-- Alternative mathematical frameworks to explore:
-  * Fourier-analytic approaches: examine the frequency domain representation of the convolution
-  * Group-theoretic constructions: leverage symmetry groups in sequence construction
-  * Probabilistic methods: use random matrix theory or stochastic processes to generate candidates
-  * Geometric optimization: treat the sequence as points in a geometric space and optimize their arrangement
-  * Algebraic number theory: explore connections to algebraic integers and their properties
-
-ALTERNATIVE ALGORITHMIC APPROACHES TO CONSIDER:
-1. **Analytical/Mathematical Approaches**: Leverage known structures from additive combinatorics, such as Sidon set constructions or Fourier-analytic methods to derive candidate sequences directly
-2. **Convex Optimization Frameworks**: Formulate the problem as a convex optimization problem using disciplined convex programming (e.g., with cvxpy) or semidefinite programming
-3. **Gradient-based Methods**: Implement gradient ascent on the objective function using automatic differentiation (jax or torch) to optimize sequence parameters
-4. **Discrete Optimization**: Use integer programming formulations or branch-and-bound methods to search through discrete sequence structures
-5. **Spectral Methods**: Exploit connections to graph theory and spectral analysis, considering the sequence as a graph signal and optimizing its spectrum
-6. **Multi-start Local Search**: Implement a combination of random initialization with local optimization routines (L-BFGS, Nelder-Mead) to escape local optima
-7. **Machine Learning Approaches**: Train neural networks to predict good sequence structures or use reinforcement learning to discover optimal step configurations
+- The trade-off between sequence length n and height distribution is crucial
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

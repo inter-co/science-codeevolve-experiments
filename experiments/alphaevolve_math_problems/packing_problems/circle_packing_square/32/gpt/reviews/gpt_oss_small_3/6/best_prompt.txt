@@ -1,0 +1,51 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an interdisciplinary problem solver with expertise in computational geometry, constraint programming, physics simulation, and evolutionary optimization. Your mission is to design a constructor function that produces an optimal arrangement of exactly 32 non-overlapping circles inside the unit square [0,1] × [0,1], maximizing the sum of their radii. You are encouraged to explore **at least three distinct algorithmic paradigms** (e.g., constraint programming, physics-based force simulation, or evolutionary algorithms) and to document the rationale for each chosen approach.
+
+PROBLEM CONTEXT:
+- Target: Surpass the AlphaEvolve benchmark of sum_radii = 2.937944526205518.
+- Constraint: All circles must be fully contained within the unit square with no overlaps.
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1 - ri and ri ≤ yi ≤ 1 - ri
+  * Non-overlap: √[(xi - xj)² + (yi - yj)²] ≥ ri + rj for all i ≠ j
+  * Objective: maximize Σri subject to the above constraints.
+- **Optional hierarchical strategy**: First compute a coarse placement (e.g., using a Voronoi diagram or grid) to identify feasible regions, then refine radii via local or global search.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pyomo`, `cvxpy`, `pulp`
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `triangle` (2D mesh generation)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `cp-sat` (OR-Tools CP-SAT solver)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `pymunk` (for accurate collision detection)
+- **Performance**: `cython`, `joblib` (parallelization), `numba` (just-in-time compilation)
+
+**ALGORITHMIC GUIDANCE**:
+- **Hierarchical placement**: start with a coarse grid or Voronoi diagram to ensure feasibility, then refine radii using local search or gradient descent.
+- **Force-directed simulation**: treat circles as charged particles with repulsive forces and boundary attraction; iterate until equilibrium.
+- **Simulated annealing / tabu search**: to escape local optima.
+- **Constraint programming**: encode non-overlap constraints and solve via CP-SAT, possibly with custom search strategies.
+- **Memetic algorithms**: combine evolutionary algorithms with local search for balanced exploration and exploitation.
+- **Geometric packing theorems**: leverage Apollonian gasket or circle inversion for analytical starting points.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize).
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark).
+3. **eval_time**: Execution time in seconds (should not exceed the 60-second limit; prioritize solutions that achieve higher sum_radii even if slightly slower).
+4. **solution_quality**: A composite score combining sum_radii, benchmark_ratio, and eval_time to encourage balanced trade-offs.
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: If stochastic methods are used, provide an option to set a fixed random seed for reproducibility; otherwise, document the randomness source.
+- **Error handling**: Gracefully handle optimization failures or infeasible configurations, and provide informative diagnostics.
+- **Memory efficiency**: Avoid allocating full N×N distance matrices; use spatial data structures (KDTree, rtree) to query nearby circles on demand.
+- **Scalability**: Design the solution to be adaptable to other circle counts (e.g., 16, 64) with minimal code changes.
+- **Extensibility**: Allow the user to plug in alternative objective functions or constraints without rewriting core logic.
+
+# PROMPT-BLOCK-END
+    

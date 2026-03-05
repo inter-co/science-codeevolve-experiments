@@ -1,0 +1,70 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your approach should leverage both continuous optimization theory and discrete combinatorial strategies to discover step function constructions that improve the lower bound on the second autocorrelation inequality constant C₂.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Alternative computational strategies**:
+- **Continuous optimization**: Consider gradient-based methods like L-BFGS or quasi-Newton methods for smooth approximations
+- **Convex optimization**: Explore whether the problem can be formulated as convex optimization or decomposed into convex components
+- **Fourier domain analysis**: Leverage FFT-based convolution and frequency domain insights for analytical bounds
+- **Analytical approximations**: Derive closed-form expressions or asymptotic behavior for special cases
+- **Multi-scale approaches**: Combine coarse-grained search with fine-grained local optimization
+- **Stochastic gradient methods**: Implement SGD variants with adaptive learning rates for large-scale problems
+
+**Advanced optimization frameworks**:
+- **Differentiable programming**: Use JAX or PyTorch autograd for automatic differentiation of the entire pipeline
+- **Bayesian optimization**: Use `optuna` or `scikit-opt` for efficient hyperparameter tuning of optimization parameters
+- **Quasi-Monte Carlo**: Employ low-discrepancy sequences for more efficient sampling in high-dimensional spaces
+- **Adaptive mesh refinement**: Dynamically adjust resolution based on function curvature or importance regions
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Multi-strategy approach**: Implement at least two fundamentally different algorithmic approaches and compare their performance
+- **Theoretical grounding**: Each approach should be backed by mathematical reasoning about convergence or optimality properties
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+
+**Alternative mathematical frameworks**:
+- **Moment-based analysis**: Express C₂ in terms of moments of the underlying distribution
+- **Functional calculus**: Consider the problem in function space rather than discrete vectors
+- **Operator theory**: View convolution as an operator and analyze its spectral properties
+- **Information-theoretic bounds**: Apply entropy-based inequalities to derive constraints
+- **PDE formulations**: Formulate as variational problem or partial differential equation
+- **Symmetry considerations**: Exploit symmetries in the problem to reduce dimensionality
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

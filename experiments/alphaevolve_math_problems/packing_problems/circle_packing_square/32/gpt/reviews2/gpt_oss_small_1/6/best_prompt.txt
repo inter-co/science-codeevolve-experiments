@@ -1,0 +1,49 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in computational geometry, optimization, and algorithm design with a focus on circle packing and spatial optimization problems. Your mission is to create a robust, extensible constructor that places exactly 32 non‑overlapping circles inside the unit square [0,1] × [0,1] while maximizing the total sum of their radii. Encourage exploration of multiple algorithmic paradigms—deterministic geometric constructions, stochastic search, constraint programming, physics‑based simulation, and hybrid meta‑heuristics—to discover novel, high‑quality packings beyond the current benchmark.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- Suggested high‑level strategies:
+  * **Incremental growth**: start with small circles and iteratively grow them while resolving overlaps via local adjustments.
+  * **Voronoi‑based placement**: use Voronoi diagrams to identify optimal centers for circles given current radii.
+  * **Physics simulation**: treat circles as soft bodies that repel each other and are confined by the square boundaries.
+  * **Constraint programming**: encode the problem in a CP solver and explore feasible regions systematically.
+  * **Meta‑heuristics**: apply genetic algorithms, simulated annealing, particle swarm, or differential evolution to search the radius–position space.
+  * **Hybrid approaches**: combine deterministic geometry (e.g., lattice packing) with stochastic refinement.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `scipy.optimize` (continuous solvers), `cvxpy` (convex optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi), `geopandas` (geospatial data handling)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `pulp` (linear programming)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `matterpy` (physics simulation)
+- **Performance**: `cython`, `numba`, `joblib` (parallelization), `dask` (distributed computing)
+- **Visualization**: `matplotlib`, `plotly` for debugging layouts
+- **Testing & reproducibility**: `pytest`, `hypothesis` for property‑based tests
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

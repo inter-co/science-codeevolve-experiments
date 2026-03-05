@@ -1,0 +1,50 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+In addition to traditional evolutionary or gradient-based methods, you are encouraged to explore a wide spectrum of algorithmic strategies: constructive heuristics that build the packing incrementally, physics-based simulations that allow circles to “bounce” into equilibrium, constraint programming with binary inclusion variables, and hybrid metaheuristics that combine global search (e.g., simulated annealing, differential evolution) with local refinement (e.g., gradient descent, Newton–Raphson).  Emphasize the exploration of novel pathways rather than incremental tweaks to a single relaxation scheme.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- Alternative formulations: consider formulating the problem as a constrained optimization with a smooth penalty or barrier function, or as a convex relaxation using semidefinite programming if applicable. 
+- You can also explore a constraint programming approach with binary inclusion variables, a physics-based simulation that lets circles “bounce” into a stable configuration, or a constructive heuristic that places circles iteratively, each time maximizing the local radius while respecting existing circles. Additionally, investigate multi‑objective formulations that balance the sum of radii against packing density, and employ simulated annealing or basin‑hopping to escape local optima.
+- Consider leveraging Voronoi diagrams or Delaunay triangulation to estimate optimal spacing, or use incremental packing strategies that start from a coarse grid and refine. Explore graph‑based heuristics where circles are nodes and edges encode proximity constraints, enabling efficient pruning of infeasible placements and guiding the search toward dense, non‑overlapping configurations.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+- **Additional optimization libraries**: `cvxpy` (convex optimization), `pulp`/`mip` (linear/mixed integer programming), `pyscipopt` (MIP solver), `ortools` CP-SAT for constraint satisfaction.
+- **Scipy optimization**: consider `scipy.optimize.differential_evolution`, `basinhopping`, `dual_annealing`, `brute`, or `minimize` with constraints.
+- **GPU acceleration**: `jax` can be used for automatic differentiation and GPU execution; `numba` can JIT compile critical loops.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic diversity**: You are encouraged to explore spatial partitioning (KDTree, rtree) to reduce pairwise checks, hierarchical packing, and hybrid global-local search strategies. Consider caching distances, using sparse representations, or computing distances on-the-fly to maintain memory efficiency.
+- **Parallelism**: If your chosen approach allows, leverage `numba`, `jax`, `joblib`, or Python's `multiprocessing` to parallelize independent evaluations or subproblems.
+
+# PROMPT-BLOCK-END
+    

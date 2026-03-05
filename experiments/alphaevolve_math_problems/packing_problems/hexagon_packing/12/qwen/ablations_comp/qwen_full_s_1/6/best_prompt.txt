@@ -1,0 +1,95 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+Emphasize rigorous mathematical derivation and systematic constraint satisfaction over heuristic approaches. Consider the following specialized algorithmic paradigms:
+
+**Mathematical Foundation First Approach**: 
+Begin with rigorous geometric derivation of the optimal packing configuration. Derive the necessary conditions for maximum packing density using:
+- Geometric duality principles between hexagon centers and Voronoi cells
+- Exact distance calculations between hexagon centers for non-overlapping constraints
+- Analytical expressions for minimum enclosing hexagon radius given fixed inner hexagon positions
+- Convex optimization formulations that exploit geometric convexity properties
+- Alternative mathematical frameworks such as algebraic geometry or group theory for symmetry-adapted solutions
+
+**Constraint Satisfaction Architecture**:
+Develop a systematic framework that:
+- Builds configurations incrementally while maintaining validity constraints
+- Uses geometric reasoning to eliminate impossible configurations early
+- Implements robust polygon intersection algorithms with exact arithmetic handling
+- Employs constraint propagation to reduce search space dimensionality
+- Explores alternative constraint representations such as graph-based adjacency constraints or topological ordering methods
+
+**Symmetry-Aware Construction**:
+Instead of assuming D6 symmetry, explore:
+- Discrete symmetry groups (Cn, Dn, A4, etc.) that may admit better packings
+- Asymmetric arrangements that break traditional symmetries but improve efficiency
+- Topological constraints that define valid adjacency patterns before geometric realization
+- Graph-theoretic approaches where hexagon arrangements are represented as graph colorings or clique decompositions
+- Algebraic approaches using symmetry groups to construct valid configurations systematically
+
+**Geometric Programming Framework**:
+Formulate the problem as a geometric program where:
+- Variables represent geometric parameters (center coordinates, rotations)
+- Constraints are expressed as geometric inequalities (containment, non-overlap)
+- Objective is expressed as a geometric function of the outer hexagon dimensions
+- Leverage the special structure of geometric programs for efficient solution
+- Consider alternative formulations such as semidefinite programming relaxations or combinatorial optimization approaches
+
+**Hierarchical Geometric Reasoning**:
+Approach the problem through multi-level abstraction:
+1. Coarse-grained topology: determine valid adjacency patterns
+2. Medium-grained geometry: establish approximate center placements
+3. Fine-grained precision: refine positions with exact geometric calculations
+4. Alternative approaches: consider direct geometric construction from fundamental principles rather than optimization
+5. Novel methodologies: explore constructive proofs or enumeration-based approaches for small configurations
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint (use proper geometric intersection tests with robust edge case handling)
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon (implement robust containment checking with proper boundary condition handling)
+  * Objective: maximize 1/R where R is the outer hexagon side length
+  * Consider exploring various symmetry classes beyond D6, including asymmetric arrangements that might offer superior packing efficiency
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations based on various symmetry groups (not limited to D6)
+  * Group theory utilities for constraint enforcement and arrangement classification
+  * Symmetry-aware geometric reasoning that exploits invariant properties
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization for simultaneous packing and symmetry maximization)
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+- **Advanced techniques**:
+  * Use Lagrangian relaxation or penalty methods for complex constraints
+  * Implement branch-and-bound or simulated annealing for discrete configuration search
+  * Leverage convex optimization when applicable for subproblems
+  * Explore geometric programming approaches that directly optimize geometric relationships
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy requirement**: Must demonstrate novel approach beyond simple grid arrangements; prioritize mathematical rigor and theoretical foundation over heuristic initialization; explore unconventional spatial layouts and symmetry patterns that could yield better packing efficiency through fundamental geometric insights rather than empirical tuning
+- **Diversity encouragement**: Seek solutions that employ fundamentally different algorithmic paradigms such as:
+  * Constructive mathematical proofs leading to explicit arrangements
+  * Combinatorial or graph-theoretic constructions
+  * Direct geometric synthesis rather than optimization
+  * Alternative symmetry-breaking strategies beyond traditional groups
+  * Topological or algebraic approaches to constraint satisfaction
+
+# PROMPT-BLOCK-END
+    

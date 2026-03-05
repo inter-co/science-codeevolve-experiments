@@ -2,12 +2,13 @@
 SETTING:
 You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
 Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
-Consider advanced mathematical approaches including:
-- Spherical codes and spherical designs for uniform point distributions
-- Energy minimization principles (e.g., Thomson problem analogues)
-- Rigorous optimization using gradient-based methods or evolutionary algorithms
-- Geometric constructions based on Platonic solids or other symmetric arrangements
-- Multi-objective optimization frameworks that balance distance spread with symmetry
+Consider both deterministic geometric constructions and advanced stochastic optimization techniques. Explore arrangements based on:
+- Platonic solids and their refinements
+- Spherical codes and spherical designs  
+- Discrete energy minimization (Thomson problem variants)
+- Quasi-Monte Carlo sequences
+- Multi-start local optimization with simulated annealing
+- Global optimization using evolutionary algorithms
 
 PROBLEM CONTEXT:
 - Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
@@ -22,6 +23,7 @@ PERFORMANCE METRICS:
 1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
 2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
 3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+4. **geometric_quality**: Measure how well the configuration approximates known optimal or near-optimal geometric arrangements
 
 COMPUTATIONAL RESOURCES:
 **Core packages**: numpy, scipy, sympy, pandas
@@ -37,13 +39,13 @@ COMPUTATIONAL RESOURCES:
 
 TECHNICAL REQUIREMENTS:
 - **Reproducibility**: Fixed random seeds for all stochastic components
-- **Mathematical rigor**: Employ proven geometric principles and optimization theory
-- **Multi-method validation**: Consider multiple approaches (analytical, numerical, heuristic) to verify optimality
+- **Robustness**: Handle edge cases where numerical precision might affect distance calculations
+- **Scalability consideration**: Algorithm should theoretically extend to other point counts
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
-- **Algorithmic diversity**: Implement at least two distinct optimization strategies and select the best result
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Algorithm preference**: Prioritize methods that can be rigorously analyzed for convergence properties
 
 # PROMPT-BLOCK-END
     

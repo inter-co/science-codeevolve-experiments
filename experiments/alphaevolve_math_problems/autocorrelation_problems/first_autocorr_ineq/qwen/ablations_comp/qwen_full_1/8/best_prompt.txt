@@ -1,6 +1,5 @@
 # PROMPT-BLOCK-START
-You are an expert in additive combinatorics, functional analysis, and optimization with deep expertise in autocorrelation inequalities, step function constructions, and constraint satisfaction problems.
-Your mission is to evolve and optimize a function that discovers step function constructions to improve the upper bound on the first autocorrelation inequality constant C₁, which arises in the study of Sidon sets.
+You are an expert in additive combinatorics, functional analysis, and optimization with deep expertise in autocorrelation inequalities, step function constructions, and constraint satisfaction problems. Your mission is to evolve and optimize a function that discovers novel step function constructions to improve the upper bound on the first autocorrelation inequality constant C₁, which arises in the study of Sidon sets.
 
 PROBLEM CONTEXT:
 - **Objective**: Find a sequence of non-negative real numbers (representing heights of equal-width steps) that maximizes 1/C₁ (equivalently, minimizes C₁)
@@ -12,6 +11,30 @@ PROBLEM CONTEXT:
   * At least one height must be positive (sum > 0.01)
   * Practical limits: heights clipped to [0, 1000]
   * Sequence length n can vary
+
+ALTERNATIVE ALGORITHMIC PERSPECTIVES & STRATEGIES:
+Rather than focusing on traditional optimization methods, explore these fundamentally different approaches:
+
+1. **Global Evolutionary Search**: Employ genetic algorithms, particle swarm optimization, or differential evolution to search the entire solution space without relying on mathematical pattern construction. Let the evolutionary process discover optimal structures naturally.
+
+2. **Bayesian Optimization Framework**: Use probabilistic models to intelligently sample promising regions of the parameter space, treating the objective function as a black-box to be optimized with uncertainty quantification.
+
+3. **Multi-Objective Optimization**: Formulate this as optimizing both 1/C₁ and sequence length n simultaneously, using techniques like NSGA-II to find Pareto-optimal trade-offs between performance and complexity.
+
+4. **Neural Network Approximation**: Train a neural network to approximate the optimal sequence given parameters, using reinforcement learning or supervised learning from known good examples to generalize to new cases.
+
+5. **Simulated Annealing with Adaptive Temperature Scheduling**: Implement a sophisticated annealing process that dynamically adjusts cooling rates based on convergence behavior to escape local optima effectively.
+
+6. **Ant Colony Optimization**: Model the sequence construction as a path-finding problem where ants deposit pheromones to guide exploration toward promising sequence configurations.
+
+7. **Randomized Coordinate Descent**: Apply stochastic optimization methods that randomly sample coordinate directions to efficiently navigate high-dimensional solution spaces.
+
+8. **Active Learning with Uncertainty Sampling**: Select the most informative candidate sequences for evaluation based on uncertainty measures to maximize information gain per evaluation.
+
+9. **Ensemble Methods**: Combine multiple diverse optimization strategies (e.g., evolutionary, gradient-free, and pattern-based) into a single framework that adaptively weights their contributions.
+
+10. **Constraint Programming**: Model this as a constraint satisfaction problem where variables represent sequence values and constraints enforce the mathematical relationships, using specialized solvers to find feasible solutions.
+
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
@@ -40,21 +63,11 @@ MATHEMATICAL INSIGHTS:
 - To maximize 1/C₁ = (sum(a))² / (2n · max(b)), we want to minimize the ratio max(b)/(sum(a))² while accounting for sequence length n
 - This means: maximize total mass sum(a) relative to peak convolution max(b), while keeping n small
 - The trade-off between sequence length n and height distribution is crucial
+- Consider viewing this through the lens of harmonic analysis and Fourier transforms
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
-
-ALTERNATIVE APPROACHES TO CONSIDER:
-Instead of the current mathematical programming approach, consider these diverse strategies:
-1. **Evolutionary Computation**: Use genetic algorithms or differential evolution to directly optimize the sequence parameters
-2. **Bayesian Optimization**: Model the objective function using Gaussian processes and use acquisition functions to guide exploration
-3. **Simulated Annealing**: Implement temperature-controlled random search with adaptive cooling schedules
-4. **Particle Swarm Optimization**: Use swarm intelligence where candidate solutions "fly" through the search space guided by personal and global best positions
-5. **Direct Search Methods**: Explore pattern search or Nelder-Mead type algorithms that don't require derivatives
-6. **Hybrid Approaches**: Combine multiple methods - e.g., use evolutionary algorithms to explore broadly, then refine with local optimization
-
-The key is to explore different algorithmic paradigms rather than sticking to the current LP-based gradient approach.
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

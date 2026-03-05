@@ -1,0 +1,63 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+Consider multiple algorithmic paradigms beyond simple grid arrangements:
+1. **Global optimization approaches**: Employ evolutionary algorithms, simulated annealing, or particle swarm optimization to search the continuous parameter space of positions and orientations
+2. **Hybrid geometric-mathematical methods**: Combine geometric constraints with mathematical programming techniques such as semidefinite programming or convex optimization
+3. **Multi-scale approaches**: Begin with coarse-grained placements and refine through local optimization procedures
+4. **Physics-inspired methods**: Implement discrete element methods or molecular dynamics simulations with hexagonal potential functions
+5. **Constraint satisfaction frameworks**: Use constraint programming with specialized propagators for hexagon intersection and containment
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+ENHANCED CONSTRAINT HANDLING:
+- Implement robust geometric predicates for intersection testing between regular hexagons
+- Utilize efficient algorithms for determining whether a point lies inside a hexagon
+- Consider using the Separating Axis Theorem for collision detection
+- Implement proper handling of floating-point precision issues in geometric computations
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom operators)
+  * `platypus` (multi-objective optimization)
+  * `scipy.optimize.differential_evolution` for global optimization
+- **Collision detection**: 
+  * `pymunk` (2D rigid body physics with polygon shapes)
+  * Custom SAT (Separating Axis Theorem) implementations
+  * Implement custom geometric predicates for precise hexagon-to-hexagon collision detection
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Multi-start local optimization**: Run local optimizers from multiple randomly sampled initial configurations
+2. **Adaptive mesh refinement**: Start with coarse placement then refine locally
+3. **Machine learning guided search**: Use learned heuristics to bias sampling toward promising regions
+4. **Hierarchical optimization**: First place hexagons roughly, then optimize their precise positions and rotations
+
+TECHNICAL REQUIREMENTS:
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly
+- **Reproducibility**: Fixed random seeds for stochastic optimization methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

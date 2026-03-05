@@ -1,0 +1,79 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to discover step function constructions that improve the lower bound on the second autocorrelation inequality constant C₂ through innovative mathematical and computational approaches.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+- **Analytical construction methods**: Seek mathematical formulas or closed-form expressions that naturally produce optimal or near-optimal step functions, leveraging known results from harmonic analysis or extremal function theory. Focus on constructing functions with specific symmetry properties or known extremal characteristics such as those arising from extremal problems in Fourier analysis or optimal recovery theory
+- **Fourier-domain approaches**: Transform the problem into frequency space where the autoconvolution becomes a multiplication. Explore how spectral properties relate to the C₂ constant and consider designing functions with specific frequency characteristics, particularly those that minimize the ratio of L2 norm to the product of L1 and L-infinity norms in the frequency domain
+- **Orthogonal polynomial expansions**: Represent the step function as a linear combination of orthogonal polynomials (Chebyshev, Legendre) with carefully chosen coefficients. Leverage known bounds and extremal properties of these polynomial families, particularly those related to Markov brothers' inequalities or Chebyshev approximation theory
+- **Moment-based optimization**: Formulate the problem in terms of moment conditions and use semidefinite programming or moment relaxation techniques. Consider representing the problem in terms of integral constraints and explore connections to classical moment problems and the Hausdorff moment problem
+- **Convex optimization formulations**: Reformulate the problem as convex optimization over probability measures or positive definite kernels. Consider using duality theory to derive necessary conditions for optimality and explore connections to reproducing kernel Hilbert spaces and Bochner's theorem
+- **Symmetry-breaking techniques**: Exploit inherent symmetries in the problem to reduce dimensionality. Consider functions with specific symmetry properties that simplify the optimization landscape, including reflection symmetry, rotational symmetry, or discrete group actions that preserve the structure of the convolution
+- **Direct variational principles**: Derive Euler-Lagrange equations for the C₂ functional and solve numerically using shooting methods or collocation techniques. Focus on deriving analytical conditions for critical points and explore connections to variational calculus on manifolds or constrained optimization on convex sets
+- **Perturbation theory**: Start with known good solutions and apply systematic perturbations to improve them. Consider small deformations of simple functions that preserve key properties, particularly those related to the theory of extremal functions in Banach spaces or the theory of best approximation
+- **Sparse representation approaches**: Instead of dense discretization, consider sparse representations or basis functions that capture essential features with fewer parameters. Explore connections to compressed sensing, sparse approximation theory, or the theory of frames and Riesz bases
+- **Multi-scale construction methods**: Build functions at multiple scales and combine them to achieve better performance characteristics. Focus on wavelet-based constructions, multiscale analysis, or the theory of scale-space representations that preserve important geometric and analytic properties
+
+The key insight is that optimal solutions may have elegant mathematical characterizations that can be derived analytically or constructed systematically, rather than discovered through extensive numerical exploration. Consider exploring mathematical objects like extremal functions, optimal recovery operators, or functions with special spectral properties that directly optimize the C₂ functional through their structural characteristics.
+
+The key insight is that optimal solutions may have elegant mathematical characterizations that can be derived analytically or constructed systematically, rather than discovered through extensive numerical exploration.
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, jax, torch, numba, scikit-learn, cvxpy
+
+**Additional useful packages**:
+- **Advanced optimization**: `cvxpy` (convex optimization), `scipy.optimize` (classical optimization), `scikit-optimization` (bayesian optimization)
+- **ML frameworks**: `tensorflow` (neural networks), `pytorch_geometric` (graph neural networks), `sklearn` (classical ML)
+- **Specialized tools**: `gudhi` (topological data analysis), `scikit-learn` (kernel methods), `statsmodels` (statistical modeling)
+- **Fast computation**: `numba` (@jit compilation), `jax` (automatic differentiation), `cupy` (GPU acceleration)
+- **Symbolic computation**: `sympy`, `mathics`, `sage` (computer algebra systems)
+- **Numerical linear algebra**: `scipy.linalg`, `numpy.linalg` for efficient matrix operations
+
+**Implementation Constraints**:
+- Prioritize memory efficiency over computational speed where possible
+- Limit array sizes to avoid exceeding 1GB memory constraint
+- Prefer analytical or semi-analytical approaches over purely numerical ones
+- Use symbolic computation when appropriate to derive closed-form solutions
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs; ensure deterministic behavior in all computations
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations); implement proper error handling for ill-conditioned problems
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small; use regularization techniques for ill-posed subproblems
+- **Memory efficiency**: Implement algorithms that respect the 1GB memory limit; avoid creating unnecessarily large intermediate arrays
+- **Scalability**: Design solutions that work efficiently with smaller problem sizes; prefer algorithms that scale gracefully
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Problem size constraint**: Limit discrete representation to manageable sizes (e.g., < 5000 elements) to maintain memory efficiency
+
+# PROMPT-BLOCK-END
+    

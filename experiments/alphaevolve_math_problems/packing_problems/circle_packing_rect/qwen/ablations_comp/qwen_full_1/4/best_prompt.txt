@@ -1,7 +1,7 @@
 # PROMPT-BLOCK-START
 
 SETTING:
-You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii. Consider multiple algorithmic paradigms including but not limited to: evolutionary computation, gradient-free optimization, geometric construction heuristics, and constraint satisfaction methods.
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii. Consider multiple algorithmic paradigms including but not limited to: mathematical programming, constraint satisfaction, analytical geometric constructions, and topological optimization approaches. Emphasize mathematically rigorous methods that provide theoretical guarantees of optimality or near-optimality, rather than heuristic approximations.
 
 PROBLEM CONTEXT:
 - **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
@@ -13,22 +13,27 @@ PROBLEM CONTEXT:
   * Exactly 21 circles required
   * All radii must be positive
 
-COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 1 GB
-
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
-**Alternative Algorithmic Approaches**:
-- **Evolutionary Strategies**: Implement genetic algorithms using `deap` or `platypus` with custom fitness functions
-- **Gradient-Free Methods**: Utilize `nevergrad` or `scikit-opt` for direct search optimization
-- **Geometric Construction**: Develop heuristic methods based on hexagonal packing principles or circle packing theory
-- **Constraint Programming**: Apply `ortools` or `python-constraint` to model the spatial constraints rigorously
-- **Hybrid Approaches**: Combine multiple techniques such as local refinement of global solutions
-- **Physics-based Simulation**: Use `pymunk` to simulate physical packing processes
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II), `cvxpy` (convex optimization)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics engines**: `pymunk` (2D rigid body physics), `Box2D` (collision detection)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
 
-**Implementation Strategy**: Choose one primary algorithmic paradigm but consider hybrid combinations that leverage the strengths of different approaches.
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Mathematical programming formulations** - Formulate as mixed-integer nonlinear programs (MINLP) using constraint programming or convex relaxation techniques
+2. **Combinatorial optimization** - Enumerate or sample discrete geometric structures like triangular or hexagonal lattices with systematic parameter tuning, leveraging known optimal packings for smaller numbers of circles
+3. **Analytical geometric constructions** - Derive closed-form solutions or approximations based on known optimal packings for small numbers of circles, potentially using geometric duality or transformation methods
+4. **Constraint satisfaction networks** - Model as a CSP with arc consistency and backtracking search, possibly incorporating advanced inference techniques like MAC (Maintaining Arc Consistency)
+5. **Topological optimization** - Use topology optimization principles to iteratively improve circle placements while maintaining feasibility, potentially applying level set methods or phase-field approaches
+6. **Geometric invariant approaches** - Leverage symmetries and invariants in circle packing configurations, such as using group theory or projective geometry concepts
+7. **Variational methods** - Apply calculus of variations or energy minimization principles to derive optimal configurations
+8. **Algebraic geometry approaches** - Utilize polynomial systems and elimination theory to solve the geometric constraints analytically when possible
 
 PERFORMANCE METRICS:
 1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
@@ -36,13 +41,20 @@ PERFORMANCE METRICS:
 3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
 
 TECHNICAL REQUIREMENTS:
-- **Algorithm Selection**: Clearly document your chosen optimization approach and justify its suitability for this problem
+- **Mathematical rigor**: Prioritize solutions that mathematically guarantee constraint satisfaction and optimality conditions over heuristic approximations
+- **Feasibility first**: Ensure all generated solutions are strictly feasible before evaluating objective values
 - **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
-- **Error handling**: Graceful handling of optimization failures or infeasible configurations
-- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
-- **Scalability**: Design with potential extension to different circle counts in mind
-- **Solution Validation**: Include checks to ensure all constraints (non-overlap, containment) are satisfied
-- **Performance Monitoring**: Track convergence behavior and execution time within the 90-second limit
+- **Error handling**: Robust validation of all generated configurations against all constraints with detailed error reporting
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations, favoring incremental constraint checking
+- **Scalability**: Design with potential extension to different circle counts in mind, considering asymptotic behavior
+- **Algorithmic diversity**: Demonstrate multiple distinct mathematical approaches rather than just one method (e.g., combine analytical construction with numerical optimization)
+- **Theoretical grounding**: Where applicable, leverage mathematical properties of circle packing, convex optimization, or algebraic geometry
+- **Validation framework**: Include comprehensive constraint checking that validates both boundary containment and non-overlapping conditions with mathematical proofs where possible
+- **Optimality certificates**: Where feasible, provide theoretical bounds or certificates of near-optimality for the generated solutions
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

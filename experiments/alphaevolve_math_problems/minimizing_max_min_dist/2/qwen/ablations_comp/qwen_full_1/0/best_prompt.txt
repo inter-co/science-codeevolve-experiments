@@ -1,0 +1,77 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Prioritize mathematically rigorous deterministic constructions over purely numerical optimization. Explore advanced mathematical frameworks including:
+- Equiangular tight frames (ETFs) and their relationship to optimal point distributions
+- Spherical codes and their 2D analogues (considering the unit circle as a fundamental domain)
+- Spectral graph theory and Laplacian eigenvalue analysis for point placement
+- Algebraic geometry approaches to point configuration
+- Group theory and symmetry considerations for optimal arrangements
+- Potential field methods with repulsive forces, but with careful theoretical justification
+- Geometric programming formulations with convex relaxations
+- Exact solutions via algebraic number fields and root finding techniques
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Advanced consideration: Investigate whether the optimal configuration exhibits any symmetry properties or follows known mathematical structures like regular polygons, hexagonal lattices, or other well-studied point configurations. Consider if the problem has known exact solutions in related mathematical contexts.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Advanced optimization**: `scipy.optimize` with trust-region methods, `cvxpy` for convex optimization
+- **Symbolic computation**: `sympy` for exact solutions and algebraic manipulations
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, Delaunay triangulation)
+  * `shapely` (geometric operations and validation)
+- **Specialized algorithms**: 
+  * `gurobi` or `cplex` for exact mathematical programming
+  * `polysolve` for polynomial root finding
+  * `spherical-geometry` for spherical arrangements
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Mathematical rigor**: Prefer closed-form solutions or exact symbolic approaches where possible
+- **Alternative Approaches**: Combine geometric insight with numerical verification rather than pure heuristic optimization
+- **Validation**: Cross-check results against known bounds and mathematical literature for similar problems
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Alternative Approaches**: Consider hybrid methods combining analytical geometric constructions with numerical optimization
+- **Mathematical Rigor**: When using heuristic methods, ensure proper convergence criteria and validate against known bounds for similar problems
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,67 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to develop a sophisticated optimization strategy to discover step function constructions that maximize the second autocorrelation inequality constant C₂.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+COMPUTATIONAL APPROACHES:
+Rather than simple random sampling, implement one or more of these advanced strategies:
+1. **Analytical Optimization**: Leverage variational principles or calculus of variations to derive optimal step function shapes directly
+2. **Convex Optimization Framework**: Formulate the problem as convex optimization with appropriate constraints and use interior-point methods
+3. **Spectral Methods**: Exploit Fourier transform properties and spectral decomposition of the autoconvolution operator
+4. **Machine Learning Approaches**: Train neural networks or kernel methods to approximate optimal step functions, treating this as a function approximation problem
+5. **Geometric Programming**: Reformulate the optimization in terms of geometric constraints and use specialized solvers
+6. **Monte Carlo with Importance Sampling**: Use advanced sampling techniques that focus on high-value regions of the parameter space
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Advanced optimization packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Alternative Implementation**: If using analytical approaches, ensure mathematical rigor in derivations and proofs
+- **Validation**: Include cross-validation with multiple independent methods to verify solution quality
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g = f*f represents a convolution operation with rich structural properties
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) can be viewed through the lens of information theory and concentration inequalities
+- Consider the dual formulation: minimizing ||g||₁ · ||g||∞ subject to ||g||₂² ≥ constant
+- The optimization landscape may exhibit phase transitions or critical points that could be exploited analytically
+- Explore connections to extremal problems in harmonic analysis and functional inequalities
+- The structure of optimal solutions might reveal symmetries or scaling laws that suggest analytical forms
+- Investigate whether the optimal solution lies in a low-dimensional manifold or has special algebraic properties
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

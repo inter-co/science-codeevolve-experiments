@@ -1,0 +1,66 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+Explore fundamentally different mathematical approaches beyond conventional optimization:
+- **Algebraic Geometry**: Formulate the problem as a system of polynomial equations and solve using Gröbner basis methods or resultants
+- **Symmetry-Driven Approaches**: Leverage the 6-fold dihedral symmetry group to parameterize the solution space and reduce dimensions
+- **Topological Methods**: Characterize valid configurations through topological invariants and homotopy analysis
+- **Convex Optimization Frameworks**: Reformulate as semidefinite programs or second-order cone programs exploiting the convexity of geometric constraints
+- **Variational Principles**: Derive necessary conditions using calculus of variations or Lagrange multipliers
+- **Combinatorial Optimization**: Treat as a discrete optimization problem on a graph representing geometric relationships
+
+Consider novel geometric configurations beyond regular grids, such as:
+- Mathematically optimal symmetric arrangements using group theory and crystallographic principles
+- Configurations derived from the 12-fold rotational symmetry of hexagonal lattices
+- Analytical solutions based on Voronoi diagrams and Delaunay triangulations
+- Geometric constructions using compass and straightedge principles for optimal packing
+- Exploitation of the duality between hexagonal packing and triangular lattice arrangements
+- Hierarchical packing inspired by quasicrystalline structures
+
+The solution should demonstrate mathematical elegance and computational efficiency, potentially leveraging known results from discrete geometry, sphere packing theory, and algebraic topology.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely, cvxpy, sympy
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Advanced Mathematical Tools**: 
+  * `sympy` (symbolic mathematics for geometric constraints, polynomial solving)
+  * `cvxpy` (convex optimization for geometric problems)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom operators)
+  * `platypus` (multi-objective optimization)
+  * `scipy.spatial.distance` (efficient distance computations for collision detection)
+- **Collision detection**: 
+  * `pymunk` (2D rigid body physics with polygon shapes)
+  * Custom SAT (Separating Axis Theorem) implementations
+- **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
+
+The approach should balance mathematical rigor with computational efficiency, potentially utilizing symmetry properties to reduce the dimensionality of the optimization problem. Consider using analytical solutions where possible, and when numerical methods are required, prefer convex relaxation techniques or algebraic approaches that guarantee global optimality over heuristic methods.
+
+TECHNICAL REQUIREMENTS:
+- **Numerical stability**: Handle hexagon intersection and containment calculations robustly
+- **Reproducibility**: Fixed random seeds for stochastic optimization methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,46 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with a strong background in algorithmic design and mathematical modeling. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii. You are encouraged to explore diverse algorithmic pathways—including constructive heuristics, physics-based simulations, constraint programming, gradient‑based optimization, and hybrid meta‑heuristics—to discover novel solutions beyond conventional evolutionary approaches.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- **Novelty requirement**: Provide at least two distinct algorithmic approaches (e.g., a constructive greedy method based on Voronoi cells and a physics‑simulation with repulsive forces) and compare their performance.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn, cvxpy, pulp
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `simanneal` (simulated annealing)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+- **Machine learning**: `scikit-learn`, `torch`, `jax` (automatic differentiation)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+4. **packing_density**: Ratio of total circle area to unit square area, used as a secondary indicator of packing efficiency
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Modularity**: Structure the code into reusable components (e.g., geometry utilities, optimization wrappers, simulation engines) to facilitate experimentation with new algorithms
+- **Explainability**: Provide a concise high‑level description of each algorithmic pathway and the rationale for chosen parameters
+- **Dual‑algorithm requirement**: Implement at least two distinct algorithmic strategies (e.g., constructive greedy vs. physics simulation) and report comparative results
+
+# PROMPT-BLOCK-END
+    

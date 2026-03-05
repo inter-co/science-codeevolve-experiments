@@ -1,0 +1,53 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in multiple domains including computational geometry, mathematical optimization, and heuristic search algorithms. Your mission is to develop a novel approach for placing exactly 21 non-overlapping circles within a rectangle of perimeter 4, maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+- **Approach Diversity**: Consider at least one of these distinct paradigms:
+  1. Mathematical programming formulation (convex or mixed-integer) - formulate as optimization problem with constraints
+  2. Geometric construction heuristics (e.g., hexagonal lattice, Delaunay triangulation) - leverage spatial packing theory
+  3. Multi-objective evolutionary optimization with diverse fitness landscapes - use population-based search with varied objectives
+  4. Constraint satisfaction with systematic grid search - employ exact methods or systematic exploration
+  5. Physics-based simulation with collision dynamics - alternative to the current approach, focusing on energy minimization
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Alternative algorithmic frameworks to consider**:
+- **Mathematical Optimization**: cvxpy, ortools, python-constraint for exact formulations
+- **Evolutionary Computation**: deap, platypus for population-based search
+- **Metaheuristics**: scikit-opt, nevergrad, optuna for gradient-free approaches
+- **Geometric Construction**: shapely, scipy.spatial for spatial reasoning
+- **Physics Simulation**: pymunk, Box2D for dynamic constraint satisfaction
+- **Parallel Strategies**: joblib, multiprocessing for embarrassingly parallel evaluations
+- **Performance Enhancements**: cython, numexpr for computationally intensive operations
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Methodological Diversity**: Demonstrate understanding of multiple algorithmic families in your approach, such as mathematical optimization, geometric constructions, or constraint satisfaction
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Validation**: Include verification that all constraints are satisfied, particularly non-overlap and boundary conditions
+- **Algorithmic Robustness**: Ensure the chosen method can reliably produce valid solutions without requiring post-processing corrections
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 120 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

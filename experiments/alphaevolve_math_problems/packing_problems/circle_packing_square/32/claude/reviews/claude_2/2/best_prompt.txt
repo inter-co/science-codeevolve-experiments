@@ -1,0 +1,54 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in physics-based simulation and computational geometry specializing in circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+STRATEGIC INSIGHT:
+Circle packing is fundamentally a force-equilibrium problem. Consider approaches inspired by:
+- **Physical relaxation**: Model circles as repelling particles that settle into low-energy configurations
+- **Hierarchical placement**: Start with coarse layouts (e.g., regular grids) and progressively refine through local expansion
+- **Adaptive growth**: Incrementally inflate radii while maintaining feasibility through position adjustments
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+ALGORITHMIC PATHWAYS TO EXPLORE:
+- **Force-directed relaxation**: Model inter-circle repulsion and boundary forces, iteratively adjust positions until equilibrium
+- **Sequential inflation with repositioning**: Place circles, grow radii uniformly, resolve collisions by moving circles apart
+- **Voronoi-based initialization**: Use spatial decomposition to guide initial placement, then locally optimize
+- **Multi-start with perturbations**: Generate diverse initial configurations (random, grid-based, hexagonal) and refine each
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Recommended packages for physics-based approaches**:
+- **Physics simulation**: `pymunk` (2D rigid body physics with collision detection), `pybullet` (physics engine)
+- **Geometric computing**: `shapely` (geometric operations), `scipy.spatial` (KDTree for neighbor queries, Voronoi diagrams)
+- **Optimization**: `scipy.optimize` (minimize with constraints), `deap` (evolutionary algorithms)
+- **Performance**: `numba` (JIT compilation for force calculations), `joblib` (parallel multi-start)
+
+**Suggested approach**: Combine iterative refinement with gradient-free optimization or physical simulation for robust convergence.
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

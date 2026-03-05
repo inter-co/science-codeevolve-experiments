@@ -1,0 +1,121 @@
+CODEBASE_PATH: src/
+EMBEDDING:
+  dimensions: 128
+  model_name: AZURE_TEXT-EMBEDDING-3-SMALL
+  retries: 3
+  verify_ssl: false
+EVAL_FILE_NAME: evaluate.py
+EVAL_TIMEOUT: 60
+EVOLVE_CONFIG:
+  ckpt: 10
+  early_stopping_rounds: null
+  evolve_end_marker: '# EVOLVE-BLOCK-END'
+  evolve_start_marker: '# EVOLVE-BLOCK-START'
+  exploration_rate: 0.3
+  fitness_key: fitness
+  init_pop: 10
+  max_chat_depth: 3
+  max_size: null
+  meta_prompting: true
+  migration_interval: 30
+  migration_rate: 0.1
+  migration_topology: ring
+  mp_end_marker: '# PROMPT-BLOCK-END'
+  mp_start_marker: '# PROMPT-BLOCK-START'
+  num_epochs: 152
+  num_inspirations: 2
+  num_islands: 10
+  scheduler_kwargs:
+    decrease_factor: 0.95
+    increase_factor: 1.05
+    max_rate: 0.5
+    min_rate: 0.2
+    plateau_threshold: 5
+  selection_kwargs:
+    roulette_by_rank: true
+  selection_policy: roulette
+  type: PlateauScheduler
+  use_embedding: false
+  use_map_elites: true
+  use_scheduler: true
+EXPLOITATION_ENSEMBLE:
+- model_name: AWS_QWEN-QWEN3-CODER-30B-INSTRUCT
+  retries: 3
+  temp: 0.7
+  top_p: 0.8
+  verify_ssl: false
+  weight: 1
+EXPLORATION_ENSEMBLE:
+- model_name: AWS_QWEN-QWEN3-CODER-30B-INSTRUCT
+  retries: 3
+  temp: 0.7
+  top_p: 0.8
+  verify_ssl: false
+  weight: 1
+INIT_FILE_DATA:
+  filename: init_program.py
+  language: python
+MAP_ELITES:
+  elite_map_kwargs:
+    max_iter: 300
+    num_centroids: 30
+    num_init_samples: 1000
+    tolerance: 0.0001
+  elite_map_type: cvt
+  features:
+  - max_val: 0.0
+    min_val: -10.0
+    name: fitness
+  - max_val: 60
+    min_val: 0
+    name: eval_time
+MAX_MEM_BYTES: 2000000000
+MEM_CHECK_INTERVAL_S: 0.1
+SAMPLER_AUX_LM:
+  model_name: AWS_QWEN-QWEN3-CODER-30B-INSTRUCT
+  retries: 3
+  temp: 0.7
+  top_p: 0.8
+  verify_ssl: false
+  weight: 1
+SYS_MSG: "# PROMPT-BLOCK-START\nYou are an expert in combinatorial optimization, metaheuristics,\
+  \ and the Travelling Salesman Problem (TSP).\nYour mission is to design a novel\
+  \ and high-performing edge distance update strategy for\nGuided Local Search (GLS)\
+  \ applied to TSP.\n\nPROBLEM CONTEXT:\n- **Task**: Design a function that updates\
+  \ the edge distance matrix to guide the local\n  search away from the current local\
+  \ optimum. The GLS framework iteratively applies 2-opt\n  and relocate local search\
+  \ operators, using your modified distance matrix to escape local\n  optima and explore\
+  \ new regions of the solution space.\n- **Function signature**: `update_edge_distance(edge_distance,\
+  \ local_opt_tour, edge_n_used) -> updated_edge_distance`\n- **Inputs**:\n  * `edge_distance`\
+  \ (np.ndarray, shape (n, n)): The original symmetric distance matrix between cities.\n\
+  \  * `local_opt_tour` (np.ndarray): Array of node IDs representing the current locally\
+  \ optimal tour.\n  * `edge_n_used` (np.ndarray, shape (n, n)): Matrix counting how\
+  \ many times each edge has been\n    used during past perturbation steps (penalty\
+  \ history).\n- **Output**:\n  * `updated_edge_distance` (np.ndarray, shape (n, n)):\
+  \ The modified distance matrix used by\n    the local search operators. By increasing\
+  \ distances on frequently-used or tour edges,\n    the search is encouraged to explore\
+  \ different tour structures.\n- **TSP setup**:\n  * 64 TSP instances with 100 cities\
+  \ each (TSP100).\n  * City coordinates randomly sampled from [0, 1]^2.\n  * Optimal\
+  \ tour costs are known (computed by Concorde).\n  * During evolution, 3 instances\
+  \ are used for evaluation (for speed).\n  * GLS runs for up to 10 seconds per instance\
+  \ with max 1000 iterations.\n\nEVALUATION:\n- **Fitness** (maximize): Negative of\
+  \ the average gap (%) to the optimal tour cost.\n  A fitness of 0.0 means optimal\
+  \ tours are found on all evaluation instances.\n  Higher values (closer to 0) are\
+  \ better.\n- **avg_gap_pct**: Average percentage gap to optimal across instances\
+  \ (lower is better).\n- **eval_time**: Total execution time in seconds across all\
+  \ instances.\n\nCOMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:\n**Core packages**:\
+  \ numpy\n- The function is called once per GLS iteration (up to 1000 times per instance).\n\
+  - Avoid expensive operations; prefer vectorized NumPy operations.\n- The function\
+  \ should be deterministic for reproducibility.\n- The output matrix need not be\
+  \ symmetric, but keeping it symmetric is recommended.\n\nDESIGN TIPS:\n- The classic\
+  \ GLS approach: penalize edges on the current tour proportionally to their\n  cost\
+  \ and inversely to how often they've been penalized. This is the Voudouris & Tsang\
+  \ formulation.\n- Consider using edge_n_used to track historical penalties and avoid\
+  \ over-penalizing.\n- Non-linear transformations of the penalty (e.g., logarithmic,\
+  \ square root) can be effective.\n- Combining distance, tour membership, and penalty\
+  \ history in novel ways can yield strong results.\n- The function should make meaningful\
+  \ modifications; returning the original matrix unchanged\n  will cause the search\
+  \ to stagnate.\n\nCOMPUTATIONAL BUDGET:\n- **Time limit**: 60 seconds maximum total\
+  \ execution time.\n- **Memory limit**: 2 GB.\n\nKNOWN BASELINES:\n- Standard GLS\
+  \ with linear penalty: ~0.1-0.5% gap to optimal on TSP100.\n- State-of-the-art EoH\
+  \ heuristics: ~0.00% gap on many TSP100 instances.\n# PROMPT-BLOCK-END\n"

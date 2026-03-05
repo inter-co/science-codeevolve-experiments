@@ -1,0 +1,21 @@
+Loading test data from: /home/sagemaker-user/evolve/EoH/examples/bp_online/evaluation/testingdata
+
+Evaluating heuristic: /home/sagemaker-user/evolve/codeevolve/experiments/eoh-problems/bp_online/qwen/reviews/qwen_full_1/1/best_sol.py
+  1k C100: 4.18% excess (5 instances)
+  1k C500: 0.25% excess (5 instances)
+  5k C100: 3.16% excess (5 instances)
+  5k C500: 0.45% excess (5 instances)
+  10k C100: 3.22% excess (5 instances)
+  10k C500: 0.42% excess (5 instances)
+
+### Table 1: Online Bin Packing Results
+Fraction of excess bins to lower bound (lower is better) on Weibull instances.
+
+| Method | 1k C100 | 5k C100 | 10k C100 | 1k C500 | 5k C500 | 10k C500 |
+|---|---|---|---|---|---|---|
+| First Fit | 5.32% | 4.40% | 4.44% | 4.97% | 4.27% | 4.28% |
+| Best Fit | 4.87% | 4.08% | 4.09% | 4.50% | 3.91% | 3.95% |
+| FunSearch | 3.78% | 0.80% | 0.33% | 6.75% | 1.47% | 0.74% |
+| EoH | 2.24% | 0.80% | 0.61% | 2.13% | 0.78% | 0.61% |
+| CodeEvolve | **4.18%** | **3.16%** | **3.22%** | **0.25%** | **0.45%** | **0.42%** |
+

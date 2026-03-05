@@ -1,341 +1,270 @@
 # EVOLVE-BLOCK-START
 import numpy as np
-from scipy.optimize import minimize
-import time
+from scipy.optimize import differential_evolution
 from shapely.geometry import Polygon, Point
+import math
+import time
 
-def create_hexagon_vertices(center_x, center_y, radius, rotation_deg):
-    """Create vertices of a regular hexagon given center, radius, and rotation."""
-    rotation_rad = np.radians(rotation_deg)
-    angles = np.linspace(0, 2*np.pi, 7)[:-1]  # 6 angles for 6 vertices
-    vertices = np.zeros((6, 2))
-    for i, angle in enumerate(angles):
-        # Rotate and translate
-        rotated_angle = angle + rotation_rad
-        vertices[i, 0] = center_x + radius * np.cos(rotated_angle)
-        vertices[i, 1] = center_y + radius * np.sin(rotated_angle)
+
+def hexagon_vertices(center_x, center_y, side_length, rotation_degrees):
+    """Generate vertices of a regular hexagon."""
+    rotation_rad = math.radians(rotation_degrees)
+    vertices = []
+    for i in range(6):
+        angle = rotation_rad + i * math.pi / 3
+        x = center_x + side_length * math.cos(angle)
+        y = center_y + side_length * math.sin(angle)
+        vertices.append((x, y))
     return vertices
 
-def hexagon_contains_point(hex_vertices, point):
-    """Check if a point is inside a hexagon using Shapely for robustness."""
-    try:
-        hex_poly = Polygon(hex_vertices)
-        point_obj = Point(point)
-        return hex_poly.contains(point_obj)
-    except:
-        # Fallback to ray casting if Shapely fails
-        x, y = point
-        n = len(hex_vertices)
-        inside = False
-        
-        p1x, p1y = hex_vertices[0]
-        for i in range(1, n + 1):
-            p2x, p2y = hex_vertices[i % n]
-            if y > min(p1y, p2y):
-                if y <= max(p1y, p2y):
-                    if x <= max(p1x, p2x):
-                        if p1y != p2y:
-                            xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
-                        if p1x == p2x or x <= xinters:
-                            inside = not inside
-            p1x, p1y = p2x, p2y
-        
-        return inside
 
-def check_hexagon_containment(hex_vertices, outer_hex_vertices):
-    """Check if all vertices of a hexagon are inside the outer hexagon."""
-    for vertex in hex_vertices:
-        if not hexagon_contains_point(outer_hex_vertices, vertex):
+def create_hexagon_polygon(center_x, center_y, side_length, rotation_degrees):
+    """Create Shapely polygon for a hexagon."""
+    vertices = hexagon_vertices(center_x, center_y, side_length, rotation_degrees)
+    return Polygon(vertices)
+
+
+def check_containment(inner_hex, outer_hex):
+    """Check if inner hexagon is fully contained within outer hexagon."""
+    # Check if all vertices of inner hexagon are inside outer hexagon
+    for vertex in inner_hex.exterior.coords[:-1]:  # Exclude closing vertex
+        if not outer_hex.contains(Point(vertex)):
             return False
     return True
 
-def hexagon_overlap(h1_vertices, h2_vertices):
-    """Check if two hexagons overlap using Shapely."""
-    try:
-        poly1 = Polygon(h1_vertices)
-        poly2 = Polygon(h2_vertices)
-        return poly1.intersects(poly2)
-    except:
-        # Fallback to Separating Axis Theorem if Shapely fails
-        # Get all edges of both hexagons
-        edges1 = []
-        edges2 = []
-        
-        for i in range(len(h1_vertices)):
-            edge = h1_vertices[i] - h1_vertices[(i+1) % len(h1_vertices)]
-            edges1.append(edge)
-            
-        for i in range(len(h2_vertices)):
-            edge = h2_vertices[i] - h2_vertices[(i+1) % len(h2_vertices)]
-            edges2.append(edge)
-        
-        # Combine all axes (perpendicular to edges)
-        all_axes = []
-        for edge in edges1 + edges2:
-            # Perpendicular axis
-            axis = np.array([-edge[1], edge[0]])
-            norm = np.linalg.norm(axis)
-            if norm > 1e-10:
-                axis = axis / norm
-            all_axes.append(axis)
-        
-        # Check separation on each axis
-        for axis in all_axes:
-            # Project both polygons onto axis
-            proj1 = np.dot(h1_vertices, axis)
-            proj2 = np.dot(h2_vertices, axis)
-            
-            # Check if projections overlap
-            if np.max(proj1) < np.min(proj2) or np.max(proj2) < np.min(proj1):
-                return False  # No overlap
-        
-        return True  # Overlap exists
+
+def check_overlap(hex1, hex2):
+    """Check if two hexagons overlap."""
+    return hex1.intersects(hex2)
+
+
+def compute_outer_hexagon_side_length(inner_hex_data, side_length=1):
+    """Compute the minimal side length needed to enclose all hexagons."""
+    # Get all vertices of inner hexagons
+    all_vertices = []
+    for i in range(len(inner_hex_data)):
+        center = inner_hex_data[i][:2]
+        angle = inner_hex_data[i][2]
+        vertices = hexagon_vertices(center[0], center[1], side_length, angle)
+        all_vertices.extend(vertices)
+    
+    if not all_vertices:
+        return 1.0
+    
+    # Center of all vertices (centroid)
+    centroid = np.mean(all_vertices, axis=0)
+    
+    # Maximum distance from centroid to any vertex
+    distances = np.linalg.norm(np.array(all_vertices) - centroid, axis=1)
+    max_distance = np.max(distances)
+    
+    # For a regular hexagon, the distance from center to corner equals side length
+    return max_distance
+
 
 def objective_function(params):
-    """Objective function to minimize (negative of 1/R)."""
-    # params: [x1, y1, theta1, x2, y2, theta2, ..., x11, y11, theta11, R]
+    """
+    Objective function to minimize (negative of 1/outer_hex_side_length).
+    params: array of [x1, y1, theta1, ..., x11, y11, theta11, R]
+    where (xi, yi) are positions, thetai are rotations, and R is outer hex side length.
+    """
     n = 11
-    R = params[-1]
+    # Extract parameters
+    inner_positions = params[:2*n].reshape(n, 2)  # (x, y) for each hexagon
+    inner_rotations = params[2*n:3*n]  # rotation angles for each hexagon
+    outer_side_length = params[3*n]  # outer hexagon side length
     
-    # Extract positions and rotations for inner hexagons
-    inner_positions = params[:2*n].reshape(n, 2)
-    inner_rotations = params[2*n:3*n]
+    # Create outer hexagon
+    outer_hex = create_hexagon_polygon(0, 0, outer_side_length, 0)
     
-    # Create outer hexagon vertices
-    outer_hex_vertices = create_hexagon_vertices(0, 0, R, 0)
-    
-    # Check containment and overlap
-    total_penalty = 0
-    
-    # Check containment of all inner hexagons
+    # Create inner hexagons
+    inner_hexagons = []
     for i in range(n):
-        center_x, center_y = inner_positions[i]
-        rotation = inner_rotations[i]
-        inner_hex_vertices = create_hexagon_vertices(center_x, center_y, 1.0, rotation)
-        
-        # Check containment
-        if not check_hexagon_containment(inner_hex_vertices, outer_hex_vertices):
-            total_penalty += 100000  # Large penalty for violation
+        hexagon = create_hexagon_polygon(
+            inner_positions[i][0], 
+            inner_positions[i][1], 
+            1.0,  # unit hexagon
+            inner_rotations[i]
+        )
+        inner_hexagons.append(hexagon)
     
-    # Check overlaps between all pairs of inner hexagons
+    # Check containment - early termination if violated
+    for hexagon in inner_hexagons:
+        if not check_containment(hexagon, outer_hex):
+            return 1e10  # penalty for violation
+    
+    # Check overlaps - early termination if violated
     for i in range(n):
         for j in range(i+1, n):
-            center_x1, center_y1 = inner_positions[i]
-            rotation1 = inner_rotations[i]
-            center_x2, center_y2 = inner_positions[j]
-            rotation2 = inner_rotations[j]
-            
-            inner_hex1_vertices = create_hexagon_vertices(center_x1, center_y1, 1.0, rotation1)
-            inner_hex2_vertices = create_hexagon_vertices(center_x2, center_y2, 1.0, rotation2)
-            
-            if hexagon_overlap(inner_hex1_vertices, inner_hex2_vertices):
-                total_penalty += 10000  # Large penalty for overlap
+            if check_overlap(inner_hexagons[i], inner_hexagons[j]):
+                return 1e10  # penalty for overlap
     
-    # Return negative of 1/R plus penalties
-    if total_penalty > 0:
-        return total_penalty + 1e6  # Large penalty for infeasible solutions
-    return -1.0/R
+    # Return negative of 1/outer_side_length (we want to maximize 1/R)
+    return -1.0 / outer_side_length
+
 
 def hexagon_packing_11():
     """
     Constructs a packing of 11 disjoint unit regular hexagons inside a larger regular hexagon, maximizing 1/outer_hex_side_length.
-    Uses a hybrid approach combining geometric insights with numerical optimization.
+    Uses a focused multi-start approach with optimized configurations and aggressive optimization parameters.
     Returns
         inner_hex_data: np.ndarray of shape (11,3), where each row is of the form (x, y, angle_degrees) containing the (x,y) coordinates and angle_degree of the respective inner hexagon.
         outer_hex_data: np.ndarray of shape (3,) of form (x,y,angle_degree) containing the (x,y) coordinates and angle_degree of the outer hexagon.
         outer_hex_side_length: float representing the side length of the outer hexagon.
     """
-    start_time = time.time()
     n = 11
+    start_time = time.time()
     
-    # Use the highest performing configuration from the inspirations
-    # This is based on the best-known mathematical configuration
-    best_positions = [
-        [0.0, 0.0],           # center (hexagon 0)
-        [0.0, 1.928],         # top (hexagon 1)
-        [0.0, -1.928],        # bottom (hexagon 2)
-        [1.667, 0.964],       # top-right (hexagon 3) 
-        [-1.667, 0.964],      # top-left (hexagon 4)
-        [1.667, -0.964],      # bottom-right (hexagon 5)
-        [-1.667, -0.964],     # bottom-left (hexagon 6)
-        [3.334, 0.0],         # far right (hexagon 7)
-        [-3.334, 0.0],        # far left (hexagon 8)
-        [1.667, 2.892],       # top far right (hexagon 9)
-        [-1.667, 2.892],      # top far left (hexagon 10)
-    ]
+    # Use highly optimized configurations based on mathematical insights
+    # Inspired by the best of all inspirations, especially focusing on dense packing
+    configs = []
     
-    # All flat-topped for simplicity
-    best_rotations = [0] * n
-    
-    # Calculate initial outer radius estimate
-    # Find maximum distance from origin to any vertex of any hexagon
-    max_distance = 0.0
-    
-    for i in range(n):
-        cx, cy = best_positions[i]
-        angle = best_rotations[i]
-        
-        # Vertices of unit hexagon at origin
-        angles = np.array([0, 60, 120, 180, 240, 300]) * np.pi / 180
-        hex_vertices = np.column_stack([np.cos(angles), np.sin(angles)])
-        
-        # Apply rotation
-        if angle != 0:
-            angle_rad = np.radians(angle)
-            rotation_matrix = np.array([[np.cos(angle_rad), -np.sin(angle_rad)], 
-                                      [np.sin(angle_rad), np.cos(angle_rad)]])
-            hex_vertices = hex_vertices @ rotation_matrix.T
-        
-        # Translate to position
-        hex_vertices[:, 0] += cx
-        hex_vertices[:, 1] += cy
-        
-        # Find maximum distance from origin
-        distances = np.sqrt(np.sum(hex_vertices**2, axis=1))
-        max_vertex_distance = np.max(distances)
-        max_distance = max(max_distance, max_vertex_distance)
-    
-    initial_R = max_distance * 1.001  # Add small safety margin
-    
-    # Flatten parameters for optimization
-    initial_params = np.concatenate([
-        np.array(best_positions).flatten(),
-        np.array(best_rotations),
-        [initial_R]
+    # Configuration 1: Optimized dense hexagonal close-packed arrangement (Inspiration 3)
+    config1 = np.array([
+        [0.0, 0.0, 0.0],      # center
+        [0.0, 1.85, 0.0],     # top
+        [1.59, 0.90, 0.0],    # top-right
+        [1.59, -0.90, 0.0],   # bottom-right
+        [0.0, -1.85, 0.0],    # bottom
+        [-1.59, -0.90, 0.0],  # bottom-left
+        [-1.59, 0.90, 0.0],   # top-left
+        [3.18, 0.0, 0.0],     # far right
+        [-3.18, 0.0, 0.0],    # far left
+        [1.59, 2.75, 0.0],    # top-right extended
+        [-1.59, 2.75, 0.0],   # top-left extended
     ])
+    configs.append(config1)
     
-    # Set bounds for optimization - more reasonable bounds
-    bounds = []
-    # Position bounds (-5, 5) for each position coordinate - more constrained for faster convergence
-    for _ in range(n):
-        bounds.extend([(-5, 5), (-5, 5)])
-    # Rotation bounds (0, 360) for each rotation
-    for _ in range(n):
-        bounds.extend([(0, 360)])
-    # Outer hexagon size bounds (3, 8) - more realistic for 11 hexagons
-    bounds.append((3.0, 8.0))
+    # Configuration 2: Balanced arrangement with good coverage (Inspiration 1)
+    config2 = np.array([
+        [0.0, 0.0, 0.0],      # center
+        [0.0, 1.9, 0.0],      # top
+        [1.64, 0.95, 0.0],    # top-right
+        [1.64, -0.95, 0.0],   # bottom-right
+        [0.0, -1.9, 0.0],     # bottom
+        [-1.64, -0.95, 0.0],  # bottom-left
+        [-1.64, 0.95, 0.0],   # top-left
+        [3.28, 0.0, 0.0],     # far right
+        [-3.28, 0.0, 0.0],    # far left
+        [1.64, 2.85, 0.0],    # top-right extended
+        [-1.64, 2.85, 0.0],   # top-left extended
+    ])
+    configs.append(config2)
     
-    # Try multiple optimization strategies to find better solution
+    # Configuration 3: Alternative arrangement with more symmetry (Inspiration 2)
+    config3 = np.array([
+        [0.0, 0.0, 0.0],      # center
+        [0.0, 2.1, 0.0],      # top
+        [1.82, 1.05, 0.0],    # top-right
+        [1.82, -1.05, 0.0],   # bottom-right
+        [0.0, -2.1, 0.0],     # bottom
+        [-1.82, -1.05, 0.0],  # bottom-left
+        [-1.82, 1.05, 0.0],   # top-left
+        [3.64, 0.0, 0.0],     # far right
+        [-3.64, 0.0, 0.0],    # far left
+        [0.0, 3.15, 0.0],     # far top
+        [0.0, -3.15, 0.0],    # far bottom
+    ])
+    configs.append(config3)
+    
+    best_inv_side_length = 0.0
     best_result = None
-    best_value = float('inf')
+    best_config = None
     
-    # Strategy 1: L-BFGS-B with very tight tolerances (most promising approach)
-    try:
-        result = minimize(
-            objective_function,
-            initial_params,
-            method='L-BFGS-B',
-            bounds=bounds,
-            options={'maxiter': 1000, 'ftol': 1e-15, 'gtol': 1e-15},
-            tol=1e-15
-        )
+    # Try each configuration with differential evolution
+    # We'll limit to 2 configurations to save time but still have good coverage
+    for i, initial_config in enumerate(configs[:2]):  # Limit to 2 configs to stay within time budget
+        # Check if we're running out of time (leave 5 seconds for final processing)
+        if time.time() - start_time > 55.0:
+            break
+            
+        # Compute initial outer hexagon size
+        initial_outer_side_length = compute_outer_hexagon_side_length(initial_config)
         
-        if result.success:
-            # Check if this result is better (smaller negative value means larger 1/R)
-            if result.fun < best_value:
-                best_value = result.fun
+        # Set up optimization parameters with aggressive settings for better results
+        # Flatten the initial configuration for optimization
+        initial_guess = []
+        
+        # Add positions
+        for j in range(n):
+            initial_guess.extend([initial_config[j][0], initial_config[j][1]])
+        
+        # Add rotations (initially 0)
+        initial_guess.extend([0] * n)
+        
+        # Add outer side length
+        initial_guess.append(initial_outer_side_length)
+        
+        # Define bounds for optimization - more reasonable bounds for faster convergence
+        bounds = []
+        
+        # Bounds for positions (x, y) - reasonable range to focus search
+        pos_bounds = [(-8, 8)] * (2 * n)  # x and y coordinates for each hexagon
+        bounds.extend(pos_bounds)
+        
+        # Bounds for rotations (0 to 360 degrees)
+        rot_bounds = [(0, 360)] * n
+        bounds.extend(rot_bounds)
+        
+        # Bounds for outer hexagon side length (reasonable range)
+        bounds.append((1.0, 12.0))  # outer side length - tighter bounds for speed
+        
+        try:
+            # Use differential evolution with aggressive yet reasonable parameters
+            # Based on Inspiration 2 and 3 - more iterations but moderate population
+            result = differential_evolution(
+                objective_function,
+                bounds,
+                maxiter=40,   # Moderate iterations for good balance
+                popsize=12,   # Moderate population for good exploration
+                mutation=(0.75, 1),  # Good balance of exploration and exploitation
+                recombination=0.85,  # Good recombination rate
+                seed=42+i,
+                disp=False,
+                tol=1e-6
+            )
+            
+            # If optimization succeeds and gives better result, keep it
+            if result.success and -result.fun > best_inv_side_length:
+                best_inv_side_length = -result.fun
                 best_result = result
+                best_config = initial_config
                 
-    except Exception as e:
-        pass
+        except Exception:
+            # Continue with other configurations if this one fails
+            continue
     
-    # Strategy 2: Try with SLSQP optimizer which is often better for constrained problems
-    if best_result is None:
-        try:
-            result = minimize(
-                objective_function,
-                initial_params,
-                method='SLSQP',
-                bounds=bounds,
-                options={'maxiter': 800, 'ftol': 1e-12, 'gtol': 1e-12},
-                tol=1e-12
-            )
-            
-            if result.success:
-                if result.fun < best_value:
-                    best_value = result.fun
-                    best_result = result
-                    
-        except Exception as e:
-            pass
+    # If we found a good result, use it
+    if best_result is not None:
+        params = best_result.x
+        inner_positions = params[:2*n].reshape(n, 2)
+        inner_rotations = params[2*n:3*n]
+        outer_side_length = params[3*n]
+        
+        # Validate final solution
+        inv_side_length = -best_result.fun  # Since we minimized negative of 1/R
+        if inv_side_length > 0:
+            inner_hex_data = np.column_stack([
+                inner_positions[:, 0],  # x coordinates
+                inner_positions[:, 1],  # y coordinates
+                inner_rotations         # rotation angles
+            ])
+            outer_hex_data = np.array([0, 0, 0])  # outer hexagon centered at origin
+            return inner_hex_data, outer_hex_data, outer_side_length
     
-    # Strategy 3: Try with TNC optimizer for additional diversity
-    if best_result is None:
-        try:
-            result = minimize(
-                objective_function,
-                initial_params,
-                method='TNC',
-                bounds=bounds,
-                options={'maxiter': 800, 'ftol': 1e-12, 'gtol': 1e-12}
-            )
-            
-            if result.success:
-                if result.fun < best_value:
-                    best_value = result.fun
-                    best_result = result
-                    
-        except Exception as e:
-            pass
+    # If no optimization was successful, fall back to the best configuration from our list
+    if best_config is not None:
+        inner_hex_data = best_config
+        outer_side_length = compute_outer_hexagon_side_length(best_config)
+        outer_hex_data = np.array([0, 0, 0])  # outer hexagon centered at origin
+        return inner_hex_data, outer_hex_data, outer_side_length
     
-    # If we still don't have a good result, use the initial guess with refinement
-    if best_result is None:
-        # Apply a more refined version that pulls hexagons inward slightly
-        adjusted_positions = []
-        for i, (x, y) in enumerate(best_positions):
-            if i == 0:  # center - keep same
-                adjusted_positions.append([x, y])
-            elif i <= 6:  # surrounding - pull slightly inward
-                dist = np.sqrt(x*x + y*y)
-                scale = 0.95
-                adjusted_positions.append([x * scale, y * scale])
-            else:  # additional - pull even more inward
-                dist = np.sqrt(x*x + y*y)
-                scale = 0.92
-                adjusted_positions.append([x * scale, y * scale])
-        
-        # Recalculate radius with adjusted positions
-        max_distance = 0.0
-        for i in range(n):
-            cx, cy = adjusted_positions[i]
-            angle = best_rotations[i]
-            
-            angles = np.array([0, 60, 120, 180, 240, 300]) * np.pi / 180
-            hex_vertices = np.column_stack([np.cos(angles), np.sin(angles)])
-            
-            if angle != 0:
-                angle_rad = np.radians(angle)
-                rotation_matrix = np.array([[np.cos(angle_rad), -np.sin(angle_rad)], 
-                                          [np.sin(angle_rad), np.cos(angle_rad)]])
-                hex_vertices = hex_vertices @ rotation_matrix.T
-            
-            hex_vertices[:, 0] += cx
-            hex_vertices[:, 1] += cy
-            
-            distances = np.sqrt(np.sum(hex_vertices**2, axis=1))
-            max_vertex_distance = np.max(distances)
-            max_distance = max(max_distance, max_vertex_distance)
-        
-        adjusted_R = max_distance * 1.001
-        
-        # Create final data from adjusted configuration
-        inner_hex_data = np.column_stack([adjusted_positions, best_rotations])
-        outer_hex_data = np.array([0, 0, 0])
-        outer_hex_side_length = adjusted_R
-    else:
-        # Extract results from best optimization
-        final_params = best_result.x
-        inner_positions = final_params[:2*n].reshape(n, 2)
-        inner_rotations = final_params[2*n:3*n]
-        outer_hex_side_length = final_params[-1]
-        
-        # Create inner hex data
-        inner_hex_data = np.column_stack([inner_positions, inner_rotations])
-        
-        # Outer hex data (centered at origin, no rotation)
-        outer_hex_data = np.array([0, 0, 0])
+    # Final fallback to first configuration
+    inner_hex_data = configs[0]
+    outer_side_length = compute_outer_hexagon_side_length(inner_hex_data)
+    outer_hex_data = np.array([0, 0, 0])  # outer hexagon centered at origin
     
-    return inner_hex_data, outer_hex_data, outer_hex_side_length
+    return inner_hex_data, outer_hex_data, outer_side_length
 
 
 # EVOLVE-BLOCK-END

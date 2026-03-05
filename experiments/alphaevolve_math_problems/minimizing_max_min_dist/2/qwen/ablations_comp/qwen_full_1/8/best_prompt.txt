@@ -1,0 +1,55 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs. Explore diverse algorithmic strategies including but not limited to: mathematically principled constructions (spherical codes, regular polygonal symmetries, lattice-based arrangements), combinatorial optimization approaches, topological methods, and hybrid techniques that combine discrete geometric insights with continuous optimization.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy considerations: Consider multiple distinct approaches including:
+  * Pure mathematical constructions (e.g., vertices of regular polygons, specific lattice configurations, or algebraic number fields)
+  * Combinatorial optimization techniques (e.g., integer programming formulations, constraint satisfaction methods)
+  * Topological or graph-theoretic approaches (e.g., constructing point arrangements based on graph embeddings or topological constraints)
+  * Alternative optimization paradigms (e.g., simulated annealing, particle swarm optimization, or genetic algorithms with specialized crossover operators)
+  * Hybrid methods that leverage both discrete mathematical structures and continuous optimization
+  * Novel geometric insights such as considering the problem in different coordinate systems or using transformation groups
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Consider multiple approaches including but not limited to: 
+  * Mathematically principled geometric constructions (vertices of regular polygons, specific lattice configurations, spherical codes, or algebraic constructions)
+  * Combinatorial optimization methods (integer programming, constraint satisfaction, or discrete search techniques)
+  * Topological approaches (graph embeddings, topological data analysis, or manifold-based methods)
+  * Alternative optimization frameworks (simulated annealing, particle swarm optimization, or memetic algorithms)
+  * Novel hybrid techniques that might not follow conventional optimization patterns
+  * Approaches that exploit special mathematical properties or symmetries of the problem
+- **Mathematical Rigor**: Where possible, leverage known bounds and theoretical results about optimal point configurations
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

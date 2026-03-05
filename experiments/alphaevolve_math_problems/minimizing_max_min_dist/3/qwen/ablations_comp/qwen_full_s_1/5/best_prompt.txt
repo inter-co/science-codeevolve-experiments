@@ -1,0 +1,51 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems. Your task is to develop a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Analytical Geometric Approaches**: Explore exact mathematical constructions using spherical codes, tight frame theory, or optimal point distributions on spheres. Consider leveraging known solutions from the Tammes problem or Thomson problem for 14 points
+2. **Combinatorial Optimization**: Consider integer programming formulations or branch-and-bound methods for discrete point placement problems. Investigate exhaustive search over discrete lattice points or use evolutionary algorithms like genetic algorithms or particle swarm optimization
+3. **Topological Methods**: Utilize concepts from algebraic topology such as persistent homology or topological data analysis to understand point distribution properties. Explore how topological features change with different point configurations
+4. **Machine Learning Geometry**: Apply neural network architectures designed for geometric optimization or learnable point placement functions. Consider using reinforcement learning to discover point configurations through policy gradients
+5. **Algebraic Number Theory**: Investigate configurations based on algebraic integers or roots of unity in complex space. Explore the use of cyclotomic fields or Galois theory to construct symmetric point arrangements
+6. **Variational Principles**: Formulate as variational problems where the energy function represents point repulsion, using calculus of variations. Consider non-smooth optimization techniques or evolutionary approaches that don't rely on gradient information
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Advanced Geometric**: `spherical-geometry`, `pygeodesy`, `scipy.spatial` (distance matrices, Voronoi diagrams)
+- **Algebraic Methods**: `sympy` for symbolic computation, `galois` for finite field arithmetic
+- **Topological Data Analysis**: `gudhi`, `ripser`, `kepler-mapper` for topological approaches
+- **Neural Geometry**: `torch`, `tensorflow` for learnable geometric transformations
+- **Specialized Optimization**: `cvxpy` for convex optimization, `nlopt` for nonlinear optimization
+- **Performance**: `numba` (JIT compilation), `joblib`, `multiprocessing` for parallelization
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components; consider deterministic alternatives where possible
+- **Robustness**: Handle edge cases including degenerate configurations, boundary conditions, and numerical precision issues
+- **Numerical Stability**: Implement stable distance computations, especially for very small distances; consider using Kahan summation
+- **Mathematical Rigor**: When using analytical approaches, ensure theoretical guarantees and convergence proofs
+- **Alternative Representations**: Consider representing points in different coordinate systems (spherical, cylindrical) for computational advantage
+- **Algorithmic Diversity**: Prefer approaches that demonstrate different computational paradigms rather than just optimizing existing methods
+- **Symmetry Exploitation**: Leverage known symmetries in optimal point distributions to reduce search space complexity
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

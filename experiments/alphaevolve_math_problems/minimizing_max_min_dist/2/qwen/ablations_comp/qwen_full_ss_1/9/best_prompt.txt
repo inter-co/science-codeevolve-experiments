@@ -1,0 +1,55 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider multiple mathematical frameworks: 
+- Geometric optimization using Lagrangian methods or variational principles
+- Spectral graph theory approaches for point distribution
+- Energy minimization models (e.g., Thomson problem analogues)
+- Discrete differential geometry techniques
+- Algebraic geometry methods for optimal point configurations
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Alternative approaches to consider:
+  * Use energy-based models where points repel each other according to inverse distance potentials
+  * Apply spherical code or equiangular tight frame concepts adapted to planar geometry  
+  * Implement simulated annealing with custom neighborhood structures
+  * Explore gradient-based optimization with careful handling of non-smooth objective functions
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Optimization**: `scipy.optimize`, `scipy.spatial.distance`, `cvxpy` (convex optimization), `dlib` (non-smooth optimization)
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, Delaunay triangulation, Voronoi diagrams)
+  * `shapely` (geometric operations), `matplotlib` (visualization)
+- **Advanced techniques**: 
+  * `gurobipy` or `cvxpy` for convex relaxations of hard combinatorial problems
+  * `sklearn.metrics.pairwise` for efficient distance computations
+  * `numba` (JIT compilation), `joblib` for parallel execution
+- **Specialized methods**: 
+  * `pyomo` for mathematical programming formulations
+  * `nlopt` for global optimization
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

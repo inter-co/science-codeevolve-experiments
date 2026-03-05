@@ -1,0 +1,55 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+DIVERSITY GUIDANCE:
+- Avoid trivial or degenerate solutions (e.g., all zeros).
+- Seek fundamentally different algorithmic pathways compared to simple grid layouts, greedy iterative packing, or basic random sampling.
+- You are encouraged to explore and implement advanced or less-standard strategies, such as:
+  * Continuous optimization (e.g., nonlinear programming, interior-point methods, or sequential quadratic programming)
+  * Physics-inspired simulation (e.g., force-directed relaxation, soft-body models, or energy minimization with custom potentials)
+  * Voronoi-based methods, Lloyd's relaxation, or centroidal tessellation approaches
+  * Constraint programming or combinatorial search, potentially leveraging custom pruning heuristics
+  * Hybrid metaheuristics (e.g., combining simulated annealing, local search, and evolutionary algorithms)
+  * Any novel strategy inspired by mathematical literature on dense packings or circle arrangements
+- Optionally, consider symmetry-breaking, exploiting boundary effects, or initializing with known dense arrangements (hexagonal, etc.) before refinement.
+- Clearly describe the high-level idea of your approach in comments.
+- If using stochastic methods, ensure reproducibility with fixed seeds.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

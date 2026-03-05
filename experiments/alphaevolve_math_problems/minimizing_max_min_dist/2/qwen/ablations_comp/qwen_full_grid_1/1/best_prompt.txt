@@ -1,0 +1,48 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Focus on either mathematically elegant geometric constructions OR efficient numerical optimization approaches.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Consider using known optimal configurations (e.g., regular polygons, sphere packing arrangements) as starting points
+- Explore both deterministic geometric constructions and efficient numerical optimization methods
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Numerical optimization**: `scipy.optimize` (particularly L-BFGS-B, Nelder-Mead, or differential evolution)
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, Delaunay triangulation)
+  * `scipy.spatial.distance` (efficient distance computations)
+- **Mathematical optimization**: 
+  * `scipy.optimize.minimize` with appropriate methods
+  * `scipy.optimize.differential_evolution` for global optimization
+- **Performance**: `numba` (JIT compilation), `joblib` (parallel processing)
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Alternative Approaches**: Consider using direct numerical optimization (gradient-based or derivative-free), geometric constructions, or hybrid methods
+- **Geometric Insight**: Leverage principles from discrete geometry, sphere packing, and optimal point distributions
+- **Robustness**: Handle edge cases and ensure convergence to local optima
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy Diversity**: Implement at least one non-random approach (geometric construction OR optimization algorithm)
+
+# PROMPT-BLOCK-END
+    

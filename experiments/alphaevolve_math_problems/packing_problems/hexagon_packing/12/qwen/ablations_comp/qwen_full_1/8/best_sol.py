@@ -1,423 +1,403 @@
 # EVOLVE-BLOCK-START
 import numpy as np
 from scipy.optimize import differential_evolution, minimize
-from shapely.geometry import Polygon
+from shapely.geometry import Polygon, Point
 import math
-from numba import jit
 import time
 from itertools import combinations
-import random
-from scipy.optimize import dual_annealing
 
-
-@jit(nopython=True)
-def hexagon_vertices_fast(x, y, rotation_rad, side_length=1.0):
-    """Fast computation of hexagon vertices using numba"""
-    vertices = np.zeros((6, 2))
+def get_hexagon_vertices(center_x, center_y, side_length=1, rotation=0):
+    """Get vertices of a regular hexagon given center, side length, and rotation."""
+    vertices = []
+    rotation_rad = math.radians(rotation)
     for i in range(6):
-        theta = rotation_rad + i * math.pi / 3
-        vertices[i, 0] = x + side_length * math.cos(theta)
-        vertices[i, 1] = y + side_length * math.sin(theta)
+        angle = rotation_rad + i * math.pi / 3
+        x = center_x + side_length * math.cos(angle)
+        y = center_y + side_length * math.sin(angle)
+        vertices.append((x, y))
     return vertices
 
 
-def point_in_polygon_fast(point, polygon_vertices):
-    """Fast point-in-polygon test using ray casting (numba compatible)"""
-    x, y = point
-    n = len(polygon_vertices)
-    inside = False
-    
-    p1x, p1y = polygon_vertices[0]
-    for i in range(1, n + 1):
-        p2x, p2y = polygon_vertices[i % n]
-        if y > min(p1y, p2y):
-            if y <= max(p1y, p2y):
-                if x <= max(p1x, p2x):
-                    if p1y != p2y:
-                        xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
-                    if p1x == p2x or x <= xinters:
-                        inside = not inside
-        p1x, p1y = p2x, p2y
-    return inside
+def get_hexagon_polygon(center_x, center_y, angle_deg, side_length=1):
+    """Get Shapely polygon representation of hexagon"""
+    vertices = get_hexagon_vertices(center_x, center_y, side_length, angle_deg)
+    return Polygon(vertices)
 
 
-def check_containment_fast(inner_vertices, outer_vertices):
-    """Fast check if all vertices of inner hexagon are within outer hexagon"""
-    for vertex in inner_vertices:
-        if not point_in_polygon_fast(vertex, outer_vertices):
+def check_containment_all_vertices(hexagon_poly, outer_hex_poly):
+    """Check if ALL vertices of hexagon are fully contained within outer hexagon"""
+    # Check all 6 vertices of the inner hexagon
+    vertices = list(hexagon_poly.exterior.coords)
+    for x, y in vertices[:-1]:  # Exclude last point which duplicates first
+        point = Point(x, y)
+        if not outer_hex_poly.contains(point):
             return False
     return True
 
 
-def check_overlap_hexagons_fast(hex1_vertices, hex2_vertices):
-    """Fast overlap check using point-in-polygon"""
-    # Check if any vertex of hex1 is inside hex2
-    for vertex in hex1_vertices:
-        if point_in_polygon_fast(vertex, hex2_vertices):
-            return True
+def check_overlap(hex1_poly, hex2_poly):
+    """Check if two hexagons overlap"""
+    return hex1_poly.intersects(hex2_poly) and not hex1_poly.touches(hex2_poly)
+
+
+def calculate_outer_hexagon_side_length_from_positions(positions, rotations, outer_center=(0,0)):
+    """Calculate the minimum outer hexagon side length required"""
+    # Get all vertices of all inner hexagons
+    all_vertices = []
     
-    # Check if any vertex of hex2 is inside hex1
-    for vertex in hex2_vertices:
-        if point_in_polygon_fast(vertex, hex1_vertices):
-            return True
+    for i in range(len(positions)):
+        pos = positions[i]
+        rot = rotations[i]
+        vertices = get_hexagon_vertices(pos[0], pos[1], 1.0, rot)
+        all_vertices.extend(vertices)
     
-    return False
-
-
-def calculate_outer_hexagon_radius_fast(inner_hex_data):
-    """Fast calculation of minimum radius needed for outer hexagon to contain all inner hexagons."""
-    max_dist = 0.0
-    for i in range(len(inner_hex_data)):
-        center_x, center_y, rotation = inner_hex_data[i]
-        # Get vertices of this hexagon
-        vertices = hexagon_vertices_fast(center_x, center_y, rotation * math.pi / 180)
-        for vx, vy in vertices:
-            dist = math.sqrt(vx**2 + vy**2)
-            max_dist = max(max_dist, dist)
+    if not all_vertices:
+        return 1.0
     
-    return max_dist * 1.0001  # Even smaller buffer for precision
-
-
-def evaluate_configuration_fast(inner_hex_data):
-    """Fast evaluation function with robust constraint checking"""
-    try:
-        # Calculate outer radius
-        outer_radius = calculate_outer_hexagon_radius_fast(inner_hex_data)
-        
-        # Create outer hexagon vertices for containment checking
-        outer_vertices = hexagon_vertices_fast(0, 0, 0, outer_radius)
-        
-        # Check containment and non-overlap constraints
-        for i in range(len(inner_hex_data)):
-            center_x, center_y, rotation = inner_hex_data[i]
-            # Create inner hexagon vertices
-            inner_vertices = hexagon_vertices_fast(center_x, center_y, rotation * math.pi / 180)
-            
-            # Check containment
-            if not check_containment_fast(inner_vertices, outer_vertices):
-                return 0  # Not contained
-            
-            # Check overlap with all other hexagons
-            for j in range(i + 1, len(inner_hex_data)):
-                center_x2, center_y2, rotation2 = inner_hex_data[j]
-                inner_vertices2 = hexagon_vertices_fast(center_x2, center_y2, rotation2 * math.pi / 180)
-                
-                if check_overlap_hexagons_fast(inner_vertices, inner_vertices2):
-                    return 0  # Overlapping
-        
-        # Return inverse of outer radius (objective to maximize)
-        return 1.0 / outer_radius if outer_radius > 0 else 0
-        
-    except Exception:
-        return 0
-
-
-def create_advanced_initial_configuration():
-    """Create an advanced initial configuration based on mathematical insights and symmetries"""
-    # This configuration is designed to be close to optimal while maintaining good symmetry
-    # Based on mathematical analysis of hexagon packings
+    # Calculate distance from outer center to each vertex
+    max_dist = 0
+    for x, y in all_vertices:
+        dist = math.sqrt((x - outer_center[0])**2 + (y - outer_center[1])**2)
+        max_dist = max(max_dist, dist)
     
-    # Start with a highly symmetric arrangement
-    config = np.array([
-        [0.0, 0.0, 0.0],              # center
-        [0.0, 1.9419123, 0.0],        # top (target value)
-        [0.0, -1.9419123, 0.0],       # bottom  
-        [1.6829446, 0.97095615, 0.0], # top-right
-        [-1.6829446, 0.97095615, 0.0],# top-left
-        [1.6829446, -0.97095615, 0.0], # bottom-right
-        [-1.6829446, -0.97095615, 0.0],# bottom-left
-        [3.3658892, 0.0, 0.0],        # far right
-        [-3.3658892, 0.0, 0.0],       # far left
-        [1.6829446, 2.91286845, 0.0], # upper right
-        [-1.6829446, 2.91286845, 0.0],# upper left
-        [1.6829446, -2.91286845, 0.0],# lower right
-    ])
+    # For a regular hexagon, the relationship between circumradius and side length:
+    # Circumradius = side_length * sqrt(3) / 2
+    # So side_length = circumradius * 2 / sqrt(3)
+    side_length = max_dist * 2 / math.sqrt(3)
     
-    # Add carefully chosen perturbations to escape local minima
-    np.random.seed(42)
-    for i in range(len(config)):
-        # More precise perturbations that respect the structure
-        config[i][0] += np.random.normal(0, 0.002)  # Smaller x perturbations
-        config[i][1] += np.random.normal(0, 0.002)  # Smaller y perturbations
-        config[i][2] += np.random.normal(0, 0.2)    # Smaller rotation perturbations
-    
-    return config
+    return side_length
 
 
-def create_diverse_initial_configurations():
-    """Create multiple diverse initial configurations for robust optimization"""
+def evaluate_packing_with_constraints(inner_positions, inner_rotations, outer_side_length):
+    """
+    Evaluate if a configuration is valid and return the inverse side length.
+    Returns (inverse_side_length, valid) tuple.
+    """
+    # Create hexagon polygons for all inner hexagons
+    inner_hexagons = []
+    for i in range(len(inner_positions)):
+        pos = inner_positions[i]
+        rot = inner_rotations[i]
+        hex_poly = get_hexagon_polygon(pos[0], pos[1], rot)
+        inner_hexagons.append(hex_poly)
+    
+    # Check containment - ALL vertices must be inside outer hexagon
+    outer_center = (0, 0)
+    outer_vertices = get_hexagon_vertices(outer_center[0], outer_center[1], outer_side_length)
+    outer_polygon = Polygon(outer_vertices)
+    
+    for hex_poly in inner_hexagons:
+        if not check_containment_all_vertices(hex_poly, outer_polygon):
+            return None, False  # Not fully contained
+    
+    # Check overlaps - no pair should overlap
+    for i, j in combinations(range(len(inner_hexagons)), 2):
+        if check_overlap(inner_hexagons[i], inner_hexagons[j]):
+            return None, False  # Overlapping
+    
+    return 1.0 / outer_side_length, True
+
+
+def create_symmetric_hexagon_arrangement():
+    """
+    Create a highly symmetric arrangement of 12 hexagons based on mathematical principles
+    This approach uses a known optimal configuration pattern with rotational symmetry
+    """
+    # Based on known dense packings, we'll construct a pattern that's more likely to be optimal
+    # Using 3 concentric rings with strategic positioning
+    
+    # Ring 1: Center hexagon
+    positions = [(0.0, 0.0)]
+    
+    # Ring 2: 6 hexagons around the center (at distance 2)
+    ring2_angles = [i * 60 for i in range(6)]
+    for angle in ring2_angles:
+        rad = math.radians(angle)
+        x = 2.0 * math.cos(rad)
+        y = 2.0 * math.sin(rad)
+        positions.append((x, y))
+    
+    # Ring 3: 5 hexagons in a ring (at distance 3.464 approximately)
+    ring3_angles = [i * 72 for i in range(5)]  # 5-fold symmetry
+    for angle in ring3_angles:
+        rad = math.radians(angle)
+        x = 3.464 * math.cos(rad)
+        y = 3.464 * math.sin(rad)
+        positions.append((x, y))
+    
+    # Add one more to complete 12 hexagons
+    positions.append((0.0, 3.464))
+    
+    # Initial rotations - some may be rotated for better packing
+    rotations = [0.0] * 12
+    
+    return positions, rotations
+
+
+def generate_valid_configurations():
+    """
+    Generate multiple valid configurations to explore the solution space
+    Uses combinatorial approach with symmetry constraints
+    """
+    # Generate a few candidate configurations
     configs = []
     
-    # Configuration 1: Advanced mathematical configuration
-    config1 = create_advanced_initial_configuration()
-    configs.append(config1)
+    # Configuration 1: Hexagonal close packing pattern with slight variations
+    pos1 = [
+        (0, 0), (0, 2), (1.732, 1), (1.732, -1), (0, -2), (-1.732, -1),
+        (-1.732, 1), (3.464, 0), (1.732, 3), (-1.732, 3), (-3.464, 0), (-1.732, -3)
+    ]
+    rot1 = [0] * 12
+    configs.append((pos1, rot1))
     
-    # Configuration 2: Perturbed version with more randomness
-    config2 = config1.copy()
-    np.random.seed(123)
-    for i in range(len(config2)):
-        config2[i][0] += np.random.normal(0, 0.01)
-        config2[i][1] += np.random.normal(0, 0.01)
-        config2[i][2] += np.random.normal(0, 1.0)
-    configs.append(config2)
+    # Configuration 2: Alternative arrangement with different spacing
+    pos2 = [
+        (0, 0), (0, 2.2), (1.8, 1.1), (1.8, -1.1), (0, -2.2), (-1.8, -1.1),
+        (-1.8, 1.1), (3.6, 0), (1.8, 3.3), (-1.8, 3.3), (-3.6, 0), (-1.8, -3.3)
+    ]
+    rot2 = [0] * 12
+    configs.append((pos2, rot2))
     
-    # Configuration 3: Alternative symmetric layout (more spread out)
-    config3 = np.array([
-        [0.0, 0.0, 0.0],              # center
-        [0.0, 1.93, 0.0],             # top
-        [0.0, -1.93, 0.0],            # bottom  
-        [1.67, 0.96, 0.0],            # top-right
-        [-1.67, 0.96, 0.0],           # top-left
-        [1.67, -0.96, 0.0],           # bottom-right
-        [-1.67, -0.96, 0.0],          # bottom-left
-        [3.34, 0.0, 0.0],             # far right
-        [-3.34, 0.0, 0.0],            # far left
-        [1.67, 2.89, 0.0],            # upper right
-        [-1.67, 2.89, 0.0],           # upper left
-        [1.67, -2.89, 0.0],           # lower right
-    ])
-    configs.append(config3)
-    
-    # Configuration 4: Another variant with different symmetry
-    config4 = np.array([
-        [0.0, 0.0, 0.0],              # center
-        [0.0, 1.95, 0.0],             # top
-        [0.0, -1.95, 0.0],            # bottom  
-        [1.69, 0.98, 0.0],            # top-right
-        [-1.69, 0.98, 0.0],           # top-left
-        [1.69, -0.98, 0.0],           # bottom-right
-        [-1.69, -0.98, 0.0],          # bottom-left
-        [3.38, 0.0, 0.0],             # far right
-        [-3.38, 0.0, 0.0],            # far left
-        [1.69, 2.93, 0.0],            # upper right
-        [-1.69, 2.93, 0.0],           # upper left
-        [1.69, -2.93, 0.0],           # lower right
-    ])
-    configs.append(config4)
-    
-    # Configuration 5: Randomized configuration for exploration
-    config5 = np.array([
-        [0.0, 0.0, 0.0],
-        [0.0, 1.94, 0.0],
-        [0.0, -1.94, 0.0],
-        [1.68, 0.97, 0.0],
-        [-1.68, 0.97, 0.0],
-        [1.68, -0.97, 0.0],
-        [-1.68, -0.97, 0.0],
-        [3.36, 0.0, 0.0],
-        [-3.36, 0.0, 0.0],
-        [1.68, 2.91, 0.0],
-        [-1.68, 2.91, 0.0],
-        [1.68, -2.91, 0.0],
-    ])
-    # Add noise to make it different from others
-    np.random.seed(456)
-    for i in range(len(config5)):
-        config5[i][0] += np.random.normal(0, 0.005)
-        config5[i][1] += np.random.normal(0, 0.005)
-        config5[i][2] += np.random.normal(0, 0.3)
-    configs.append(config5)
+    # Configuration 3: More compact arrangement
+    pos3 = [
+        (0, 0), (0, 1.8), (1.5, 0.9), (1.5, -0.9), (0, -1.8), (-1.5, -0.9),
+        (-1.5, 0.9), (3.0, 0), (1.5, 2.7), (-1.5, 2.7), (-3.0, 0), (-1.5, -2.7)
+    ]
+    rot3 = [0] * 12
+    configs.append((pos3, rot3))
     
     return configs
 
 
-def advanced_hybrid_optimization(initial_configs, timeout_seconds=75):
-    """Advanced hybrid optimization combining multiple strategies for better results"""
+def constraint_satisfaction_approach():
+    """
+    Use a constraint satisfaction approach to find valid configurations
+    This approach systematically explores geometric constraints
+    """
+    # Define geometric constraints
+    min_distance = 2.0  # Minimum distance between centers for non-overlap
+    max_radius = 4.5   # Reasonable upper bound for outer hexagon radius
     
-    def objective(params):
-        # Reshape parameters back to hexagon data
-        config = params.reshape(-1, 3)
-        score = evaluate_configuration_fast(config)
-        # Minimize negative score (since we want to maximize 1/outer_radius)
-        return -score if score > 0 else 1e6
-    
+    # Try multiple configurations using systematic sampling
     best_result = None
-    best_score = 0
-    best_config = None
+    best_inv_side_length = 0
     
-    start_time = time.time()
+    # Generate configurations with different symmetries
+    configs = generate_valid_configurations()
     
-    # Strategy 1: Differential Evolution - global search
-    # Try multiple DE runs with different seeds
-    for i, initial_config in enumerate(initial_configs):
-        if time.time() - start_time > timeout_seconds * 0.4:
-            break
-            
-        try:
-            # Flatten the initial configuration for optimization
-            initial_flat = initial_config.flatten()
-            
-            # Set bounds for positions (-10, 10) and rotations (-180, 180)
-            bounds = [(-10.0, 10.0) for _ in range(36)]  # 12 hexagons * 3 parameters each
-            for j in range(0, 36, 3):  # Rotation bounds
-                bounds[j+2] = (-180.0, 180.0)
-            
-            # Run DE with multiple seeds for better exploration
-            seeds = [42 + i*100, 123 + i*100, 456 + i*100]
-            for seed_val in seeds:
-                if time.time() - start_time > timeout_seconds * 0.4:
-                    break
-                    
-                result_de = differential_evolution(
-                    objective,
-                    bounds,
-                    seed=seed_val,
-                    maxiter=200,
-                    popsize=30,
-                    mutation=(0.8, 1.0),
-                    recombination=0.9,
-                    disp=False,
-                    tol=1e-15
-                )
-                
-                if result_de.success:
-                    score = -result_de.fun
-                    if score > best_score:
-                        best_score = score
-                        best_result = result_de
-                        best_config = initial_config.copy()
-                        
-        except Exception:
-            continue
+    for i, (positions, rotations) in enumerate(configs):
+        # Try different outer hexagon sizes
+        for outer_size in np.linspace(3.8, 4.2, 10):
+            inv_side_length, valid = evaluate_packing_with_constraints(positions, rotations, outer_size)
+            if valid and inv_side_length > best_inv_side_length:
+                best_inv_side_length = inv_side_length
+                best_result = (positions, rotations, outer_size)
     
-    # Strategy 2: Simulated Annealing - global exploration
-    if best_config is not None and time.time() - start_time < timeout_seconds * 0.7:
-        try:
-            # Set bounds for SA
-            bounds = [(-6.0, 6.0) for _ in range(36)]
-            for i in range(0, 36, 3):  # Rotation bounds
-                bounds[i+2] = (-180.0, 180.0)
-            
-            # Try with more iterations for better global search
-            result_sa = dual_annealing(
-                objective,
-                bounds,
-                maxiter=300,
-                initial_temp=1000,
-                seed=789,
-                no_local_search=False
-            )
-            
-            if result_sa.success:
-                score = -result_sa.fun
-                if score > best_score:
-                    best_score = score
-                    best_result = result_sa
-                    best_config = initial_configs[0].copy()  # Placeholder
-                    
-        except Exception:
-            pass
+    return best_result, best_inv_side_length
+
+
+def evolutionary_hexagon_packing():
+    """
+    Evolutionary approach to hexagon packing optimization
+    This implements a novel genetic algorithm tailored for hexagon arrangements
+    """
+    # Population of hexagon arrangements
+    population_size = 20
+    generations = 30
     
-    # Strategy 3: Local optimization refinement with trust-constr
-    if best_config is not None and time.time() - start_time < timeout_seconds * 0.9:
-        try:
-            # Set bounds for local optimization
-            bounds = [(-6.0, 6.0) for _ in range(36)]
-            for i in range(0, 36, 3):  # Rotation bounds
-                bounds[i+2] = (-180.0, 180.0)
-            
-            # Try several restarts with trust-constr
-            for restart in range(3):
-                if time.time() - start_time > timeout_seconds * 0.95:
-                    break
-                    
-                # Small random perturbations around best solution
-                np.random.seed(restart * 1000)
-                start_point = best_config.flatten() + np.random.normal(0, 0.01, 36)
-                
-                result_trust = minimize(
-                    objective,
-                    start_point,
-                    method='trust-constr',
-                    bounds=bounds,
-                    options={'maxiter': 300, 'gtol': 1e-16, 'xtol': 1e-16},
-                    disp=False
-                )
-                
-                if result_trust.success:
-                    score = -result_trust.fun
-                    if score > best_score:
-                        best_score = score
-                        best_result = result_trust
-                        best_config = initial_configs[0].copy()  # Placeholder
-                        
-        except Exception:
-            pass
+    # Initialize population with random valid configurations
+    population = []
     
-    # Strategy 4: Direct validation of best initial configurations
-    if best_result is None and len(initial_configs) > 0:
-        # Validate and potentially improve the best initial configuration directly
-        best_initial_score = 0
-        best_initial_config = None
+    # Create diverse initial configurations
+    for i in range(population_size):
+        # Randomly perturb positions and rotations
+        positions = []
+        rotations = []
         
-        for i, config in enumerate(initial_configs):
-            score = evaluate_configuration_fast(config)
-            if score > best_initial_score:
-                best_initial_score = score
-                best_initial_config = config
+        # Generate 12 hexagon positions with some clustering
+        for j in range(12):
+            # Perturb around a base arrangement
+            base_x = (j % 4 - 1.5) * 2.0
+            base_y = (j // 4 - 1.0) * 2.0
+            x = base_x + np.random.normal(0, 0.5)
+            y = base_y + np.random.normal(0, 0.5)
+            positions.append((x, y))
+            rotations.append(np.random.uniform(-180, 180))
         
-        if best_initial_score > 0:
-            best_score = best_initial_score
-            best_config = best_initial_config
+        population.append((positions, rotations))
     
-    # If we found a valid result, return it; otherwise return the best initial config
-    if best_result is not None and best_score > 0:
-        optimized_config = best_result.x.reshape(-1, 3)
-        # Validate the optimized configuration
-        if evaluate_configuration_fast(optimized_config) > 0:
-            return optimized_config
+    # Evolution loop
+    best_individual = None
+    best_fitness = 0
     
-    # Return the best configuration found or fallback to first initial config
-    if best_config is not None:
-        return best_config
-    else:
-        return initial_configs[0] if len(initial_configs) > 0 else create_advanced_initial_configuration()
+    for generation in range(generations):
+        fitness_scores = []
+        
+        # Evaluate fitness for each individual
+        for positions, rotations in population:
+            # Try to find optimal outer size for this configuration
+            # Binary search for the minimal outer size
+            low, high = 3.8, 4.5
+            best_outer_size = 4.5
+            
+            for _ in range(10):  # Binary search iterations
+                mid = (low + high) / 2
+                inv_side_length, valid = evaluate_packing_with_constraints(positions, rotations, mid)
+                if valid and inv_side_length > best_fitness:
+                    best_fitness = inv_side_length
+                    best_outer_size = mid
+                    high = mid
+                else:
+                    low = mid
+            
+            # Use the best valid size found
+            inv_side_length, valid = evaluate_packing_with_constraints(positions, rotations, best_outer_size)
+            fitness = inv_side_length if valid else 0
+            fitness_scores.append(fitness)
+            
+            if fitness > best_fitness:
+                best_fitness = fitness
+                best_individual = (positions, rotations, best_outer_size)
+        
+        # Selection and reproduction (simple tournament selection)
+        selected_indices = np.argsort(fitness_scores)[-population_size//2:]
+        selected_population = [population[i] for i in selected_indices]
+        
+        # Create new population through crossover and mutation
+        new_population = selected_population.copy()
+        
+        while len(new_population) < population_size:
+            parent1 = selected_population[np.random.randint(0, len(selected_population))]
+            parent2 = selected_population[np.random.randint(0, len(selected_population))]
+            
+            # Crossover: combine positions and rotations
+            child_positions = []
+            child_rotations = []
+            
+            for i in range(12):
+                if np.random.random() < 0.5:
+                    child_positions.append(parent1[0][i])
+                    child_rotations.append(parent1[1][i])
+                else:
+                    child_positions.append(parent2[0][i])
+                    child_rotations.append(parent2[1][i])
+            
+            # Mutation: small random perturbations
+            for i in range(12):
+                if np.random.random() < 0.1:  # 10% chance of mutation
+                    child_positions[i] = (
+                        child_positions[i][0] + np.random.normal(0, 0.1),
+                        child_positions[i][1] + np.random.normal(0, 0.1)
+                    )
+                if np.random.random() < 0.1:
+                    child_rotations[i] += np.random.normal(0, 10)
+            
+            new_population.append((child_positions, child_rotations))
+        
+        population = new_population[:population_size]
+    
+    return best_individual, best_fitness
 
 
 def hexagon_packing_12():
     """
     Constructs a packing of 12 disjoint unit regular hexagons inside a larger regular hexagon, maximizing 1/outer_hex_side_length.
-    Uses advanced hybrid optimization with multiple strategies for better convergence.
-    Returns
-        inner_hex_data: np.ndarray of shape (12,3), where each row is of the form (x, y, angle_degrees) containing the (x,y) coordinates and angle_degree of the respective inner hexagon.
-        outer_hex_data: np.ndarray of shape (3,) of form (x,y,angle_degree) containing the (x,y) coordinates and angle_degree of the outer hexagon.
-        outer_hex_side_length: float representing the side length of the outer hexagon.
+    Uses a combinatorial constraint satisfaction approach with evolutionary optimization.
     """
     
-    # Create diverse initial configurations for robust optimization
-    initial_configs = create_diverse_initial_configurations()
+    # Start with a well-known symmetric configuration
+    initial_positions, initial_rotations = create_symmetric_hexagon_arrangement()
     
-    # Apply advanced hybrid optimization approach with timeout
-    optimized_config = advanced_hybrid_optimization(initial_configs, timeout_seconds=75)
+    # Try constraint satisfaction approach first
+    best_result, best_inv_side_length = constraint_satisfaction_approach()
     
-    # Validate the optimized configuration
-    score = evaluate_configuration_fast(optimized_config)
-    if score <= 0:
-        # If optimization failed, use the first configuration
-        optimized_config = initial_configs[0]
+    # Also try evolutionary approach
+    evol_result, evol_fitness = evolutionary_hexagon_packing()
     
-    # Calculate the outer hexagon size needed
-    outer_radius = calculate_outer_hexagon_radius_fast(optimized_config)
+    # Choose the better of the two approaches
+    if evol_fitness > best_inv_side_length:
+        best_result = evol_result
+        best_inv_side_length = evol_fitness
     
-    # Scale to match the target side length of ~3.9419123
-    # This gives us inv_outer_hex_side_length = 1/3.9419123 ≈ 0.2537
-    scale_factor = 3.9419123 / outer_radius
+    # If no good result was found, fall back to initial configuration
+    if best_result is None:
+        # Use the symmetric configuration directly
+        positions = initial_positions
+        rotations = initial_rotations
+        outer_radius = 4.0  # Conservative estimate
+        
+        # Try to find the actual minimum outer radius
+        min_outer_radius = 3.8
+        max_outer_radius = 4.5
+        best_outer_radius = 4.0
+        
+        # Binary search for optimal radius
+        for _ in range(15):
+            test_radius = (min_outer_radius + max_outer_radius) / 2
+            inv_side_length, valid = evaluate_packing_with_constraints(positions, rotations, test_radius)
+            if valid and inv_side_length > best_inv_side_length:
+                best_inv_side_length = inv_side_length
+                best_outer_radius = test_radius
+                max_outer_radius = test_radius
+            else:
+                min_outer_radius = test_radius
+        
+        best_result = (positions, rotations, best_outer_radius)
     
-    # Apply scaling to positions
-    scaled_inner_hex_data = optimized_config.copy()
-    scaled_inner_hex_data[:, 0] *= scale_factor
-    scaled_inner_hex_data[:, 1] *= scale_factor
+    # Final refinement using local optimization around the best solution
+    positions, rotations, outer_radius = best_result
     
-    # Final validation of the scaled configuration
-    final_outer_radius = calculate_outer_hexagon_radius_fast(scaled_inner_hex_data)
+    # Use a more targeted optimization approach
+    def objective(x):
+        # Extract variables: [x1,y1,r1,...,x12,y12,r12,R]
+        positions = [(x[3*i], x[3*i+1]) for i in range(12)]
+        rotations = [x[3*i+2] for i in range(12)]
+        outer_radius = x[-1]
+        
+        # Check validity and return negative inverse side length
+        inv_side_length, valid = evaluate_packing_with_constraints(positions, rotations, outer_radius)
+        if not valid:
+            # Heavy penalty for invalid configurations
+            return 1000000
+        return -inv_side_length
     
-    # Final configuration with optimized positions
-    inner_hex_data_final = scaled_inner_hex_data
+    # Set up bounds
+    bounds = []
+    for i in range(12):
+        bounds.extend([(-6, 6), (-6, 6)])  # x, y bounds
+        bounds.append((-180, 180))  # rotation bounds
+    bounds.append((3.8, 4.2))  # outer radius bounds
+    
+    # Start with current best solution
+    x0 = []
+    for i in range(12):
+        x0.extend([positions[i][0], positions[i][1], rotations[i]])
+    x0.append(outer_radius)
+    
+    # Local optimization to refine
+    try:
+        result = minimize(objective, x0, method='L-BFGS-B', bounds=bounds, options={'maxiter': 50})
+        if result.success:
+            refined_positions = [(result.x[3*i], result.x[3*i+1]) for i in range(12)]
+            refined_rotations = [result.x[3*i+2] for i in range(12)]
+            refined_outer_radius = result.x[-1]
+            
+            inv_side_length, valid = evaluate_packing_with_constraints(refined_positions, refined_rotations, refined_outer_radius)
+            if valid and inv_side_length > best_inv_side_length:
+                best_inv_side_length = inv_side_length
+                best_result = (refined_positions, refined_rotations, refined_outer_radius)
+    except:
+        pass
+    
+    # Return final results
+    positions, rotations, outer_radius = best_result
+    inner_hex_data = np.array([
+        [pos[0], pos[1], rot] for pos, rot in zip(positions, rotations)
+    ])
     
     outer_hex_data = np.array([0, 0, 0])  # centered at origin
-    outer_hex_side_length = final_outer_radius
     
-    return inner_hex_data_final, outer_hex_data, outer_hex_side_length
+    return inner_hex_data, outer_hex_data, outer_radius
 
 
 # EVOLVE-BLOCK-END

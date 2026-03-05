@@ -1,0 +1,79 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to evolve and optimize a function that discovers step function constructions to improve the lower bound on the second autocorrelation inequality constant C₂.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Evolutionary Computation Approaches**: Implement genetic algorithms, differential evolution, or particle swarm optimization directly on the discrete step heights. These methods can explore vast solution spaces without requiring gradient information and may discover structures not apparent through mathematical construction.
+
+2. **Neural Network Parameterization**: Instead of hand-crafting functions, use neural networks (MLPs, CNNs, or transformers) to parameterize the step function. Train these networks using reinforcement learning or direct optimization to maximize C₂, potentially discovering highly complex and non-intuitive patterns.
+
+3. **Hybrid Metaheuristic Frameworks**: Combine multiple optimization paradigms such as simulated annealing with local search, or use memetic algorithms that blend global exploration with local exploitation techniques tailored specifically for this function space.
+
+4. **Constraint Programming with Symmetry Breaking**: Model the problem using constraint satisfaction techniques where step heights are variables subject to constraints, leveraging symmetry-breaking techniques to reduce search space and identify structurally interesting solutions.
+
+5. **Multi-Start and Basin Hopping Methods**: Implement systematic multi-start strategies with diverse initialization schemes (random, quasi-random, or low-discrepancy sequences) combined with basin hopping to escape local optima and explore different regions of the function space.
+
+6. **Information-Theoretic Optimization**: Approach the problem from an information-theoretic perspective, considering entropy or mutual information measures in the autoconvolution space to guide the search toward solutions that maximize the information content or structure in the convolution result.
+
+7. **Physics-Informed Neural Networks**: Incorporate physical principles or mathematical constraints directly into neural network architectures to ensure the learned functions respect known properties of the autocorrelation problem, potentially leading to more theoretically grounded solutions.
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+- **Advanced mathematics**: `sympy` for symbolic computation and derivation of analytical expressions, `jax` for automatic differentiation and vectorized operations
+
+**Algorithmic Framework Suggestions**:
+1. Consider using convex optimization techniques if the problem can be reformulated as a convex optimization problem
+2. Explore semidefinite programming approaches if the constraints allow such reformulation
+3. Implement multi-start strategies with different initialization schemes to escape local optima
+4. Employ surrogate modeling techniques to reduce computational cost of repeated evaluations
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Scalability**: Design algorithms that can scale efficiently with increasing sequence lengths while respecting the 60-second time limit
+- **Convergence criteria**: Implement proper stopping conditions based on improvement thresholds or maximum iterations
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

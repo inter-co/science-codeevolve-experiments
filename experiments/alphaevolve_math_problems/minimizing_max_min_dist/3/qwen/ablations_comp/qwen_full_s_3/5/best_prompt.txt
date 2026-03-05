@@ -1,0 +1,54 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Instead of simple random placement, employ advanced mathematical optimization strategies such as:
+- Global optimization methods like simulated annealing, basin-hopping, or multi-start gradient-based approaches
+- Energy minimization frameworks with carefully designed potential functions that penalize both close proximity and large span
+- Constrained optimization using Lagrangian relaxation or interior-point methods
+- Hybrid approaches combining deterministic optimization with stochastic search
+- Geometric insights from known optimal configurations or symmetry considerations
+- Mathematical programming formulations using semidefinite programming or convex relaxation techniques
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy: Consider unconventional mathematical frameworks such as:
+  * Non-convex optimization with basin-hopping or multi-modal search
+  * Discrete optimization on manifolds using Lie group techniques
+  * Machine learning approaches for geometric pattern recognition
+  * Algebraic geometry methods for polynomial optimization formulations
+  * Information-theoretic approaches for entropy maximization under geometric constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize` (trust-constr, dual-annealing), `scipy.spatial` (distance computations)
+- **Advanced optimization**: `scipy.optimize` with global optimizers, `scipy.optimize.minimize` with multiple starting points
+- **Geometric computing**: 
+  * `scipy.spatial.distance` for efficient distance matrix computation
+  * `scipy.spatial` (ConvexHull, SphericalVoronoi) for geometric analysis
+- **Mathematical programming**: `cvxpy` or `scipy.optimize` for constrained optimization formulations
+- **Performance**: `numba` (for custom distance computations), `joblib` for parallel evaluation
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components AND deterministic optimization runs
+- **Numerical robustness**: Handle edge cases where points may coincide or approach boundary conditions
+- **Gradient-based optimization**: Where applicable, use automatic differentiation or finite differences for gradients
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

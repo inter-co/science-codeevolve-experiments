@@ -1,0 +1,57 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Evolutionary Algorithms**: Use genetic algorithms or particle swarm optimization where each individual represents a point configuration
+2. **Gradient-Based Methods**: Implement gradient descent or quasi-Newton methods on a smoothed approximation of the objective function
+3. **Deterministic Geometric Construction**: Explore regular polygon-based constructions or lattice arrangements optimized for dispersion
+4. **Multi-Scale Optimization**: Combine global search strategies (like differential evolution) with local refinement techniques
+5. **Constrained Optimization**: Formulate as a constrained nonlinear programming problem using Lagrange multipliers or barrier methods
+
+The solution should demonstrate mathematical elegance and computational efficiency while exploring novel algorithmic paradigms beyond traditional local search methods. Consider these specific strategies:
+- **Population-based metaheuristics**: Implement a genetic algorithm with custom crossover/mutation operators designed for point placement problems
+- **Smoothed objective functions**: Replace the non-smooth min/max ratio with differentiable approximations for gradient-based optimization
+- **Lattice-based constructions**: Explore hexagonal lattice arrangements or other periodic structures that naturally provide good point distributions
+- **Hybrid approaches**: Combine global stochastic search with local deterministic optimization for fine-tuning
+- **Multi-start methods**: Run multiple local optimizations from different starting configurations to escape local optima
+
+Focus on demonstrating computational effectiveness through efficient exploration of the solution space rather than purely mathematical elegance.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

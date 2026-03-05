@@ -1,0 +1,82 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your approach combines analytical mathematics with computational optimization to discover optimal step function configurations that maximize C₂.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Advanced optimization strategies to consider**:
+- **Variational calculus and calculus of variations**: Derive necessary conditions for optimality using Euler-Lagrange equations, Hamiltonian formulations, or other variational principles. Explore how the functional form of C₂ creates intrinsic geometric structures that can be exploited through variational methods.
+- **Harmonic analysis and Fourier methods**: Leverage the convolution theorem extensively, using fast Fourier transforms to compute autoconvolutions efficiently. Consider how the optimal solution relates to spectral properties, frequency-domain characteristics, and the interplay between time and frequency representations.
+- **Semidefinite programming and moment problems**: Formulate the problem as a moment problem with positive semidefinite constraints, potentially using Lasserre's hierarchy or similar approaches to obtain increasingly tight relaxations of the discrete optimization problem.
+- **Functional analytic approaches**: Use tools from functional analysis to study the space of admissible step functions, considering Banach spaces, Hilbert spaces, and operator theory to understand the structure of the optimization landscape.
+- **Extremal function theory and approximation theory**: Directly construct solutions based on known extremal functions or use techniques from approximation theory, such as orthogonal polynomial expansions, spline interpolation, or best approximation theorems.
+- **Nonlinear functional analysis**: Employ techniques from nonlinear functional analysis including fixed-point theorems, monotone operator theory, or variational inequalities to characterize and solve the optimization problem.
+- **Geometric optimization on infinite-dimensional manifolds**: Treat the space of step functions as an infinite-dimensional manifold with appropriate geometric structure, applying Riemannian optimization techniques or geometric variational methods.
+- **Multiscale and wavelet-based approaches**: Use wavelet decompositions or multiscale analysis to break down the optimization problem into components that can be solved more easily at different scales.
+- **Integrable systems and special functions**: Explore connections to integrable systems or special functions that might arise in the solution structure, potentially leading to exact analytical solutions or highly accurate numerical approximations.
+- **Inverse problems and regularization theory**: Approach the problem from an inverse problem perspective, using regularization techniques to handle ill-conditioned aspects of the autoconvolution operator.
+- **Topological optimization methods**: Use topological concepts to understand how changes in the support of the step function affect the resulting autoconvolution, potentially using topological data analysis or persistent homology.
+
+**Specific algorithmic pathways**:
+- **Direct variational formulation**: Set up the optimization problem as a variational principle where the optimal step function satisfies Euler-Lagrange equations derived from the C₂ functional. Consider how to discretize this properly while preserving the mathematical structure.
+- **Spectral decomposition of convolution operators**: Study the spectrum of the convolution operator and use spectral properties to understand what types of functions produce favorable autoconvolution profiles. Consider eigenfunction expansions and their relationship to optimal solutions.
+- **Moment-based optimization with semidefinite constraints**: Formulate the problem as finding moments that maximize C₂ subject to positivity constraints, using semidefinite programming to solve the resulting hierarchy of moment problems.
+- **Optimization using reproducing kernel Hilbert spaces**: Represent step functions in RKHS and use kernel-based methods to solve the optimization problem, potentially leveraging the structure of the autoconvolution operator.
+- **Dynamical systems approaches**: Formulate the optimization as a dynamical system evolution where the step function evolves according to differential equations derived from the gradient flow of C₂.
+- **Multi-objective optimization with constraint handling**: Treat the problem as a multi-objective optimization where one seeks to maximize ||g||₂² while minimizing ||g||₁ · ||g||∞, using constraint-handling techniques from multi-objective optimization.
+- **Symplectic and geometric integration**: If the variational formulation leads to Hamiltonian dynamics, use symplectic integrators to preserve geometric properties of the solution.
+- **Operator-theoretic methods**: Study the autoconvolution operator as a compact operator and use spectral theory to characterize its action on step functions.
+- **Randomized algorithms with mathematical guarantees**: Develop randomized algorithms that leverage the structure of the problem to provide theoretical bounds on solution quality.
+- **Algebraic geometry and polynomial optimization**: If the problem can be formulated in polynomial terms, use algebraic geometry techniques or sums-of-squares optimization to find global optima.
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs where randomness is used
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Algorithmic sophistication**: Implement methods that go beyond simple random sampling - consider systematic search strategies, pattern recognition, mathematical optimization techniques, or theoretical approaches
+- **Efficiency focus**: Balance algorithmic sophistication with computational efficiency, especially given the 360-second time constraint
+- **Theoretical grounding**: Where possible, use mathematically rigorous approaches that can provide provable bounds or convergence guarantees
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object, which relates to the autocorrelation function
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g, representing a normalized energy-to-power ratio
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+- Consider exploring mathematical structures such as:
+  * Symmetric step functions that might yield optimal configurations, potentially leveraging symmetry properties
+  * Step functions with specific spacing patterns that exploit convolution properties, including those related to orthogonal polynomials
+  * Functions that minimize ||g||₁ while maximizing ||g||₂² (as a dual optimization approach), possibly using duality theory
+  * Functions that create specific "bump" shapes in g to optimize the norm ratio, considering extremal problems in functional analysis
+  * Solutions derived from extremal principles in harmonic analysis or approximation theory
+  * Methods involving integral equations or fixed-point theorems
+  * Approaches using reproducing kernels or integral transforms
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 5 GB
+
+# PROMPT-BLOCK-END
+    

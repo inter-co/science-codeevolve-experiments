@@ -1,0 +1,79 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to evolve and optimize a function that discovers step function constructions to improve the lower bound on the second autocorrelation inequality constant C₂ using fundamental mathematical insights and efficient computational strategies.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, numba, scikit-learn
+
+**Recommended optimization methods**:
+- **Simple evolutionary approaches**: Genetic algorithms, particle swarm optimization (PSO)
+- **Direct search methods**: Nelder-Mead, pattern search, simulated annealing
+- **Spectral methods**: Fast Fourier Transform (FFT) for convolution computation
+- **Mathematical programming**: Linear programming relaxations or quadratic programming approaches
+- **Heuristic construction**: Greedy methods, hill climbing with restarts
+- **Parallel computation**: joblib for embarrassingly parallel evaluations
+
+**Implementation focus**: Prioritize simplicity, robustness, and clear mathematical foundation over complex dependency chains
+
+**Advanced Strategy Suggestions**:
+- Apply convex optimization techniques or Lagrangian relaxation for structured optimization problems
+- Implement simple but effective evolutionary algorithms like genetic algorithms or particle swarm optimization
+- Use mathematical insights from information theory and entropy maximization principles
+- Explore variational methods and calculus of variations for optimal function construction
+- Employ spectral methods and frequency-domain analysis for efficient convolution computation
+- Apply concentration of measure inequalities to understand typical behavior of random constructions
+- Utilize symmetry properties and group theory concepts to reduce search space complexity
+- Consider gradient-free methods like Nelder-Mead or pattern search for robust optimization
+- Leverage fast Fourier transforms for efficient convolution computation via spectral methods
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+- **Mathematical clarity**: Focus on well-founded mathematical principles rather than black-box methods
+- **Efficiency**: Ensure algorithms complete within time constraints while maintaining quality
+- **Scalability**: Design approaches that work effectively across different problem sizes
+- **Simplicity**: Prefer straightforward implementations that can be easily debugged and understood
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+- Consider using convex optimization or Lagrangian relaxation for structured optimization
+- Apply variational principles to derive necessary conditions for optimality
+- Explore connections to information theory where entropy and energy considerations might be relevant
+- Apply concentration of measure phenomena for understanding typical behavior of random step functions
+- Investigate the role of symmetry in optimizing C₂ values
+- Consider using duality theory to establish theoretical bounds and guiding principles
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy Diversity**: Implement at least two distinct algorithmic approaches in your solution
+- **Quality vs Speed Tradeoff**: Demonstrate ability to scale strategies from quick exploratory methods to refined optimization
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,53 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to design a flexible, modular framework that can generate high-quality arrangements of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii, using any combination of algorithmic paradigms (e.g., evolutionary algorithms, constraint programming, physics-based simulation, gradient-based optimization, geometric decomposition, or hybrid approaches).
+You are encouraged to explore a diverse set of algorithmic paradigms—including evolutionary algorithms, constraint programming, physics-based simulation, gradient-based optimization, and geometric decomposition (e.g., Voronoi or circle inversion)—to discover novel packing configurations that may surpass the AlphaEvolve benchmark.
+
+PROBLEM CONTEXT:
+NOVEL APPROACHES:
+- Use circle inversion to transform the square into a disk or annulus where packing is more tractable, then map back.
+- Employ Voronoi diagrams to partition the square into cells, assign one circle per cell, and adjust radii to fit within cells.
+- Formulate the problem as a continuous optimization with penalty terms for overlaps and boundary violations, and solve using gradient-based methods (e.g., JAX, autograd).
+- Use constraint programming (CP-SAT) to encode containment and non-overlap constraints, then maximize the sum of radii via linearization or piecewise-linear approximations.
+- Apply evolutionary strategies (NSGA-II, differential evolution) with custom operators that respect geometric constraints.
+- Combine global search (e.g., simulated annealing) with local refinement (e.g., hill climbing or gradient descent) to escape local optima.
+- Explore hierarchical packing: place a few large circles, then recursively pack remaining circles in the residual free space.
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+- Consider a wide range of packing strategies: incremental placement of the largest circles first, hierarchical subdivision of the square, simulated annealing, gradient descent with penalty terms, circle inversion to transform the domain, Voronoi-based cell assignment, and hybrid approaches that combine global search with local refinement.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Additional methods**: For physics simulation, consider `pymunk` or `pybullet`; for constraint programming, `ortools`; for evolutionary algorithms, `deap`; for multi-objective optimization, `platypus`; for convex optimization, `cvxpy`; for symbolic geometry, `sympy`; for automatic differentiation, `jax`; for spatial indexing, `rtree` or `scipy.spatial.KDTree`; for graph-based methods, `networkx`; for machine learning guided search, `scikit-learn` or `torch`.
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pyomo` (optimization modeling), `cvxpy` (convex optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **average_gap**: Mean of (distance between centers - sum of radii) across all pairs, encouraging tighter packing
+4. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; use spatial indexing (KDTree, rtree) to query neighbors efficiently
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

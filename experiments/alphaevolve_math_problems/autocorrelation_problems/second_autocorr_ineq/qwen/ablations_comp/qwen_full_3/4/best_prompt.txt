@@ -1,0 +1,80 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to evolve and optimize a function that discovers step function constructions to improve the lower bound on the second autocorrelation inequality constant C₂.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+ALGORITHMIC DIVERSITY ENCOURAGEMENT:
+Instead of simple randomization or multi-start optimization, consider these alternative approaches:
+1. **Analytical construction**: Derive mathematically optimal step functions based on known extremal principles or variational methods
+2. **Convex relaxation**: Formulate the problem as a convex optimization task with appropriate constraints, possibly using semidefinite programming or linear programming relaxations
+3. **Moment-based construction**: Construct functions whose moments match those of extremal solutions using orthogonal polynomial expansions
+4. **Fourier-domain analysis**: Analyze the frequency characteristics of optimal step functions and construct them in spectral space
+5. **Information-theoretic approaches**: Use entropy or mutual information concepts to guide construction, treating the optimization as an information maximization problem
+6. **Functional analytic methods**: Apply operator theory or Banach space techniques to characterize optimal solutions through integral equations or fixed-point iterations
+7. **Sparse optimization**: Exploit the fact that optimal solutions might have few significant steps, using compressed sensing or basis pursuit methods
+8. **Hierarchical refinement**: Start with a coarse approximation and progressively add structure, rather than optimizing at high resolution from the beginning
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Convex optimization**: `cvxpy` (for semidefinite/linear programming formulations), `scs` (solver for convex problems)
+- **Advanced optimization**: `cvxopt` (convex optimization), `osqp` (operator splitting quadratic programming)
+- **Specialized solvers**: `gurobi` or `cplex` (commercial solvers for large-scale optimization)
+- **Fourier analysis**: `numpy.fft`, `scipy.fftpack` (for spectral domain approaches)
+- **Moment calculations**: `orthopy` (orthogonal polynomials), `sympy.physics.quantum` (quantum mechanical moments)
+- **Information theory**: `entropylab` (information-theoretic measures), `sklearn.feature_selection` (mutual information)
+- **Hierarchical methods**: `pyamg` (algebraic multigrid), `pygsp` (graph signal processing)
+- **Sparse optimization**: `sparse` (sparse arrays), `cvxpy` (basis pursuit, compressed sensing)
+
+MATHEMATICAL INSIGHTS FOR DIVERSE APPROACHES:
+Consider leveraging these mathematical frameworks for innovation:
+1. **Variational principles**: Formulate the problem as finding critical points of a functional, possibly using calculus of variations
+2. **Integral equation approaches**: Characterize optimal solutions through Fredholm or Volterra integral equations
+3. **Spectral analysis**: Study the eigenvalues and eigenvectors of the autoconvolution operator to understand optimal structures
+4. **Orthogonal polynomial expansions**: Represent the step function using Chebyshev, Legendre, or Hermite polynomials with carefully chosen coefficients
+5. **Fixed-point iteration**: Develop iterative procedures that converge to optimal solutions through operator iteration
+6. **Dual formulations**: Explore Lagrangian duality or other dual representations that might reveal structural properties
+7. **Geometric optimization**: Treat the problem as finding points in a geometric space that satisfy certain constraints
+8. **Asymptotic analysis**: Study the behavior of optimal solutions as the number of steps increases to inform construction strategies
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
+- To maximize C₂, we want ||g||₂² to be large relative to the product ||g||₁ · ||g||∞
+- Higher peak values in g (large ||g||∞) tend to decrease C₂ unless ||g||₂² grows even faster
+- More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
+- The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time  
+- **Memory limit**: 1 GB
+- **Iteration limits**: Limit iterations per optimization call to prevent excessive computation
+- **Resolution strategy**: Consider working with coarser grids initially, then refining only promising regions
+
+# PROMPT-BLOCK-END
+    

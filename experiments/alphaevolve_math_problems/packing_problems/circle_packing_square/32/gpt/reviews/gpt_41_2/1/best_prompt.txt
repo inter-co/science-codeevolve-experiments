@@ -1,0 +1,68 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in computational geometry and optimization, with a focus on circle packing and spatial design. Your task is to devise a constructor function that generates an arrangement of exactly 32 non-overlapping circles inside a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+To foster algorithmic diversity and prevent converging toward the same solution pathway, you must **explicitly avoid any Voronoi-based, cell-partitioning, or centroidal tessellation methods**—including, but not limited to, `scipy.spatial.Voronoi`, Lloyd's algorithm, power diagrams, Dirichlet regions, or any approach that assigns unique polygonal regions to circles by point partitioning. This prohibition extends to *all* direct or indirect uses of Voronoi or partitioning, whether for initial placement, region assignment, or post-processing adjustments.
+
+Instead, you are strongly encouraged to explore and prioritize *fundamentally different* frameworks, such as:
+- **Physics-inspired simulation** (e.g., force-directed or repulsive dynamics, simulated jamming, energy minimization via ODEs or PDEs, collective behavior models)
+- **Global constraint satisfaction** (e.g., constraint programming, interval solvers, global nonlinear optimization, simulated annealing)
+- **Evolutionary computation** (e.g., genetic algorithms with spatial crossover/mutation, coevolutionary models, novelty search, differential evolution)
+- **Graph or network models** (e.g., proximity graphs, combinatorial packing heuristics, spatial network representations, simulated crystallization)
+- **Analytical or constructive geometry** (e.g., recursive subdivision, lattice-based packing, Tammes problem analogues, constructive interference patterns, circle packing on grids/lattices)
+- **Hybrid or metaheuristic approaches** (e.g., combining physics-based relaxation with evolutionary search, constraint programming with analytical seeding, or multi-phase algorithms)
+
+**Crucially, do not implement any form of cell partitioning or Voronoi-based fallback, even as a final adjustment or hybrid step.** The core packing logic must not rely on unique cell assignment or polygonal region maximization.
+
+You are encouraged to draw inspiration from a variety of geometric, physical, or combinatorial models, such as the Tammes problem, jamming and packing in granular physics, molecular dynamics, simulated crystal growth, elastic disk systems, or sphere packing in higher dimensions. Cite these models (or relevant literature) to motivate your chosen strategy.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+To foster diverse solutions, you may:
+- Apply force-based or agent-based simulations, allowing circles to move and grow under mutual repulsion and boundary constraints, seeking a stable equilibrium.
+- Use global optimization or constraint programming to solve for all positions and radii simultaneously, incorporating all pairwise non-overlap and containment constraints.
+- Employ evolutionary algorithms with spatially-aware crossover/mutation or "novelty search" to explore diverse circle arrangements.
+- Explore combinatorial or analytical methods (e.g., recursive subdivision, lattice-packing analogues, Tammes problem heuristics) as an alternative to partition-based heuristics.
+- Combine multiple strategies above for hybrid optimization (e.g., physics-based initialization with global constraint refinement).
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+DIVERSITY DIRECTIVE:
+- You must **explicitly avoid all Voronoi-based, centroidal tessellation, or geometric partitioning algorithms** (including, but not limited to, approaches utilizing `scipy.spatial.Voronoi`, direct cell assignment, or maximal inscribed circles in polygons).
+- Simple random or greedy placement is also prohibited.
+- Your implementation should contain a clear *rationale section* or prominent code comments explaining why your chosen algorithmic pathway is fundamentally different from partitioning, and what real-world or literature analogies inspire it (e.g., Tammes problem, jamming transition, molecular dynamics, elastic disk packing, evolutionary systems, constraint-based solvers).
+- For enhanced diversity, consider implementing or briefly outlining two distinct approaches (e.g., one physics-inspired and one evolutionary or constraint-based), and comment on their comparative strengths.
+- If possible, cite or reference relevant literature or analogous geometric, physical, or combinatorial problems that motivate your non-partitioning strategy.
+
+# PROMPT-BLOCK-END
+    

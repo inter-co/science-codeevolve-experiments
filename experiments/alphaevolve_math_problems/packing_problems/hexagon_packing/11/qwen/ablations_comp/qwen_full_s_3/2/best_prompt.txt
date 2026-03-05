@@ -1,0 +1,65 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop a novel constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
+- Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint (use robust geometric algorithms)
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon (consider vertex-to-edge distance calculations)
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Physics-based simulation approaches**: Implement molecular dynamics or Monte Carlo methods where hexagons are treated as repelling particles with hard-core interactions, evolving the system toward equilibrium configurations that satisfy both containment and non-overlap constraints.
+2. **Machine learning guided search**: Employ neural network architectures or reinforcement learning agents trained on geometric packing patterns to propose new configurations, potentially discovering arrangements that break conventional symmetry assumptions.
+3. **Multi-scale optimization frameworks**: Combine global search strategies (like genetic algorithms or simulated annealing) with local refinement techniques, where the global method explores different combinatorial structures while local methods optimize geometric parameters.
+4. **Constraint satisfaction programming**: Formulate the problem as a CSP where variables represent hexagon positions and orientations, with constraints encoding non-overlap, containment, and geometric relationships; leverage specialized solvers for efficient exploration.
+5. **Variational methods and gradient-based optimization**: Use continuous relaxations of the discrete hexagon packing problem, optimizing over continuous parameters that can be mapped back to valid hexagon configurations through geometric projections.
+6. **Hybrid evolutionary algorithms**: Combine population-based search with deterministic geometric construction rules, allowing evolution to discover novel symmetries or cluster formations that traditional symmetric approaches might miss.
+
+ENHANCED GEOMETRIC CONSIDERATIONS:
+- Leverage the duality between hexagonal and triangular lattices for constructing optimal arrangements
+- Apply the principle that optimal hexagon packings often arise from specific lattice point selections that minimize the covering radius
+- Utilize the relationship between the 120° angles of hexagons and their natural alignment with triangular lattice vectors
+- Consider that the optimal arrangement may exhibit a specific combinatorial structure (such as a "hexagonal cluster" with particular symmetries)
+- Explore the connection between the problem and the mathematical theory of spherical codes and kissing numbers in 2D
+- Investigate whether the optimal solution can be expressed using algebraic numbers related to the golden ratio or other special constants
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2544 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, matplotlib, shapely, deap
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom operators)
+  * `platypus` (multi-objective optimization)
+  * `scipy.spatial.distance` (efficient distance computations)
+- **Simulation-based approaches**: 
+  * `numpy.random` (for stochastic sampling and perturbations)
+  * `numba` (JIT compilation for performance-critical geometric functions)
+- **Advanced optimization**: 
+  * `scipy.optimize.differential_evolution` (global optimization)
+  * Custom constraint handling with penalty functions
+
+TECHNICAL REQUIREMENTS:
+- **Algorithmic diversity**: Prefer methods that explore different solution spaces rather than relying on symmetry assumptions
+- **Robust constraint handling**: Implement sophisticated collision detection and containment verification that can handle edge cases
+- **Stochastic exploration**: Incorporate randomness and adaptive sampling to escape local optima
+- **Multi-method integration**: Consider combining several distinct approaches (e.g., evolutionary search + local optimization) to leverage their complementary strengths
+- **Flexible parameterization**: Allow for variable representations of hexagon positions and orientations that can adapt during search
+- **Scalable implementation**: Ensure methods can efficiently handle the 33-dimensional search space (11 hexagons × 3 parameters each)
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

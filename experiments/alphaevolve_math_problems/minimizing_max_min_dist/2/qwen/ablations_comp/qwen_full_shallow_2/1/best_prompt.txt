@@ -1,0 +1,51 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs. Consider multiple algorithmic paradigms including combinatorial optimization, evolutionary computation, and analytical geometric approaches.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Advanced considerations: Explore configurations based on known optimal packings, use of symmetry groups, energy minimization principles, or even lattice-based constructions to achieve better dispersion than naive random sampling.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **Geometric computing**: 
+  * `scipy.spatial` (distance matrices, ConvexHull, Voronoi diagrams)
+  * `trimesh` (mesh operations), `open3d` (data processing)
+- **Specialized algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (JIT compilation), `joblib` (parallel processing)
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic diversity**: Encourage exploration of fundamentally different algorithmic approaches beyond traditional gradient-based optimization and mathematical construction. Focus on novel methodologies such as:
+   * **Pure evolutionary algorithms** starting from completely random populations with no structured initialization - implement genetic algorithms, differential evolution, or particle swarm optimization from scratch
+   * **Physics-inspired methods** using force models where points repel each other according to inverse distance laws, simulating physical systems without gradient information
+   * **Monte Carlo approaches** with advanced sampling techniques like Markov Chain Monte Carlo or importance sampling
+   * **Discrete geometric constructions** inspired by crystallography, tiling theory, or tessellation patterns rather than continuous optimization
+   * **Hybrid metaheuristic combinations** that merge evolutionary operators with local search heuristics in unconventional ways
+   * **Non-gradient optimization** using derivative-free methods like Nelder-Mead, basin-hopping, or surrogate modeling approaches
+   * **Topological approaches** using concepts from algebraic topology or graph theory to represent point configurations
+- **Mathematical rigor**: Where applicable, leverage known bounds and theoretical results about optimal point distributions
+- **Robustness**: Ensure exactly 16 points are returned in all cases, with proper error handling
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

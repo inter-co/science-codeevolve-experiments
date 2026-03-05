@@ -1,0 +1,45 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Surpass the AlphaEvolve benchmark of sum_radii = 2.937944526205518 by exploring non‑traditional packing strategies.
+- Constraints: Each circle must lie entirely within the unit square and no two circles may overlap.
+- Mathematical formulation: For circle i at (xi, yi) with radius ri:
+  * Containment: 0 ≤ xi - ri, xi + ri ≤ 1 and 0 ≤ yi - ri, yi + ri ≤ 1
+  * Non‑overlap: (xi - xj)² + (yi - yj)² ≥ (ri + rj)² for all i ≠ j
+  * Objective: maximize Σ ri
+- Guidance: Encourage the use of contact graphs, spatial partitioning, and physics‑based relaxation. Consider formulating the problem as a constrained optimization with barrier terms or as a feasibility problem with iterative tightening of radii. Explore both global (evolutionary, simulated annealing) and local (gradient descent, Newton methods) search strategies. Leverage geometric insights such as Voronoi cell size as an upper bound on local radius.
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn, cvxpy, gurobipy, pulp
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo`, `nlopt`, `scipy.optimize` (minimize, differential_evolution)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi, Delaunay), `pyclipper`, `meshpy`
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `z3-solver`, `pulp`, `pyomo`
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `pydart`, `box2d`
+- **Performance**: `cython`, `numba`, `joblib` (parallelization), `dask`, `jax` (just-in-time compilation)
+- **Visualization & debugging**: `matplotlib`, `plotly`, `seaborn`
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for stochastic components; provide reproducible initial conditions.
+- **Error handling**: Implement robust fallback strategies: if a solver fails, restart with perturbed seeds; if infeasible, relax constraints incrementally.
+- **Memory efficiency**: Use sparse distance representations, incremental collision checks via KDTree or R-tree; avoid full NxN matrices unless necessary.
+- **Scalability**: Design modular components so that the number of circles can be changed; support batch packing for multiple sizes; allow incremental addition/removal of circles.
+- **Parallelism**: Where possible, parallelize independent evaluations (e.g., population in evolutionary algorithms) using `joblib` or `multiprocessing`.
+- **Logging & diagnostics**: Record intermediate best sums, constraint violations, and runtime statistics for post‑hoc analysis.
+
+# PROMPT-BLOCK-END
+    

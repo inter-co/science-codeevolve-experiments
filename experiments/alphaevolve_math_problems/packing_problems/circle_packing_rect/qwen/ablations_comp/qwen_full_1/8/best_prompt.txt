@@ -1,8 +1,7 @@
 # PROMPT-BLOCK-START
 
 SETTING:
-You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction.
-Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to develop an innovative constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii.
 
 PROBLEM CONTEXT:
 - **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
@@ -14,17 +13,25 @@ PROBLEM CONTEXT:
   * Exactly 21 circles required
   * All radii must be positive
 
-COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 1 GB
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Evolutionary Computation**: Implement genetic algorithms using DEAP or Platypus to iteratively evolve circle arrangements
+2. **Gradient-Free Optimization**: Utilize Nevergrad or Optuna for black-box optimization of circle positions and radii
+3. **Physics-Based Simulation**: Leverage pymunk or Box2D for realistic collision dynamics and equilibrium states
+4. **Constraint Programming**: Apply Google OR-Tools or python-constraint for formal constraint satisfaction
+5. **Hybrid Approaches**: Combine multiple methodologies - start with a heuristic layout then refine with local optimization
 
-ALTERNATIVE APPROACHES TO CONSIDER:
-- **Mathematical programming**: Formulate as a nonlinear optimization problem with constraints, using convex relaxations or semidefinite programming techniques
-- **Constraint satisfaction networks**: Model as a constraint satisfaction problem with arc consistency and backtracking search
-- **Continuous relaxation**: Solve a continuous version first, then round to discrete solution using techniques like Lagrangian relaxation
-- **Energy minimization**: Frame as minimizing a potential energy function subject to geometric constraints
-- **Sequential quadratic programming**: Use gradient-based methods with active set handling for the non-smooth constraints
-- **Randomized constraint sampling**: Use randomized algorithms like the core-set method for approximate constraint satisfaction
+THEORETICAL FOUNDATIONS:
+Consider applying principles from:
+- Circle packing theory and discrete geometry
+- Multi-objective optimization (consider simultaneously maximizing sum of radii while minimizing packing density variance)
+- Spatial data structures (R-trees for efficient collision detection)
+- Mathematical programming formulations (convex relaxations, semidefinite programming)
+
+ENHANCED IMPLEMENTATION APPROACHES:
+- Employ parallel processing via joblib or multiprocessing for population evaluation
+- Implement efficient distance matrix calculations using scipy.spatial
+- Use shapely for robust geometric operations and boundary checks
+- Consider using JAX for automatic differentiation if gradient-based methods prove viable
 
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
@@ -38,19 +45,35 @@ COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 - **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
 - **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
 
+IMPLEMENTATION FOCUS:
+Rather than attempting a direct analytical solution, consider exploring unconventional algorithmic paradigms that diverge from standard mathematical programming approaches:
+
+1. **Discrete geometric construction methods** - Begin with fundamental tessellation patterns (triangular, square, or hexagonal lattices) and apply systematic perturbation techniques to achieve optimal packing
+
+2. **Multi-agent swarm intelligence** - Implement particle swarm optimization or ant colony optimization where each agent represents a circle and collectively explores configuration space through emergent behavior
+
+3. **Topological optimization frameworks** - Use abstract graph-based representations where nodes represent potential circle placements and edges encode spatial relationships, optimizing the graph structure rather than individual coordinates
+
+4. **Machine learning guided search** - Train a neural network or use reinforcement learning to predict promising circle arrangements based on geometric features, then refine with local search
+
+5. **Combinatorial enumeration with pruning** - Systematically enumerate possible circle arrangements using constraint satisfaction techniques with aggressive pruning based on geometric impossibilities
+
+The solution should demonstrate creative thinking beyond conventional optimization, emphasizing novel approaches to the geometric constraint satisfaction problem and exploring how discrete, combinatorial, or emergent methods might yield superior results.
+
 PERFORMANCE METRICS:
 1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
 2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
 3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
 
 TECHNICAL REQUIREMENTS:
-- **Robust constraint handling**: Implement rigorous overlap checking with numerical tolerance and proper geometric validation
 - **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
-- **Error handling**: Graceful handling of optimization failures or infeasible configurations with detailed diagnostics
-- **Numerical stability**: Ensure floating-point arithmetic maintains precision for tight constraints
-- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; consider sparse representations
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
 - **Scalability**: Design with potential extension to different circle counts in mind
-- **Validation**: Include comprehensive geometric validation ensuring all constraints are strictly satisfied
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

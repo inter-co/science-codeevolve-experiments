@@ -1,0 +1,53 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+
+ALTERNATIVE APPROACHES:
+- **Geometric Heuristics**: Use Voronoi diagrams or Delaunay triangulation to identify the largest empty circles iteratively, then place a circle at the center of each empty region.
+- **Physics‑Based Simulation**: Treat circles as soft bodies with repulsive forces and use a physics engine (pymunk, pybullet) to let them settle into a dense packing.
+- **Constraint Programming**: Encode containment and non‑overlap constraints in CP‑SAT (ortools) or python‑constraint and solve with a solver that can handle nonlinear geometric constraints.
+- **Evolutionary Algorithms**: Use DEAP or Platypus to evolve populations of circle configurations, applying crossover and mutation on positions and radii, and selecting for the largest sum of radii.
+- **Simulated Annealing / Basin‑Hopping**: Randomly perturb positions/radii and accept moves according to a temperature schedule, allowing occasional uphill moves to escape local optima.
+- **Gradient‑Based Continuous Optimization**: Formulate the problem as a differentiable objective (sum radii) with constraints and use JAX or PyTorch autograd to perform projected gradient descent or Adam‑style updates.
+- **Mixed‑Integer Linear/Quadratic Programming**: Linearize the non‑overlap constraints using big‑M or piecewise linear approximations and solve with OR‑Tools CP‑SAT or a MILP solver.
+- **Hierarchical / Multi‑Phase Packing**: First place a coarse grid of circles with fixed radii, then iteratively inflate radii while resolving overlaps, or reverse the process by shrinking large circles to free space for smaller ones.
+- **Local Search / Hill Climbing**: Start from a feasible configuration and iteratively adjust the circle with the smallest radius or the most violated constraint to improve the sum.
+- **Randomized Incremental Construction**: Add circles one by one at random positions, then locally adjust to avoid overlaps, repeating until no improvement is observed or a time limit is reached.
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+
+# PROMPT-BLOCK-END
+    

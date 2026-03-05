@@ -1,0 +1,42 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Prioritize exploring deterministic geometric constructions and mathematical approaches over purely numerical optimization methods. Leverage known optimal configurations, symmetry principles, and geometric insights from the Thomson problem and other well-studied point distributions as primary strategies.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Emphasize constructing solutions based on known mathematical principles and geometric symmetries rather than relying primarily on stochastic optimization
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Geometric constructions**: `scipy.spatial` (distance matrices, Voronoi diagrams), `sympy` (symbolic geometry)
+- **Symmetry analysis**: `numpy.linalg` (rotation matrices), `scipy.spatial.transform` (geometric transformations)
+- **Advanced optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective) - use sparingly for fine-tuning only
+- **Performance**: `numba` (JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Multiple Approaches**: Implement at least two different methodologies (e.g., one deterministic geometric approach leveraging known configurations and one stochastic optimization approach for refinement)
+- **Validation**: Include validation checks to ensure the final configuration meets the required constraints
+- **Geometric Insight**: Demonstrate understanding of how symmetries and known optimal arrangements can inform the construction process
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

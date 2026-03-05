@@ -1,0 +1,63 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on circle packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 32 non-overlapping circles within a unit square [0,1] × [0,1], maximizing the sum of their radii.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of sum_radii = 2.937944526205518
+- Constraint: All circles must be fully contained within the unit square with no overlaps
+- Mathematical formulation: For circle i at position (xi, yi) with radius ri:
+  * Containment: ri ≤ xi ≤ 1-ri and ri ≤ yi ≤ 1-ri
+  * Non-overlap: √[(xi-xj)² + (yi-yj)²] ≥ ri + rj for all i≠j
+  * Objective: maximize Σri subject to above constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Parallelism**: Allow up to 4 parallel workers for stochastic or simulation-based methods
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pulp` (linear programming), `cvxpy` (convex optimization), `ortools` (Google OR-Tools)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi, Delaunay)
+- **Constraint programming**: `python-constraint`, `ortools`, `z3-solver` (SMT solver)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine), `pymunk` (for fine-grained force integration)
+- **Performance**: `cython`, `joblib` (parallelization), `numba`, `jax`, `numba`, `jax`
+
+**Alternative strategies**:
+- **Constraint programming**: formulate the packing as a CP-SAT problem with OR-Tools or z3 and use solver callbacks for incremental improvement.
+- **Geometric heuristics**: start from a hexagonal lattice or a Voronoi-based placement and iteratively adjust radii using local search.
+- **Physics-based simulation**: apply repulsive forces between circle centers and a wall attraction force, then use gradient descent or a physics engine to settle into a non-overlapping configuration.
+- **Evolutionary algorithms**: use differential evolution or genetic algorithms with crossover and mutation on positions and radii, combined with a penalty for overlaps.
+- **Gradient-based optimization**: leverage JAX or PyTorch autograd to optimize a differentiable loss that penalizes overlaps while maximizing radii sum.
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (KDTree, Voronoi, Delaunay)
+- **Constraint programming**: `python-constraint`, `ortools`, `z3-solver` (SMT solver)
+- **Physics simulation**: `pymunk` (2D physics), `pybullet` (physics engine)
+- **Performance**: `cython`, `joblib` (parallelization)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+4. **packing_density**: Ratio of total area of circles to unit square area (secondary insight)
+1. **sum_radii**: Total sum of all 32 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.937944526205518 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility; ensure seeds are logged and reproducible across runs.
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations; if a solver fails, automatically retry with different initial seeds or fallback to a simpler heuristic such as a greedy packing algorithm.
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations; use spatial indexing (KDTree) or incremental distance updates.
+- **Scalability**: Design with potential extension to different circle counts in mind; provide a parameterized function that accepts N circles and returns an optimal arrangement.
+
+# PROMPT-BLOCK-END
+    

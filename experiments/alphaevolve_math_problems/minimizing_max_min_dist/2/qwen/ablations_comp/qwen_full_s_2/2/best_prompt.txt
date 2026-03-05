@@ -1,0 +1,51 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic paradigms including: 
+- Analytical geometric constructions (regular polygons, circle packings, lattice-based arrangements, or known optimal point configurations)
+- Discrete optimization approaches (combinatorial search, integer programming, or constraint satisfaction)
+- Energy-based methods (potential field minimization, physical simulation, or force-directed layouts)
+- Population-based evolutionary strategies (genetic algorithms, differential evolution, or multi-objective optimization)
+- Mathematical programming with non-gradient methods (branch-and-bound, semidefinite programming, or global optimization)
+- Hybrid strategies that combine multiple paradigms with distinct theoretical foundations
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy Consideration: Consider multiple mathematical frameworks beyond gradient-based optimization - such as combinatorial optimization, energy minimization principles, or discrete geometric constructions that might yield superior configurations
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **Discrete Optimization**: `deap`, `platypus`, `pymoo` (multi-objective evolutionary algorithms)
+- **Geometric Computing**: 
+  * `scipy.spatial` (distance matrices, Voronoi diagrams, Delaunay triangulation)
+  * `shapely` (geometric operations), `scikit-learn` (clustering and nearest neighbor)
+- **Specialized Algorithms**: 
+  * `potential-fields` or custom energy minimization libraries
+  * `cvxpy` for convex optimization formulations
+- **Performance**: `numba` (JIT compilation), `joblib` (parallel processing)
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Approach Diversity**: Implement at least two distinct algorithmic paradigms with different theoretical foundations (e.g., one based on continuous optimization and another on discrete or combinatorial approaches)
+- **Innovation Focus**: Prioritize novel combinations of mathematical concepts or unconventional geometric arrangements over standard optimization heuristics
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

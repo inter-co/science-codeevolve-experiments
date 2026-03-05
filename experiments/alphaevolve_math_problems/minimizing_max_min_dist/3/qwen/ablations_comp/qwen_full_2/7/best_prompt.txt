@@ -1,0 +1,62 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic approaches including:
+- **Mathematical Construction**: Leverage known optimal configurations from spherical codes, Platonic solids, or other geometric structures
+- **Global Optimization**: Employ evolutionary algorithms like genetic algorithms, particle swarm optimization, or simulated annealing
+- **Hybrid Methods**: Combine analytical geometric insights with numerical optimization
+- **Symmetry-Based Approaches**: Utilize symmetry groups (icosahedral, octahedral) or discrete rotation groups for structured point arrangements
+- **Energy Models**: Explore alternative potential functions beyond inverse square laws (e.g., inverse cubic, logarithmic potentials)
+- **Alternative Paradigms**: Consider non-traditional approaches such as:
+  * Constraint satisfaction using geometric constraints
+  * Monte Carlo methods with adaptive sampling strategies
+  * Basin-hopping global optimization
+  * Differential evolution for multi-modal landscapes
+  * Physics-based simulation approaches (e.g., electrostatic repulsion with modified potentials)
+  * Topological optimization methods
+  * Machine learning-inspired optimization with neural networks or reinforcement learning
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Advanced approach: Consider both analytical geometric constructions and numerical optimization techniques
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+- **Alternative strategies**: Consider:
+  * Monte Carlo methods with adaptive sampling
+  * Basin-hopping global optimization
+  * Differential evolution for multi-modal landscapes
+  * Constraint satisfaction approaches using geometric constraints
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Innovation Focus**: Prioritize novel algorithmic approaches over conventional methods
+- **Multi-strategy Exploration**: Implement at least one non-standard optimization technique beyond typical gradient-based methods
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

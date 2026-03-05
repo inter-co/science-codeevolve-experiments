@@ -12,6 +12,14 @@ PROBLEM CONTEXT:
   * At least one height must be positive (sum > 0.01)
   * Practical limits: heights clipped to [0, 1000]
   * Sequence length n can vary
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+- **Evolutionary Computation**: Implement genetic algorithms, particle swarm optimization, or differential evolution to search the space of possible sequences
+- **Bayesian Optimization**: Use probabilistic models to intelligently sample promising regions of the parameter space
+- **Simulated Annealing**: Explore stochastic local search methods that can escape local optima
+- **Neural Network Approaches**: Train neural networks to predict good sequences or use reinforcement learning to discover optimal configurations
+- **Randomized Search with Adaptive Sampling**: Combine random exploration with adaptive refinement based on previous evaluations
+
 COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 **Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
 
@@ -31,37 +39,19 @@ PERFORMANCE METRICS:
 TECHNICAL REQUIREMENTS:
 - **Determinism**: Use fixed random seeds for reproducibility across runs
 - **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability)
-- **Memory efficiency**: Use FFT-based convolution for large sequences (O(n log n) vs O(n²)) when applicable
-- **Scalability**: Consider that optimal n may vary; explore different sequence lengths systematically
+- **Memory efficiency**: Use FFT-based convolution for large sequences (O(n log n) vs O(n²))
+- **Scalability**: Consider that optimal n may vary; explore different sequence lengths
 - **Numerical stability**: Be mindful of division by small sums; evaluator rejects sum(a) < 0.01
-- **Structure awareness**: Leverage known mathematical properties of the problem to guide exploration rather than blind random search
-- **Multi-method hybrid approach**: Consider combining several different optimization strategies rather than relying on a single method
 
 MATHEMATICAL INSIGHTS:
-- The autoconvolution b[k] = Σᵢ a[i] · a[k-i] is central to the problem and has special structure: it's a symmetric function with maximum at k=0
+- The autoconvolution b[k] = Σᵢ a[i] · a[k-i] is central to the problem
 - To maximize 1/C₁ = (sum(a))² / (2n · max(b)), we want to minimize the ratio max(b)/(sum(a))² while accounting for sequence length n
 - This means: maximize total mass sum(a) relative to peak convolution max(b), while keeping n small
 - The trade-off between sequence length n and height distribution is crucial
-- Key insight: sequences with concentrated mass (few large values) often perform better than uniform distributions
-- Another insight: symmetric sequences often yield better bounds due to their convolution properties
-- The optimal solution may exhibit specific mathematical structures that can be derived analytically rather than discovered through random sampling
-- Consider that the problem has a geometric interpretation where we're looking for sequences that concentrate their "energy" efficiently in the convolution
-
-COMPUTATIONAL APPROACHES TO CONSIDER:
-- **Mathematical programming**: Formulate as a constrained optimization problem and use disciplined convex programming (`cvxpy`) or nonlinear programming solvers, but consider the specific structure of autocorrelation constraints
-- **Lagrangian relaxation**: Exploit the structure of the autocorrelation constraint to derive tighter bounds and relaxation techniques, particularly focusing on the relationship between sequence energy and convolution peaks
-- **Semidefinite programming**: Reformulate the problem using positive semidefinite constraints that arise naturally from the autocorrelation structure, leveraging the fact that convolution matrices have special spectral properties
-- **Dynamic programming**: Consider sequential construction of optimal step functions with memoization of intermediate states, specifically exploring how to build optimal sequences incrementally while maintaining feasibility
-- **Analytical approaches**: Derive necessary conditions for optimality using calculus of variations or Lagrange multipliers, focusing on the variational principle that maximizes total mass relative to peak convolution
-- **Network flow formulations**: Model the convolution operation as a network flow problem to leverage graph-based optimization techniques, treating the convolution as a structured optimization over flows
-- **Machine learning approaches**: Use neural networks to learn the optimal step function patterns, particularly attention mechanisms or transformers that can capture long-range dependencies in the convolution structure
-- **Combinatorial optimization**: Explore discrete optimization techniques where the sequence heights take values from specific discrete sets, or consider integer programming formulations that exploit the step function nature
-- **Multi-scale analysis**: Employ hierarchical or multi-resolution approaches that construct sequences at different scales and combine them optimally
-- **Symmetry exploitation**: Consider symmetric sequences that might yield optimal solutions due to the symmetric nature of convolution operations
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

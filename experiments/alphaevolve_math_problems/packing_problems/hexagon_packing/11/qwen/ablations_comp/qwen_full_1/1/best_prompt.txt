@@ -2,16 +2,6 @@
 SETTING:
 You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 11 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
 
-ALTERNATIVE APPROACHES TO CONSIDER:
-1. **Global Optimization Methods**: Employ evolutionary algorithms like genetic algorithms or differential evolution to search the continuous parameter space of positions and orientations
-2. **Physics-Based Simulation**: Implement a soft-body physics simulation with repulsive forces between hexagons and confinement constraints
-3. **Mathematical Programming**: Formulate as a nonlinear constrained optimization problem using Lagrangian multipliers or semidefinite programming
-4. **Hierarchical Search**: Use a multi-scale approach starting with coarse placement then refining with local optimization
-5. **Graph-Theoretic Approaches**: Model hexagon interactions as a graph and use combinatorial optimization techniques
-6. **Machine Learning Guidance**: Utilize learned heuristics or neural networks to guide sampling strategies
-
-The key is to move beyond simple geometric arrangements toward sophisticated search strategies that can escape local optima and discover novel configurations.
-
 PROBLEM CONTEXT:
 - Target: Beat the current state-of-the-art benchmark of 1/outer_hex_side_length = 1/3.930092 ≈ 0.2544
 - Constraint: All 11 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
@@ -19,6 +9,19 @@ PROBLEM CONTEXT:
   * Non-overlap: All pairs of inner hexagons must be disjoint
   * Containment: All vertices of inner hexagons must lie within the outer hexagon
   * Objective: maximize 1/R where R is the outer hexagon side length
+
+ALGORITHMIC APPROACHES TO CONSIDER:
+1. **Mathematical Optimization**: Formulate this as a constrained nonlinear optimization problem using Lagrangian methods or convex optimization techniques
+2. **Geometric Reasoning**: Leverage known symmetries and packing configurations from discrete geometry and sphere packing theory
+3. **Multi-scale Search**: Implement hierarchical search strategies combining global exploration (genetic algorithms, simulated annealing) with local refinement (gradient-based methods)
+4. **Analytical Bounds**: Derive theoretical bounds on optimal arrangements using geometric inequalities and packing density arguments
+5. **Hybrid Methods**: Combine deterministic geometric constructions with stochastic optimization for robust convergence
+
+THEORETICAL INSIGHTS:
+- Consider the relationship between hexagon packing and triangular lattice arrangements
+- Explore the connection to the Kepler conjecture and optimal sphere packing in 2D
+- Investigate how rotational degrees of freedom can improve packing efficiency
+- Apply concepts from computational topology and Voronoi diagrams for constraint satisfaction
 
 PERFORMANCE METRICS:
 1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
@@ -35,23 +38,18 @@ COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
   * `scipy.optimize` (constrained optimization, global methods)
   * `deap` (evolutionary algorithms with custom operators)
   * `platypus` (multi-objective optimization)
-  * `scipy.optimize.differential_evolution` (for global search)
 - **Collision detection**: 
   * `pymunk` (2D rigid body physics with polygon shapes)
   * Custom SAT (Separating Axis Theorem) implementations
 - **Performance**: `numba` (JIT compilation for geometric calculations), `joblib`
-- **Advanced Techniques**:
-  * Consider `scipy.optimize.minimize` with various algorithms (L-BFGS, Nelder-Mead, etc.)
-  * Explore `basinhopping` for escaping local minima
-  * Investigate `dlib`'s optimization tools for robust numerical solutions
 
 TECHNICAL REQUIREMENTS:
 - **Numerical stability**: Handle hexagon intersection and containment calculations robustly
 - **Reproducibility**: Fixed random seeds for stochastic optimization methods
 
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

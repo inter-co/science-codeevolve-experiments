@@ -1,0 +1,58 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider leveraging fundamental mathematical and computational paradigms including:
+- Analytical geometric constructions inspired by classical packing problems (e.g., kissing number configurations, circle packings)
+- Population-based metaheuristics such as genetic algorithms, differential evolution, or particle swarm optimization
+- Simulated annealing with specialized neighborhood structures for geometric arrangements
+- Mathematical programming approaches using convex relaxations or branch-and-bound techniques
+- Discrete optimization methods that exploit symmetries and combinatorial structures
+- Physics-based approaches like molecular dynamics simulation with repulsive potentials
+- Topological optimization concepts applied to point distributions
+- Hybrid methods combining exact mathematical insights with heuristic search strategies
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Key insight: This is a highly non-convex optimization problem with complex landscape. Seek solutions that combine mathematical rigor with diverse search strategies. Consider:
+  * Configurations derived from known optimal packings or near-optimal solutions
+  * Methods that can escape local optima through stochastic or population-based search
+  * Approaches that leverage geometric symmetries or group theory principles
+  * Hybrid methods that alternate between local refinement and global exploration
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Exploration Strategy**: Prefer methods that can escape local optima and systematically explore the configuration space through diverse mechanisms
+- **Mathematical Rigor**: Where applicable, use rigorous mathematical formulations or approximations that can be justified theoretically
+- **Innovation Focus**: Prioritize novel algorithmic approaches over standard optimization libraries when they offer superior performance or solution quality for this specific problem class
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

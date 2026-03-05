@@ -1,0 +1,51 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse mathematical frameworks including:
+- **Deterministic geometric constructions**: Investigate regular polygonal arrangements, lattice structures, and known optimal configurations from discrete geometry. Consider symmetry-based approaches and group theory applications to systematically generate point sets with provable optimality properties.
+- **Analytical geometry**: Leverage symmetry groups, rotationally invariant configurations, and mathematical optimization techniques such as Lagrange multipliers to derive closed-form solutions or parameterized families of arrangements.
+- **Algebraic methods**: Employ polynomial systems, resultants, or Gröbner basis computations to solve geometric constraint satisfaction problems directly.
+- **Topological methods**: Use concepts from algebraic topology or graph theory to constrain point placements through topological invariants or combinatorial structures.
+- **Multi-scale approaches**: Combine coarse-grained initial placements with fine-tuned local optimizations, but prioritize fundamentally different initialization strategies.
+- **Variational principles**: Frame the problem as minimizing a potential energy function with specific interaction kernels or as maximizing a geometric functional through calculus of variations.
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components, but favor deterministic mathematical approaches over randomized heuristics
+- **Algorithmic diversity**: Consider at least two distinct approaches from different mathematical paradigms (e.g., one analytical/geometric method and one based on variational principles or algebraic computation)
+- **Mathematical rigor**: Clearly define the mathematical foundation of your chosen approach, whether it's based on symmetry groups, variational principles, or algebraic geometric methods
+- **Alternative validation**: Include a secondary approach that provides complementary insight into the optimality of your solution, preferably from a different mathematical framework than the primary method
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

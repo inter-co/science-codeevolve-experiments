@@ -1,0 +1,88 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods. Your mission is to evolve and optimize a function that discovers step function constructions to improve the lower bound on the second autocorrelation inequality constant C₂.
+
+PROBLEM CONTEXT:
+- **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
+- **Benchmark**: Beat AlphaEvolve's result of C₂ = 0.962
+- **Known bounds**: 0.88922 ≤ C₂ ≤ 1 (theoretical upper bound is 1)
+- **Mathematical formulation**: For step function f with autoconvolution g = f*f, we have C₂ = ||g||₂² / (||g||₁ · ||g||∞)
+- **Norms computed on autoconvolution**:
+  * ||g||₂²: L2-norm squared, computed via piecewise linear integration over convolution
+  * ||g||₁: L1-norm, approximated as sum(|g|) / (len(g) + 1)
+  * ||g||∞: Infinity-norm, computed as max(|g|)
+- **Constraints**:
+  * All step heights must be non-negative (negative values clipped to 0)
+  * Sequence length n can vary (AlphaEvolve used 50,000; you may explore different ranges)
+  * Steps are equally-spaced on the interval [-1/4, 1/4]
+
+ALGORITHMIC APPROACHES TO CONSIDER:
+1. **Combinatorial optimization with integer programming**: Frame the step function construction as a discrete optimization problem where each step height is treated as an integer variable, using branch-and-bound or cutting plane methods to find globally optimal configurations
+2. **Topology optimization with shape calculus**: Treat the step function as a deformable object and apply topological derivative methods to iteratively remove or add steps in locations that most improve C₂, without relying on gradient information
+3. **Game-theoretic equilibrium seeking**: Model the optimization as a non-cooperative game where each step position and height is a player trying to maximize local contribution to C₂, leading to Nash equilibrium solutions
+4. **Information geometry with exponential families**: Parameterize the step function using exponential family distributions and optimize using information-theoretic measures like Fisher divergence, exploring the manifold structure of valid solutions
+5. **Graph-based optimization with network flows**: Represent the convolution structure as a graph where nodes are steps and edges represent convolution interactions, then apply max-flow/min-cut algorithms to optimize the underlying network
+6. **Category theory with functorial optimization**: Apply categorical methods to map the optimization problem through category equivalences, potentially revealing new structural insights or simplifying the problem through abstract transformations
+7. **Non-standard analysis with infinitesimals**: Employ hyperreal numbers to work with infinitesimal step sizes and infinitesimal changes in the optimization landscape, potentially revealing hidden symmetries or optimal configurations
+8. **Category-theoretic optimization with Kan extensions**: Use Kan extensions to extend partial step function definitions to global optimal solutions, leveraging the universal properties of optimization problems
+
+MATHEMATICAL INSIGHTS TO EXPLOIT:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] represents convolution with rich harmonic analysis properties; consider using Fourier transform techniques to analyze frequency-domain characteristics that optimize C₂
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) can be viewed as a generalized Rayleigh quotient or condition number that measures the "flatness" of g relative to its energy distribution
+- Instead of direct maximization, consider the dual problem: what are the minimal conditions on f such that C₂ ≥ some target value?
+- High peak values in g (large ||g||∞) can actually be beneficial if they are accompanied by sufficient ||g||₂² growth, suggesting a potential trade-off optimization landscape
+- The piecewise linear integration method for ||g||₂² can be reinterpreted as a discrete approximation to a continuous functional optimization problem
+- Explore connections to orthogonal polynomials, where optimal step functions might correspond to extremal polynomials with respect to certain inner products
+- Consider the problem from the perspective of reproducing kernel Hilbert spaces or integral operators with specific kernels
+- Investigate whether the optimal solution has connections to special functions (Bessel functions, Hermite polynomials) or orthogonal systems
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary algorithms), `platypus` (multi-objective optimization), `pymoo` (evolutionary computation)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA, DE), `nevergrad` (gradient-free optimization), `optuna` (Bayesian optimization)
+- **Signal processing**: `scipy.signal` (convolution operations), `scipy.fft` (fast convolution via FFT)
+- **Numerical integration**: `scipy.integrate` (quadrature methods), though evaluator uses trapezoidal-like piecewise linear integration
+- **Parallel computing**: `joblib` (parallel loops), `multiprocessing`, `concurrent.futures`, `ray` (distributed computing)
+- **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
+- **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
+
+IMPLEMENTATION STRATEGY:
+Rather than simple random sampling or traditional optimization, implement one or more of these radically different approaches:
+1. **Discrete optimization with dynamic programming**: Use Bellman's principle to decompose the step function construction into sequential decisions, solving subproblems optimally to build up to global optimum
+2. **Multi-agent swarm intelligence with particle swarms**: Implement a swarm where each particle represents a complete step function configuration, with agents communicating through swarm intelligence to discover high-C₂ regions
+3. **Constraint satisfaction with backtracking search**: Frame the optimization as finding a solution that satisfies a set of constraints derived from the mathematical structure of the convolution problem
+4. **Evolutionary computation with genetic programming**: Use tree-based genetic programming to evolve mathematical expressions that define optimal step function shapes, allowing for complex non-linear relationships
+5. **Optimization on manifolds with Riemannian geometry**: Treat the space of valid step functions as a Riemannian manifold and perform optimization using geodesic flows or conjugate gradient methods adapted to curved spaces
+6. **Homotopy continuation methods**: Use path-following techniques to continuously deform a known good solution into the optimal one, tracking solution paths through parameter space
+7. **Algebraic topology with persistent homology**: Analyze the topological features of the solution space using persistent homology to identify optimal basins of attraction or detect phase transitions in the optimization landscape
+
+PERFORMANCE METRICS:
+1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
+2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
+3. **eval_time**: Execution time in seconds 
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds for reproducibility across runs
+- **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
+- **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
+
+MATHEMATICAL INSIGHTS:
+- The autoconvolution g[k] = Σᵢ f[i] · f[k-i] represents a fundamental convolution operation with rich mathematical properties that can be analyzed through the lens of group theory or representation theory
+- C₂ = ||g||₂² / (||g||₁ · ||g||∞) defines a novel ratio that balances different aspects of the convolution's magnitude distribution, which might be better understood through information-theoretic or entropy-based perspectives
+- Rather than focusing on maximizing individual terms, consider how to optimize the geometric relationship between these norms through categorical or functorial approaches that preserve structural relationships
+- The optimal solution might exploit rare mathematical phenomena in convolution spaces, such as ultra-sparse configurations or functions with infinite-dimensional properties that emerge from category-theoretic considerations
+- Consider whether there exist closed-form solutions or special functions that could represent the optimal configuration, including non-analytic or fractal-like solutions that arise from topological or geometric constraints
+- The constraint structure suggests this problem might benefit from non-standard mathematical frameworks like tropical geometry, p-adic analysis, or non-commutative geometry that reveal hidden symmetries
+- Investigate whether the optimal solution exhibits fractal-like self-similarity, chaotic behavior, or other exotic mathematical properties that traditional approaches might miss, particularly those arising from ergodic theory or measure-preserving transformations
+- Explore the possibility of solutions that are optimal in a measure-theoretic sense rather than point-wise optimization, using techniques from functional analysis or stochastic processes
+- Consider how to frame this as an inverse problem where you're constructing the optimal input function given desired output characteristics, potentially using techniques from operator theory or integral equations
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

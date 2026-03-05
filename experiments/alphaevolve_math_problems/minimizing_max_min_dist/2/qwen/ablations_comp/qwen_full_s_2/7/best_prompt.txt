@@ -1,0 +1,60 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse mathematical paradigms including algebraic number theory approaches, group-theoretic constructions, and combinatorial designs alongside traditional geometric and optimization methods.
+Consider non-standard formulations such as:
+- Lattice-based constructions using quadratic forms and root systems
+- Algebraic point configurations derived from finite fields or cyclotomic fields
+- Topological approaches using Voronoi diagrams and Delaunay triangulations
+- Probabilistic methods with random matrix theory connections
+- Symmetry-breaking techniques leveraging Coxeter groups or other discrete symmetry groups
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Strategy considerations:
+  * Investigate algebraic constructions using roots of unity or algebraic integers
+  * Explore lattice-based solutions through quadratic forms and their associated sphere packings
+  * Consider combinatorial designs such as Hadamard matrices or orthogonal arrays
+  * Apply topological methods using simplicial complexes or incidence structures
+  * Utilize probabilistic constructions with concentration inequalities
+  * Examine symmetry-breaking mechanisms through group actions and quotient spaces
+  * Study connections to coding theory where point arrangements correspond to error-correcting codes
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Diversity**: Implement at least one approach from algebraic number theory OR group theory AND one numerical optimization approach
+- **Mathematical Rigor**: Utilize theoretical bounds, symmetry arguments, and known optimal configurations as constraints or starting points
+- **Multi-scale Approach**: Combine high-level mathematical insights with low-level numerical refinement
+- **Conceptual Breadth**: Demonstrate understanding of at least two distinct mathematical domains beyond standard optimization
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

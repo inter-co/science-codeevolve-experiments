@@ -1,0 +1,66 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+Explore multiple geometric paradigms and algorithmic strategies including:
+- Symmetric arrangements based on group theory (D6, C6, etc.) with careful consideration of rotational symmetries
+- Spiral or radial packing patterns with mathematical justification for their optimality
+- Voronoi-based or Delaunay-inspired configurations that leverage spatial partitioning principles
+- Hexagonal lattice optimizations with non-uniform spacing that may utilize irrational number relationships for better packing efficiency
+- Multi-scale packing approaches combining different density regions with hierarchical geometric reasoning
+- Advanced constraint satisfaction techniques leveraging geometric properties such as:
+  * The relationship between inscribed and circumscribed circles of hexagons
+  * Geometric duality principles in hexagonal tilings
+  * Convex hull computations for containment verification
+  * Discrete geometry concepts for overlap detection
+  * Mathematical programming formulations using linear or quadratic constraints
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+- Strategy: Employ advanced geometric reasoning and optimization methodologies beyond simple grid arrangements
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+4. **geometric_consistency**: Score based on adherence to mathematical principles and geometric soundness
+5. **algorithmic_diversity**: Bonus for employing novel approaches beyond standard optimization methods
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Advanced Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+  * `scipy.optimize.differential_evolution` for global search of complex landscapes
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+- **Specialized Tools**:
+  * Consider using simulated annealing for escaping local optima
+  * Implement custom geometric constraints for efficient validation
+  * Explore configuration space sampling techniques
+  * Leverage mathematical programming solvers like `cvxpy` for convex optimization formulations
+  * Utilize graph-based approaches for constraint satisfaction
+  * Apply combinatorial optimization methods for discrete arrangement problems
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Algorithmic diversity requirement**: At least one novel geometric approach must be demonstrated
+- **Mathematical rigor requirement**: Solutions must demonstrate clear geometric reasoning and validation
+
+# PROMPT-BLOCK-END
+    

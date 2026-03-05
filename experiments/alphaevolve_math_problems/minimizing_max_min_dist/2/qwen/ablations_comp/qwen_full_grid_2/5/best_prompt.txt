@@ -1,0 +1,70 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Explore diverse algorithmic paradigms including but not limited to:
+- Energy minimization frameworks (Thomson problem analogues) with different potential functions such as inverse power laws or repulsive forces
+- Semidefinite programming relaxations for global optimization with appropriate lifting techniques  
+- Advanced Monte Carlo methods including simulated annealing with adaptive temperature schedules and novel proposal distributions
+- Hierarchical clustering-based initialization followed by local refinement using geometric constraints
+- Combinatorial optimization approaches leveraging graph theory, spectral methods, or discrete optimization techniques
+- Hybrid metaheuristic strategies combining evolutionary algorithms with local search and memory-based mechanisms
+- Geometric construction methods based on Delaunay triangulations, Voronoi diagrams, or other discrete geometric structures
+- Novel mathematical frameworks such as potential field theory, convex relaxation methods, or topological optimization approaches
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALGORITHMIC DIVERSITY REQUIREMENT:
+The solution must demonstrate at least one approach that differs fundamentally from standard continuous optimization methods. Consider these fundamentally different paradigms:
+1. **Discrete combinatorial optimization**: Treat point arrangements as permutations, graph colorings, or discrete optimization problems where the solution space consists of finite configurations rather than continuous variables. For example, model this as a quadratic assignment problem or use constraint satisfaction solvers with sophisticated propagation rules. Focus on combinatorial structures like Latin squares, Hadamard matrices, or orthogonal arrays for point distribution.
+2. **Topological optimization**: Leverage topological invariants, homology groups, or knot theory to constrain point configurations, or use simplicial complexes to model geometric relationships. Explore how topological constraints might naturally lead to optimal spacing through persistent homology or topological data analysis of point clouds.
+3. **Algebraic geometry approaches**: Model the point configuration space using polynomial equations, use Gröbner bases for constraint solving, or employ algebraic varieties to define optimal arrangements. Consider using polynomial optimization techniques or solving systems of polynomial equations that characterize optimal configurations through resultants or elimination theory.
+4. **Group theory and symmetry-based construction**: Exploit symmetry groups to reduce the search space, construct orbits of points under group actions, or use crystallographic restrictions to generate valid configurations. This could involve generating configurations based on regular polyhedra, finite subgroups of SO(3), or applying finite group representations to create symmetric point sets with guaranteed optimality properties.
+5. **Combinatorial game theory**: Frame the point placement as a strategic game where each point placement affects future possibilities, or model as a constraint satisfaction problem with sophisticated propagation rules. Think of this as a multi-agent optimization where points compete for optimal positions using payoff functions derived from geometric criteria.
+6. **Spectral methods on discrete structures**: Instead of continuous Laplacians, work with discrete graph Laplacians, use eigenvalue optimization on adjacency matrices, or apply spectral clustering to identify good point configurations. Consider constructing graphs from point configurations and optimizing spectral properties through graph partitioning or community detection algorithms.
+7. **Geometric invariant theory**: Use polynomial invariants under group actions to characterize optimal arrangements, or employ moment maps to understand the symplectic geometry of point configurations. This approach focuses on finding configurations that extremize certain geometric invariants through moment polytopes or GIT quotients.
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic diversity**: Implement at least one non-trivial optimization strategy beyond simple random sampling, preferably exploring fundamentally different algorithmic families (e.g., discrete combinatorial vs. topological vs. algebraic vs. symmetry-based approaches)
+- **Mathematical rigor**: Leverage known bounds and geometric properties where applicable, but prioritize novel mathematical frameworks such as:
+  - Discrete optimization using integer programming, constraint satisfaction solvers with sophisticated constraint propagation, or combinatorial designs
+  - Group theory applications with symmetry reduction techniques, crystallographic restrictions, or finite group representations
+  - Algebraic geometry methods involving polynomial systems, Gröbner bases, elimination theory, or resultants
+  - Topological optimization using homology groups, simplicial complexes, topological data analysis, or persistent homology
+  - Spectral analysis on discrete structures such as graph Laplacians, adjacency matrices, or graph signal processing
+  - Combinatorial game theory formulations for strategic point placement with payoff functions or multi-agent optimization frameworks
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Strategy diversity**: Include at least two distinct algorithmic approaches in your implementation where feasible, demonstrating different conceptual foundations (e.g., one based on continuous optimization, another on discrete combinatorial methods, or topological/algebraic approaches)
+- **Innovation emphasis**: Prioritize novel algorithmic concepts over computational efficiency when they offer fundamentally different perspectives on the problem
+
+# PROMPT-BLOCK-END
+    

@@ -1,0 +1,74 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+STRATEGIC APPROACHES TO CONSIDER:
+1. **Algebraic Number Theory Approaches**: Leverage roots of unity, algebraic integers, or finite field constructions to generate point sets with optimal geometric properties
+2. **Variational Principles**: Formulate the problem using calculus of variations or Lagrangian optimization with constraints to derive critical point configurations
+3. **Random Matrix Theory Applications**: Utilize eigenvalue distributions or correlation functions from random matrix ensembles to inform point placement
+4. **Dynamical Systems Methods**: Model point evolution as a gradient flow or Hamiltonian system where points repel according to inverse power laws
+5. **Tensor Network Optimization**: Employ tensor decomposition techniques or quantum information-inspired methods to optimize point configurations
+6. **Harmonic Analysis Framework**: Use Fourier analysis or spherical harmonics to construct point sets with desirable spectral properties
+7. **Information-Theoretic Approaches**: Frame the problem as maximizing entropy or minimizing mutual information between point positions
+8. **Non-Euclidean Geometry**: Consider embeddings in hyperbolic or spherical spaces where the optimal configurations might be more tractable
+
+ALTERNATIVE FORMULATIONS TO EXPLORE:
+- Approach the problem via potential theory where points are treated as charges minimizing electrostatic energy
+- Consider using semidefinite programming relaxations common in discrete geometry
+- Investigate connections to coding theory where this becomes a sphere packing or covering problem
+- Explore the relationship with optimal transport theory and Wasserstein distances
+- Apply machine learning methods like neural networks trained on known optimal configurations
+- Study the problem through the lens of convex optimization with non-smooth objectives
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+ALTERNATIVE FORMULATIONS TO EXPLORE:
+- Explore exact geometric constructions that naturally achieve high min/max ratios
+- Investigate whether the optimal configuration belongs to a known family of point sets (e.g., vertices of regular polytopes, or arrangements related to finite fields)
+- Consider the dual problem: placing points such that the minimum distance is maximized under a constraint on maximum distance
+- Approach the problem through the lens of energy minimization with different potential functions that might lead to different geometric structures
+- Study the relationship between this problem and packing problems, or consider how known bounds from coding theory might inform the construction
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Mathematical Rigor**: Prioritize exact geometric constructions or well-founded analytical approaches over heuristic optimization
+- **Structural Properties**: Emphasize solutions that exhibit clear geometric or algebraic structure (symmetry, regularity, etc.)
+- **Analytical Validation**: Where possible, validate solutions against known theoretical bounds or conjectures
+- **Computational Efficiency**: Balance mathematical elegance with practical execution time (still within 60 seconds)
+- **Solution Verification**: Include checks that confirm the computed arrangement satisfies the problem requirements
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+ADDITIONAL CONSIDERATIONS:
+- Prioritize mathematical rigor over brute force computation
+- Consider theoretical bounds and known constructions for similar problems
+- Evaluate trade-offs between solution quality and computational efficiency
+
+# PROMPT-BLOCK-END
+    

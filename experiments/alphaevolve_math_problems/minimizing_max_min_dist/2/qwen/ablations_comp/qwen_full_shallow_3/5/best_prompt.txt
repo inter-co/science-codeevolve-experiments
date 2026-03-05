@@ -1,0 +1,67 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Prioritize mathematically rigorous, constructive approaches over numerical optimization:
+- Direct geometric constructions inspired by crystallography, tiling patterns, or regular polytopes
+- Algebraic number theory approaches for rational approximations of optimal configurations  
+- Group theory applications using symmetry groups and their representations
+- Number-theoretic constructions using low-discrepancy sequences or Fibonacci-based arrangements
+- Constructive algorithms from finite field theory or algebraic extensions
+- Combinatorial approaches based on graph theory and maximal independent sets
+- Spectral graph theory methods for point placement via eigenvector analysis
+- Discrete differential geometry approaches for curvature-preserving point distributions
+- Potential theory and electrostatic repulsion models with explicit force calculations
+- Geometric programming formulations with convex relaxations
+- Mathematical programming approaches using semidefinite programming or conic optimization
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+- Key insight: This problem relates to spherical codes and optimal point distributions on the sphere, where the optimal configuration often exhibits high symmetry and can be approached through:
+  * Construction of regular polytopes and their projections
+  * Use of known optimal configurations from the literature (e.g., icosahedral arrangements)
+  * Application of potential theory and electrostatic repulsion models
+  * Consider lattice-based constructions or quasicrystal symmetries
+  * Explore configurations derived from finite group representations or algebraic number fields
+  * Leverage the connection to optimal packing problems in discrete geometry
+  * Apply concepts from information theory and entropy maximization for uniform distributions
+  * Utilize harmonic analysis and spherical harmonics for symmetric point arrangements
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Algorithmic Sophistication**: Prefer mathematically rigorous approaches over heuristic random sampling
+- **Geometric Intuition**: Leverage known geometric principles about optimal point distributions
+- **Exploration Strategy**: Prioritize constructive mathematical approaches including combinatorial methods, algebraic constructions, and direct geometric reasoning
+- **Alternative Paradigms**: Focus on constructing solutions through direct mathematical relationships, symmetry groups, topological constraints, or combinatorial optimization rather than iterative numerical optimization
+- **Mathematical Construction Priority**: Emphasize explicit geometric or algebraic constructions that can be rigorously justified rather than relying primarily on numerical optimization
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

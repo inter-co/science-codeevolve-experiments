@@ -1,0 +1,54 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to develop a sophisticated constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint (use Voronoi diagrams or distance-based constraints)
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon (consider vertex enumeration and containment testing)
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Group Theory Approach**: Leverage the dihedral group D6 symmetry to reduce search space by considering only fundamental domains. Explore symmetric patterns like 6-fold rotational symmetry with 2-fold axial symmetry, or other subgroups of D6. Consider using symmetry-breaking techniques to escape local optima.
+2. **Evolutionary Computation**: Employ genetic algorithms or differential evolution that naturally preserve geometric constraints through custom crossover/mutation operators designed for hexagonal geometry. Focus on encoding hexagon positions and rotations in a way that maintains geometric validity.
+3. **Monte Carlo with Geometric Constraints**: Implement Markov Chain Monte Carlo methods where proposals respect geometric feasibility constraints rather than arbitrary parameter changes. Consider using Metropolis-Hastings with carefully designed proposal distributions that respect hexagon containment and non-overlap.
+4. **Hierarchical Optimization**: Begin with coarse-grained symmetry-based arrangements, then refine with local optimization while maintaining geometric consistency. Try alternating between global exploration and local exploitation phases.
+5. **Constraint Satisfaction Programming**: Formulate as a CSP with geometric constraints and solve using specialized solvers or branch-and-bound methods. Alternatively, consider using interval arithmetic or constraint propagation techniques specifically tailored for hexagonal geometries.
+6. **Direct Search Methods**: Explore simplicial decomposition or Nelder-Mead style direct search methods that don't rely on gradients but instead use geometric intuition about how to move hexagons to improve packing density.
+7. **Physics-based Simulation**: Model the hexagons as particles with repulsive forces that respect geometric constraints, allowing them to "relax" into an optimal configuration through dynamic simulation.
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+  * `scipy.optimize.direct` (direct search methods)
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+- **Alternative Methods**:
+  * `dlib` (global optimization with Lipschitz continuity assumptions)
+  * `pyomo` (formulation of optimization problems as mathematical programs)
+  * `cvxpy` (convex optimization framework that might help with relaxation)
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

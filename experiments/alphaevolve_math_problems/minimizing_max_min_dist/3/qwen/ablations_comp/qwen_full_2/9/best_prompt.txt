@@ -1,0 +1,58 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems.
+Your task is to evolve a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+Consider leveraging advanced mathematical principles including:
+- Direct analytical constructions and mathematical optimization (e.g., Lagrange multipliers, variational methods)
+- Alternative geometric frameworks beyond traditional polyhedral symmetries (e.g., toroidal arrangements, helical structures, or minimal surface concepts)
+- Spectral methods and harmonic analysis for point placement (e.g., eigenvalue decompositions of distance matrices)
+- Group theory and symmetry-based constructions using finite subgroups of SO(3) (e.g., icosahedral, tetrahedral, octahedral groups)
+- Algebraic geometry approaches using polynomial systems and Groebner bases for exact solutions
+- Topological methods involving knot theory or surface embeddings for point distributions
+- Differential geometric approaches using curvature constraints and Gaussian maps
+- Number theoretical constructions such as spherical codes, equiangular lines, or lattice-based point sets
+- Variational principles from physics and statistical mechanics (e.g., Coulomb gas models, potential energy minimization)
+- Advanced optimization via semidefinite programming relaxations or convex optimization techniques
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas, cvxpy
+**Additional useful packages**:
+- **Advanced 3D optimization**: `cvxpy` (semidefinite programming), `gurobipy` (advanced optimization), `scipy.optimize` (classical methods)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+  * `sympy` for symbolic algebraic computations
+- **Algebraic geometry tools**: `pylab` or `sage` for polynomial system solving
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components, but prioritize deterministic mathematical constructions
+- **Mathematical rigor**: Employ well-established optimization or geometric construction methods with provable convergence properties
+- **Exploration strategy**: Implement systematic exploration using group theory, algebraic geometry, or spectral methods rather than purely heuristic search
+- **Theoretical grounding**: Prioritize methods with strong mathematical foundations such as those derived from representation theory, algebraic geometry, or differential equations
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Algorithm diversity**: Prefer methods that demonstrate clear mathematical foundation over brute-force sampling, emphasizing exact constructions when possible
+- **Methodological preference**: Prioritize constructive proofs, algebraic solutions, or theoretically motivated heuristics over empirical optimization
+
+# PROMPT-BLOCK-END
+    

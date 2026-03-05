@@ -1,0 +1,66 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on 3D point dispersion problems. Your task is to develop a constructor function that generates an optimal arrangement of exactly 14 points in 3D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+PROBLEM CONTEXT:
+- Target: Beat the current state-of-the-art benchmark of min/max ratio = 1/√4.165849767 ≈ 0.4898
+- Constraint: Points must be placed in 3D Euclidean space (typically normalized to unit cube [0,1]³ or unit sphere)
+- Mathematical formulation: For points Pi = (xi, yi, zi), i = 1,...,14:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)² + (zi-zj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+STRATEGIC APPROACHES TO CONSIDER:
+1. **Geometric Configuration**: Explore known optimal configurations such as:
+   - Platonic solids (tetrahedron, octahedron, icosahedron) as base structures
+   - Spherical codes and spherical designs
+   - Vertex arrangements of regular polyhedra
+   - Symmetric distributions with rotational invariance
+
+2. **Multi-scale Optimization**: Employ hierarchical approaches:
+   - Coarse-grained initial placement using geometric principles
+   - Fine-tuned local optimization using gradient-based methods
+   - Simulated annealing or genetic algorithms for global search
+
+3. **Mathematical Insights**: Leverage:
+   - Spherical geometry for uniform distribution on spheres
+   - Potential field methods for repulsion-based placement
+   - Linear programming relaxations for theoretical bounds
+   - Lagrange multipliers for constrained optimization
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.4898 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **3D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **3D geometric computing**: 
+  * `scipy.spatial` (3D distance matrices, ConvexHull, SphericalVoronoi)
+  * `trimesh` (3D mesh operations), `open3d` (3D data processing)
+- **Specialized 3D algorithms**: 
+  * `spherical-geometry` for spherical arrangements
+  * `quaternion` package for 3D rotations
+- **Performance**: `numba` (3D JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Robustness**: Handle edge cases where points might collapse or become degenerate
+- **Efficiency**: Balance exploration vs. exploitation in optimization strategies
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 360 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+ALTERNATIVE STRATEGIES TO EXPLORE:
+1. **Deterministic Construction**: Start with known good geometric configurations and refine
+2. **Hybrid Metaheuristics**: Combine evolutionary algorithms with local search techniques  
+3. **Energy Minimization**: Model points as charged particles and simulate relaxation
+4. **Convex Optimization**: Use semidefinite programming relaxations for theoretical bounds
+5. **Symmetry-Aware Search**: Exploit symmetry properties to reduce search space complexity
+
+# PROMPT-BLOCK-END
+    

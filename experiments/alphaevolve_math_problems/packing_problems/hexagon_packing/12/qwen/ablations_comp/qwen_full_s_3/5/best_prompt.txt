@@ -1,0 +1,64 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+STRATEGIES TO EXPLORE:
+1. **Mathematical Optimization Approach**: Employ constrained nonlinear optimization using scipy.optimize with custom objective functions and geometric constraints
+2. **Symmetry-Aware Search**: Leverage the 6-fold rotational symmetry of hexagonal lattices to reduce search space complexity
+3. **Evolutionary Computation**: Implement genetic algorithms or particle swarm optimization with specialized crossover operators designed for hexagonal packing
+4. **Hierarchical Packing**: Consider nested arrangements where some hexagons are placed in concentric rings around a central core
+5. **Geometric Programming**: Formulate the problem as a geometric program that can be solved using specialized convex optimization techniques
+
+The solution should demonstrate creative mathematical reasoning beyond simple grid arrangements, potentially incorporating concepts like:
+- Delaunay triangulation for optimal vertex placement
+- Voronoi diagrams for spatial partitioning
+- Lagrange multipliers for constrained optimization
+- Group theory applications to exploit symmetries
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint (use shapely for precise polygon intersection testing)
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon (use shapely for containment checks)
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+1. **Global Optimization Methods**: Use basin-hopping or differential evolution to escape local minima
+2. **Multi-start Strategies**: Run multiple local optimizations from different initial configurations
+3. **Hybrid Approaches**: Combine deterministic optimization with stochastic search methods
+4. **Analytical Geometry**: Derive closed-form solutions for special symmetric cases
+5. **Machine Learning Heuristics**: Train neural networks to predict good initial configurations
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Symmetry handling**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware optimization operators
+- **Optimization**: 
+  * `scipy.optimize` (constrained optimization, global methods like differential evolution)
+  * `deap` (evolutionary algorithms with custom symmetry operators)
+  * `platypus` (multi-objective optimization)
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+- **Advanced Techniques**:
+  * `cvxpy` (convex optimization framework for geometric programming)
+  * `scikit-optimize` (Bayesian optimization for expensive objective functions)
+  * Custom distance metrics for hexagonal lattice geometry
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

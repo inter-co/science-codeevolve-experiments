@@ -1,0 +1,58 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on hexagon packing problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).
+
+STRATEGIC APPROACH:
+Instead of simple grid arrangements or heavy numerical optimization, consider exploring:
+- **Analytical geometric constructions**: Derive exact mathematical relationships based on known optimal configurations and symmetry groups
+- **Symmetry-driven partitioning**: Leverage the 6-fold rotational symmetry of hexagons to reduce the search space significantly
+- **Geometric construction methods**: Use compass-and-straightedge style constructions or known optimal packings from mathematical literature
+- **Combinatorial optimization**: Enumerate possible combinatorial arrangements and validate analytically
+- **Convex optimization with geometric constraints**: Formulate as geometric programming or semidefinite programming
+- **Graph-theoretic approaches**: Model hexagon interactions as graph coloring or clique problems
+- **Pattern recognition from known solutions**: Adapt proven configurations from similar problems in the mathematical literature
+
+PROBLEM CONTEXT:
+- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 ≈ 0.2537
+- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps
+- Mathematical formulation: For hexagon i at position (xi, yi) with rotation θi:
+  * Non-overlap: All pairs of inner hexagons must be disjoint
+  * Containment: All vertices of inner hexagons must lie within the outer hexagon
+  * Objective: maximize 1/R where R is the outer hexagon side length
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+1. **Analytical Construction Approach**: Build the configuration directly from known mathematical principles and symmetry considerations
+2. **Symmetry-Based Decomposition**: Partition the problem using the inherent symmetries to reduce dimensionality
+3. **Geometric Constructions**: Employ classical geometric methods or known optimal configurations from hexagonal lattice theory
+4. **Constraint Satisfaction Modeling**: Frame as a constraint satisfaction problem with geometric constraints
+5. **Exact Mathematical Formulation**: Derive closed-form expressions or algebraic relationships that define optimal arrangements
+6. **Literature-Based Solution Adaptation**: Adapt proven mathematical solutions or constructions from related packing problems
+
+PERFORMANCE METRICS:
+1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: inverse_side_length / 0.2537 (progress toward beating SOTA)
+3. **eval_time**: Execution time for full evaluation
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, matplotlib, shapely
+**Additional useful packages**:
+- **Geometric computing**: 
+  * `shapely` (polygon operations, intersection testing, containment checks)
+  * `scipy.spatial` (distance calculations, geometric queries)
+  * `matplotlib.patches` (hexagon visualization and symmetry analysis)
+- **Mathematical Analysis**:
+  * `sympy` (symbolic mathematics, exact solutions)
+  * `cvxpy` (convex optimization framework for geometric problems)
+  * `scipy.linalg` (linear algebra for symmetry operations)
+- **Symmetry and Group Theory**:
+  * Custom functions for generating symmetric configurations
+  * Group theory utilities for constraint enforcement
+  * Symmetry-aware geometric transformations
+- **Performance**: `numba` (JIT compilation for 12-hexagon calculations), `joblib`
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

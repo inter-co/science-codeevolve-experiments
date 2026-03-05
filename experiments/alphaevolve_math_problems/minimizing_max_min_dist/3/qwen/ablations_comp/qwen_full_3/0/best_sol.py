@@ -1,0 +1,228 @@
+# EVOLVE-BLOCK-START
+import numpy as np
+from scipy.spatial.distance import pdist
+from scipy.optimize import minimize
+import math
+
+
+def min_max_dist_dim3_14() -> np.ndarray:
+    """
+    Creates 14 points in 3 dimensions to maximize the ratio of minimum to maximum distance.
+    Uses a hybrid approach combining geometric construction and multi-start optimization.
+    
+    Returns
+        points: np.ndarray of shape (14,3) containing the (x,y,z) coordinates of the 14 points.
+    """
+    
+    # Set seed for reproducibility
+    np.random.seed(42)
+    
+    def objective(x_flat):
+        """Objective function to minimize (negative of min/max ratio)"""
+        points = x_flat.reshape(-1, 3)
+        distances = pdist(points)
+        min_dist = np.min(distances)
+        max_dist = np.max(distances)
+        
+        # Avoid division by zero
+        if max_dist == 0:
+            return 0
+            
+        # Return negative ratio (we want to maximize ratio, so minimize negative)
+        return -min_dist / max_dist
+    
+    def fibonacci_sphere(n_points):
+        """Generate points on sphere using Fibonacci spiral method"""
+        points = []
+        phi = np.pi * (3. - np.sqrt(5.))  # golden angle
+        
+        for i in range(n_points):
+            y = 1 - (i / float(n_points - 1)) * 2  # y goes from 1 to -1
+            radius = np.sqrt(1 - y * y)  # radius at y
+            
+            theta = phi * i  # golden angle increment
+            
+            x = np.cos(theta) * radius
+            z = np.sin(theta) * radius
+            
+            points.append([x, y, z])
+            
+        return np.array(points)
+    
+    def _perturbed_icosahedron():
+        """Generate points based on icosahedron vertices with perturbation"""
+        # Regular icosahedron vertices
+        phi = (1 + np.sqrt(5)) / 2  # golden ratio
+        vertices = np.array([
+            [0, 1, phi], [0, -1, phi], [0, 1, -phi], [0, -1, -phi],
+            [1, phi, 0], [-1, phi, 0], [1, -phi, 0], [-1, -phi, 0],
+            [phi, 0, 1], [phi, 0, -1], [-phi, 0, 1], [-phi, 0, -1],
+            [1, 1, 1], [-1, -1, -1]  # Additional points for 14 total
+        ])
+        
+        # Normalize to unit sphere and add small perturbations
+        norms = np.linalg.norm(vertices, axis=1)
+        vertices = vertices / norms[:, np.newaxis] * 0.9
+        
+        # Add some randomness for better distribution
+        noise = np.random.normal(0, 0.05, vertices.shape)
+        vertices = vertices + noise
+        
+        # Normalize again
+        norms = np.linalg.norm(vertices, axis=1)
+        vertices = vertices / norms[:, np.newaxis] * 0.9
+        
+        return vertices[:14]
+    
+    # Try multiple initialization strategies with multi-start approach
+    best_points = None
+    best_ratio = -np.inf
+    
+    # Strategy 1: Fibonacci sphere (good general distribution)
+    try:
+        initial_points = fibonacci_sphere(14)
+        norms = np.linalg.norm(initial_points, axis=1)
+        if np.any(norms > 0):
+            initial_points = initial_points / np.max(norms) * 0.9
+        initial_flat = initial_points.flatten()
+        
+        # Multi-start optimization with different random perturbations
+        for _ in range(10):  # More random starts for better exploration
+            # Add small random perturbation to avoid local minima
+            perturbed = initial_flat + np.random.normal(0, 0.05, len(initial_flat))
+            
+            # Optimize using SLSQP method which handles constraints better
+            try:
+                result = minimize(
+                    objective,
+                    perturbed,
+                    method='SLSQP',
+                    options={'maxiter': 1000, 'ftol': 1e-10, 'gtol': 1e-10},
+                    tol=1e-10
+                )
+                
+                if result.success:
+                    current_points = result.x.reshape(-1, 3)
+                    distances = pdist(current_points)
+                    min_dist = np.min(distances)
+                    max_dist = np.max(distances)
+                    
+                    if max_dist > 0:
+                        ratio = min_dist / max_dist
+                        if ratio > best_ratio:
+                            best_ratio = ratio
+                            best_points = current_points.copy()
+                            
+            except Exception:
+                continue
+                        
+    except Exception:
+        pass
+    
+    # Strategy 2: Icosahedral-based initialization (from inspiration 3)
+    try:
+        # Use icosahedral initialization with better point distribution
+        phi = (1 + np.sqrt(5)) / 2  # golden ratio
+        vertices = np.array([
+            [0, 1, phi], [0, -1, phi], [0, 1, -phi], [0, -1, -phi],
+            [1, phi, 0], [-1, phi, 0], [1, -phi, 0], [-1, -phi, 0],
+            [phi, 0, 1], [phi, 0, -1], [-phi, 0, 1], [-phi, 0, -1]
+        ])
+        
+        # Normalize to unit sphere
+        norms = np.linalg.norm(vertices, axis=1)
+        vertices = vertices / norms[:, np.newaxis]
+        
+        # Add two more points at poles for 14 total
+        additional = np.array([[0, 0, 1], [0, 0, -1]])
+        initial_points = np.vstack([vertices, additional])
+        
+        initial_flat = initial_points.flatten()
+        
+        # Multi-start optimization with more random starts
+        for _ in range(10):  # More random starts
+            # Add small random perturbation
+            perturbed = initial_flat + np.random.normal(0, 0.05, len(initial_flat))
+            
+            # Optimize using SLSQP method which handles constraints better
+            try:
+                result = minimize(
+                    objective,
+                    perturbed,
+                    method='SLSQP',
+                    options={'maxiter': 1000, 'ftol': 1e-10, 'gtol': 1e-10},
+                    tol=1e-10
+                )
+                
+                if result.success:
+                    current_points = result.x.reshape(-1, 3)
+                    distances = pdist(current_points)
+                    min_dist = np.min(distances)
+                    max_dist = np.max(distances)
+                    
+                    if max_dist > 0:
+                        ratio = min_dist / max_dist
+                        if ratio > best_ratio:
+                            best_ratio = ratio
+                            best_points = current_points.copy()
+                            
+            except Exception:
+                continue
+                        
+    except Exception:
+        pass
+    
+    # Strategy 3: Random initialization with better distribution
+    try:
+        # Generate random points on sphere
+        random_points = np.random.randn(14, 3)
+        norms = np.linalg.norm(random_points, axis=1)
+        random_points = random_points / norms[:, np.newaxis] * 0.9
+        
+        random_flat = random_points.flatten()
+        
+        # Multi-start optimization
+        for _ in range(5):  # More random starts
+            # Add small random perturbation
+            perturbed = random_flat + np.random.normal(0, 0.05, len(random_flat))
+            
+            # Optimize using SLSQP method which handles constraints better
+            try:
+                result = minimize(
+                    objective,
+                    perturbed,
+                    method='SLSQP',
+                    options={'maxiter': 1000, 'ftol': 1e-10, 'gtol': 1e-10},
+                    tol=1e-10
+                )
+                
+                if result.success:
+                    current_points = result.x.reshape(-1, 3)
+                    distances = pdist(current_points)
+                    min_dist = np.min(distances)
+                    max_dist = np.max(distances)
+                    
+                    if max_dist > 0:
+                        ratio = min_dist / max_dist
+                        if ratio > best_ratio:
+                            best_ratio = ratio
+                            best_points = current_points.copy()
+                            
+            except Exception:
+                continue
+                        
+    except Exception:
+        pass
+    
+    # Fallback to the best we have if no optimization worked well
+    if best_points is None:
+        # Use Fibonacci sphere as fallback
+        best_points = fibonacci_sphere(14)
+        norms = np.linalg.norm(best_points, axis=1)
+        if np.any(norms > 0):
+            best_points = best_points / np.max(norms) * 0.9
+    
+    return best_points
+
+
+# EVOLVE-BLOCK-END

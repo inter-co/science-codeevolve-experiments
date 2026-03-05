@@ -1,0 +1,67 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in circle packing problems, geometric optimization algorithms, and constraint satisfaction. Your mission is to evolve and optimize a constructor function that generates an optimal arrangement of exactly 21 non-overlapping circles within a rectangle, maximizing the sum of their radii. Focus on implementing one or more of the mathematically rigorous approaches outlined below rather than conventional heuristic methods.
+
+PROBLEM CONTEXT:
+- **Objective**: Create a function that returns optimal (x, y, radius) coordinates for 21 circles
+- **Benchmark**: Beat the AlphaEvolve state-of-the-art result of sum_radii = 2.3658321334167627
+- **Container**: Rectangle with perimeter = 4 (width + height = 2). You may choose optimal width/height ratio
+- **Constraints**: 
+  * All circles must be fully contained within rectangle boundaries
+  * No circle overlaps (distance between centers ≥ sum of their radii)
+  * Exactly 21 circles required
+  * All radii must be positive
+
+ALTERNATIVE APPROACHES TO PRIORITIZE:
+- **Mathematical Programming**: Formulate as a convex optimization problem using `cvxpy` or as an integer programming problem with `ortools`. Consider semidefinite programming relaxations or Lagrangian relaxation techniques that might yield tighter bounds than heuristic methods. Think about dual formulations and sensitivity analysis to understand the structure of optimal solutions. Leverage the fact that this is a structured optimization problem where you can express the objective and constraints cleanly in mathematical form.
+- **Constraint Satisfaction**: Apply advanced constraint programming with global constraint propagation using `ortools` or implement systematic backtracking with constraint learning. Consider using constraint networks and arc consistency techniques to prune the search space efficiently before optimization begins. The geometric nature of circle packing makes it particularly amenable to constraint propagation.
+- **Geometric Programming**: Leverage the fact that circle packing is inherently geometric and explore geometric programming formulations that naturally capture the distance constraints and boundary conditions. This approach often provides tighter bounds than heuristic methods.
+- **Combinatorial Optimization**: Model this as a discrete optimization problem where you first select a combinatorial structure (such as a Delaunay triangulation of the circle centers) and then optimize the continuous parameters subject to geometric constraints.
+
+The key is to demonstrate mathematical rigor rather than empirical tuning. Choose one or more of these paradigms to create a solution that is theoretically sound and potentially superior to heuristic approaches, even if it requires more sophisticated mathematical formulation.
+
+ALTERNATIVE APPROACHES TO PRIORITIZE:
+- **Mathematical Programming**: Formulate as a convex optimization problem using `cvxpy` or as an integer programming problem with `ortools`. Consider semidefinite programming relaxations or Lagrangian relaxation techniques that might yield tighter bounds than heuristic methods. Think about dual formulations and sensitivity analysis to understand the structure of optimal solutions.
+- **Constraint Satisfaction**: Apply advanced constraint programming with global constraint propagation using `ortools` or implement systematic backtracking with constraint learning. Consider using constraint networks and arc consistency techniques to prune the search space efficiently before optimization begins.
+- **Geometric Programming**: Leverage the fact that circle packing is inherently geometric and explore geometric programming formulations that naturally capture the distance constraints and boundary conditions.
+- **Combinatorial Optimization**: Model this as a discrete optimization problem where you first select a combinatorial structure (such as a Delaunay triangulation of the circle centers) and then optimize the continuous parameters subject to geometric constraints.
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Alternative approaches to consider**:
+- **Mathematical Programming**: Formulate as a convex optimization problem using `cvxpy` or as an integer programming problem with `ortools`. Consider semidefinite programming relaxations or Lagrangian relaxation techniques that might yield tighter bounds than heuristic methods. Think about exploiting the geometric structure through appropriate variable transformations and constraint formulations.
+- **Constraint Satisfaction**: Apply advanced constraint programming with global constraint propagation using `ortools` or implement systematic backtracking with constraint learning. Consider using specialized constraints for circle packing such as "non-overlapping" or "boundary containment" that can be efficiently enforced.
+- **Physics-based Simulation**: Implement a sophisticated particle system dynamics model with realistic collision forces, friction, and boundary constraints using `pymunk` or develop custom physics-based optimization with energy minimization principles.
+- **Advanced Metaheuristics**: Explore population-based methods like NSGA-II for multi-objective optimization, or quantum-inspired algorithms such as quantum annealing approaches for combinatorial optimization.
+- **Hybrid Methods**: Combine mathematical programming insights with physics simulation (e.g., use mathematical programming to compute theoretical upper bounds that inform physics simulations).
+
+**Additional useful packages**:
+- **Global optimization**: `deap` (evolutionary computation), `platypus` (NSGA-II)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `nevergrad` (gradient-free optimization), `optuna` (hyperparameter optimization)
+- **Geometric computing**: `shapely` (geometric operations), `rtree` (spatial indexing), `scipy.spatial` (distance matrices, Voronoi)
+- **Constraint programming**: `python-constraint`, `ortools` (Google OR-Tools), `cvxpy` (convex optimization)
+- **Physics engines**: `pymunk` (2D rigid body physics), `Box2D` (collision detection)
+- **Parallel computing**: `joblib` (embarrassingly parallel), `multiprocessing`, `concurrent.futures`
+- **Performance**: `cython` (C extensions), `numexpr` (fast numerical expressions)
+
+PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 21 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.3658321334167627 (progress toward beating benchmark)  
+3. **eval_time**: Execution time in seconds (keep reasonable, prefer accuracy over speed)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Memory efficiency**: Avoid excessive memory allocation for distance matrix computations
+- **Scalability**: Design with potential extension to different circle counts in mind
+- **Algorithmic Diversity**: Demonstrate novel approach beyond standard heuristics - prioritize mathematical programming formulations that leverage convex optimization theory, constraint satisfaction with advanced pruning techniques, or geometric programming formulations that exploit the inherent structure of the circle packing problem
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Approach Diversity**: Prioritize exploring at least one non-standard algorithmic paradigm (mathematical programming with convex relaxation, constraint satisfaction with advanced constraint propagation, geometric programming formulations, or combinatorial optimization approaches) rather than conventional heuristic methods
+
+# PROMPT-BLOCK-END
+    

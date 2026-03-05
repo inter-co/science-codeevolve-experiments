@@ -3,7 +3,6 @@
 SETTING:
 You are an expert in harmonic analysis, functional inequalities, and optimization with deep expertise in autoconvolution norms, step function constructions, and numerical integration methods.
 Your mission is to evolve and optimize a function that discovers step function constructions to improve the lower bound on the second autocorrelation inequality constant C₂.
-You should consider both analytical mathematical approaches and computational optimization strategies.
 
 PROBLEM CONTEXT:
 - **Objective**: Find a sequence of non-negative real numbers (representing heights of equally-spaced steps on [-1/4, 1/4]) that maximizes C₂
@@ -31,13 +30,6 @@ COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
 - **Performance**: `numba` (@jit compilation for loops), `cython`, `numexpr` (fast array operations)
 - **Sparse representations**: `scipy.sparse` (if exploiting sparsity in step functions)
 
-**Alternative Approaches to Consider**:
-- Mathematical construction of step functions based on known optimal configurations or theoretical bounds
-- Evolutionary algorithms that maintain population diversity in step height configurations
-- Gradient-free optimization techniques specifically designed for discrete optimization problems
-- Multi-start local optimization with carefully chosen initial points
-- Adaptive mesh refinement strategies for the step function representation
-
 PERFORMANCE METRICS:
 1. **c2**: C₂ value (PRIMARY OBJECTIVE - maximize this)
 2. **benchmark_ratio**: c2 / 0.962 (success indicator - values > 1.0 mean you've beaten AlphaEvolve)
@@ -48,6 +40,15 @@ TECHNICAL REQUIREMENTS:
 - **Robustness**: Handle edge cases (empty sequences, all zeros, numerical instability in norm computations)
 - **Numerical stability**: Be mindful of divisions when ||g||₁ or ||g||∞ are small
 
+ALTERNATIVE APPROACHES TO CONSIDER:
+Instead of the current hybrid optimization approach, explore:
+1. **Bayesian Optimization**: Use `optuna` or `nevergrad` to sequentially sample promising regions in the parameter space
+2. **Population-based Evolutionary Algorithms**: Implement genetic algorithms with custom crossover/mutation operators specifically designed for step function representations
+3. **Multi-start Gradient-free Methods**: Employ multiple random initializations with `scipy.optimize.minimize` using methods like Nelder-Mead or Powell
+4. **Deep Learning Approach**: Train a neural network to predict optimal step configurations based on sampled training data
+5. **Analytical Approximation Methods**: Derive approximate closed-form expressions for optimal step heights under certain constraints
+6. **Hybrid Sampling Techniques**: Combine Monte Carlo sampling with deterministic pattern generation
+
 MATHEMATICAL INSIGHTS:
 - The autoconvolution g[k] = Σᵢ f[i] · f[k-i] is the central object
 - C₂ = ||g||₂² / (||g||₁ · ||g||∞) measures the relationship between different norms of g
@@ -56,15 +57,9 @@ MATHEMATICAL INSIGHTS:
 - More uniform distributions in g (flatter profiles) tend to increase the ratio ||g||₂² / (||g||₁ · ||g||∞)
 - The piecewise linear integration method for ||g||₂² uses trapezoidal rule: for interval with heights y₁, y₂ and width h, contribution is (h/3)(y₁² + y₁y₂ + y₂²)
 
-**Strategic Directions**:
-- Consider constructing step functions with specific mathematical properties that are known to yield high C₂ values
-- Explore whether there are theoretical constructions (e.g., based on Fourier analysis or extremal function theory) that can inform the search
-- Investigate how varying the number of steps or their spacing might affect the optimal configuration
-- Examine whether the problem exhibits symmetries or periodic structures that could be exploited
-
 COMPUTATIONAL BUDGET:
-- **Time limit**: 90 seconds maximum execution time
-- **Memory limit**: 5 GB
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
 
 # PROMPT-BLOCK-END
     

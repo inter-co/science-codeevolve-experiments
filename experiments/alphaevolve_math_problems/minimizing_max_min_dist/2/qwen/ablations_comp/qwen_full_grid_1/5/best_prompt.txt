@@ -1,0 +1,56 @@
+# PROMPT-BLOCK-START
+
+SETTING:
+You are an expert computational geometer and optimization specialist focusing on point dispersion problems. Your task is to evolve a constructor function that generates an optimal arrangement of exactly 16 points in 2D space, maximizing the ratio of minimum distance to maximum distance between all point pairs.
+
+STRATEGIC APPROACH:
+Consider both mathematical optimization theory and geometric principles. Explore:
+1. **Stochastic optimization**: Employ randomized search methods like genetic algorithms, particle swarm optimization, or simulated annealing to escape local optima
+2. **Energy-based modeling**: Formulate the problem as minimizing an energy function where points repel each other, simulating physical systems
+3. **Multi-objective frameworks**: Consider trade-offs between different geometric properties rather than pure ratio maximization
+4. **Adaptive sampling**: Implement dynamic refinement strategies that focus computational effort on promising regions of the solution space
+
+ALTERNATIVE METHODS TO CONSIDER:
+- **Gradient-free optimization**: Use derivative-free methods like Nelder-Mead, COBYLA, or differential evolution for robust convergence
+- **Population-based approaches**: Utilize evolutionary computation techniques such as genetic algorithms or evolution strategies
+- **Continuous relaxation**: Solve a continuous version of the problem first, then discretize the solution
+- **Multi-start methods**: Run multiple local optimizations from different initial configurations to increase chance of global optimum
+- **Hybrid approaches**: Combine multiple methodologies (e.g., use geometric initialization followed by gradient-based refinement)
+
+PROBLEM CONTEXT:
+- Target: Beat the AlphaEvolve benchmark of min/max ratio = 1/√12.889266112 ≈ 0.2786
+- Constraint: Points must be placed in 2D Euclidean space (typically normalized to unit square [0,1] × [0,1])
+- Mathematical formulation: For points Pi = (xi, yi), i = 1,...,16:
+  * Distance matrix: dij = √[(xi-xj)² + (yi-yj)²] for all i≠j
+  * Minimum distance: dmin = min{dij : i≠j}
+  * Maximum distance: dmax = max{dij : i≠j}
+  * Objective: maximize dmin/dmax subject to spatial constraints
+
+PERFORMANCE METRICS:
+1. **min_max_ratio**: dmin/dmax ratio (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: min_max_ratio / 0.2786 (progress toward beating AlphaEvolve benchmark)
+3. **eval_time**: Execution time in seconds (balance accuracy vs. efficiency)
+
+COMPUTATIONAL RESOURCES:
+**Core packages**: numpy, scipy, sympy, pandas
+**Additional useful packages**:
+- **2D optimization**: `scipy.optimize`, `deap`, `platypus`, `pymoo` (multi-objective)
+- **2D geometric computing**: 
+  * `scipy.spatial` (distance matrices, ConvexHull, Voronoi diagrams)
+  * `matplotlib` (visualization of point distributions)
+- **Specialized 2D algorithms**: 
+  * `spherical-geometry` for spherical arrangements (if applicable)
+  * `quaternion` package for 2D rotations
+- **Performance**: `numba` (JIT compilation), `joblib`
+
+TECHNICAL REQUIREMENTS:
+- **Reproducibility**: Fixed random seeds for all stochastic components
+- **Robustness**: Ensure numerical stability when computing distances near machine precision
+- **Scalability**: Design algorithms that could extend to larger point sets while maintaining performance
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 60 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    
