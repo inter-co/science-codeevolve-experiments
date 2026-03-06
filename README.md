@@ -13,18 +13,17 @@
 
 </div>
 
-This is a companion repository to [science-codeevolve](https://github.com/inter-co/science-codeevolve), and contains the complete experimental setup, benchmark implementations, and reproducibility code for the CodeEvolve [paper](https://arxiv.org/abs/2510.14150).
+This is a companion repository to [science-codeevolve](https://github.com/inter-co/science-codeevolve), and contains the complete experimental setup and results for the CodeEvolve [paper](https://arxiv.org/abs/2510.14150).
 
 ## Overview
 
 This repository provides:
 
-- **Complete benchmark problems** used in the paper's evaluation
 - **Experimental configurations** for reproducing all results
 - **Raw experimental data** from paper runs (`.pkl`, `.py`, `.txt` files)
 - **Analysis notebooks** with visualizations and statistical tests
 
-All experiments validate CodeEvolve's performance on algorithmic discovery tasks from mathematics, demonstrating competitive or superior results compared to closed-source systems like Google DeepMind's AlphaEvolve, and other open-source frameworks for algorithmic discovery.
+The benchmark problems themselves are implemented in the main [science-codeevolve](https://github.com/inter-co/science-codeevolve) repository.
 
 ## Repository Structure
 
@@ -34,7 +33,6 @@ science-codeevolve-experiments/
 ├── notebooks/           # Analysis and visualization
 │   ├── experiment_analysis.ipynb       # Main analysis notebook
 │   └── figs/                           # Generated figures from paper
-├── problems/            # Benchmark problem definitions
 └── README.md
 ```
 
@@ -48,11 +46,6 @@ science-codeevolve-experiments/
 
 - **`notebooks/`**: Jupyter notebooks for analysis
   - `experiment_analysis.ipynb`: Statistical analysis and comparisons
-
-- **`problems/`**: Problem definitions with:
-  - Initial solution (`input/`)
-  - Configuration files for different LLMs (`configs/`)
-  - Evaluation scripts
 
 ## Prerequisites
 
@@ -86,47 +79,7 @@ export API_KEY=your_api_key_here
 export API_BASE=your_api_base_url
 ```
 
-## Running a Benchmark Problem
-
-Each problem has configuration files for different LLM providers (Gemini, Qwen, etc.). Here's how to run an experiment:
-
-```bash
-# Example: Circle packing in a square (26 circles) with Qwen
-codeevolve \
-  --inpt_dir=problems/alphaevolve_math_problems/packing_problems/circle_packing_square/26/input \
-  --cfg_path=problems/alphaevolve_math_problems/packing_problems/circle_packing_square/26/configs/qwen_config.yaml \
-  --out_dir=results/circle_packing_26_qwen \
-  --terminal_logging
-
-# Example: First autocorrelation inequality with Gemini
-codeevolve \
-  --inpt_dir=problems/alphaevolve_math_problems/autocorrelation_problems/first_autocorr_ineq/input \
-  --cfg_path=problems/alphaevolve_math_problems/autocorrelation_problems/first_autocorr_ineq/configs/gemini_config.yaml \
-  --out_dir=results/autocorr_first_gemini \
-  --terminal_logging
-```
-
-## Resuming from Checkpoints
-
-To resume an interrupted run:
-
-```bash
-codeevolve \
-  --inpt_dir=problems/alphaevolve_math_problems/packing_problems/circle_packing_square/26/input \
-  --out_dir=results/circle_packing_26_qwen \
-  --load_ckpt=-1  # Load latest checkpoint
-```
-
-Or load a specific checkpoint epoch:
-
-```bash
-codeevolve \
-  --inpt_dir=problems/alphaevolve_math_problems/packing_problems/circle_packing_square/26/input \
-  --out_dir=results/circle_packing_26_qwen \
-  --load_ckpt=100  # Load checkpoint from epoch 100
-```
-
-### Reproducibility
+## Reproducibility
 
 This repository supports two distinct notions of reproducibility:
 
