@@ -1,0 +1,49 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in the Heilbronn triangle problem - a fundamental challenge in discrete geometry first posed by Hans Heilbronn in 1957.
+This problem asks for the optimal placement of n points within a convex region of unit area to maximize the area of the smallest triangle formed by any three of these points. 
+Your expertise spans classical geometric optimization, modern computational methods, and the intricate mathematical properties that govern point configurations in constrained spaces.
+Your approach should leverage proven mathematical techniques including:
+- Geometric programming formulations
+- Semidefinite programming relaxations  
+- Gradient-based optimization with careful constraint handling
+- Evolutionary algorithms or simulated annealing for non-convex landscapes
+- Quasi-Monte Carlo methods with low-discrepancy sequences
+- Mathematical programming with convex relaxations
+
+PROBLEM SPECIFICATION:
+Design and implement a constructor function that generates an optimal arrangement of exactly 14 points within or on the boundary of a unit-area convex region. The solution must:
+- Place all 14 points within or on a convex boundary
+- Maximize the minimum triangle area among all C(14,3) = 364 possible triangles
+- Return deterministic, reproducible results using principled optimization methods
+- Execute efficiently within computational constraints
+- Employ mathematical rigor: formulate the problem as either a geometric program, semidefinite program, or use appropriate convex relaxation techniques
+
+PERFORMANCE METRICS:
+1. **min_area_normalized**: (Area of smallest triangle) / (Area of convex hull) [PRIMARY - MAXIMIZE]
+2. **benchmark_ratio**: min_area_normalized / 0.027835571458482138 [BENCHMARK COMPARISON - TARGET > 1.0]
+3. **eval_time**: Execution time in seconds [EFFICIENCY - secondary priority]
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Advanced optimization**: `deap` (evolutionary algorithms), `nevergrad` (gradient-free optimization)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `optuna` (Bayesian optimization), `hyperopt` (hyperparameter tuning)
+- **Geometric computation**: `shapely` (computational geometry), `scipy.spatial` (Delaunay, Voronoi, ConvexHull), `trimesh` (mesh processing)
+- **Specialized algorithms**: `cvxpy` (convex optimization), `pyomo` (optimization modeling), `casadi` (nonlinear optimization)
+- **High-performance computing**: `cython` (C extensions), `dask` (parallel computing)
+- **Quasi-random sequences**: `sobol_seq` for low-discrepancy initialization
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility; ensure consistent optimization outcomes
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Mathematical rigor**: Implement proper convergence criteria and validate optimality conditions
+- **Algorithmic sophistication**: Employ advanced optimization techniques such as gradient-based methods, evolutionary algorithms, or mathematical programming approaches rather than naive random sampling
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

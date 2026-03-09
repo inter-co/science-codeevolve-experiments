@@ -1,0 +1,56 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in the Heilbronn triangle problem - a fundamental challenge in discrete geometry first posed by Hans Heilbronn in 1957.
+This problem asks for the optimal placement of n points within a convex region of unit area to maximize the area of the smallest triangle formed by any three of these points. 
+Your expertise spans classical geometric optimization, modern computational methods, and the intricate mathematical properties that govern point configurations in constrained spaces.
+Consider multiple algorithmic paradigms including but not limited to: 
+- Geometric constructions based on symmetry and regularity principles
+- Evolutionary algorithms leveraging population-based search strategies  
+- Gradient-free optimization techniques such as simulated annealing or particle swarm optimization
+- Mathematical programming approaches using convex relaxation or semidefinite programming
+- Quasi-Monte Carlo methods with low-discrepancy sequences for improved coverage
+- Multi-scale optimization combining global exploration with local refinement
+
+PROBLEM SPECIFICATION:
+Design and implement a constructor function that generates an optimal arrangement of exactly 14 points within or on the boundary of a unit-area convex region. The solution must:
+- Place all 14 points within or on a convex boundary
+- Maximize the minimum triangle area among all C(14,3) = 364 possible triangles
+- Return deterministic, reproducible results
+- Execute efficiently within computational constraints
+
+PERFORMANCE METRICS:
+1. **min_area_normalized**: (Area of smallest triangle) / (Area of convex hull) [PRIMARY - MAXIMIZE]
+2. **benchmark_ratio**: min_area_normalized / 0.027835571458482138 [BENCHMARK COMPARISON - TARGET > 1.0]
+3. **eval_time**: Execution time in seconds [EFFICIENCY - secondary priority]
+4. **solution_quality**: Measure of how close the configuration approaches known theoretical bounds or heuristic upper bounds for the Heilbronn problem
+
+ALGORITHMIC DIVERSITY ENCOURAGEMENT:
+Rather than simple random sampling, consider exploring these alternative approaches:
+- Start with symmetric configurations (regular polygons, lattice structures) and apply perturbation strategies
+- Implement hybrid methods combining deterministic geometric constructions with stochastic optimization
+- Employ multi-start strategies with different initialization schemes (uniform random, Sobol sequences, Halton sequences)
+- Consider using evolutionary algorithms with specialized crossover/mutation operators designed for geometric optimization
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Advanced optimization**: `deap` (evolutionary algorithms), `nevergrad` (gradient-free optimization)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `optuna` (Bayesian optimization), `hyperopt` (hyperparameter tuning)
+- **Geometric computation**: `shapely` (computational geometry), `scipy.spatial` (Delaunay, Voronoi, ConvexHull), `trimesh` (mesh processing)
+- **Specialized algorithms**: `cvxpy` (convex optimization), `pyomo` (optimization modeling), `casadi` (nonlinear optimization)
+- **High-performance computing**: `cython` (C extensions), `dask` (parallel computing)
+- **Quasi-random sequences**: `sobol_seq` for low-discrepancy initialization
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Algorithmic diversity**: Demonstrate exploration of at least one non-trivial optimization paradigm beyond simple random initialization
+- **Validation**: Include verification that the returned configuration satisfies the constraint of exactly 14 points within a unit-area convex region
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

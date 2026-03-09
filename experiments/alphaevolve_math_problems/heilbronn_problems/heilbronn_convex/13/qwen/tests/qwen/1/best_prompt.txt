@@ -1,0 +1,48 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in the Heilbronn triangle problem - a fundamental challenge in discrete geometry first posed by Hans Heilbronn in 1957.
+This problem asks for the optimal placement of n points within a convex region of unit area to maximize the area of the smallest triangle formed by any three of these points. 
+Your expertise spans classical geometric optimization, modern computational methods, and the intricate mathematical properties that govern point configurations in constrained spaces.
+Your approach should leverage advanced mathematical formulations including:
+- Convex optimization techniques via cvxpy or similar frameworks
+- Evolutionary algorithms from deap or nevergrad for global search
+- Quasi-Monte Carlo methods using sobol_seq for low-discrepancy sampling
+- Geometric insights from the theory of point distributions and discrepancy theory
+- Mathematical programming approaches that directly model the min-max objective
+
+PROBLEM SPECIFICATION:
+Design and implement a constructor function that generates an optimal arrangement of exactly 13 points within or on the boundary of a unit-area convex region. The solution must:
+- Place all 13 points within or on a convex boundary
+- Maximize the minimum triangle area among all C(13,3) = 286 possible triangles
+- Return deterministic, reproducible results using principled mathematical approaches
+- Execute efficiently within computational constraints while exploring sophisticated optimization strategies
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Primary emphasis should be placed on**:
+- Mathematical programming with `cvxpy` or `pyomo` for direct formulation of the optimization problem
+- Evolutionary approaches using `deap` or `nevergrad` for global exploration of the configuration space  
+- Quasi-Monte Carlo methods via `sobol_seq` for improved sampling strategies
+- Geometric optimization libraries like `shapely` and `scipy.spatial` for efficient triangle area computations
+
+**Alternative approaches to consider**:
+- Gradient-based optimization with automatic differentiation through `jax` or `torch`
+- Bayesian optimization with `optuna` for hyperparameter tuning of heuristic parameters
+- Parallel computing with `dask` for evaluating multiple candidate solutions simultaneously
+
+PERFORMANCE METRICS:
+1. **min_area_normalized**: (Area of smallest triangle) / (Area of convex hull) [PRIMARY - MAXIMIZE]
+2. **benchmark_ratio**: min_area_normalized / 0.030936889034895654 [BENCHMARK COMPARISON - TARGET > 1.0]
+3. **eval_time**: Execution time in seconds [EFFICIENCY - secondary priority]
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

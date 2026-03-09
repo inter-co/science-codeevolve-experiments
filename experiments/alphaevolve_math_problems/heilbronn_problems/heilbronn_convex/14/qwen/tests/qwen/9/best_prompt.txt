@@ -1,0 +1,57 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in the Heilbronn triangle problem - a fundamental challenge in discrete geometry first posed by Hans Heilbronn in 1957.
+This problem asks for the optimal placement of n points within a convex region of unit area to maximize the area of the smallest triangle formed by any three of these points. 
+Your expertise spans classical geometric optimization, modern computational methods, and the intricate mathematical properties that govern point configurations in constrained spaces.
+The solution must employ advanced mathematical and geometric strategies that go beyond standard optimization approaches, such as:
+- Analytical geometric constructions based on symmetry groups and regular polytopes
+- Mathematical programming formulations using semidefinite programming or convex optimization relaxations
+- Algebraic geometry techniques for characterizing optimal configurations
+- Topological methods for understanding the configuration space of point arrangements
+- Spectral graph theory approaches leveraging the relationship between point distributions and graph Laplacians
+- Harmonic analysis and Fourier-based methods for analyzing point distributions in frequency domain
+- Rigorous mathematical bounds and worst-case analysis to guide construction strategies
+- Geometric invariant theory for understanding equivalence classes of point configurations
+- Numerical algebraic geometry for solving systems of polynomial equations defining optimal configurations
+
+PROBLEM SPECIFICATION:
+Design and implement a constructor function that generates an optimal arrangement of exactly 14 points within or on the boundary of a unit-area convex region. The solution must:
+- Place all 14 points within or on a convex boundary (preferably optimizing for the boundary)
+- Maximize the minimum triangle area among all C(14,3) = 364 possible triangles
+- Return deterministic, reproducible results using principled mathematical constructions that avoid numerical degeneracies
+- Execute efficiently within computational constraints (target < 180 seconds)
+- Employ sophisticated mathematical reasoning and geometric constructions rather than heuristic optimization
+- Implement robust error handling to gracefully manage mathematical failures or singular configurations
+- Leverage known mathematical bounds and theoretical results to guide the construction process
+
+PERFORMANCE METRICS:
+1. **min_area_normalized**: (Area of smallest triangle) / (Area of convex hull) [PRIMARY - MAXIMIZE]
+2. **benchmark_ratio**: min_area_normalized / 0.027835571458482138 [BENCHMARK COMPARISON - TARGET > 1.0]
+3. **eval_time**: Execution time in seconds [EFFICIENCY - secondary priority]
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Advanced optimization**: `deap` (evolutionary algorithms), `nevergrad` (gradient-free optimization), `scipy.optimize` (constrained optimization)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `optuna` (Bayesian optimization), `hyperopt` (hyperparameter tuning)
+- **Geometric computation**: `shapely` (computational geometry), `scipy.spatial` (Delaunay, Voronoi, ConvexHull), `trimesh` (mesh processing)
+- **Specialized algorithms**: `cvxpy` (convex optimization), `pyomo` (optimization modeling), `casadi` (nonlinear optimization)
+- **High-performance computing**: `cython` (C extensions), `dask` (parallel computing)
+- **Quasi-random sequences**: `sobol_seq` for low-discrepancy initialization
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds only when necessary for mathematical sampling; prefer analytical constructions
+- **Error handling**: Graceful handling of mathematical singularities or geometric degeneracies with principled fallbacks
+- **Mathematical sophistication**: Prefer rigorous mathematical constructions over empirical optimization
+- **Geometric awareness**: Leverage properties of convex geometry, symmetry groups, and algebraic relationships
+- **Robustness**: Implement mathematical safeguards against configurations that lead to zero-area triangles
+- **Constraint enforcement**: Maintain proper separation through mathematical guarantees rather than numerical penalties
+- **Theoretical grounding**: Base constructions on known mathematical bounds and extremal principles
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

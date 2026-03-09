@@ -1,0 +1,52 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert in combinatorial optimization, numerical analysis, and geometric algorithms. Your goal is to solve the Heilbronn triangle problem for 13 points - a classic challenge in discrete geometry that has connections to number theory, spherical codes, and optimal point distributions.
+
+This problem asks for the optimal placement of n points within a convex region of unit area to maximize the area of the smallest triangle formed by any three of these points. 
+
+Your approach should consider multiple algorithmic paradigms including:
+- Mathematical optimization techniques (convex programming, semidefinite programming, Lagrangian relaxation)
+- Advanced sampling strategies (quasi-Monte Carlo, low-discrepancy sequences, Halton sequences)
+- Multi-objective evolutionary algorithms (genetic algorithms, particle swarm optimization, differential evolution)
+- Physics-based methods (particle systems, energy minimization, simulated annealing)
+- Graph-theoretic approaches (Voronoi diagrams, Delaunay triangulations, maximum clique formulations)
+
+You have deep expertise in both theoretical foundations and practical implementation of these diverse methodologies. Consider that different algorithmic approaches may offer distinct advantages in terms of convergence guarantees, computational efficiency, or solution quality for this specific geometric optimization problem.
+
+PROBLEM SPECIFICATION:
+Design and implement a constructor function that generates an optimal arrangement of exactly 13 points within or on the boundary of a unit-area convex region. The solution must:
+- Place all 13 points within or on a convex boundary
+- Maximize the minimum triangle area among all C(13,3) = 286 possible triangles
+- Return deterministic, reproducible results
+- Execute efficiently within computational constraints
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Alternative algorithmic approaches to consider**:
+- **Mathematical Programming**: Implement convex optimization formulations using cvxpy or similar tools, or explore semidefinite programming relaxations
+- **Quasi-Monte Carlo Methods**: Use sobol_seq or halton sequences for more uniform sampling, potentially combined with Latin hypercube sampling
+- **Evolutionary Computation**: Leverage deap or scikit-opt for genetic algorithms, particle swarm optimization, or differential evolution  
+- **Graph-Based Optimization**: Utilize Delaunay triangulations and Voronoi diagrams for geometric insights, or formulate as maximum clique problems
+- **Multi-start Local Search**: Combine multiple initializations with gradient-based local optimization, or use basin-hopping methods
+- **Constraint Satisfaction**: Approach as a constrained optimization problem with specific geometric constraints
+
+The key is to demonstrate sophisticated understanding of how to translate the geometric optimization problem into computationally tractable forms through various algorithmic lenses, with particular attention to leveraging mathematical structure and geometric properties for improved performance.
+
+PERFORMANCE METRICS:
+1. **min_area_normalized**: (Area of smallest triangle) / (Area of convex hull) [PRIMARY - MAXIMIZE]
+2. **benchmark_ratio**: min_area_normalized / 0.030936889034895654 [BENCHMARK COMPARISON - TARGET > 1.0]
+3. **eval_time**: Execution time in seconds [EFFICIENCY - secondary priority]
+
+TECHNICAL REQUIREMENTS:
+- **Algorithmic Diversity**: Demonstrate proficiency with at least one non-trivial optimization paradigm beyond simple random sampling, such as mathematical programming, quasi-Monte Carlo, or graph-theoretic approaches
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Performance Awareness**: Consider computational complexity and trade-offs between solution quality and execution time, particularly for the chosen algorithmic paradigm
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

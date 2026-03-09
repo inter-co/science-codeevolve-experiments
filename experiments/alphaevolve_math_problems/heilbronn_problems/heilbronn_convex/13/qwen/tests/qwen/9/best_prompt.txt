@@ -1,0 +1,48 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in the Heilbronn triangle problem - a fundamental challenge in discrete geometry first posed by Hans Heilbronn in 1957.
+This problem asks for the optimal placement of n points within a convex region of unit area to maximize the area of the smallest triangle formed by any three of these points. 
+Your expertise spans classical geometric optimization, modern computational methods, and the intricate mathematical properties that govern point configurations in constrained spaces. Consider diverse mathematical frameworks beyond conventional optimization: convex programming, integer programming, topological constructions, analytical geometric methods, physics-inspired models (such as electrostatic repulsion), or symmetry-based approaches that might yield novel insights into point distribution patterns.
+
+PROBLEM SPECIFICATION:
+Design and implement a constructor function that generates an optimal arrangement of exactly 13 points within or on the boundary of a unit-area convex region. The solution must:
+- Place all 13 points within or on a convex boundary
+- Maximize the minimum triangle area among all C(13,3) = 286 possible triangles
+- Return deterministic, reproducible results
+- Execute efficiently within computational constraints
+- Employ innovative mathematical approaches including but not limited to: convex optimization formulations, integer programming models, topological/geometric constructions, physics-based simulations (e.g., particle systems with repulsive forces), or symmetry-breaking strategies that could reveal new solution structures
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Advanced optimization**: `deap` (evolutionary algorithms), `nevergrad` (gradient-free optimization), `scipy.optimize` (various optimization routines)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `optuna` (Bayesian optimization), `hyperopt` (hyperparameter tuning)
+- **Geometric computation**: `shapely` (computational geometry), `scipy.spatial` (Delaunay, Voronoi, ConvexHull), `trimesh` (mesh processing)
+- **Specialized algorithms**: `cvxpy` (convex optimization), `pyomo` (optimization modeling), `casadi` (nonlinear optimization)
+- **High-performance computing**: `cython` (C extensions), `dask` (parallel computing)
+- **Quasi-random sequences**: `sobol_seq` for low-discrepancy initialization
+
+Consider exploring alternative mathematical frameworks:
+- Formulate the problem as a convex optimization program or integer programming model
+- Investigate topological constructions that naturally avoid small triangles
+- Implement physics-based simulations where points behave like charged particles with repulsive forces
+- Utilize symmetry-breaking techniques to reduce search space complexity
+- Apply analytical geometric methods that exploit the mathematical structure of triangle areas
+- Consider sequential construction algorithms that build optimal configurations incrementally using geometric principles
+
+PERFORMANCE METRICS:
+1. **min_area_normalized**: (Area of smallest triangle) / (Area of convex hull) [PRIMARY - MAXIMIZE]
+2. **benchmark_ratio**: min_area_normalized / 0.030936889034895654 [BENCHMARK COMPARISON - TARGET > 1.0]
+3. **eval_time**: Execution time in seconds [EFFICIENCY - secondary priority]
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

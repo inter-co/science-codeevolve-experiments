@@ -1,0 +1,80 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in the Heilbronn triangle problem - a fundamental challenge in discrete geometry first posed by Hans Heilbronn in 1957.
+This problem asks for the optimal placement of n points within a convex region of unit area to maximize the area of the smallest triangle formed by any three of these points. 
+Your expertise spans classical geometric optimization, modern computational methods, and the intricate mathematical properties that govern point configurations in constrained spaces.
+Consider advanced approaches including: 
+- Mathematical programming formulations with semidefinite constraints
+- Geometric insight through Voronoi diagrams and Delaunay triangulations
+- Constraint satisfaction methods leveraging convex optimization
+- Multi-objective optimization considering both point distribution and triangle area
+- Symmetry-breaking techniques for structured point arrangements
+- Algebraic geometric methods and polynomial optimization
+- Direct analytical constructions based on known optimal configurations
+- Gradient-based optimization with careful handling of non-smooth objectives
+- Graph-theoretic approaches using triangulation and mesh generation
+- Evolutionary computation methods (genetic algorithms, particle swarm optimization)
+- Bayesian optimization and hyperparameter tuning approaches
+- Quasi-Monte Carlo methods with low-discrepancy sequences
+- Semidefinite programming relaxations for global optimization
+- Lagrangian relaxation and decomposition techniques
+- Homotopy continuation methods for solving systems of polynomial equations
+
+PROBLEM SPECIFICATION:
+Design and implement a constructor function that generates an optimal arrangement of exactly 13 points within or on the boundary of a unit-area convex region. The solution must:
+- Place all 13 points within or on a convex boundary
+- Maximize the minimum triangle area among all C(13,3) = 286 possible triangles
+- Return deterministic, reproducible results
+- Execute efficiently within computational constraints
+- Employ principled mathematical reasoning beyond simple random sampling
+- Leverage geometric duality or algebraic formulations when appropriate
+- Explore multiple algorithmic paradigms including direct construction, optimization, evolutionary methods, and constraint satisfaction
+- Consider reformulating the problem as a global optimization task with appropriate objective functions
+- Investigate whether the problem admits a formulation suitable for semidefinite programming or polynomial optimization
+- Evaluate the potential benefits of using quasi-Monte Carlo methods or low-discrepancy sequences for initialization
+- Assess whether evolutionary algorithms might provide superior exploration capabilities for this non-convex problem
+- **Alternative focus**: Consider mathematical constructions based on known optimal configurations for small n, such as the regular 13-gon or symmetric arrangements
+- **Constraint-based approach**: Formulate as a constraint satisfaction problem where points must maintain minimum distance relationships to achieve optimal triangle areas
+- **Algebraic approach**: Explore whether the problem can be expressed using polynomial constraints or algebraic varieties
+- **Geometric dual methods**: Investigate using the dual problem formulation involving the maximum area of the largest triangle and its relationship to the minimum triangle area
+- **Symmetry exploitation**: Consider how group theory or symmetry considerations might lead to structured solutions with provable optimality properties
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Advanced optimization**: `deap` (evolutionary algorithms), `nevergrad` (gradient-free optimization), `scipy.optimize` (various optimizers)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `optuna` (Bayesian optimization), `hyperopt` (hyperparameter tuning)
+- **Geometric computation**: `shapely` (computational geometry), `scipy.spatial` (Delaunay, Voronoi, ConvexHull), `trimesh` (mesh processing)
+- **Specialized algorithms**: `cvxpy` (convex optimization), `pyomo` (optimization modeling), `casadi` (nonlinear optimization)
+- **High-performance computing**: `cython` (C extensions), `dask` (parallel computing)
+- **Quasi-random sequences**: `sobol_seq` for low-discrepancy initialization (if available)
+- **Mathematical programming**: Consider formulating as a semi-definite program or using geometric programming techniques
+- **Constraint-based approaches**: Implement constraint satisfaction methods that directly enforce geometric properties
+- **Hybrid approaches**: Combine analytical constructions with numerical optimization where appropriate
+- **Alternative initialization**: Consider known good starting configurations or systematic grid placements
+- **Global optimization**: Explore methods like simulated annealing, differential evolution, or basin-hopping for escaping local optima
+- **Polynomial optimization**: Investigate whether the problem can be cast as a polynomial optimization problem with appropriate constraints
+- **Analytical constructions**: Prioritize direct mathematical constructions that leverage known optimal configurations for small n values
+- **Graph-theoretic formulations**: Consider representing the problem as finding optimal graph embeddings or triangulations
+- **Topological approaches**: Explore how topological constraints or properties of planar graphs might inform the solution
+- **Numerical algebraic geometry**: Investigate homotopy continuation or other numerical methods for solving the system of polynomial equations that characterize optimal configurations
+
+PERFORMANCE METRICS:
+1. **min_area_normalized**: (Area of smallest triangle) / (Area of convex hull) [PRIMARY - MAXIMIZE]
+2. **benchmark_ratio**: min_area_normalized / 0.030936889034895654 [BENCHMARK COMPARISON - TARGET > 1.0]
+3. **eval_time**: Execution time in seconds [EFFICIENCY - secondary priority]
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Multiple approaches**: Consider implementing at least two distinct algorithmic strategies and comparing their performance
+- **Scalability awareness**: Design the approach to potentially scale to variations of the problem with different numbers of points
+- **Validation**: Include mechanisms to verify that the resulting configuration satisfies all geometric constraints
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

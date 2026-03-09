@@ -1,0 +1,582 @@
+[island 0] 2025-12-22 17:20:05,901 | INFO | 3512 | === CodeEvolve ===
+[island 0] 2025-12-22 17:20:05,902 | INFO | 3512 | ====== PREPARING COMPONENTS ======
+[island 0] 2025-12-22 17:20:05,935 | INFO | 3512 | Starting anew.
+[island 0] 2025-12-22 17:20:06,176 | INFO | 3512 | Attempting to evaluate program...
+[island 0] 2025-12-22 17:20:06,281 | INFO | 3512 | Evaluated program without errors.
+[island 0] 2025-12-22 17:20:06,281 | INFO | 3512 | sol_db=ProgramDatabase(id=0,total_programs=1,mode=MAP-Elites,elite_map=CVTEliteMap(num_centroids=30))
+[island 0] 2025-12-22 17:20:06,281 | INFO | 3512 | prompt_db=ProgramDatabase(id=0,total_programs=1,mode=standard,num_alive=1,max_alive=None)
+[island 0] 2025-12-22 17:20:06,281 | INFO | 3512 | exploration_ensemble=LMEnsemble(
+  (model): 1
+  (0): OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.9,top_p=0.95,weight=1)
+)
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | exploitation_ensemble=LMEnsemble(
+  (model): 2
+  (0): OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=0.6)
+  (1): OpenAILM(model_name=GOOGLE_GEMINI-2.5-PRO,temp=0.7,top_p=0.95,weight=0.4)
+)
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | prompt_sampler=PromptSampler(aux_lm=OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=1))
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | evaluator=Evaluator(eval_path=evaluate.py,cwd=problems/alphaevolve_math_problems/packing_problems/circle_packing_square/26/input,timeout_s=180,max_mem_b=1000000000,mem_check_interval_s=0.1)
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | embedding=None
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | scheduler=PlateauScheduler(exploration_rate=0.2,min_rate=0.2,max_rate=0.5,plateau_threshold=3,increase_factor=1.05,decrease_factor=0.95,)
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | init_prog=Program(id=44361f44-887e-4292-b217-fd6045e8f82c,fitness=0.00000000,island_found=0,iteration_found=0,returncode=0,eval_metrics={'radii_sum': 0.0, 'benchmark_ratio': 0.0, 'eval_time': 8.344650268554688e-06})
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | ============ STARTING EVOLUTIONARY LOOP ============
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | Starting from epoch 0 with evolve_config = {'ckpt': 10, 'early_stopping_rounds': None, 'evolve_end_marker': '# EVOLVE-BLOCK-END', 'evolve_start_marker': '# EVOLVE-BLOCK-START', 'exploration_rate': 0.2, 'fitness_key': 'benchmark_ratio', 'init... [TRUNCATED]
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | ========= EPOCH 1 =========
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | Global early stopping counter: 0/None
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | Best prompt: Program(id=c80ec13d-9a82-4b7e-a051-b98cdf698955,fitness=0.00000000,island_found=0,iteration_found=0,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | Best solution: Program(id=44361f44-887e-4292-b217-fd6045e8f82c,fitness=0.00000000,island_found=0,iteration_found=0,returncode=0,eval_metrics={'radii_sum': 0.0, 'benchmark_ratio': 0.0, 'eval_time': 8.344650268554688e-06})
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0)}
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | Generating initial populations: True
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | Exploitation: False
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | Generating initial population: selecting initial solution and prompt as parents.
+[island 0] 2025-12-22 17:20:06,282 | INFO | 3512 | Selected 0 inspirations.
+[island 0] 2025-12-22 17:20:06,283 | INFO | 3512 | === META-PROMPT STEP ===
+[island 0] 2025-12-22 17:20:06,283 | INFO | 3512 | Attempting to run meta_prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 17:20:21,177 | INFO | 3512 | Successfully retrieved response, using 1496 prompt tokens and 2686 completion tokens.
+[island 0] 2025-12-22 17:20:21,177 | INFO | 3512 | Attempting to SEARCH/REPLACE on prompt...
+[island 0] 2025-12-22 17:20:21,178 | INFO | 3512 | Successfully modified parent prompt.
+[island 0] 2025-12-22 17:20:21,178 | INFO | 3512 | Adding child_prompt to prompt_db.
+[island 0] 2025-12-22 17:20:21,178 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 17:20:21,178 | INFO | 3512 | Chat consists of 2 messages (max_chat_depth = 0).
+[island 0] 2025-12-22 17:20:21,178 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.9,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 17:30:59,153 | INFO | 3512 | Successfully retrieved response, using 2036 prompt tokens and 7945 completion tokens.
+[island 0] 2025-12-22 17:30:59,153 | INFO | 3512 | Attempting to SEARCH/REPLACE on solution...
+[island 0] 2025-12-22 17:30:59,154 | INFO | 3512 | Successfully modified parent solution.
+[island 0] 2025-12-22 17:30:59,154 | INFO | 3512 | Attempting to evaluate program...
+[island 0] 2025-12-22 17:31:05,691 | ERROR | 3512 | Error in evaluating program -> 'Traceback (most recent call last):
+  File "/tmp/tmpyprv5ot9/evaluate.py", line 110, in <module>
+    evaluate(program_path, resul[...]'.
+[island 0] 2025-12-22 17:31:05,692 | INFO | 3512 | Child solution -> Program(id=4ee631a6-fb12-4566-81c3-403af891ffd8,fitness=0.00000000,island_found=0,iteration_found=1,returncode=1,eval_metrics={}).
+[island 0] 2025-12-22 17:31:05,692 | INFO | 3512 | Child solution improves on parent prompt fitness.
+[island 0] 2025-12-22 17:31:05,692 | INFO | 3512 | Adding child_sol to sol_db.
+[island 0] 2025-12-22 17:31:05,692 | INFO | 3512 | New program is worse than best -> 0 <= 0.0.
+[island 0] 2025-12-22 17:31:05,692 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 17:31:05,692 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 17:31:05,692 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:31:05,692 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | ========= EPOCH 2 =========
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | Global early stopping counter: 0/None
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | Best prompt: Program(id=c80ec13d-9a82-4b7e-a051-b98cdf698955,fitness=0.00000000,island_found=0,iteration_found=0,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | Best solution: Program(id=44361f44-887e-4292-b217-fd6045e8f82c,fitness=0.00000000,island_found=0,iteration_found=0,returncode=0,eval_metrics={'radii_sum': 0.0, 'benchmark_ratio': 0.0, 'eval_time': 8.344650268554688e-06})
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0)}
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | Generating initial populations: True
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | Exploitation: False
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | Generating initial population: selecting initial solution and prompt as parents.
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | Selected 0 inspirations.
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | === META-PROMPT STEP ===
+[island 0] 2025-12-22 17:31:05,693 | INFO | 3512 | Attempting to run meta_prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 17:31:21,790 | INFO | 3512 | Successfully retrieved response, using 1496 prompt tokens and 2666 completion tokens.
+[island 0] 2025-12-22 17:31:21,790 | INFO | 3512 | Attempting to SEARCH/REPLACE on prompt...
+[island 0] 2025-12-22 17:31:21,790 | INFO | 3512 | Successfully modified parent prompt.
+[island 0] 2025-12-22 17:31:21,790 | INFO | 3512 | Adding child_prompt to prompt_db.
+[island 0] 2025-12-22 17:31:21,790 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 17:31:21,790 | INFO | 3512 | Chat consists of 2 messages (max_chat_depth = 0).
+[island 0] 2025-12-22 17:31:21,790 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.9,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 17:32:19,930 | INFO | 3512 | Successfully retrieved response, using 1825 prompt tokens and 13580 completion tokens.
+[island 0] 2025-12-22 17:32:19,930 | INFO | 3512 | Attempting to SEARCH/REPLACE on solution...
+[island 0] 2025-12-22 17:32:19,932 | INFO | 3512 | Successfully modified parent solution.
+[island 0] 2025-12-22 17:32:19,932 | INFO | 3512 | Attempting to evaluate program...
+[island 0] 2025-12-22 17:35:20,061 | ERROR | 3512 | Error in evaluating program -> 'TimeoutError: Evaluation time usage exceeded maximum time limit of 180 seconds.'.
+[island 0] 2025-12-22 17:35:20,061 | INFO | 3512 | Child solution -> Program(id=a2f38ca0-5620-475e-9218-735ad007b54b,fitness=0.00000000,island_found=0,iteration_found=2,returncode=1,eval_metrics={}).
+[island 0] 2025-12-22 17:35:20,061 | INFO | 3512 | Child solution improves on parent prompt fitness.
+[island 0] 2025-12-22 17:35:20,061 | INFO | 3512 | Adding child_sol to sol_db.
+[island 0] 2025-12-22 17:35:20,061 | INFO | 3512 | New program is worse than best -> 0 <= 0.0.
+[island 0] 2025-12-22 17:35:20,061 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 17:35:20,061 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | ========= EPOCH 3 =========
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | Global early stopping counter: 0/None
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | Best prompt: Program(id=c80ec13d-9a82-4b7e-a051-b98cdf698955,fitness=0.00000000,island_found=0,iteration_found=0,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | Best solution: Program(id=44361f44-887e-4292-b217-fd6045e8f82c,fitness=0.00000000,island_found=0,iteration_found=0,returncode=0,eval_metrics={'radii_sum': 0.0, 'benchmark_ratio': 0.0, 'eval_time': 8.344650268554688e-06})
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0)}
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | Generating initial populations: True
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 17:35:20,062 | INFO | 3512 | Exploitation: False
+[island 0] 2025-12-22 17:35:20,063 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 17:35:20,063 | INFO | 3512 | Generating initial population: selecting initial solution and prompt as parents.
+[island 0] 2025-12-22 17:35:20,063 | INFO | 3512 | Selected 0 inspirations.
+[island 0] 2025-12-22 17:35:20,063 | INFO | 3512 | === META-PROMPT STEP ===
+[island 0] 2025-12-22 17:35:20,063 | INFO | 3512 | Attempting to run meta_prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 17:35:36,664 | INFO | 3512 | Successfully retrieved response, using 1496 prompt tokens and 3098 completion tokens.
+[island 0] 2025-12-22 17:35:36,665 | INFO | 3512 | Attempting to SEARCH/REPLACE on prompt...
+[island 0] 2025-12-22 17:35:36,665 | INFO | 3512 | Successfully modified parent prompt.
+[island 0] 2025-12-22 17:35:36,665 | INFO | 3512 | Adding child_prompt to prompt_db.
+[island 0] 2025-12-22 17:35:36,665 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 17:35:36,665 | INFO | 3512 | Chat consists of 2 messages (max_chat_depth = 0).
+[island 0] 2025-12-22 17:35:36,666 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.9,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 17:36:43,420 | INFO | 3512 | Successfully retrieved response, using 2111 prompt tokens and 14819 completion tokens.
+[island 0] 2025-12-22 17:36:43,420 | INFO | 3512 | Attempting to SEARCH/REPLACE on solution...
+[island 0] 2025-12-22 17:36:43,421 | INFO | 3512 | Successfully modified parent solution.
+[island 0] 2025-12-22 17:36:43,422 | INFO | 3512 | Attempting to evaluate program...
+[island 0] 2025-12-22 17:39:43,509 | ERROR | 3512 | Error in evaluating program -> 'TimeoutError: Evaluation time usage exceeded maximum time limit of 180 seconds.'.
+[island 0] 2025-12-22 17:39:43,509 | INFO | 3512 | Child solution -> Program(id=5c282a4b-4187-4a35-bb0d-5d9bbddfad13,fitness=0.00000000,island_found=0,iteration_found=3,returncode=1,eval_metrics={}).
+[island 0] 2025-12-22 17:39:43,509 | INFO | 3512 | Child solution improves on parent prompt fitness.
+[island 0] 2025-12-22 17:39:43,510 | INFO | 3512 | Adding child_sol to sol_db.
+[island 0] 2025-12-22 17:39:43,510 | INFO | 3512 | New program is worse than best -> 0 <= 0.0.
+[island 0] 2025-12-22 17:39:43,510 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 17:39:43,510 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 17:39:43,510 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:39:43,510 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 17:39:43,510 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:39:43,510 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 17:39:43,510 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 17:39:43,510 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | ========= EPOCH 4 =========
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | Global early stopping counter: 0/None
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | Best prompt: Program(id=c80ec13d-9a82-4b7e-a051-b98cdf698955,fitness=0.00000000,island_found=0,iteration_found=0,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | Best solution: Program(id=44361f44-887e-4292-b217-fd6045e8f82c,fitness=0.00000000,island_found=0,iteration_found=0,returncode=0,eval_metrics={'radii_sum': 0.0, 'benchmark_ratio': 0.0, 'eval_time': 8.344650268554688e-06})
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0)}
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | Generating initial populations: True
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | Exploitation: False
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | Generating initial population: selecting initial solution and prompt as parents.
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | Selected 0 inspirations.
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | === META-PROMPT STEP ===
+[island 0] 2025-12-22 17:39:43,511 | INFO | 3512 | Attempting to run meta_prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 17:39:59,414 | INFO | 3512 | Successfully retrieved response, using 1496 prompt tokens and 3099 completion tokens.
+[island 0] 2025-12-22 17:39:59,414 | INFO | 3512 | Attempting to SEARCH/REPLACE on prompt...
+[island 0] 2025-12-22 17:39:59,414 | ERROR | 3512 | Error with SEARCH/REPLACE (meta-prompt): 'Search block not found in any evolve blocks: 'PERFORMANCE METRICS:
+1. **sum_radii**: Total sum of all 26 circle radii (PRIMARY OBJECTIVE - maximize)
+2. **benchmark_ratio**: sum_radii / 2.635862756413... [TRUNCATED]
+[island 0] 2025-12-22 17:39:59,414 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 17:39:59,414 | INFO | 3512 | Chat consists of 2 messages (max_chat_depth = 0).
+[island 0] 2025-12-22 17:39:59,414 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.9,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 17:41:23,311 | INFO | 3512 | Successfully retrieved response, using 1782 prompt tokens and 18904 completion tokens.
+[island 0] 2025-12-22 17:41:23,311 | INFO | 3512 | Attempting to SEARCH/REPLACE on solution...
+[island 0] 2025-12-22 17:41:23,313 | INFO | 3512 | Successfully modified parent solution.
+[island 0] 2025-12-22 17:41:23,313 | INFO | 3512 | Attempting to evaluate program...
+[island 0] 2025-12-22 17:44:13,396 | INFO | 3512 | Evaluated program without errors.
+[island 0] 2025-12-22 17:44:13,396 | INFO | 3512 | Child solution -> Program(id=4dbb6112-4bb1-4f26-8178-8048d5a1c8b2,fitness=0.85921935,island_found=0,iteration_found=4,returncode=0,eval_metrics={'radii_sum': 2.264784289428505, 'benchmark_ratio': 0.859219351962742, 'eval_time': 169.85913634300232}).
+[island 0] 2025-12-22 17:44:13,396 | INFO | 3512 | Child solution improves on parent prompt fitness.
+[island 0] 2025-12-22 17:44:13,396 | INFO | 3512 | Adding child_sol to sol_db.
+[island 0] 2025-12-22 17:44:13,396 | INFO | 3512 | New best program found -> 0.859219351962742.
+[island 0] 2025-12-22 17:44:13,397 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 17:44:13,397 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 17:44:13,397 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:44:13,397 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 17:44:13,397 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:44:13,397 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 17:44:13,397 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 17:44:13,397 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 17:44:13,397 | INFO | 3512 | ========= EPOCH 5 =========
+[island 0] 2025-12-22 17:44:13,397 | INFO | 3512 | Global early stopping counter: 0/None
+[island 0] 2025-12-22 17:44:13,397 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 17:44:13,398 | INFO | 3512 | Best prompt: Program(id=c80ec13d-9a82-4b7e-a051-b98cdf698955,fitness=0.85921935,island_found=0,iteration_found=0,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 17:44:13,398 | INFO | 3512 | Best solution: Program(id=4dbb6112-4bb1-4f26-8178-8048d5a1c8b2,fitness=0.85921935,island_found=0,iteration_found=4,returncode=0,eval_metrics={'radii_sum': 2.264784289428505, 'benchmark_ratio': 0.859219351962742, 'eval_time': 169.85913634300232})
+[island 0] 2025-12-22 17:44:13,398 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0), 22: ('4dbb6112-4bb1-4f26-8178-8048d5a1c8b2', 0.859219351962742)}
+[island 0] 2025-12-22 17:44:13,398 | INFO | 3512 | Generating initial populations: True
+[island 0] 2025-12-22 17:44:13,398 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 17:44:13,398 | INFO | 3512 | Exploitation: False
+[island 0] 2025-12-22 17:44:13,398 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 17:44:13,398 | INFO | 3512 | Generating initial population: selecting initial solution and prompt as parents.
+[island 0] 2025-12-22 17:44:13,398 | INFO | 3512 | Selected 0 inspirations.
+[island 0] 2025-12-22 17:44:13,398 | INFO | 3512 | === META-PROMPT STEP ===
+[island 0] 2025-12-22 17:44:13,398 | INFO | 3512 | Attempting to run meta_prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 17:44:30,966 | INFO | 3512 | Successfully retrieved response, using 1496 prompt tokens and 2922 completion tokens.
+[island 0] 2025-12-22 17:44:30,966 | INFO | 3512 | Attempting to SEARCH/REPLACE on prompt...
+[island 0] 2025-12-22 17:44:30,966 | INFO | 3512 | Successfully modified parent prompt.
+[island 0] 2025-12-22 17:44:30,966 | INFO | 3512 | Adding child_prompt to prompt_db.
+[island 0] 2025-12-22 17:44:30,966 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 17:44:30,967 | INFO | 3512 | Chat consists of 2 messages (max_chat_depth = 0).
+[island 0] 2025-12-22 17:44:30,967 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.9,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 17:45:49,908 | INFO | 3512 | Successfully retrieved response, using 2040 prompt tokens and 16431 completion tokens.
+[island 0] 2025-12-22 17:45:49,909 | INFO | 3512 | Attempting to SEARCH/REPLACE on solution...
+[island 0] 2025-12-22 17:45:49,911 | INFO | 3512 | Successfully modified parent solution.
+[island 0] 2025-12-22 17:45:49,911 | INFO | 3512 | Attempting to evaluate program...
+[island 0] 2025-12-22 17:45:52,961 | ERROR | 3512 | Error in evaluating program -> 'Traceback (most recent call last):
+  File "/tmp/tmpzox6mn_f/evaluate.py", line 110, in <module>
+    evaluate(program_path, resul[...]'.
+[island 0] 2025-12-22 17:45:52,962 | INFO | 3512 | Child solution -> Program(id=50fb77fc-5c3c-4bc2-b69b-5ec15f275ec7,fitness=0.00000000,island_found=0,iteration_found=5,returncode=1,eval_metrics={}).
+[island 0] 2025-12-22 17:45:52,962 | INFO | 3512 | Child solution improves on parent prompt fitness.
+[island 0] 2025-12-22 17:45:52,962 | INFO | 3512 | Adding child_sol to sol_db.
+[island 0] 2025-12-22 17:45:52,962 | INFO | 3512 | New program is worse than best -> 0 <= 0.859219351962742.
+[island 0] 2025-12-22 17:45:52,962 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 17:45:52,962 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 17:48:50,417 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:48:50,417 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 17:48:50,417 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:48:50,417 | INFO | 3512 | Early stopping counter increased: 1/None
+[island 0] 2025-12-22 17:48:50,417 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 17:48:50,417 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 17:48:50,418 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 17:48:50,418 | INFO | 3512 | ========= EPOCH 6 =========
+[island 0] 2025-12-22 17:48:50,418 | INFO | 3512 | Global early stopping counter: 1/None
+[island 0] 2025-12-22 17:48:50,418 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 17:48:50,418 | INFO | 3512 | Best prompt: Program(id=c80ec13d-9a82-4b7e-a051-b98cdf698955,fitness=0.85921935,island_found=0,iteration_found=0,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 17:48:50,418 | INFO | 3512 | Best solution: Program(id=4dbb6112-4bb1-4f26-8178-8048d5a1c8b2,fitness=0.85921935,island_found=0,iteration_found=4,returncode=0,eval_metrics={'radii_sum': 2.264784289428505, 'benchmark_ratio': 0.859219351962742, 'eval_time': 169.85913634300232})
+[island 0] 2025-12-22 17:48:50,418 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0), 22: ('4dbb6112-4bb1-4f26-8178-8048d5a1c8b2', 0.859219351962742)}
+[island 0] 2025-12-22 17:48:50,418 | INFO | 3512 | Generating initial populations: False
+[island 0] 2025-12-22 17:48:50,418 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 17:48:50,418 | INFO | 3512 | Exploitation: True
+[island 0] 2025-12-22 17:48:50,418 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 17:48:50,418 | INFO | 3512 | Exploitation: Selecting parents using roulette with kwargs {'roulette_by_rank': True}.
+[island 0] 2025-12-22 17:48:50,419 | INFO | 3512 | Selected 1 inspirations.
+[island 0] 2025-12-22 17:48:50,419 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 17:48:50,419 | INFO | 3512 | Chat consists of 2 messages (max_chat_depth = None).
+[island 0] 2025-12-22 17:48:50,419 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-PRO,temp=0.7,top_p=0.95,weight=0.4)...
+[island 0] 2025-12-22 17:49:54,286 | ERROR | 3512 | Error when generating program on LM: Failed to fetch LM response after 4 attempts(Error:Error code: 429 - {'error': {'message': 'litellm.RateLimitError: litellm.RateLimitError: geminiException - {\n  "error": {\n    "code": 429,\n    "messag... [TRUNCATED]
+[island 0] 2025-12-22 17:49:54,286 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 17:49:54,286 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 17:50:52,670 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:50:52,671 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 17:50:52,671 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:50:52,671 | INFO | 3512 | Early stopping counter increased: 2/None
+[island 0] 2025-12-22 17:50:52,671 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 17:50:52,671 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 17:50:52,671 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 17:50:52,671 | INFO | 3512 | ========= EPOCH 7 =========
+[island 0] 2025-12-22 17:50:52,671 | INFO | 3512 | Global early stopping counter: 2/None
+[island 0] 2025-12-22 17:50:52,671 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 17:50:52,671 | INFO | 3512 | Best prompt: Program(id=c80ec13d-9a82-4b7e-a051-b98cdf698955,fitness=0.85921935,island_found=0,iteration_found=0,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 17:50:52,671 | INFO | 3512 | Best solution: Program(id=4dbb6112-4bb1-4f26-8178-8048d5a1c8b2,fitness=0.85921935,island_found=0,iteration_found=4,returncode=0,eval_metrics={'radii_sum': 2.264784289428505, 'benchmark_ratio': 0.859219351962742, 'eval_time': 169.85913634300232})
+[island 0] 2025-12-22 17:50:52,671 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0), 22: ('4dbb6112-4bb1-4f26-8178-8048d5a1c8b2', 0.859219351962742)}
+[island 0] 2025-12-22 17:50:52,672 | INFO | 3512 | Generating initial populations: False
+[island 0] 2025-12-22 17:50:52,672 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 17:50:52,672 | INFO | 3512 | Exploitation: True
+[island 0] 2025-12-22 17:50:52,672 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 17:50:52,672 | INFO | 3512 | Exploitation: Selecting parents using roulette with kwargs {'roulette_by_rank': True}.
+[island 0] 2025-12-22 17:50:52,672 | INFO | 3512 | Selected 1 inspirations.
+[island 0] 2025-12-22 17:50:52,672 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 17:50:52,672 | INFO | 3512 | Chat consists of 2 messages (max_chat_depth = None).
+[island 0] 2025-12-22 17:50:52,672 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=0.6)...
+[island 0] 2025-12-22 17:51:58,966 | INFO | 3512 | Successfully retrieved response, using 6372 prompt tokens and 14450 completion tokens.
+[island 0] 2025-12-22 17:51:58,966 | INFO | 3512 | Attempting to SEARCH/REPLACE on solution...
+[island 0] 2025-12-22 17:51:58,969 | INFO | 3512 | Successfully modified parent solution.
+[island 0] 2025-12-22 17:51:58,969 | INFO | 3512 | Attempting to evaluate program...
+[island 0] 2025-12-22 17:54:49,209 | INFO | 3512 | Evaluated program without errors.
+[island 0] 2025-12-22 17:54:49,210 | INFO | 3512 | Child solution -> Program(id=a5c1a4ac-6ac7-4b89-9e57-c4864b95fba4,fitness=0.90558041,island_found=0,iteration_found=7,returncode=0,eval_metrics={'radii_sum': 2.386985684368654, 'benchmark_ratio': 0.9055804133051064, 'eval_time': 169.9395456314087}).
+[island 0] 2025-12-22 17:54:49,210 | INFO | 3512 | Child solution improves on parent prompt fitness.
+[island 0] 2025-12-22 17:54:49,210 | INFO | 3512 | Adding child_sol to sol_db.
+[island 0] 2025-12-22 17:54:49,210 | INFO | 3512 | New best program found -> 0.9055804133051064.
+[island 0] 2025-12-22 17:54:49,210 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 17:54:49,210 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 17:54:49,210 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:54:49,210 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | ========= EPOCH 8 =========
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | Global early stopping counter: 0/None
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | Best prompt: Program(id=c80ec13d-9a82-4b7e-a051-b98cdf698955,fitness=0.90558041,island_found=0,iteration_found=0,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | Best solution: Program(id=a5c1a4ac-6ac7-4b89-9e57-c4864b95fba4,fitness=0.90558041,island_found=0,iteration_found=7,returncode=0,eval_metrics={'radii_sum': 2.386985684368654, 'benchmark_ratio': 0.9055804133051064, 'eval_time': 169.9395456314087})
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0), 22: ('a5c1a4ac-6ac7-4b89-9e57-c4864b95fba4', 0.9055804133051064)}
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | Generating initial populations: False
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | Exploitation: True
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 17:54:49,211 | INFO | 3512 | Exploitation: Selecting parents using roulette with kwargs {'roulette_by_rank': True}.
+[island 0] 2025-12-22 17:54:49,212 | INFO | 3512 | Selected 1 inspirations.
+[island 0] 2025-12-22 17:54:49,212 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 17:54:49,212 | INFO | 3512 | Chat consists of 4 messages (max_chat_depth = None).
+[island 0] 2025-12-22 17:54:49,212 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=0.6)...
+[island 0] 2025-12-22 17:57:08,398 | INFO | 3512 | Successfully retrieved response, using 18678 prompt tokens and 18670 completion tokens.
+[island 0] 2025-12-22 17:57:08,398 | INFO | 3512 | Attempting to SEARCH/REPLACE on solution...
+[island 0] 2025-12-22 17:57:08,402 | INFO | 3512 | Successfully modified parent solution.
+[island 0] 2025-12-22 17:57:08,403 | INFO | 3512 | Attempting to evaluate program...
+[island 0] 2025-12-22 17:59:26,403 | INFO | 3512 | Evaluated program without errors.
+[island 0] 2025-12-22 17:59:26,404 | INFO | 3512 | Child solution -> Program(id=8a99193e-9af9-4972-a47f-5f9f89c1f58d,fitness=0.92107006,island_found=0,iteration_found=8,returncode=0,eval_metrics={'radii_sum': 2.4278142635045725, 'benchmark_ratio': 0.9210700585973632, 'eval_time': 137.88434982299805}).
+[island 0] 2025-12-22 17:59:26,404 | INFO | 3512 | Child solution improves on parent prompt fitness.
+[island 0] 2025-12-22 17:59:26,404 | INFO | 3512 | Adding child_sol to sol_db.
+[island 0] 2025-12-22 17:59:26,404 | INFO | 3512 | New best program found -> 0.9210700585973632.
+[island 0] 2025-12-22 17:59:26,404 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 17:59:26,404 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 17:59:26,404 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:59:26,404 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | ========= EPOCH 9 =========
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | Global early stopping counter: 0/None
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | Best prompt: Program(id=904162c9-53a0-4a2e-9e3d-b08925b99141,fitness=0.92107006,island_found=0,iteration_found=5,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | Best solution: Program(id=8a99193e-9af9-4972-a47f-5f9f89c1f58d,fitness=0.92107006,island_found=0,iteration_found=8,returncode=0,eval_metrics={'radii_sum': 2.4278142635045725, 'benchmark_ratio': 0.9210700585973632, 'eval_time': 137.88434982299805})
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0), 22: ('a5c1a4ac-6ac7-4b89-9e57-c4864b95fba4', 0.9055804133051064), 18: ('8a99193e-9af9-4972-a47f-5f9f89c1f58d', 0.9210700585973632)}
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | Generating initial populations: False
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | Exploitation: True
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | Exploitation: Selecting parents using roulette with kwargs {'roulette_by_rank': True}.
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | Selected 2 inspirations.
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | Chat consists of 6 messages (max_chat_depth = None).
+[island 0] 2025-12-22 17:59:26,405 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-PRO,temp=0.7,top_p=0.95,weight=0.4)...
+[island 0] 2025-12-22 18:00:43,281 | ERROR | 3512 | Error when generating program on LM: Failed to fetch LM response after 4 attempts(Error:Error code: 429 - {'error': {'message': 'litellm.RateLimitError: litellm.RateLimitError: geminiException - {\n  "error": {\n    "code": 429,\n    "messag... [TRUNCATED]
+[island 0] 2025-12-22 18:00:43,282 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 18:00:43,282 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 18:03:32,661 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:03:32,661 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 18:03:32,661 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:03:32,661 | INFO | 3512 | Early stopping counter increased: 1/None
+[island 0] 2025-12-22 18:03:32,661 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 18:03:32,661 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 18:03:32,661 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 18:03:32,661 | INFO | 3512 | ========= EPOCH 10 =========
+[island 0] 2025-12-22 18:03:32,661 | INFO | 3512 | Global early stopping counter: 1/None
+[island 0] 2025-12-22 18:03:32,661 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 18:03:32,661 | INFO | 3512 | Best prompt: Program(id=904162c9-53a0-4a2e-9e3d-b08925b99141,fitness=0.92107006,island_found=0,iteration_found=5,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 18:03:32,661 | INFO | 3512 | Best solution: Program(id=8a99193e-9af9-4972-a47f-5f9f89c1f58d,fitness=0.92107006,island_found=0,iteration_found=8,returncode=0,eval_metrics={'radii_sum': 2.4278142635045725, 'benchmark_ratio': 0.9210700585973632, 'eval_time': 137.88434982299805})
+[island 0] 2025-12-22 18:03:32,661 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0), 22: ('a5c1a4ac-6ac7-4b89-9e57-c4864b95fba4', 0.9055804133051064), 18: ('8a99193e-9af9-4972-a47f-5f9f89c1f58d', 0.9210700585973632)}
+[island 0] 2025-12-22 18:03:32,662 | INFO | 3512 | Generating initial populations: False
+[island 0] 2025-12-22 18:03:32,662 | INFO | 3512 | Exploration: True
+[island 0] 2025-12-22 18:03:32,662 | INFO | 3512 | Exploitation: False
+[island 0] 2025-12-22 18:03:32,662 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 18:03:32,662 | INFO | 3512 | Exploration: selecting parents uniformly at random.
+[island 0] 2025-12-22 18:03:32,662 | INFO | 3512 | Selected 0 inspirations.
+[island 0] 2025-12-22 18:03:32,662 | INFO | 3512 | === META-PROMPT STEP ===
+[island 0] 2025-12-22 18:03:32,662 | INFO | 3512 | Attempting to run meta_prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 18:03:52,729 | INFO | 3512 | Successfully retrieved response, using 4540 prompt tokens and 3787 completion tokens.
+[island 0] 2025-12-22 18:03:52,729 | INFO | 3512 | Attempting to SEARCH/REPLACE on prompt...
+[island 0] 2025-12-22 18:03:52,730 | INFO | 3512 | Successfully modified parent prompt.
+[island 0] 2025-12-22 18:03:52,730 | INFO | 3512 | Adding child_prompt to prompt_db.
+[island 0] 2025-12-22 18:03:52,730 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 18:03:52,730 | INFO | 3512 | Chat consists of 2 messages (max_chat_depth = 0).
+[island 0] 2025-12-22 18:03:52,730 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.9,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 18:05:12,999 | INFO | 3512 | Successfully retrieved response, using 5252 prompt tokens and 17913 completion tokens.
+[island 0] 2025-12-22 18:05:12,999 | INFO | 3512 | Attempting to SEARCH/REPLACE on solution...
+[island 0] 2025-12-22 18:05:13,001 | INFO | 3512 | Successfully modified parent solution.
+[island 0] 2025-12-22 18:05:13,001 | INFO | 3512 | Attempting to evaluate program...
+[island 0] 2025-12-22 18:05:23,954 | ERROR | 3512 | Error in evaluating program -> 'Traceback (most recent call last):
+  File "/tmp/tmpykhopm8y/evaluate.py", line 110, in <module>
+    evaluate(program_path, resul[...]'.
+[island 0] 2025-12-22 18:05:23,955 | INFO | 3512 | Child solution -> Program(id=6f3bead0-9e3e-4b4f-9ada-ad214f45ade1,fitness=0.00000000,island_found=0,iteration_found=10,returncode=1,eval_metrics={}).
+[island 0] 2025-12-22 18:05:23,955 | INFO | 3512 | Child solution improves on parent prompt fitness.
+[island 0] 2025-12-22 18:05:23,955 | INFO | 3512 | Adding child_sol to sol_db.
+[island 0] 2025-12-22 18:05:23,955 | INFO | 3512 | New program is worse than best -> 0 <= 0.9210700585973632.
+[island 0] 2025-12-22 18:05:23,955 | INFO | 3512 | === CHECKPOINT STEP ===
+[island 0] 2025-12-22 18:05:23,955 | INFO | 3512 | Waiting for other islands to arrive at barrier...
+[island 0] 2025-12-22 18:07:57,370 | INFO | 3512 | All islands arrived. Proceeding to save ckpt.
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | Saved best solution at 'experiments/alphaevolve_math_problems/packing_problems/circle_packing_square/26/gemini_depth/gemini_dnull/0/best_sol.py'.
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | Saved best prompt at 'experiments/alphaevolve_math_problems/packing_problems/circle_packing_square/26/gemini_depth/gemini_dnull/0/best_prompt.txt'.
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | Checkpoint 10 sucessfully saved.
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | ========= EPOCH 11 =========
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | Global early stopping counter: 0/None
+[island 0] 2025-12-22 18:07:57,372 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 18:07:57,373 | INFO | 3512 | Best prompt: Program(id=904162c9-53a0-4a2e-9e3d-b08925b99141,fitness=0.92107006,island_found=0,iteration_found=5,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 18:07:57,373 | INFO | 3512 | Best solution: Program(id=8a99193e-9af9-4972-a47f-5f9f89c1f58d,fitness=0.92107006,island_found=0,iteration_found=8,returncode=0,eval_metrics={'radii_sum': 2.4278142635045725, 'benchmark_ratio': 0.9210700585973632, 'eval_time': 137.88434982299805})
+[island 0] 2025-12-22 18:07:57,373 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0), 22: ('a5c1a4ac-6ac7-4b89-9e57-c4864b95fba4', 0.9055804133051064), 18: ('8a99193e-9af9-4972-a47f-5f9f89c1f58d', 0.9210700585973632)}
+[island 0] 2025-12-22 18:07:57,373 | INFO | 3512 | Generating initial populations: False
+[island 0] 2025-12-22 18:07:57,373 | INFO | 3512 | Exploration: True
+[island 0] 2025-12-22 18:07:57,373 | INFO | 3512 | Exploitation: False
+[island 0] 2025-12-22 18:07:57,373 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 18:07:57,373 | INFO | 3512 | Exploration: selecting parents uniformly at random.
+[island 0] 2025-12-22 18:07:57,373 | INFO | 3512 | Selected 0 inspirations.
+[island 0] 2025-12-22 18:07:57,373 | INFO | 3512 | === META-PROMPT STEP ===
+[island 0] 2025-12-22 18:07:57,373 | INFO | 3512 | Attempting to run meta_prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 18:08:15,731 | INFO | 3512 | Successfully retrieved response, using 5202 prompt tokens and 3293 completion tokens.
+[island 0] 2025-12-22 18:08:15,731 | INFO | 3512 | Attempting to SEARCH/REPLACE on prompt...
+[island 0] 2025-12-22 18:08:15,731 | INFO | 3512 | Successfully modified parent prompt.
+[island 0] 2025-12-22 18:08:15,731 | INFO | 3512 | Adding child_prompt to prompt_db.
+[island 0] 2025-12-22 18:08:15,732 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 18:08:15,732 | INFO | 3512 | Chat consists of 2 messages (max_chat_depth = 0).
+[island 0] 2025-12-22 18:08:15,732 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.9,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 18:10:13,913 | INFO | 3512 | Successfully retrieved response, using 5599 prompt tokens and 26627 completion tokens.
+[island 0] 2025-12-22 18:10:13,913 | INFO | 3512 | Attempting to SEARCH/REPLACE on solution...
+[island 0] 2025-12-22 18:10:13,917 | INFO | 3512 | Successfully modified parent solution.
+[island 0] 2025-12-22 18:10:13,917 | INFO | 3512 | Attempting to evaluate program...
+[island 0] 2025-12-22 18:10:51,869 | INFO | 3512 | Evaluated program without errors.
+[island 0] 2025-12-22 18:10:51,869 | INFO | 3512 | Child solution -> Program(id=2a88af0f-6c60-40f4-be08-dcb352df8bb5,fitness=0.98877250,island_found=0,iteration_found=11,returncode=0,eval_metrics={'radii_sum': 2.6062686022261126, 'benchmark_ratio': 0.9887724980689621, 'eval_time': 37.19875121116638}).
+[island 0] 2025-12-22 18:10:51,869 | INFO | 3512 | Child solution improves on parent prompt fitness.
+[island 0] 2025-12-22 18:10:51,869 | INFO | 3512 | Adding child_sol to sol_db.
+[island 0] 2025-12-22 18:10:51,869 | INFO | 3512 | New best program found -> 0.9887724980689621.
+[island 0] 2025-12-22 18:10:51,869 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 18:10:51,870 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 18:10:51,870 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:10:51,870 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 18:10:51,870 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:10:51,870 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 18:10:51,870 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 18:10:51,870 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 18:10:51,870 | INFO | 3512 | ========= EPOCH 12 =========
+[island 0] 2025-12-22 18:10:51,870 | INFO | 3512 | Global early stopping counter: 0/None
+[island 0] 2025-12-22 18:10:51,870 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 18:10:51,870 | INFO | 3512 | Best prompt: Program(id=1e986355-62f7-46df-be76-3c98cb1861cc,fitness=0.98877250,island_found=0,iteration_found=11,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 18:10:51,870 | INFO | 3512 | Best solution: Program(id=2a88af0f-6c60-40f4-be08-dcb352df8bb5,fitness=0.98877250,island_found=0,iteration_found=11,returncode=0,eval_metrics={'radii_sum': 2.6062686022261126, 'benchmark_ratio': 0.9887724980689621, 'eval_time': 37.19875121116638})
+[island 0] 2025-12-22 18:10:51,871 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0), 22: ('a5c1a4ac-6ac7-4b89-9e57-c4864b95fba4', 0.9055804133051064), 18: ('8a99193e-9af9-4972-a47f-5f9f89c1f58d', 0.9210700585973632), 2: ('2a88af0f-6c60-40f4-be08-dcb352df8bb... [TRUNCATED]
+[island 0] 2025-12-22 18:10:51,871 | INFO | 3512 | Generating initial populations: False
+[island 0] 2025-12-22 18:10:51,871 | INFO | 3512 | Exploration: True
+[island 0] 2025-12-22 18:10:51,871 | INFO | 3512 | Exploitation: False
+[island 0] 2025-12-22 18:10:51,871 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 18:10:51,871 | INFO | 3512 | Exploration: selecting parents uniformly at random.
+[island 0] 2025-12-22 18:10:51,871 | INFO | 3512 | Selected 0 inspirations.
+[island 0] 2025-12-22 18:10:51,871 | INFO | 3512 | === META-PROMPT STEP ===
+[island 0] 2025-12-22 18:10:51,871 | INFO | 3512 | Attempting to run meta_prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 18:11:11,067 | INFO | 3512 | Successfully retrieved response, using 3392 prompt tokens and 3488 completion tokens.
+[island 0] 2025-12-22 18:11:11,067 | INFO | 3512 | Attempting to SEARCH/REPLACE on prompt...
+[island 0] 2025-12-22 18:11:11,067 | ERROR | 3512 | Error with SEARCH/REPLACE (meta-prompt): 'Search block not found in any evolve blocks: 'ALGORITHMIC STRATEGY GUIDANCE:
+1.  **Initial Placement Heuristic**: Instead of solely relying on random initialization, explore constructive heuristics f... [TRUNCATED]
+[island 0] 2025-12-22 18:11:11,067 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 18:11:11,068 | INFO | 3512 | Chat consists of 2 messages (max_chat_depth = 0).
+[island 0] 2025-12-22 18:11:11,068 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.9,top_p=0.95,weight=1)...
+[island 0] 2025-12-22 18:12:36,274 | INFO | 3512 | Successfully retrieved response, using 3678 prompt tokens and 19559 completion tokens.
+[island 0] 2025-12-22 18:12:36,274 | INFO | 3512 | Attempting to SEARCH/REPLACE on solution...
+[island 0] 2025-12-22 18:12:36,277 | INFO | 3512 | Successfully modified parent solution.
+[island 0] 2025-12-22 18:12:36,278 | INFO | 3512 | Attempting to evaluate program...
+[island 0] 2025-12-22 18:12:46,141 | ERROR | 3512 | Error in evaluating program -> '/tmp/tmp6or4v4ou/tmpv8_m3ixt.py:96: RuntimeWarning: invalid value encountered in divide
+  force_magnitude_matrix = np.where(over[...]'.
+[island 0] 2025-12-22 18:12:46,141 | INFO | 3512 | Child solution -> Program(id=998531c5-b321-41cd-b41d-83492e37165c,fitness=0.00000000,island_found=0,iteration_found=12,returncode=1,eval_metrics={}).
+[island 0] 2025-12-22 18:12:46,141 | INFO | 3512 | Adding child_sol to sol_db.
+[island 0] 2025-12-22 18:12:46,141 | INFO | 3512 | New program is worse than best -> 0 <= 0.9887724980689621.
+[island 0] 2025-12-22 18:12:46,142 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 18:12:46,142 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 18:14:46,411 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | Early stopping counter increased: 1/None
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | ========= EPOCH 13 =========
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | Global early stopping counter: 1/None
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | Best prompt: Program(id=1e986355-62f7-46df-be76-3c98cb1861cc,fitness=0.98877250,island_found=0,iteration_found=11,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | Best solution: Program(id=2a88af0f-6c60-40f4-be08-dcb352df8bb5,fitness=0.98877250,island_found=0,iteration_found=11,returncode=0,eval_metrics={'radii_sum': 2.6062686022261126, 'benchmark_ratio': 0.9887724980689621, 'eval_time': 37.19875121116638})
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0), 22: ('a5c1a4ac-6ac7-4b89-9e57-c4864b95fba4', 0.9055804133051064), 18: ('8a99193e-9af9-4972-a47f-5f9f89c1f58d', 0.9210700585973632), 2: ('2a88af0f-6c60-40f4-be08-dcb352df8bb... [TRUNCATED]
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | Generating initial populations: False
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 18:14:46,412 | INFO | 3512 | Exploitation: True
+[island 0] 2025-12-22 18:14:46,413 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 18:14:46,413 | INFO | 3512 | Exploitation: Selecting parents using roulette with kwargs {'roulette_by_rank': True}.
+[island 0] 2025-12-22 18:14:46,413 | INFO | 3512 | Selected 2 inspirations.
+[island 0] 2025-12-22 18:14:46,413 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 18:14:46,413 | INFO | 3512 | Chat consists of 4 messages (max_chat_depth = None).
+[island 0] 2025-12-22 18:14:46,413 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=0.6)...
+[island 0] 2025-12-22 18:16:45,666 | INFO | 3512 | Successfully retrieved response, using 30248 prompt tokens and 28816 completion tokens.
+[island 0] 2025-12-22 18:16:45,666 | INFO | 3512 | Attempting to SEARCH/REPLACE on solution...
+[island 0] 2025-12-22 18:16:45,670 | INFO | 3512 | Successfully modified parent solution.
+[island 0] 2025-12-22 18:16:45,670 | INFO | 3512 | Attempting to evaluate program...
+[island 0] 2025-12-22 18:19:24,226 | INFO | 3512 | Evaluated program without errors.
+[island 0] 2025-12-22 18:19:24,227 | INFO | 3512 | Child solution -> Program(id=16232250-107e-489d-9d81-a9e054588c34,fitness=0.92107006,island_found=0,iteration_found=13,returncode=0,eval_metrics={'radii_sum': 2.4278142635045725, 'benchmark_ratio': 0.9210700585973632, 'eval_time': 158.38002848625183}).
+[island 0] 2025-12-22 18:19:24,227 | INFO | 3512 | Child solution improves on parent prompt fitness.
+[island 0] 2025-12-22 18:19:24,227 | INFO | 3512 | Adding child_sol to sol_db.
+[island 0] 2025-12-22 18:19:24,227 | INFO | 3512 | New program is worse than best -> 0.9210700585973632 <= 0.9887724980689621.
+[island 0] 2025-12-22 18:19:24,227 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 18:19:24,227 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 18:19:24,227 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:19:24,228 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 18:19:24,228 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:19:24,228 | INFO | 3512 | Early stopping counter increased: 2/None
+[island 0] 2025-12-22 18:19:24,228 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 18:19:24,228 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 18:19:24,228 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 18:19:24,228 | INFO | 3512 | ========= EPOCH 14 =========
+[island 0] 2025-12-22 18:19:24,228 | INFO | 3512 | Global early stopping counter: 2/None
+[island 0] 2025-12-22 18:19:24,228 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 18:19:24,228 | INFO | 3512 | Best prompt: Program(id=1e986355-62f7-46df-be76-3c98cb1861cc,fitness=0.98877250,island_found=0,iteration_found=11,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 18:19:24,228 | INFO | 3512 | Best solution: Program(id=2a88af0f-6c60-40f4-be08-dcb352df8bb5,fitness=0.98877250,island_found=0,iteration_found=11,returncode=0,eval_metrics={'radii_sum': 2.6062686022261126, 'benchmark_ratio': 0.9887724980689621, 'eval_time': 37.19875121116638})
+[island 0] 2025-12-22 18:19:24,229 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0), 22: ('a5c1a4ac-6ac7-4b89-9e57-c4864b95fba4', 0.9055804133051064), 18: ('8a99193e-9af9-4972-a47f-5f9f89c1f58d', 0.9210700585973632), 2: ('2a88af0f-6c60-40f4-be08-dcb352df8bb... [TRUNCATED]
+[island 0] 2025-12-22 18:19:24,229 | INFO | 3512 | Generating initial populations: False
+[island 0] 2025-12-22 18:19:24,229 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 18:19:24,229 | INFO | 3512 | Exploitation: True
+[island 0] 2025-12-22 18:19:24,229 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 18:19:24,229 | INFO | 3512 | Exploitation: Selecting parents using roulette with kwargs {'roulette_by_rank': True}.
+[island 0] 2025-12-22 18:19:24,229 | INFO | 3512 | Selected 2 inspirations.
+[island 0] 2025-12-22 18:19:24,229 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 18:19:24,229 | INFO | 3512 | Chat consists of 6 messages (max_chat_depth = None).
+[island 0] 2025-12-22 18:19:24,229 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=0.6)...
+[island 0] 2025-12-22 18:21:11,925 | INFO | 3512 | Successfully retrieved response, using 48282 prompt tokens and 24820 completion tokens.
+[island 0] 2025-12-22 18:21:11,925 | INFO | 3512 | Attempting to SEARCH/REPLACE on solution...
+[island 0] 2025-12-22 18:21:11,941 | ERROR | 3512 | Error with SEARCH/REPLACE (evolve solution): 'Search block not found in any evolve blocks: 'def local_jiggle_search(individual: np.ndarray, iterations: int, jiggle_strength_pos: float, jiggle_strength_r: float, 
+                        overl... [TRUNCATED]
+[island 0] 2025-12-22 18:21:11,941 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 18:21:11,941 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 18:23:19,272 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:23:19,272 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 18:23:19,272 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:23:19,272 | INFO | 3512 | Early stopping counter increased: 3/None
+[island 0] 2025-12-22 18:23:19,272 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 18:23:19,272 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 18:23:19,272 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 18:23:19,272 | INFO | 3512 | ========= EPOCH 15 =========
+[island 0] 2025-12-22 18:23:19,272 | INFO | 3512 | Global early stopping counter: 3/None
+[island 0] 2025-12-22 18:23:19,272 | INFO | 3512 | Exploration rate: 0.2
+[island 0] 2025-12-22 18:23:19,272 | INFO | 3512 | Best prompt: Program(id=1e986355-62f7-46df-be76-3c98cb1861cc,fitness=0.98877250,island_found=0,iteration_found=11,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 18:23:19,273 | INFO | 3512 | Best solution: Program(id=2a88af0f-6c60-40f4-be08-dcb352df8bb5,fitness=0.98877250,island_found=0,iteration_found=11,returncode=0,eval_metrics={'radii_sum': 2.6062686022261126, 'benchmark_ratio': 0.9887724980689621, 'eval_time': 37.19875121116638})
+[island 0] 2025-12-22 18:23:19,273 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0), 22: ('a5c1a4ac-6ac7-4b89-9e57-c4864b95fba4', 0.9055804133051064), 18: ('8a99193e-9af9-4972-a47f-5f9f89c1f58d', 0.9210700585973632), 2: ('2a88af0f-6c60-40f4-be08-dcb352df8bb... [TRUNCATED]
+[island 0] 2025-12-22 18:23:19,273 | INFO | 3512 | Generating initial populations: False
+[island 0] 2025-12-22 18:23:19,273 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 18:23:19,273 | INFO | 3512 | Exploitation: True
+[island 0] 2025-12-22 18:23:19,273 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 18:23:19,273 | INFO | 3512 | Exploitation: Selecting parents using roulette with kwargs {'roulette_by_rank': True}.
+[island 0] 2025-12-22 18:23:19,273 | INFO | 3512 | Selected 2 inspirations.
+[island 0] 2025-12-22 18:23:19,273 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 18:23:19,273 | INFO | 3512 | Chat consists of 4 messages (max_chat_depth = None).
+[island 0] 2025-12-22 18:23:19,273 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-PRO,temp=0.7,top_p=0.95,weight=0.4)...
+[island 0] 2025-12-22 18:24:35,934 | ERROR | 3512 | Error when generating program on LM: Failed to fetch LM response after 4 attempts(Error:Error code: 429 - {'error': {'message': 'litellm.RateLimitError: litellm.RateLimitError: geminiException - {\n  "error": {\n    "code": 429,\n    "messag... [TRUNCATED]
+[island 0] 2025-12-22 18:24:35,934 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 18:24:35,934 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 18:26:36,207 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | Early stopping counter increased: 4/None
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | ========= EPOCH 16 =========
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | Global early stopping counter: 4/None
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | Exploration rate: 0.21000000000000002
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | Best prompt: Program(id=1e986355-62f7-46df-be76-3c98cb1861cc,fitness=0.98877250,island_found=0,iteration_found=11,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | Best solution: Program(id=2a88af0f-6c60-40f4-be08-dcb352df8bb5,fitness=0.98877250,island_found=0,iteration_found=11,returncode=0,eval_metrics={'radii_sum': 2.6062686022261126, 'benchmark_ratio': 0.9887724980689621, 'eval_time': 37.19875121116638})
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0), 22: ('a5c1a4ac-6ac7-4b89-9e57-c4864b95fba4', 0.9055804133051064), 18: ('8a99193e-9af9-4972-a47f-5f9f89c1f58d', 0.9210700585973632), 2: ('2a88af0f-6c60-40f4-be08-dcb352df8bb... [TRUNCATED]
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | Generating initial populations: False
+[island 0] 2025-12-22 18:26:36,208 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 18:26:36,209 | INFO | 3512 | Exploitation: True
+[island 0] 2025-12-22 18:26:36,209 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 18:26:36,209 | INFO | 3512 | Exploitation: Selecting parents using roulette with kwargs {'roulette_by_rank': True}.
+[island 0] 2025-12-22 18:26:36,209 | INFO | 3512 | Selected 2 inspirations.
+[island 0] 2025-12-22 18:26:36,209 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 18:26:36,209 | INFO | 3512 | Chat consists of 6 messages (max_chat_depth = None).
+[island 0] 2025-12-22 18:26:36,209 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-PRO,temp=0.7,top_p=0.95,weight=0.4)...
+[island 0] 2025-12-22 18:27:57,180 | ERROR | 3512 | Error when generating program on LM: Failed to fetch LM response after 4 attempts(Error:Error code: 429 - {'error': {'message': 'litellm.RateLimitError: litellm.RateLimitError: geminiException - {\n  "error": {\n    "code": 429,\n    "messag... [TRUNCATED]
+[island 0] 2025-12-22 18:27:57,180 | INFO | 3512 | === GLOBAL EARLY STOPPING CHECK STEP ===
+[island 0] 2025-12-22 18:27:57,180 | INFO | 3512 | Waiting for all islands to report progress...
+[island 0] 2025-12-22 18:31:39,370 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:31:39,371 | INFO | 3512 | Waiting for other islands to finish early stopping check...
+[island 0] 2025-12-22 18:31:39,371 | INFO | 3512 | All islands synced.
+[island 0] 2025-12-22 18:31:39,371 | INFO | 3512 | Early stopping counter increased: 5/None
+[island 0] 2025-12-22 18:31:39,371 | INFO | 3512 | === END EPOCH SYNC STEP ===
+[island 0] 2025-12-22 18:31:39,371 | INFO | 3512 | Waiting for other islands to finish epoch...
+[island 0] 2025-12-22 18:31:39,371 | INFO | 3512 | All islands finished. Moving to next epoch.
+[island 0] 2025-12-22 18:31:39,371 | INFO | 3512 | ========= EPOCH 17 =========
+[island 0] 2025-12-22 18:31:39,371 | INFO | 3512 | Global early stopping counter: 5/None
+[island 0] 2025-12-22 18:31:39,371 | INFO | 3512 | Exploration rate: 0.21000000000000002
+[island 0] 2025-12-22 18:31:39,371 | INFO | 3512 | Best prompt: Program(id=1e986355-62f7-46df-be76-3c98cb1861cc,fitness=0.98877250,island_found=0,iteration_found=11,returncode=None,eval_metrics={})
+[island 0] 2025-12-22 18:31:39,371 | INFO | 3512 | Best solution: Program(id=2a88af0f-6c60-40f4-be08-dcb352df8bb5,fitness=0.98877250,island_found=0,iteration_found=11,returncode=0,eval_metrics={'radii_sum': 2.6062686022261126, 'benchmark_ratio': 0.9887724980689621, 'eval_time': 37.19875121116638})
+[island 0] 2025-12-22 18:31:39,371 | INFO | 3512 | sol_db EliteMap: {12: ('44361f44-887e-4292-b217-fd6045e8f82c', 0.0), 22: ('a5c1a4ac-6ac7-4b89-9e57-c4864b95fba4', 0.9055804133051064), 18: ('8a99193e-9af9-4972-a47f-5f9f89c1f58d', 0.9210700585973632), 2: ('2a88af0f-6c60-40f4-be08-dcb352df8bb... [TRUNCATED]
+[island 0] 2025-12-22 18:31:39,372 | INFO | 3512 | Generating initial populations: False
+[island 0] 2025-12-22 18:31:39,372 | INFO | 3512 | Exploration: False
+[island 0] 2025-12-22 18:31:39,372 | INFO | 3512 | Exploitation: True
+[island 0] 2025-12-22 18:31:39,372 | INFO | 3512 | === SELECTION STEP ===
+[island 0] 2025-12-22 18:31:39,372 | INFO | 3512 | Exploitation: Selecting parents using roulette with kwargs {'roulette_by_rank': True}.
+[island 0] 2025-12-22 18:31:39,372 | INFO | 3512 | Selected 2 inspirations.
+[island 0] 2025-12-22 18:31:39,372 | INFO | 3512 | === EVOLVE CODE STEP ===
+[island 0] 2025-12-22 18:31:39,372 | INFO | 3512 | Chat consists of 6 messages (max_chat_depth = None).
+[island 0] 2025-12-22 18:31:39,372 | INFO | 3512 | Attempting to run prompt on OpenAILM(model_name=GOOGLE_GEMINI-2.5-FLASH,temp=0.7,top_p=0.95,weight=0.6)...

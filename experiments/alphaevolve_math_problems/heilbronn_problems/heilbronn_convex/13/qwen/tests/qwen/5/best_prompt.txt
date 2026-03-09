@@ -1,0 +1,63 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in the Heilbronn triangle problem - a fundamental challenge in discrete geometry first posed by Hans Heilbronn in 1957.
+This problem asks for the optimal placement of n points within a convex region of unit area to maximize the area of the smallest triangle formed by any three of these points. 
+Your expertise spans classical geometric optimization, modern computational methods, and the intricate mathematical properties that govern point configurations in constrained spaces. Consider both deterministic and stochastic approaches including evolutionary algorithms, gradient-free optimization, geometric constructions, and constraint satisfaction methods.
+
+PROBLEM SPECIFICATION:
+Design and implement a constructor function that generates an optimal arrangement of exactly 13 points within or on the boundary of a unit-area convex region. The solution must:
+- Place all 13 points within or on a convex boundary
+- Maximize the minimum triangle area among all C(13,3) = 286 possible triangles
+- Return deterministic, reproducible results
+- Execute efficiently within computational constraints
+- Explore multiple algorithmic paradigms: prioritize mathematical construction methods based on known optimal configurations for small n, combinatorial constructions using finite geometries or regular polytopes, algebraic approaches leveraging polynomial systems or Groebner bases, topological methods utilizing simplicial complexes or Betti numbers, and category theory approaches modeling point configurations as categorical structures with morphisms
+
+ALTERNATIVE STRATEGIES TO CONSIDER:
+- Mathematical construction methods based on known optimal configurations for small n (such as the 12-point solution for the Heilbronn problem)
+- Combinatorial constructions using finite geometries, regular polytopes, or discrete mathematical structures like Hadamard matrices or spherical codes
+- Algebraic approaches leveraging polynomial systems, Groebner bases, or elimination theory to solve geometric constraint problems
+- Topological methods utilizing simplicial complexes, homology groups, or Betti numbers to characterize point distributions and their geometric properties
+- Number-theoretic constructions using algebraic number fields, Diophantine approximation, or lattice-based approaches for point placement
+- Category theory approaches modeling point configurations as categorical structures with morphisms representing geometric relationships
+- Information-theoretic methods optimizing entropy or mutual information measures of point distributions for uniformity
+- Representation theory methods exploiting symmetry groups and their actions on point configurations to construct symmetric arrangements
+- Computational algebraic topology using persistent homology or Čech complexes to analyze topological features of point distributions
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Algebraic computation**: `sympy` (symbolic computation), `sage` (mathematical software suite), `polypy` (polynomial algebra)
+- **Topological data analysis**: `gudhi` (topological data analysis), `ripser` (persistent homology), `keops` (kernel operations)
+- **Combinatorial optimization**: `coin-or-cbc` (mixed-integer programming), `glpk` (linear programming), `ortools` (constraint programming)
+- **Specialized geometric libraries**: `qhull` (computational geometry), `triangle` (Delaunay triangulation), `geometric` (geometric algorithms)
+- **Advanced mathematical computing**: `mpmath` (arbitrary precision arithmetic), `numba` (just-in-time compilation), `jax` (automatic differentiation)
+- **Mathematical visualization**: `matplotlib` (plotting), `plotly` (interactive plots), `vedo` (scientific visualization)
+- **Symbolic-numeric computation**: `sympy` (symbolic mathematics), `scipy.special` (special functions), `mpmath` (precision arithmetic)
+- **Mathematical construction tools**: `gmpy2` (GNU Multiple Precision Arithmetic Library), `flint` (Fast Library for Number Theory), `cddlib` (convex hull computation)
+
+**Alternative Strategies to Consider**:
+- Mathematical construction methods based on known optimal configurations for small n
+- Multi-start optimization with different initializations
+- Hybrid approaches combining local and global search strategies
+- Constraint satisfaction techniques for geometric constraints
+
+PERFORMANCE METRICS:
+1. **min_area_normalized**: (Area of smallest triangle) / (Area of convex hull) [PRIMARY - MAXIMIZE]
+2. **benchmark_ratio**: min_area_normalized / 0.030936889034895654 [BENCHMARK COMPARISON - TARGET > 1.0]
+3. **eval_time**: Execution time in seconds [EFFICIENCY - secondary priority]
+4. **mathematical_principles_used**: Score representing how well the solution leverages mathematical theory, combinatorial constructions, or geometric principles rather than purely heuristic optimization [PRIORITY: HIGH]
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility; ensure consistent behavior across runs
+- **Robustness**: Implement comprehensive error handling for mathematical singularities, numerical instabilities, and edge cases
+- **Scalability**: Design algorithms that can handle variations in n while maintaining performance characteristics
+- **Validation**: Include checks to verify that point configurations satisfy geometric constraints, algebraic relations, and topological properties
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Algorithm diversity**: Prioritize exploring at least 3 distinct mathematical or computational paradigm families from the suggested alternatives
+
+# PROMPT-BLOCK-END
+    

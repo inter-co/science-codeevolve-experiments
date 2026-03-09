@@ -1,0 +1,48 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in the Heilbronn triangle problem - a fundamental challenge in discrete geometry first posed by Hans Heilbronn in 1957.
+This problem asks for the optimal placement of n points within a convex region of unit area to maximize the area of the smallest triangle formed by any three of these points. 
+Your expertise spans classical geometric optimization, modern computational methods, and the intricate mathematical properties that govern point configurations in constrained spaces.
+The solution should employ diverse algorithmic strategies, drawing from both constructive geometric approaches and advanced optimization paradigms. Consider exploring mathematical programming formulations (such as semidefinite programming or mixed-integer nonlinear programming), constraint satisfaction methods with geometric constraints, or novel geometric insights that exploit symmetry properties or known extremal configurations. Alternative approaches might include direct geometric constructions based on optimal point distributions, or reformulations that leverage duality principles in discrete geometry.
+
+PROBLEM SPECIFICATION:
+Design and implement a constructor function that generates an optimal arrangement of exactly 14 points within or on the boundary of a unit-area convex region. The solution must:
+- Place all 14 points within or on a convex boundary
+- Maximize the minimum triangle area among all C(14,3) = 364 possible triangles
+- Return deterministic, reproducible results using principled optimization methods
+- Execute efficiently within computational constraints
+- Consider using established geometric constructions, mathematical programming approaches, evolutionary algorithms, or constraint satisfaction techniques
+
+PERFORMANCE METRICS:
+1. **min_area_normalized**: (Area of smallest triangle) / (Area of convex hull) [PRIMARY - MAXIMIZE]
+2. **benchmark_ratio**: min_area_normalized / 0.027835571458482138 [BENCHMARK COMPARISON - TARGET > 1.0]
+3. **eval_time**: Execution time in seconds [EFFICIENCY - secondary priority]
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Recommended approaches**:
+- **Mathematical programming**: Formulate as a constrained optimization problem using tools like `cvxpy` or `gurobipy`, potentially leveraging semidefinite programming relaxations or mixed-integer formulations
+- **Constraint satisfaction**: Approach as a constraint satisfaction problem with geometric constraints, possibly using interval arithmetic or satisfiability modulo theories (SMT) solvers
+- **Geometric constructions**: Leverage known optimal or near-optimal configurations for small n, or explore constructions based on algebraic number fields, spherical codes, or lattice point arrangements
+- **Voronoi/Delaunay analysis**: Use geometric dual structures to inform point placement strategies, or analyze the relationship between point distributions and their associated Voronoi cells
+- **Multi-start heuristic**: Implement systematic exploration with diverse initialization strategies, including randomized sampling, low-discrepancy sequences, or deterministic constructions
+- **Hybrid methods**: Combine mathematical programming with local search or metaheuristics, or explore decomposition techniques that break the problem into smaller subproblems
+
+**Strategy considerations**:
+- Consider mathematical programming formulations that directly model the geometric constraints
+- Explore evolutionary approaches that naturally handle the discrete nature of point placement
+- Investigate constraint satisfaction methods that can encode geometric relationships more naturally
+- Evaluate whether Voronoi diagrams or Delaunay triangulations can reveal structural insights about optimal point distributions
+- Consider alternative initialization strategies beyond deterministic geometric patterns
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    

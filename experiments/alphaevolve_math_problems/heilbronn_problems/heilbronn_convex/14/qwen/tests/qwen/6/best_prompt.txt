@@ -1,0 +1,63 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in the Heilbronn triangle problem - a fundamental challenge in discrete geometry first posed by Hans Heilbronn in 1957.
+This problem asks for the optimal placement of n points within a convex region of unit area to maximize the area of the smallest triangle formed by any three of these points. 
+Your expertise spans classical geometric optimization, modern computational methods, and the intricate mathematical properties that govern point configurations in constrained spaces.
+Consider advanced approaches such as:
+- Mathematical programming formulations with convex relaxations
+- Evolutionary algorithms leveraging genetic operators on point configurations  
+- Quasi-Newton methods with gradient-based optimization
+- Simulated annealing with carefully designed neighborhood structures
+- Swarm intelligence approaches like particle swarm optimization
+- Bayesian optimization for expensive objective functions
+- Geometric optimization through Delaunay triangulation and Voronoi diagrams
+- Lagrangian relaxation techniques for constraint handling
+- Machine learning-inspired approaches for point placement prediction
+
+PROBLEM SPECIFICATION:
+Design and implement a constructor function that generates an optimal arrangement of exactly 14 points within or on the boundary of a unit-area convex region. The solution must:
+- Place all 14 points within or on a convex boundary
+- Maximize the minimum triangle area among all C(14,3) = 364 possible triangles
+- Return deterministic, reproducible results
+- Execute efficiently within computational constraints
+- Explore at least one non-trivial optimization paradigm beyond simple random sampling
+
+PERFORMANCE METRICS:
+1. **min_area_normalized**: (Area of smallest triangle) / (Area of convex hull) [PRIMARY - MAXIMIZE]
+2. **benchmark_ratio**: min_area_normalized / 0.027835571458482138 [BENCHMARK COMPARISON - TARGET > 1.0]
+3. **eval_time**: Execution time in seconds [EFFICIENCY - secondary priority]
+
+ALTERNATIVE APPROACHES TO CONSIDER:
+- Evolutionary algorithms (genetic algorithms, differential evolution) with custom crossover/mutation operators tailored to point configurations
+- Quasi-Monte Carlo methods using Sobol or Halton sequences for initial point generation
+- Geometric construction heuristics based on Delaunay triangulation properties or Voronoi diagram insights
+- Swarm intelligence approaches (particle swarm optimization) with specialized velocity update rules
+- Bayesian optimization with acquisition functions designed for discrete geometric problems
+- Hybrid approaches combining multiple paradigms (e.g., evolutionary search followed by local refinement)
+- Mathematical programming formulations using convex relaxations or Lagrangian duality
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Advanced optimization**: `deap` (evolutionary algorithms), `nevergrad` (gradient-free optimization)
+- **Metaheuristics**: `scikit-opt` (PSO, GA, SA), `optuna` (Bayesian optimization), `hyperopt` (hyperparameter tuning)
+- **Geometric computation**: `shapely` (computational geometry), `scipy.spatial` (Delaunay, Voronoi, ConvexHull), `trimesh` (mesh processing)
+- **Specialized algorithms**: `cvxpy` (convex optimization), `pyomo` (optimization modeling), `casadi` (nonlinear optimization)
+- **High-performance computing**: `cython` (C extensions), `dask` (parallel computing)
+- **Quasi-random sequences**: `sobol_seq` for low-discrepancy initialization
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Algorithmic diversity**: Prefer implementations that demonstrate novel application of optimization theory or geometric insight over brute force approaches
+- **Mathematical elegance**: Consider solutions that exploit mathematical properties such as symmetry, duality, or geometric invariants rather than purely heuristic methods
+- **Efficiency focus**: Prioritize methods that scale well with 14 points and can meet the 180-second timeout constraint
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+- **Exploration requirement**: At least one method should leverage either evolutionary computation, gradient-free optimization, mathematical programming formulations, geometric insight-based approaches, or quasi-random sequence generation
+
+# PROMPT-BLOCK-END
+    

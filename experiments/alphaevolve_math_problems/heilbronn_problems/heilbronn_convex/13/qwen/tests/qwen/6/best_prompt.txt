@@ -1,0 +1,76 @@
+# PROMPT-BLOCK-START
+SETTING:
+You are an expert computational geometer and optimization specialist with deep expertise in the Heilbronn triangle problem - a fundamental challenge in discrete geometry first posed by Hans Heilbronn in 1957.
+This problem asks for the optimal placement of n points within a convex region of unit area to maximize the area of the smallest triangle formed by any three of these points. 
+Your expertise spans classical geometric optimization, modern computational methods, and the intricate mathematical properties that govern point configurations in constrained spaces.
+Consider alternative mathematical frameworks and algorithmic paradigms including but not limited to: 
+- Analytical constructions using algebraic number fields, root lattices, and modular forms
+- Variational principles and calculus of variations applied to energy minimization with explicit potential functions
+- Topological methods and combinatorial geometry approaches including simplicial complexes and discrete Morse theory
+- Spectral analysis of Laplacians on point distributions and graph Laplacians for eigenvalue optimization
+- Convex optimization with specialized constraints and duality theory, particularly semidefinite programming relaxations
+- Randomized algorithms with concentration inequalities for expected performance guarantees, especially Monte Carlo methods with variance reduction
+- Geometric flows and gradient dynamics for point evolution with explicit PDE formulations
+- Group-theoretic approaches leveraging symmetry properties of optimal configurations, including crystallographic groups and finite reflection groups
+- Algebraic geometry methods involving resultants and elimination theory for geometric constraint solving
+- Number-theoretic approaches using Diophantine approximation and continued fractions for optimal point spacing
+- Functional analytic techniques including reproducing kernel Hilbert spaces and integral operators for point distribution
+
+PROBLEM SPECIFICATION:
+Design and implement a constructor function that generates an optimal arrangement of exactly 13 points within or on the boundary of a unit-area convex region. The solution must:
+- Place all 13 points within or on a convex boundary
+- Maximize the minimum triangle area among all C(13,3) = 286 possible triangles
+- Return deterministic, reproducible results
+- Execute efficiently within computational constraints
+- Consider mathematical foundations such as:
+  * Voronoi diagrams and Delaunay triangulations for spatial analysis
+  * Gradient-based optimization with careful handling of constraints
+  * Constrained optimization using Lagrange multipliers or barrier methods
+  * Discrete geometric structures and their combinatorial properties
+
+COMPUTATIONAL RESOURCES & IMPLEMENTATION GUIDELINES:
+**Core packages**: numpy, scipy, sympy, pandas, networkx, jax, torch, numba, scikit-learn
+
+**Additional useful packages**:
+- **Analytical approaches**: `sympy` for symbolic computation, `mpmath` for arbitrary precision
+- **Algebraic methods**: `galois` (finite field arithmetic), `numpy.linalg` for matrix computations  
+- **Variational methods**: `autograd`, `jax` for automatic differentiation, `torch.autograd` for gradient computation
+- **Topological tools**: `gudhi` (topological data analysis), `igraph` (graph theory)
+- **Specialized solvers**: `cvxpy` (convex optimization), `cvxopt` (conic programming), `scs` (splitting conic solver)
+- **Randomized algorithms**: `random` module, `numpy.random` with custom generators
+- **Geometric frameworks**: `shapely` (computational geometry), `scipy.spatial` (Delaunay, Voronoi, ConvexHull), `trimesh` (mesh processing)
+- **Advanced numerical**: `scipy.integrate`, `scipy.sparse`, `scipy.fftpack` for specialized computations
+
+**Alternative Approaches to Consider**:
+- Implement a constructive approach based on algebraic number theory and optimal lattice packings
+- Leverage variational principles to formulate the problem as a minimization of an energy functional
+- Employ topological data analysis to understand the configuration space structure
+- Utilize spectral graph theory to analyze point distributions through adjacency matrices and Laplacians
+- Apply semidefinite programming relaxations for tractable approximations of the non-convex optimization problem
+- Implement gradient flow methods with explicit discretization schemes for point evolution
+- Explore group-theoretic constructions using symmetry-adapted basis functions for point arrangements
+- Utilize algebraic geometry techniques for solving systems of polynomial equations defining optimal configurations
+- Apply harmonic analysis and Fourier methods to study point distributions in frequency space
+- Incorporate machine learning approaches trained on known optimal configurations for predictive initialization
+
+PERFORMANCE METRICS:
+1. **min_area_normalized**: (Area of smallest triangle) / (Area of convex hull) [PRIMARY - MAXIMIZE]
+2. **benchmark_ratio**: min_area_normalized / 0.030936889034895654 [BENCHMARK COMPARISON - TARGET > 1.0]
+3. **eval_time**: Execution time in seconds [EFFICIENCY - secondary priority]
+4. **theoretical_quality**: Whether the solution demonstrates provable mathematical properties or follows established theoretical bounds
+5. **algorithmic_simplicity**: Measure of how elegantly the approach combines mathematical principles (lower complexity preferred)
+
+TECHNICAL REQUIREMENTS:
+- **Determinism**: Use fixed random seeds if employing stochastic methods for reproducibility
+- **Error handling**: Graceful handling of optimization failures or infeasible configurations
+- **Mathematical rigor**: Where possible, provide theoretical justification for the chosen approach with proofs of convergence or optimality conditions
+- **Alternative formulations**: Consider multiple equivalent mathematical formulations including dual problems, Lagrangian relaxations, and reformulations in different coordinate systems
+- **Theoretical grounding**: Emphasize approaches with strong mathematical foundations rather than purely heuristic methods
+- **Constructive proofs**: Where applicable, demonstrate how to explicitly construct optimal or near-optimal configurations using known mathematical theorems
+
+COMPUTATIONAL BUDGET:
+- **Time limit**: 180 seconds maximum execution time
+- **Memory limit**: 1 GB
+
+# PROMPT-BLOCK-END
+    
