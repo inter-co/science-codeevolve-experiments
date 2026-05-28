@@ -135,6 +135,13 @@ Why:
 
 This is not a limitation of CodeEvolve’s evolutionary framework: CodeEvolve is **seedable for its internal stochastic decisions**, and it forwards model `seed` to OpenAI-compatible endpoints when supported. The remaining nondeterminism comes from the LLM backbone/provider.
 
+## Controlled experiments with OpenEvolve and ShinkaEvolve
+
+For the experimental results involving OpenEvolve and ShinkaEvolve discussed in our paper, see:
+
+- https://github.com/HenriqueAssumpcao/openevolve/tree/exp/codeevolve_benchmarks
+- https://github.com/diegobragaferreira/ShinkaEvolve/tree/interco-benchmark
+
 ## Citation
 ```bibtex
 @article{assumpção2025codeevolveopensourceevolutionary,
