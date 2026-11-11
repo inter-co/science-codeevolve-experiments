@@ -204,3 +204,6 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Hugging Face dataset export output (scripts/export_hf.py)
+hf_dataset/
