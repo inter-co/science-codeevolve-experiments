@@ -46,6 +46,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/version-v0.2.1-green" alt="v0.2.1"></a>
   <a href="https://arxiv.org/abs/2510.14150"><img src="https://img.shields.io/badge/arxiv-2510.14150-red" alt="Arxiv"></a>
+  <a href="https://huggingface.co/datasets/HAssumpcao/CodeEvolve-Experiments"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20dataset-CodeEvolve--Experiments-yellow" alt="Hugging Face dataset"></a>
   <a href="https://github.com/inter-co/science-codeevolve/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" alt="License"></a>
 </p>
 
@@ -65,6 +66,23 @@ This repository provides:
 
 The benchmark problems themselves are implemented in the main [science-codeevolve](https://github.com/inter-co/science-codeevolve) repository.
 
+### Hugging Face dataset
+
+All results are also available on the Hugging Face Hub as
+[HAssumpcao/CodeEvolve-Experiments](https://huggingface.co/datasets/HAssumpcao/CodeEvolve-Experiments).
+It provides every program, evolved prompt, fitness curve, LLM call and error from the paper's runs as
+Parquet tables, which can be loaded without `codeevolve` or unpickling checkpoints:
+
+```python
+from datasets import load_dataset
+
+runs = load_dataset("HAssumpcao/CodeEvolve-Experiments", "runs", split="train")
+programs = load_dataset("HAssumpcao/CodeEvolve-Experiments", "programs", split="train")
+```
+
+The dataset also mirrors the raw files from `experiments/` under `raw/`. The tables are generated with
+`scripts/export_hf.py` (see [Exporting the dataset](#exporting-the-dataset)).
+
 ## Repository Structure
 
 ```
@@ -73,6 +91,10 @@ science-codeevolve-experiments/
 ├── notebooks/           # Analysis and visualization
 │   ├── experiment_analysis.ipynb       # Main analysis notebook
 │   └── figs/                           # Generated figures from paper
+├── scripts/
+│   └── export_hf.py      # Converts experiments/ to the Hugging Face dataset tables
+├── hf/
+│   └── README.md         # Hugging Face dataset card
 └── README.md
 ```
 
@@ -86,6 +108,11 @@ science-codeevolve-experiments/
 
 - **`notebooks/`**: Jupyter notebooks for analysis
   - `experiment_analysis.ipynb`: Statistical analysis and comparisons
+
+- **`scripts/`**: Utility scripts
+  - `export_hf.py`: Builds the Parquet tables of the Hugging Face dataset from `experiments/`
+
+- **`hf/`**: Dataset card (`README.md`) published with the Hugging Face dataset
 
 ## Prerequisites
 
@@ -134,6 +161,22 @@ Why:
 - Even when a provider accepts `seed`, outputs can vary due to backend nondeterminism (load balancing, infrastructure-level randomness, model version rollouts).
 
 This is not a limitation of CodeEvolve’s evolutionary framework: CodeEvolve is **seedable for its internal stochastic decisions**, and it forwards model `seed` to OpenAI-compatible endpoints when supported. The remaining nondeterminism comes from the LLM backbone/provider.
+
+## Exporting the dataset
+
+`scripts/export_hf.py` reads the last checkpoint of every island in `experiments/` and writes one
+Parquet file per table and problem (`runs`, `programs`, `prompts`, `fitness_history`, `llm_calls`,
+`errors`), plus an `export_report.json` with per-run consistency checks. It needs `codeevolve` (to
+unpickle the checkpoints) and `pyarrow`:
+
+```bash
+pip install pyarrow
+python scripts/export_hf.py --exp_dir experiments --out_dir hf_dataset --workers 4
+cp hf/README.md hf_dataset/
+```
+
+Use `--problems` to export only some problems, given as paths under `experiments/` (e.g.
+`--problems eoh-problems/bp_online`), and `--max_runs N` for a quick test.
 
 ## Controlled experiments with OpenEvolve and ShinkaEvolve
 
